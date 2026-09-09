@@ -1,0 +1,200 @@
+{
+  "base": "http://localhost:3075",
+  "today": "2026-09-09",
+  "viewports": {
+    "phone": {
+      "today": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "workout": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "abs": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "floss": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "rest": {
+        "reached": false
+      },
+      "progress": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "trends": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": [
+          {
+            "selector": "section.scroll-view.trends-view",
+            "scrollHeight": 736,
+            "clientHeight": 703,
+            "scrollWidth": 350,
+            "clientWidth": 350
+          }
+        ]
+      },
+      "you": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      }
+    },
+    "small": {
+      "today": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "workout": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "abs": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "floss": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "rest": {
+        "reached": false
+      },
+      "progress": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": [
+          {
+            "selector": "section.scroll-view.progress-view",
+            "scrollHeight": 698,
+            "clientHeight": 526,
+            "scrollWidth": 335,
+            "clientWidth": 335
+          }
+        ]
+      },
+      "trends": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": [
+          {
+            "selector": "section.scroll-view.trends-view",
+            "scrollHeight": 736,
+            "clientHeight": 526,
+            "scrollWidth": 335,
+            "clientWidth": 335
+          }
+        ]
+      },
+      "you": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      }
+    },
+    "desktop": {
+      "today": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "workout": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "abs": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "floss": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "rest": {
+        "reached": false
+      },
+      "progress": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "trends": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": [
+          {
+            "selector": "section.scroll-view.trends-view",
+            "scrollHeight": 736,
+            "clientHeight": 719,
+            "scrollWidth": 400,
+            "clientWidth": 400
+          }
+        ]
+      },
+      "you": {
+        "reached": true,
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      }
+    }
+  }
+}
