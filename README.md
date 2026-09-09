@@ -37,6 +37,16 @@ The database integration checks use temporary schemas and remove them afterwards
 Do not build while a browser check is running: a build replaces the files that its server serves.
 The real offline check starts and stops its own server on port 3085.
 The current performance check uses Lighthouse mobile throttling, with fourfold CPU slowdown and a 4G network profile.
+For the real model process privacy audit, with Docker running:
+
+```sh
+scripts/privacy/run.sh
+```
+
+This uses the configured subscription and database. It retains a syscall trace with data buffers suppressed.
+Synthetic controls prove that file writes and content matches are detected. The account data stays unchanged.
+The isolated container uses temporary memory storage and removes itself after the check.
+Deleted-file contents and the deployed host remain outside this audit.
 All retained evidence and limitations live in [the ledger](evidence/LEDGER.md).
 
 ## Architecture

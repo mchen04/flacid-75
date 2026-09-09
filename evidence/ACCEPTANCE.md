@@ -20,7 +20,7 @@ The ledger contains decisions, formulas, sources, tap budgets, and comparison re
 | Only smoothed weight, no streak effect | Domain tests; trend hides the first unsmoothed seed |
 | Timezone and 23:59 | Domain tests cover DST and both directions across the date line |
 | No notifications | No permission request, push registration, notification API, or message provider |
-| Photo discarded | Filesystem watcher and marker scan; DB unchanged; no object store. Not a kernel-wide trace |
+| Photo discarded | Linux process/descendant syscall trace plus marker scan; synthetic controls pass; DB unchanged. Deleted-file contents and deployed host unobserved |
 | Backfill and markers | Domain and calendar tests |
 | Offline and reconnect without duplication | offline-integration.json: actual service worker and isolated Neon schema |
 | No page scroll at 390×844 | Geometry assertions and screenshots |
@@ -40,5 +40,5 @@ Current Lighthouse versions no longer provide a PWA score. The manifest, service
 The stable preview is https://flaccid75-preview.vercel.app .
 Deployed Lighthouse records 0.766 seconds for FCP and interaction readiness on its throttled mobile profile.
 The entry screen scores 100 for performance, accessibility, and best practices.
-The goal remains incomplete: physical installation/Safari/timing, native competitor use and strict blind wins,
-and a kernel-wide image-write trace are not proven. The deployed photo response takes about 11 seconds.
+The goal remains incomplete: physical installation/Safari/timing, native competitor use, and strict blind wins are not proven.
+The deployed photo response takes about 11 seconds. The process privacy trace runs locally, with the limits stated above.

@@ -166,3 +166,27 @@ No pull request or merge occurs.
 Only preview deployments remain after bootstrap cleanup.
 A private install note outside Git contains the stable URL and passphrase.
 The physical phone stays unavailable; this runtime also lacks control of the iPhone Mirroring UI.
+
+## Continued privacy verification
+
+The previous goal turn made progress: it shipped verified code and the stable preview.
+The next device check still reports the physical iPhone unavailable.
+A local Linux container provides an independent route to process tracing.
+Its disk is full, so the audit uses temporary memory filesystems without deleting existing project data.
+The real estimator and its SDK descendants produce 64,200 retained syscall lines.
+The response is 500 kcal and 22 g protein in 8.180 seconds with tracing enabled.
+The trace records file operations and write-family calls; syscall data buffers are suppressed.
+A synthetic text file proves that a write and its later deletion are visible.
+A separate synthetic content match proves the marker scanner can fail.
+Both controls pass. No image markers appear in the final model files.
+Account state and operation-row count stay unchanged.
+The file destinations are compiler cache, SDK configuration/credential/process metadata, and the numeric audit report.
+The full compressed trace and extracted write calls are retained.
+Reference for buffer suppression and descriptor decoding: https://man7.org/linux/man-pages/man1/strace.1.html .
+This is Linux ARM64 in a local container, not instrumentation of the Vercel host.
+Deleted-file contents, memory-mapped writes, and provider retention remain outside this check.
+No physical-device or strict blind-comparison requirement is marked complete.
+
+The exact-value credential scan now decompresses gzip artifacts before scanning them.
+A synthetic compressed control escapes a raw-byte check and is caught after decompression.
+This protects the retained syscall trace as well as ordinary text and client files.
