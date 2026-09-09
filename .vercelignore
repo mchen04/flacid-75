@@ -1,0 +1,6 @@
+evidence
+tests
+.env*
+.git
+playwright-report
+test-results
