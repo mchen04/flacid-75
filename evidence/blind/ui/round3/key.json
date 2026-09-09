@@ -1,0 +1,56 @@
+{
+  "streaks": {
+    "app": "dc3ff2",
+    "reference": "ba1b0d",
+    "referenceFile": "streaks-app-0.jpg",
+    "order": [
+      "dc3ff2",
+      "ba1b0d"
+    ]
+  },
+  "cronometer": {
+    "app": "ef4d4b",
+    "reference": "1c45cb",
+    "referenceFile": "cronometer-app-2.jpg",
+    "order": [
+      "1c45cb",
+      "ef4d4b"
+    ]
+  },
+  "duolingo": {
+    "app": "30cb59",
+    "reference": "81444b",
+    "referenceFile": "duolingo-app-1.jpg",
+    "order": [
+      "81444b",
+      "30cb59"
+    ]
+  },
+  "finch": {
+    "app": "3b9d43",
+    "reference": "bf2bf5",
+    "referenceFile": "finch-app-3.jpg",
+    "order": [
+      "3b9d43",
+      "bf2bf5"
+    ]
+  },
+  "macrofactor": {
+    "app": "b98ef3",
+    "reference": "78e5a8",
+    "referenceFile": "macrofactor-app-1.jpg",
+    "order": [
+      "78e5a8",
+      "b98ef3"
+    ]
+  },
+  "strong": {
+    "app": "254af4",
+    "reference": "9294ee",
+    "referenceFile": "strong-app-0.jpg",
+    "order": [
+      "254af4",
+      "9294ee"
+    ]
+  }
+}

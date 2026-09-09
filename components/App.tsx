@@ -64,10 +64,12 @@ export default function App(){
   {tab==='today'?<section className="today-view">
    <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label={done.walk?'Undo walk':'Log walk'} aria-pressed={done.walk} onClick={()=>habitTap('walk')}>
     <Hills phase={day.rest?'night':phase} walked={done.walk} progress={count/habits.length} celebrate={complete&&!selected}/>
-    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':`${count} of ${habits.length} done today`}</span></span>
+    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong></span>
+    <span className="hero-progress">{complete&&!selected?`All ${habits.length} habits`:`${count} of ${habits.length} today`}</span>
     <span className="hero-tag">{done.walk?<><Icon name="check" size={14}/>Walk</>:<><Mark name="walk"/>Walk</>}</span>
     {selected&&<span className="hero-back">{`${count} of ${habits.length}`}</span>}
    </button>
+   <p className="row-head">Tap to log</p>
    <div className="discs">
     {habitTabs.map(h=>{const isRest=h==='rest';const state2=isRest?day.rest:done[h as Habit];
      return <button key={h} className={`disc-habit ${h} ${state2?'is-done':''} ${pulse[h as Habit]?{workout:'lifting',abs:'crunching',floss:'shining',rest:'dozing'}[h]:''}`} aria-label={isRest?(day.rest?'Undo rest':'Rest today'):`${done[h as Habit]?'Undo':'Log'} ${names[h as Habit].toLowerCase()}`} aria-pressed={state2} onClick={()=>isRest?restTap():habitTap(h as Habit)}>
@@ -76,14 +78,14 @@ export default function App(){
    </div>
    <div className="pair">
     <div className={`card water ${done.water?'is-done':''} ${pulse.water?'pouring':''}`}>
-     <button className="card-main" aria-label="Add a glass of water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water} pouring={!!pulse.water}/></span><span className="card-copy"><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong></span><Meter label="Glasses" value={day.water} max={day.targets.water} unit="" done={done.water} display={`${Math.round(day.water/250)} of ${Math.round(day.targets.water/250)}`}/></span></button>
+     <button className="card-main" aria-label="Add a glass of water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water} pouring={!!pulse.water}/></span><span className="card-copy"><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong></span><Meter label="Glasses" value={day.water} max={day.targets.water} unit="" done={done.water} display={`${Math.round(day.water/250)} of ${Math.round(day.targets.water/250)}`}/><span className="card-note">Target {litres(day.targets.water)} L</span></span></button>
      <span className="card-steps"><button className="card-step" aria-label="Remove a glass" disabled={day.water<=0} onClick={sip}><Icon name="minus" size={16}/></button><button className="card-step is-add" aria-label="Add a glass" onClick={pour}><Icon name="plus" size={16}/></button></span>
     </div>
     <button className={`card food ${done.calories&&done.protein?'is-done':''} ${pulse.meal?'eating':''}`} aria-label="Food. Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>
      <span className="card-art"><Bowl full={food.calories>0} eating={!!pulse.meal} level={food.calories/Math.max(1,day.targets.calorieMax)}/></span>
-     <span className="card-copy"><span className="card-title">Food</span>
-      <Meter label={names.calories} value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="kcal" done={done.calories}/>
-      <Meter label={names.protein} value={food.protein} max={day.targets.protein} unit="g" done={done.protein}/>
+     <span className="card-copy"><span className="card-title">Food</span><span className="card-value"><strong>{format(food.calories)}</strong> kcal</span>
+      <Meter label={names.calories} value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="kcal" done={done.calories} display={`${format(day.targets.calorieMin)}\u2013${format(day.targets.calorieMax)}`}/>
+      <span className="card-note">Protein {format(food.protein)} of {format(day.targets.protein)} g</span>
       <span className="card-cta"><Icon name="plus" size={16}/>Log a meal</span></span>
     </button>
    </div>

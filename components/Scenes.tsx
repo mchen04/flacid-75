@@ -12,7 +12,7 @@ export const walkPoints:[number,number][]=[[18,338],[62,320],[106,308],[150,303]
 export const walkPath='M18 338L62 320L106 308L150 303L194 305L238 300L280 293L320 284';
 export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,progress,className=''}:{phase?:Phase;walked?:boolean;celebrate?:boolean;quiet?:boolean;progress?:number;className?:string}){
  const night=phase==='night';const sunTone=night?c.card:c.butter;
- const sunY=quiet?186:phase==='morning'?214:phase==='day'?188:phase==='evening'?220:190;
+ const sunY=quiet?196:phase==='morning'?232:phase==='day'?216:phase==='evening'?238:216;
  const share=progress??(walked?1:0);
  const [wx,wy]=walkPoints[Math.max(0,Math.min(walkPoints.length-1,Math.round(share*(walkPoints.length-1))))];
  return <svg className={`scene ${className}`} viewBox="0 0 360 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -23,8 +23,8 @@ export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,
    <circle cx="272" cy={sunY} r="30" fill={sunTone}/>
    {night&&<circle cx="284" cy={sunY-8} r="26" fill={sky[phase]}/>}
   </g>
-  {!night&&!quiet&&<><Bird x={132} y={196}/><Bird x={166} y={180} s={.8}/></>}
-  {!quiet&&<Cloud x={52} y={214} s={1.1} o={night?.25:.95}/>}<Cloud x={196} y={148} s={.85} o={night?.25:.9}/>
+  {!night&&!quiet&&<><Bird x={124} y={224}/><Bird x={158} y={208} s={.8}/></>}
+  {!quiet&&<Cloud x={52} y={238} s={1.1} o={night?.25:.95}/>}<Cloud x={196} y={198} s={.85} o={night?.25:.9}/>
   <path d="M0 252C60 220 120 218 180 234S300 230 360 208V400H0z" fill={far[phase]}/>
   <path d="M0 292C70 264 140 258 210 272S330 268 360 252V400H0z" fill={night?c.nightSoft:c.sage} opacity={night?.55:1}/>
   <path d="M0 348C60 320 130 308 200 308S320 298 360 286V400H0z" fill={night?c.night:c.sageDeep}/>
@@ -72,8 +72,8 @@ export function Bowl({full=false,eating=false,level=0}:{full?:boolean;eating?:bo
 export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|'rest'|'rescue'|'scale'}){
  const marks={
   workout:<><rect x="8" y="20" width="32" height="8" rx="4" fill={c.accentDeep}/><rect x="4" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="36" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="0" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/><rect x="43" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/></>,
-  abs:<><rect x="2" y="34" width="44" height="8" rx="4" fill={c.accentSoft}/><path d="M40 34q6-18-6-18H22q-8 0-8 8v10z" fill={c.accent}/><circle cx="12" cy="22" r="8" fill={c.ink2}/><path d="M28 16q8 2 12 10" stroke={c.accentDeep} strokeWidth="4" strokeLinecap="round" fill="none"/></>,
-  floss:<><path d="M14 8h20q6 0 6 6v10q0 12-8 22h-3l-3-14h-4l-3 14h-3q-8-10-8-22V14q0-6 6-6z" fill={c.accentSoft} stroke={c.ink2} strokeWidth="2"/><path d="M6 30c8-6 28-6 36 0" stroke={c.accent} strokeWidth="2.5" strokeLinecap="round" fill="none"/><circle cx="6" cy="30" r="3.5" fill={c.accent}/><circle cx="42" cy="30" r="3.5" fill={c.accent}/></>,
+  abs:<><rect x="11" y="5" width="26" height="38" rx="12" fill={c.accentSoft} stroke={c.ink2} strokeWidth="2.5"/><path d="M24 7v34M13 19h22M13 29h22" stroke={c.ink2} strokeWidth="2.5" strokeLinecap="round"/></>,
+  floss:<><path d="M13 6h22q7 0 7 8v10q0 14-9 24h-4l-4-16h-2l-4 16h-4q-9-10-9-24V14q0-8 7-8z" fill={c.card} stroke={c.ink2} strokeWidth="2.5" strokeLinejoin="round"/><path d="M4 22c12 8 28 8 40 0" stroke={c.accent} strokeWidth="3" strokeLinecap="round" fill="none"/><circle cx="4" cy="22" r="4" fill={c.accentDeep}/><circle cx="44" cy="22" r="4" fill={c.accentDeep}/></>,
   walk:<><path d="M12 30q0-8 6-8t6 8v6q0 6-6 6t-6-6z" fill={c.accent}/><path d="M26 16q0-8 6-8t6 8v6q0 6-6 6t-6-6z" fill={c.accentDeep}/><circle cx="13" cy="17" r="2.5" fill={c.accent}/><circle cx="18" cy="15" r="2.5" fill={c.accent}/><circle cx="27" cy="3" r="2.5" fill={c.accentDeep}/><circle cx="32" cy="1.5" r="2.5" fill={c.accentDeep}/></>,
   water:<path d="M24 4S8 22 8 31a16 16 0 0 0 32 0c0-9-16-27-16-27z" fill={c.sky}/>,
   food:<><path d="M6 24h36q0 18-18 18T6 24z" fill={c.accent}/><circle cx="18" cy="20" r="5" fill={c.sage}/><circle cx="30" cy="18" r="6" fill={c.rose}/></>,
