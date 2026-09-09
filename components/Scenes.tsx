@@ -6,30 +6,33 @@ const far:Record<Phase,string>={morning:c.sageSoft,day:c.sageSoft,evening:c.coco
 const Cloud=({x,y,s=1,o=.95}:{x:number;y:number;s?:number;o?:number})=><g transform={`translate(${x} ${y}) scale(${s})`} opacity={o}><path d="M0 18q-10 0-10-9t10-9q4-10 16-10t16 10q10 0 10 9t-10 9z" fill={c.card}/></g>;
 const Tree=({x,y,s=1,tone=c.sageDeep}:{x:number;y:number;s?:number;tone?:string})=><g transform={`translate(${x} ${y}) scale(${s})`}><rect x="-2" y="0" width="4" height="14" rx="2" fill={c.cocoa}/><circle cx="0" cy="-6" r="11" fill={tone}/><circle cx="-6" cy="0" r="7" fill={tone}/><circle cx="6" cy="0" r="7" fill={tone}/></g>;
 const Bird=({x,y,s=1}:{x:number;y:number;s?:number})=><path d="M0 0q4-5 8 0q4-5 8 0" transform={`translate(${x} ${y}) scale(${s})`} fill="none" stroke={c.ink2} strokeWidth="1.6" strokeLinecap="round"/>;
-// The walk path crosses the near hill; the marker slides to the flag when the walk is done.
-export const walkPath='M14 176C60 172 84 150 128 148S200 166 246 150s40-28 72-28';
-export const walkStart={x:14,y:176},walkEnd={x:318,y:122};
-export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,className=''}:{phase?:Phase;walked?:boolean;celebrate?:boolean;quiet?:boolean;className?:string}){
- const night=phase==='night';const sunTone=night?c.card:c.butter;const sunY=quiet?104:phase==='morning'?96:phase==='day'?54:phase==='evening'?104:52;
+// The walk path runs along the near ridge. The walker stands at the day's progress, so the
+// scene answers "how is today going" before any number is read.
+export const walkPoints:[number,number][]=[[18,338],[62,320],[106,308],[150,303],[194,305],[238,300],[280,293],[320,284]];
+export const walkPath='M18 338L62 320L106 308L150 303L194 305L238 300L280 293L320 284';
+export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,progress,className=''}:{phase?:Phase;walked?:boolean;celebrate?:boolean;quiet?:boolean;progress?:number;className?:string}){
+ const night=phase==='night';const sunTone=night?c.card:c.butter;
+ const sunY=quiet?186:phase==='morning'?214:phase==='day'?188:phase==='evening'?220:190;
+ const share=progress??(walked?1:0);
+ const [wx,wy]=walkPoints[Math.max(0,Math.min(walkPoints.length-1,Math.round(share*(walkPoints.length-1))))];
  return <svg className={`scene ${className}`} viewBox="0 0 360 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-  <rect width="360" height="400" fill={sky[phase]}/><g transform="translate(0 200)">
-  {night&&[[40,30],[90,18],[150,40],[230,22],[290,44],[330,16],[200,70]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={i%3?1.6:2.4} fill={c.card} opacity=".85"/>)}
-  <g className="sun">{celebrate&&<g className="rays" style={{transformOrigin:`272px ${sunY+200}px`}}>{Array.from({length:12},(_,i)=><rect key={i} x="-3" y="-72" width="6" height="18" rx="3" fill={c.butter} opacity=".7" transform={`translate(272 ${sunY}) rotate(${i*30})`}/>)}</g>}
+  <rect width="360" height="400" fill={sky[phase]}/>
+  {night&&[[40,96],[92,80],[150,112],[232,86],[292,120],[330,78],[196,146],[68,156]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={i%3?1.8:2.6} fill={c.card} opacity=".85"/>)}
+  <g className="sun">{celebrate&&<g className="rays" style={{transformOrigin:`272px ${sunY}px`}}>{Array.from({length:12},(_,i)=><rect key={i} x="-3" y="-72" width="6" height="18" rx="3" fill={c.butter} opacity=".7" transform={`translate(272 ${sunY}) rotate(${i*30})`}/>)}</g>}
    <circle cx="272" cy={sunY} r="46" fill={sunTone} opacity={night?.12:.28}/>
    <circle cx="272" cy={sunY} r="30" fill={sunTone}/>
    {night&&<circle cx="284" cy={sunY-8} r="26" fill={sky[phase]}/>}
   </g>
-  {!night&&!quiet&&<><Bird x={150} y={70}/><Bird x={182} y={58} s={.8}/></>}
-  {!quiet&&<Cloud x={40} y={92} s={1.1} o={night?.25:.95}/>}<Cloud x={196} y={30} s={.85} o={night?.25:.9}/>
-  <path d="M0 150C60 118 120 116 180 132S300 128 360 106V200H0z" fill={far[phase]}/>
-  <path d="M0 176C70 148 140 144 210 158S330 156 360 140V200H0z" fill={night?c.nightSoft:c.sage} opacity={night?.55:1}/>
-  <path d="M0 200C60 168 130 164 200 176S320 172 360 160V200z" fill={night?c.night:c.sageDeep}/>
-  <Tree x={104} y={146} s={1.05} tone={night?c.nightSoft:c.sageDeep}/><Tree x={344} y={128} s={.9} tone={night?c.nightSoft:c.sageDeep}/><Tree x={296} y={142} s={.7} tone={night?c.nightSoft:c.sage}/>
+  {!night&&!quiet&&<><Bird x={132} y={196}/><Bird x={166} y={180} s={.8}/></>}
+  {!quiet&&<Cloud x={52} y={214} s={1.1} o={night?.25:.95}/>}<Cloud x={196} y={148} s={.85} o={night?.25:.9}/>
+  <path d="M0 252C60 220 120 218 180 234S300 230 360 208V400H0z" fill={far[phase]}/>
+  <path d="M0 292C70 264 140 258 210 272S330 268 360 252V400H0z" fill={night?c.nightSoft:c.sage} opacity={night?.55:1}/>
+  <path d="M0 348C60 320 130 308 200 308S320 298 360 286V400H0z" fill={night?c.night:c.sageDeep}/>
+  <Tree x={96} y={268} s={1.05} tone={night?c.nightSoft:c.sageDeep}/><Tree x={342} y={244} s={.9} tone={night?c.nightSoft:c.sageDeep}/><Tree x={294} y={258} s={.7} tone={night?c.nightSoft:c.sage}/>
   <path d={walkPath} fill="none" stroke={c.card} strokeWidth="3" strokeLinecap="round" strokeDasharray="1 9" opacity=".9"/>
-  <g className="flag" transform={`translate(${walkEnd.x} ${walkEnd.y})`}><rect x="-1.5" y="-30" width="3" height="32" rx="1.5" fill={c.card}/><path d="M1 -30h20l-6 7 6 7H1z" fill={c.accent}/></g>
-  <g className={`walker ${walked?'is-done':''}`} style={{transform:`translate(${(walked?walkEnd:walkStart).x}px,${(walked?walkEnd:walkStart).y}px)`}}><circle r="11" fill={c.accent}/><circle r="11" fill={c.accent} className="pulse" opacity=".35"/><circle r="4.5" fill={c.card}/></g>
-  {celebrate&&<g className="petals" aria-hidden="true">{[c.accent,c.rose,c.butter,c.lilac,c.sage,c.sky].flatMap((tone,i)=>[0,1,2].map(j=><rect key={i*3+j} className="petal" x={20+((i*3+j)*19)%330} y={-214} width="7" height="12" rx="3" fill={tone} style={{animationDelay:`${((i*3+j)%7)*.16}s`}}/>))}</g>}
-  </g>
+  <g className="flag" transform="translate(320 284)"><rect x="-1.5" y="-30" width="3" height="32" rx="1.5" fill={c.card}/><path d="M1 -30h20l-6 7 6 7H1z" fill={c.accent}/></g>
+  <g className={`walker ${walked?'is-done':''}`} style={{transform:`translate(${wx}px,${wy}px)`}}><circle r="11" fill={c.accent}/><circle r="11" fill={c.accent} className="pulse" opacity=".35"/><circle r="4.5" fill={c.card}/></g>
+  {celebrate&&<g className="petals" aria-hidden="true">{[c.accent,c.rose,c.butter,c.lilac,c.sage,c.sky].flatMap((tone,i)=>[0,1,2].map(j=><rect key={i*3+j} className="petal" x={20+((i*3+j)*19)%330} y={-14} width="7" height="12" rx="3" fill={tone} style={{animationDelay:`${((i*3+j)%7)*.16}s`}}/>))}</g>}
  </svg>;
 }
 export function Glass({level,pouring=false}:{level:number;pouring?:boolean}){

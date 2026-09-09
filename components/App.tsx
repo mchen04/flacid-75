@@ -63,7 +63,7 @@ export default function App(){
   {state.clock&&state.clock.zone!==todayZone()&&<button className="zone-row" onClick={()=>setModal('zone')}>Your timezone changed. Keep your day in step<Icon name="arrow" size={16}/></button>}
   {tab==='today'?<section className="today-view">
    <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label={done.walk?'Undo walk':'Log walk'} aria-pressed={done.walk} onClick={()=>habitTap('walk')}>
-    <Hills phase={day.rest?'night':phase} walked={done.walk} celebrate={complete&&!selected}/>
+    <Hills phase={day.rest?'night':phase} walked={done.walk} progress={count/habits.length} celebrate={complete&&!selected}/>
     <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':done.walk?'Tap again to undo.':'Tap when you\u2019re back.'}</span></span>
     <span className="hero-tag">{done.walk?<><Icon name="check" size={14}/>Walk</>:<><Mark name="walk"/>Walk</>}</span>
     {selected&&<span className="hero-back">{`${count} of ${habits.length}`}</span>}
@@ -76,14 +76,15 @@ export default function App(){
    </div>
    <div className="pair">
     <div className={`card water ${done.water?'is-done':''} ${pulse.water?'pouring':''}`}>
-     <button className="card-main" aria-label="Add a glass of water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water} pouring={!!pulse.water}/></span><span className="card-copy"><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong> of {litres(day.targets.water)} L</span></span></button>
-     <button className="card-minus" aria-label="Remove a glass" disabled={day.water<=0} onClick={sip}><Icon name="minus" size={16}/></button>
+     <button className="card-main" aria-label="Add a glass of water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water} pouring={!!pulse.water}/></span><span className="card-copy"><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong></span><Meter label="Glasses" value={day.water} max={day.targets.water} unit="" done={done.water} display={`${Math.round(day.water/250)} of ${Math.round(day.targets.water/250)}`}/></span></button>
+     <span className="card-steps"><button className="card-step" aria-label="Remove a glass" disabled={day.water<=0} onClick={sip}><Icon name="minus" size={16}/></button><button className="card-step is-add" aria-label="Add a glass" onClick={pour}><Icon name="plus" size={16}/></button></span>
     </div>
     <button className={`card food ${done.calories&&done.protein?'is-done':''} ${pulse.meal?'eating':''}`} aria-label="Food. Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>
      <span className="card-art"><Bowl full={food.calories>0} eating={!!pulse.meal} level={food.calories/Math.max(1,day.targets.calorieMax)}/></span>
      <span className="card-copy"><span className="card-title">Food</span>
       <Meter label={names.calories} value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="kcal" done={done.calories}/>
-      <Meter label={names.protein} value={food.protein} max={day.targets.protein} unit="g" done={done.protein}/></span>
+      <Meter label={names.protein} value={food.protein} max={day.targets.protein} unit="g" done={done.protein}/>
+      <span className="card-cta"><Icon name="plus" size={16}/>Log a meal</span></span>
     </button>
    </div>
    {selected&&<div className="home-footer"><span>{dateLabel}</span><button className="text-button" onClick={()=>setSelected(null)}>Back to today</button></div>}
@@ -95,9 +96,9 @@ export default function App(){
     onToggle={()=>tab==='rest'?restTap():habitTap(tab as Habit)}/>}
   {toast&&<div className="toast" role="status"><span>{toast.text}</span>{toast.undo&&<button onClick={()=>{toast.undo!();setToast(null);}}>Undo</button>}</div>}
   <nav className="bottom-nav" aria-label="Main navigation">
-   {[['today','home','Today'],['workout','workout','Workout'],['abs','abs','Abs']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
+   {[['today','home','Today'],['workout','workout','Workout'],['abs','abs','Abs']].map(([value,icon,label])=><button key={value} className={`${tab===value?'active':''} ${value==='today'?'':'icon-tab'}`} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/>{value==='today'&&<span>{label}</span>}</button>)}
    <button className="nav-add" aria-label="Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}><Icon name="plus" size={26}/></button>
-   {[['floss','floss','Floss'],['rest','rest','Rest']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
+   {[['floss','floss','Floss'],['rest','rest','Rest']].map(([value,icon,label])=><button key={value} className={`icon-tab ${tab===value?'active':''}`} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/></button>)}
   </nav>
   <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e=>{const f=e.target.files?.[0];if(f){setPhoto(f);setEditMeal(null);setModal('meal');}e.target.value='';}}/>
   {modal&&<Sheet title={modal==='camera'?'Photo':modal==='meal'?'Food':modal==='meals'?'Today’s food':modal==='rest'?'Rest day':modal==='rescue'?'Rescue this day':modal==='weight'?'Weigh in':modal==='targets'?'Daily targets':modal==='setup'?'Your details':modal==='zone'?'Timezone':modal==='lock'?'Lock this device?':'How targets are set'} onClose={()=>{setModal(null);setPhoto(null);setEditMeal(null);}}>
@@ -135,9 +136,9 @@ function You({notice,onOpen}:{notice:string;onOpen:(key:string)=>void}){
   <button className="text-button" onClick={()=>onOpen('lock')}>Lock this device</button>
  </section>;
 }
-function Meter({label,value,min,max,unit,done}:{label:string;value:number;min?:number;max:number;unit:string;done:boolean}){
+function Meter({label,value,min,max,unit,done,display}:{label:string;value:number;min?:number;max:number;unit:string;done:boolean;display?:string}){
  const span=Math.max(max*1.15,value);const width=Math.min(100,value/span*100);
- return <span className={`meter ${done?'is-done':''}`}><span className="meter-head"><span>{label}</span><span>{format(value)}{min?'':` / ${format(max)}`} {unit}</span></span><span className="meter-bar">{min&&<span className="meter-range" style={{left:`${min/span*100}%`,width:`${(max-min)/span*100}%`}}/>}<span className="meter-fill" style={{width:`${width}%`}}/></span></span>;
+ return <span className={`meter ${done?'is-done':''}`}><span className="meter-head"><span>{label}</span><span>{display??`${format(value)}${min?'':` / ${format(max)}`} ${unit}`}</span></span><span className="meter-bar">{min&&<span className="meter-range" style={{left:`${min/span*100}%`,width:`${(max-min)/span*100}%`}}/>}<span className="meter-fill" style={{width:`${width}%`}}/></span></span>;
 }
 function Gate({notice}:{notice:string}){const [error,setError]=useState('');const [busy,setBusy]=useState(false);return <main className="gate"><Hills className="gate-scene"/><form onSubmit={async e=>{e.preventDefault();setBusy(true);setError(await unlock(String(new FormData(e.currentTarget).get('passphrase'))));setBusy(false);}}><label>Passphrase<input name="passphrase" type="password" autoComplete="current-password" required/></label><button className="primary" disabled={busy}>{busy?'Opening…':'Open'}</button>{(error||notice)&&<p role="alert">{error||notice}</p>}</form></main>;}
 function Sheet({title,onClose,children}:{title:string;onClose:()=>void;children:ReactNode}){const ref=useRef<HTMLDialogElement>(null);useEffect(()=>{const el=ref.current;el?.showModal();return()=>el?.close();},[]);return <dialog ref={ref} className="sheet" onCancel={onClose} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><div className="sheet-inner"><div className="sheet-handle"/><header><h2>{title}</h2><button aria-label="Close" className="icon-button" onClick={onClose}><Icon name="close"/></button></header>{children}</div></dialog>;}

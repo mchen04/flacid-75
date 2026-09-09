@@ -1,7 +1,7 @@
 export function Icon({name,size=22}:{name:string;size?:number}){
  const paths:Record<string,React.ReactNode>={
- workout:<><path d="M4 8v8m3-10v12m10-12v12m3-10v8M7 12h10"/></>,
- abs:<><circle cx="7" cy="6" r="2.5"/><path d="M9 9h5l4 4M5 20l4-6m5 6 4-4m-9-2 2 4"/></>,
+ workout:<><path d="M3 10v4m3-6v8m12-8v8m3-6v4M6 12h12"/></>,
+ abs:<><rect x="7" y="4" width="10" height="16" rx="4"/><path d="M12 5v14M7.5 9.5h9M7.5 14.5h9"/></>,
  walk:<><path d="M9 3c3 0 4 3 3 6l-2 6-5-1 1-7q1-4 3-4m-5 14 5 1-1 3H3zm14-7c-3 0-4 3-3 6l2 3 4-1-1-5q0-3-2-3"/></>,
  water:<path d="M12 3S5 11 5 15a7 7 0 0 0 14 0c0-4-7-12-7-12ZM9 15q0 3 3 3"/>,
  protein:<><path d="M6 19c-8-5 0-18 10-13 4 2 6 9 1 12-3 2-6 0-11 1Z"/><path d="M8 13q-3-4 2-4m4 5 2-3"/></>,
