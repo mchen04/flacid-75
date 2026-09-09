@@ -45,3 +45,26 @@ Result: 3 wins, 1 loss. Changes for round 4: the progress screen opens with the 
 | Progress | B | app, ref | **App** | One clear job; the accent appears only where it carries meaning; the hillside frames the number without competing. The reference stacks five elements with no priority and four hues at once. | No |
 
 Result: 4 wins, 0 losses. Every comparison won on the same build. Two critics noted that the tab read "Week" under a "Progress" title, so the tab is renamed "Progress" and one low cloud is removed from behind the streak caption; round 5 confirms the final build.
+
+## Round 5 · 2026-09-09 · confirmation on the final build (tab renamed "Progress")
+
+| Screen | Reference | Order | Winner | Critic's reason (abridged) | Recognised? |
+|---|---|---|---|---|---|
+| Home | A | ref, app | **App** | One warm accent used only where it means something; calmer, better-composed hero whose path and flag tell a small story; clear reading order. The reference spreads five colors and clips cards mid-word. | No |
+| Home | B | ref, app | **App** | Every orange element means "done or do this"; reads top to bottom in one pass; "feels like one hand made it". The reference's card art carries more color than the rest of the screen. | No |
+| Progress | A | ref, app | **App** | One clear story: the 11, the hills, the week strip and the status all point the same way; one accent, one dark action. The reference's 420 has no unit and its four bar colors are "a palette test". | No |
+| Progress | B | app, ref | **App** | One accent spent only on streak days, today and add; quiet hero behind the card; even spacing. The reference spends orange everywhere and adds a lime banner, so "nothing stands out because everything does". | No |
+
+Result: 4 wins, 0 losses. Two consecutive rounds (4 and 5) in which this app won every comparison. No critic identified a product in any round; no round was voided.
+
+## Tally
+
+| Round | Home vs A | Home vs B | Progress vs A | Progress vs B |
+|---|---|---|---|---|
+| 1 | App | App | Reference | App |
+| 2 | App | App | Reference | Reference |
+| 3 | App | App | App | Reference |
+| 4 | App | App | App | App |
+| 5 | App | App | App | App |
+
+Remaining critic notes on the winning build, recorded for a later pass and not acted on here: the water and food cards have different internal rhythms; the hero card is tall on shorter phones; the "Tap again to undo" line could be lighter; the "Open any past day" row still reads as a form control; the bars could carry a "/7" caption.

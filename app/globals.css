@@ -62,7 +62,7 @@ h1,h2,h3,p{margin:0}h1{font-size:var(--t-xxl);font-weight:700;line-height:1.1;le
 .camera-view{text-align:center}.camera-preview{width:100%;max-height:var(--z-preview);aspect-ratio:3/4;object-fit:cover;border-radius:var(--r-lg);background:var(--c-ground2);margin:var(--s-4) 0}.shutter{width:var(--z-glass);height:var(--z-glass);border-radius:50%;display:grid;place-items:center;background:var(--c-accent);color:var(--c-card);margin:var(--s-2) auto;box-shadow:var(--sh-float)}.camera-fallbacks{display:flex;justify-content:space-between}
 /* Motion. Every animation is decoration: state changes first, and reduced-motion turns all of it off. */
 .pouring .liquid{transition-duration:.9s}.pouring .wave{animation:wave 1.2s linear infinite}.pouring .wave-2{animation:wave 1.6s linear infinite reverse}.pouring .bubble{animation:rise 1s ease-out}.pouring .glass{animation:wobble .6s ease-in-out}
-.eating .bowl .food{animation:nom .35s ease-in-out 4}.eating .bowl .spoon{animation:scoop .7s ease-in-out 2}
+.eating .bowl-food{animation:nom .35s ease-in-out 4}.eating .bowl .spoon{animation:scoop .7s ease-in-out 2}
 .lifting .chip-disc .mark{animation:lift .6s ease-in-out 2}.crunching .chip-disc .mark{animation:crunch .5s ease-in-out 3}.shining .chip-disc{animation:shine 1.2s ease-out}
 .petal{animation:fall 3s ease-in forwards}.rays{animation:spin 30s linear infinite}
 @keyframes pulse{0%{transform:scale(1);opacity:.35}100%{transform:scale(2.4);opacity:0}}

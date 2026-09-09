@@ -52,7 +52,7 @@ export function Bowl({full=false,eating=false}:{full?:boolean;eating?:boolean}){
   <ellipse cx="60" cy="88" rx="44" ry="6" fill={c.ink} opacity=".06"/>
   <path d="M14 46h92q0 40-46 40T14 46z" fill={c.accent}/>
   <path d="M14 46h92q0 6-4 12H18q-4-6-4-12z" fill={c.accentDeep} opacity=".5"/>
-  <g className="food" style={{transformOrigin:'60px 46px'}}>
+  <g className="bowl-food" style={{transformOrigin:'60px 46px'}}>
    <ellipse cx="60" cy="46" rx="46" ry="9" fill={full?c.butterSoft:c.cardTint}/>
    <circle cx="42" cy="42" r="8" fill={c.sage}/><circle cx="62" cy="38" r="9" fill={c.rose}/><circle cx="80" cy="43" r="7" fill={c.butter}/>
    <path d="M50 44q4-8 12-6" stroke={c.sageDeep} strokeWidth="2.5" strokeLinecap="round" fill="none"/>

@@ -10,7 +10,7 @@ async function audit(page:Page,screen:string):Promise<Report>{
  const before=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(el=>el.scrollLeft).concat(scrollX));
  await page.mouse.move(300,500);await page.mouse.down();for(let x=300;x>=60;x-=40)await page.mouse.move(x,500);await page.mouse.up();
  // Every screen is tappable, so the drag's mouse-up may open a sheet; close it so the next step starts clean.
- await page.keyboard.press('Escape');
+ await page.waitForTimeout(200);if(await page.locator('dialog[open]').count()){await page.keyboard.press('Escape');await page.locator('dialog[open]').waitFor({state:'detached'});}
  const dragDeltaX=await page.evaluate(before=>{const after=[...document.querySelectorAll('body *')].map(el=>el.scrollLeft).concat(scrollX);return after.reduce((max,value,i)=>Math.max(max,Math.abs(value-(before[i]??0))),0);},before);
  return {screen,...geometry,dragDeltaX};
 }

@@ -13,7 +13,9 @@ for(let i=12;i>=1;i--){const day=addDays(today,-i);if(i===4){state=apply(state,o
 for(const habit of ['workout','walk'])state=apply(state,op(today,{type:'check',habit,value:true}));
 state=apply(state,op(today,{type:'water',amount:1250}));state=apply(state,op(today,{type:'meal',mealId:crypto.randomUUID(),calories:1180,protein:64}));
 for(const [i,w] of [[20,66.2],[16,65.9],[12,65.6],[8,65.4],[4,65.1],[1,64.9]])state.weights[addDays(today,-i)]=w;
-const browser=await chromium.launch({args:['--single-process','--no-zygote','--disable-gpu']});
+// Live captures from inside a proxied sandbox route through the shell's proxy variables.
+const proxyUrl=!virtual&&(process.env.HTTPS_PROXY||process.env.https_proxy)?new URL(process.env.HTTPS_PROXY||process.env.https_proxy):null;
+const browser=await chromium.launch({args:['--single-process','--no-zygote','--disable-gpu'],proxy:proxyUrl?{server:`${proxyUrl.protocol}//${proxyUrl.host}`,username:decodeURIComponent(proxyUrl.username),password:decodeURIComponent(proxyUrl.password)}:undefined});
 try{
  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:'en-US',timezoneId:'America/Los_Angeles',serviceWorkers:'block'});
  if(virtual)await install(context);const page=await context.newPage();

@@ -7,6 +7,6 @@
   },
   "authenticatedGate": 200,
   "crossOriginWrite": 403,
-  "accountUnconfigured": true,
+  "accountConfigured": true,
   "deployedClientMatchesVerifiedBuild": true
 }

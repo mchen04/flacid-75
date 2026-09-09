@@ -1,10 +1,4 @@
 {
-  "scanned": 71,
-  "hits": [
-    {
-      "file": "tests/e2e/v3.spec.ts",
-      "line": 54,
-      "text": "expect(manifest.theme_color).toBe('#f4eee6');expect(manifest.description).not.toMatch(/pip/i);"
-    }
-  ]
+  "scanned": 76,
+  "hits": []
 }

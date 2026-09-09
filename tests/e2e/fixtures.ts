@@ -5,11 +5,10 @@ import {test as base} from '@playwright/test';
 import {install} from '../../scripts/virtual-server.mjs';
 export const virtual=process.env.VIRTUAL_SERVER==='1';
 export const test=base.extend({
- // eslint-disable-next-line react-hooks/rules-of-hooks -- Playwright fixture callback, not a React hook
- context:async({browser,playwright,browserName,launchOptions,contextOptions},use)=>{
-  if(!virtual){await use(await browser.newContext(contextOptions));return;}
+ context:async({browser,playwright,browserName,launchOptions,contextOptions},provide)=>{
+  if(!virtual){await provide(await browser.newContext(contextOptions));return;}
   const own=await playwright[browserName].launch(launchOptions);const context=await own.newContext(contextOptions);await install(context);
-  await use(context);await context.close().catch(()=>{});await own.close().catch(()=>{});
+  await provide(context);await context.close().catch(()=>{});await own.close().catch(()=>{});
  },
 });
 export {expect} from '@playwright/test';

@@ -1,0 +1,6 @@
+icon-192.png live=2bf516ba08c0290e local=2bf516ba08c0290e match
+icon-512.png live=e2a51f760b775606 local=e2a51f760b775606 match
+icon-maskable.png live=3d77831f7e4a7f8a local=3d77831f7e4a7f8a match
+apple-touch-icon.png live=b63f54c93423b595 local=b63f54c93423b595 match
+splash-1170x2532.png live=b7b173950e4b5050 local=b7b173950e4b5050 match
+icon.svg live=3b398683782415ac local=3b398683782415ac match

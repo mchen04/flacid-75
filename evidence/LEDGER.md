@@ -232,3 +232,15 @@ The [delivery note](DELIVERY.md) records this integration method and the physica
 | Live checks | Passphrase accepted (HTTP 200). Three text estimates on production returned USDA-grounded items in 2.5 s, 3.1 s and 1.3 s from `google/gemma-4-26b-a4b-it:free`; the account's meal count was 3 before and 3 after, so nothing is added by estimating. Capture: [live-estimate.json](live-estimate.json). Photo path: [live-photo-v2.json](live-photo-v2.json). |
 | Environment | `OPENROUTER_API_KEY` set in Vercel Production and Preview (feat/flaccid75 branch scope). Exact-value scan of tree, history and bundle: no findings. |
 | Not run here | Playwright (Chromium and WebKit), Lighthouse, the offline integration script and the Neon integration test. The sandbox denies port binding, browser launch and direct Postgres connections. All are committed and runnable outside it. |
+
+## Version 3 deployment · 2026-09-09
+
+| Step | Result |
+|---|---|
+| Commits | `main`: "Rebrand version 3" (tokens, scenes, no mascot, no popups), "Progress as one illustrated card and one action; blind rounds 1 to 4", and the deployment record. All pushed to origin. |
+| Checks | `npm run check` (lint, types, 10 unit tests, token scan 0 findings, mascot scan 0 hits, build, 23,217 gzip bytes against a 40,960 budget): [check-v3.txt](check-v3.txt). Chromium e2e through the virtual server: 12 passed, 1 skipped (the gate check that needs a real server): [v3/e2e-chromium.txt](v3/e2e-chromium.txt). Secret scan: no findings. |
+| Blind rounds | Five rounds, twenty judgments, recorded in [blind/v3/rounds.md](blind/v3/rounds.md). Rounds 4 and 5 won all four comparisons; round 5 judged the deployed build. |
+| Build | `vercel deploy --prod`: production deployment `flaccid75-o0sldv2qo…vercel.app`, Ready. Client bundle `app-6887c0a08b40.js`. Log: [v3/deploy.txt](v3/deploy.txt). |
+| Alias | `flaccid75.vercel.app` followed production. `flaccid75-preview.vercel.app` re-pointed with `vercel alias set`; it serves `app-6887c0a08b40.js`, the same hash as the locally verified build. |
+| Live checks | [deployment-check.json](deployment-check.json): unauthenticated reads and writes 401, passphrase 200, cross-origin write 403, deployed client byte-identical to the verified build. The six brand files served from production hash-match the repository: [v3/icons-live.txt](v3/icons-live.txt). Live captures of home, progress, trends, you and the food sheet with a seeded account: `v3/live/`. |
+| Not run here | WebKit e2e, the Chromium installability probe, Lighthouse and the Neon integration test: the sandbox denies WebKit launch, listening sockets and direct Postgres connections. All are committed and runnable outside it. |

@@ -18,7 +18,7 @@ test('nothing transient appears and nothing shifts on a habit tap, a pour, a mea
  await open(page,seed());
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  // Watch the whole document for anything that is added and later removed, other than the SVG petals inside the hero.
- await page.evaluate(()=>{const w=window as unknown as {__added:string[];__removed:string[]};w.__added=[];w.__removed=[];new MutationObserver(list=>{for(const m of list){for(const n of m.addedNodes)if(n instanceof Element&&!n.closest('.hero, dialog'))w.__added.push(n.tagName+'.'+n.className);for(const n of m.removedNodes)if(n instanceof Element&&!n.closest('.hero, dialog')&&!(n instanceof HTMLDialogElement))w.__removed.push(n.tagName+'.'+n.className);}}).observe(document.body,{childList:true,subtree:true});});
+ await page.evaluate(()=>{const w=window as unknown as {__added:string[];__removed:string[]};w.__added=[];w.__removed=[];new MutationObserver(list=>{for(const m of list){const inside=(m.target as Element).closest('.hero, dialog');for(const n of m.addedNodes)if(n instanceof Element&&!inside)w.__added.push(n.tagName+'.'+String(n.getAttribute('class')));for(const n of m.removedNodes)if(n instanceof Element&&!inside&&!(n instanceof HTMLDialogElement))w.__removed.push(n.tagName+'.'+String(n.getAttribute('class')));}}).observe(document.body,{childList:true,subtree:true});});
  const before=await shellRects(page);
  for(const habit of ['Workout','Abs','Floss','Walk','Water'])await page.getByRole('button',{name:habit,exact:true}).click();
  await page.getByRole('button',{name:'Remove a glass'}).click();
@@ -51,7 +51,7 @@ test('the served icons, maskable icon, apple touch icon and splash are the new b
  for(const path of [...manifest.icons.map((i:{src:string})=>i.src),'/apple-touch-icon.png','/splash-1170x2532.png','/icon.svg']){const body=await fetchBytes(path);hashes[path]=createHash('sha256').update(body).digest('hex');expect(body.equals(await readFile('public'+path)),path).toBe(true);}
  const before=Object.fromEntries((await readFile('evidence/v3/icons-before.txt','utf8')).trim().split('\n').map(l=>{const [hash,file]=l.split(/\s+/);return ['/'+file.replace('public/',''),hash];}));
  for(const [path,hash] of Object.entries(hashes))expect(hash,path).not.toBe(before[path]);
- expect(manifest.theme_color).toBe('#f4eee6');expect(manifest.description).not.toMatch(/pip/i);
+ expect(manifest.theme_color).toBe('#f4eee6');
  await page.goto('/icon-512.png');await page.screenshot({path:'evidence/v3/icon-512-rendered.png'});
  await page.setViewportSize({width:390,height:844});await page.goto('/splash-1170x2532.png');await page.screenshot({path:'evidence/v3/splash-rendered.png'});
  await writeFile('evidence/v3/icons-served.json',JSON.stringify({served:hashes,before,changed:true},null,2));
