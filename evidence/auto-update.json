@@ -1,0 +1,19 @@
+{
+  "check": "node scripts/sw-update-check.mjs",
+  "pass": {
+    "url": "http://localhost:3103",
+    "reloadedItself": true,
+    "shellCaches": ["flaccid75-shell-cafe12345678"]
+  },
+  "negativeControl": {
+    "change": "controllerchange handler reverted to the guard that never reloads after a first install",
+    "result": "failed: timed out waiting for the open page to reload"
+  },
+  "deployment": {
+    "gitDeploymentsEnabled": true,
+    "pushesObserved": 2,
+    "productionDeploymentsTriggered": ["flaccid75-ocejweugc", "flaccid75-jvts1zdec"],
+    "installAlias": "flaccid75-preview.vercel.app",
+    "installAliasFollowsProduction": "assigned as a project domain, so it moves to each new production deployment"
+  }
+}
