@@ -1,4 +1,6 @@
-import {test,expect,type Page} from '@playwright/test';
+import {test,expect,virtual} from './fixtures';
+import {install} from '../../scripts/virtual-server.mjs';
+import type {Page} from '@playwright/test';
 import {writeFile} from 'node:fs/promises';
 import {emptyState,computeTargets,localDate,apply,type State} from '../../lib/domain';
 function seed(){const today=localDate(new Date(),'America/Los_Angeles');const stats={height:165,weight:65,age:30,activity:1 as const,goal:'maintain' as const};return {...emptyState(),clock:{zone:'America/Los_Angeles',anchorDay:today,anchorLocal:today},profile:{...stats,targets:computeTargets(stats),overrides:{},baselineWeight:65,startDay:today}} as State;}
@@ -30,7 +32,7 @@ test('walking moves the marker along the path and eating animates the bowl',asyn
  await expect(page.locator('.food')).toHaveClass(/eating/);await expect(page.locator('.food .bowl')).toHaveClass(/is-eating/);await page.screenshot({path:`evidence/food-eating-${test.info().project.name}.png`});await expect(page.getByText('107 kcal')).toBeVisible();
 });
 test('reduced motion disables every animation and transition',async({browser})=>{
- const context=await browser.newContext({reducedMotion:'reduce',viewport:{width:390,height:844}});const page=await context.newPage();await open(page,seed());
+ const context=await browser.newContext({reducedMotion:'reduce',viewport:{width:390,height:844}});if(virtual)await install(context);const page=await context.newPage();await open(page,seed());
  await page.getByRole('button',{name:'Walk',exact:true}).click();await page.getByRole('button',{name:'Water',exact:true}).click();
  const animated=await page.evaluate(()=>[...document.querySelectorAll('*')].filter(el=>{const s=getComputedStyle(el);return s.animationName!=='none'||(s.transitionDuration!=='0s'&&s.transitionProperty!=='none'&&s.transitionDuration!=='');}).map(el=>el.tagName+'.'+String(el.className)));
  expect(animated).toEqual([]);

@@ -4,7 +4,7 @@
       "/Users/michaelchen/.nvm/versions/node/v20.19.4/bin/node",
       "/Users/michaelchen/Projects/flacid-75/node_modules/.bin/playwright",
       "test",
-      "tests/e2e/horizontal.spec.ts"
+      "--project=chromium"
     ],
     "configFile": "/Users/michaelchen/Projects/flacid-75/playwright.config.ts",
     "rootDir": "/Users/michaelchen/Projects/flacid-75/tests/e2e",
@@ -84,6 +84,476 @@
   },
   "suites": [
     {
+      "title": "app.spec.ts",
+      "file": "app.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "gate rejects wrong passphrase and protects every write path",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "needs a real server; scripts/deployment-check.mjs covers this against production",
+                  "location": {
+                    "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                    "line": 6,
+                    "column": 100
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:27:52.475Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "needs a real server; scripts/deployment-check.mjs covers this against production",
+                      "location": {
+                        "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                        "line": 6,
+                        "column": 100
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-fbb08ec132bd0a44941f",
+          "file": "app.spec.ts",
+          "line": 6,
+          "column": 1
+        },
+        {
+          "title": "onboarding, all seven one-tap habits, celebration, correction, calendar and no page scroll",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5354,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Welcome.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Welcome.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Welcome.' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Welcome.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Welcome.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Welcome.' })\u001b[22m\n\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts:10:183",
+                    "location": {
+                      "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                      "column": 183,
+                      "line": 10
+                    },
+                    "snippet": "   8 |  let server=emptyState();await page.route('**/api/state',r=>r.fulfill({json:server}));await page.route('**/api/sync',async r=>{const {apply}=await import('../../lib/domain');const ops=r.request().postDataJSON();for(const op of ops)server=apply(server,op);return r.fulfill({json:{state:server,accepted:ops.map((o:{id:string})=>o.id),rejected:[]}});});\n   9 |  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'egg, whole, cooked, scrambled',grams:100,calories:149,protein:10,source:'usda',match:'Egg, whole, cooked, scrambled',fdcId:172187},{name:'bread, white, toasted',grams:50,calories:145,protein:4.5,source:'usda',match:'Bread, white, commercially prepared, toasted',fdcId:174925}],calories:294,protein:14.5,model:'test'}}));\n> 10 |  await page.goto('/');await page.getByLabel('Passphrase').fill(secret);await page.getByRole('button',{name:'Open'}).click();await expect(page.getByRole('heading',{name:'Welcome.'})).toBeVisible();await page.getByLabel('Height · cm').fill('165');await page.getByLabel('Weight · kg',{exact:true}).fill('65');await page.getByLabel('Age',{exact:true}).fill('30');await page.getByRole('button',{name:'Start'}).click();await expect(page.getByRole('button',{name:'Workout',exact:true})).toBeVisible();\n     |                                                                                                                                                                                       ^\n  11 |  for(const habit of ['Workout','Abs','Walk','Floss']){const btn=page.getByRole('button',{name:habit,exact:true});await btn.click();await expect(btn).toHaveAttribute('aria-pressed','true');}\n  12 |  // Water fills by pouring: eight glasses reach the 2 L target.\n  13 |  const water=page.getByRole('button',{name:'Water',exact:true});for(let i=0;i<8;i++)await water.click();await expect(water).toHaveAttribute('aria-pressed','true');await expect(page.getByText('2 L')).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                        "column": 183,
+                        "line": 10
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'Welcome.' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'Welcome.' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'Welcome.' })\u001b[22m\n\n\n   8 |  let server=emptyState();await page.route('**/api/state',r=>r.fulfill({json:server}));await page.route('**/api/sync',async r=>{const {apply}=await import('../../lib/domain');const ops=r.request().postDataJSON();for(const op of ops)server=apply(server,op);return r.fulfill({json:{state:server,accepted:ops.map((o:{id:string})=>o.id),rejected:[]}});});\n   9 |  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'egg, whole, cooked, scrambled',grams:100,calories:149,protein:10,source:'usda',match:'Egg, whole, cooked, scrambled',fdcId:172187},{name:'bread, white, toasted',grams:50,calories:145,protein:4.5,source:'usda',match:'Bread, white, commercially prepared, toasted',fdcId:174925}],calories:294,protein:14.5,model:'test'}}));\n> 10 |  await page.goto('/');await page.getByLabel('Passphrase').fill(secret);await page.getByRole('button',{name:'Open'}).click();await expect(page.getByRole('heading',{name:'Welcome.'})).toBeVisible();await page.getByLabel('Height · cm').fill('165');await page.getByLabel('Weight · kg',{exact:true}).fill('65');await page.getByLabel('Age',{exact:true}).fill('30');await page.getByRole('button',{name:'Start'}).click();await expect(page.getByRole('button',{name:'Workout',exact:true})).toBeVisible();\n     |                                                                                                                                                                                       ^\n  11 |  for(const habit of ['Workout','Abs','Walk','Floss']){const btn=page.getByRole('button',{name:habit,exact:true});await btn.click();await expect(btn).toHaveAttribute('aria-pressed','true');}\n  12 |  // Water fills by pouring: eight glasses reach the 2 L target.\n  13 |  const water=page.getByRole('button',{name:'Water',exact:true});for(let i=0;i<8;i++)await water.click();await expect(water).toHaveAttribute('aria-pressed','true');await expect(page.getByText('2 L')).toBeVisible();\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts:10:183"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:27:52.493Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/app-onboarding-all-seven-o-d4d1b-calendar-and-no-page-scroll-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/app-onboarding-all-seven-o-d4d1b-calendar-and-no-page-scroll-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                    "column": 183,
+                    "line": 10
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-53dd107ad086bea11e63",
+          "file": "app.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5773,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.form-error')\nExpected substring: \u001b[32m\"could not look\u001b[7m that up\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mThat \u001b[27mcould not \u001b[7mbe \u001b[27mlook\u001b[7med up right now.\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.form-error') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.form-error')\u001b[22m\n\u001b[2m    13 × locator resolved to <p role=\"alert\" class=\"form-error\">That could not be looked up right now.</p>\u001b[22m\n\u001b[2m       - unexpected value \"That could not be looked up right now.\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.form-error')\nExpected substring: \u001b[32m\"could not look\u001b[7m that up\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mThat \u001b[27mcould not \u001b[7mbe \u001b[27mlook\u001b[7med up right now.\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.form-error') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.form-error')\u001b[22m\n\u001b[2m    13 × locator resolved to <p role=\"alert\" class=\"form-error\">That could not be looked up right now.</p>\u001b[22m\n\u001b[2m       - unexpected value \"That could not be looked up right now.\"\u001b[22m\n\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts:34:339",
+                    "location": {
+                      "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                      "column": 339,
+                      "line": 34
+                    },
+                    "snippet": "  32 |  await expect(page.getByText(/waiting to sync/)).toHaveCount(0);\n  33 |  await page.screenshot({path:`evidence/offline-${test.info().project.name}.png`});await context.setOffline(false);await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);expect(seen.size).toBe(2);\n> 34 |  await page.route('**/api/estimate',r=>r.fulfill({status:503,json:{error:'That could not be looked up right now.'}}));await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('two eggs');await page.getByRole('button',{name:'Look it up'}).click();await expect(page.locator('.form-error')).toContainText('could not look that up');await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('160');await page.getByLabel('Protein · g',{exact:true}).fill('12');await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('160 kcal')).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                   ^\n  35 | });\n  36 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                        "column": 339,
+                        "line": 34
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.form-error')\nExpected substring: \u001b[32m\"could not look\u001b[7m that up\u001b[27m\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mThat \u001b[27mcould not \u001b[7mbe \u001b[27mlook\u001b[7med up right now.\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.form-error') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.form-error')\u001b[22m\n\u001b[2m    13 × locator resolved to <p role=\"alert\" class=\"form-error\">That could not be looked up right now.</p>\u001b[22m\n\u001b[2m       - unexpected value \"That could not be looked up right now.\"\u001b[22m\n\n\n  32 |  await expect(page.getByText(/waiting to sync/)).toHaveCount(0);\n  33 |  await page.screenshot({path:`evidence/offline-${test.info().project.name}.png`});await context.setOffline(false);await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);expect(seen.size).toBe(2);\n> 34 |  await page.route('**/api/estimate',r=>r.fulfill({status:503,json:{error:'That could not be looked up right now.'}}));await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('two eggs');await page.getByRole('button',{name:'Look it up'}).click();await expect(page.locator('.form-error')).toContainText('could not look that up');await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('160');await page.getByLabel('Protein · g',{exact:true}).fill('12');await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('160 kcal')).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                   ^\n  35 | });\n  36 |\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts:34:339"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:27:58.284Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/app-offline-optimistic-wri-09b49-ack-when-the-estimate-fails-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/app-offline-optimistic-wri-09b49-ack-when-the-estimate-fails-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/app.spec.ts",
+                    "column": 339,
+                    "line": 34
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c31ff144dc4fee3acd0a-ac7aca26182191130694",
+          "file": "app.spec.ts",
+          "line": 26,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "camera.chromium.spec.ts",
+      "file": "camera.chromium.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "camera capture reaches a correctable estimate in four actions without storing the image",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 45133,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 45000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/camera.chromium.spec.ts",
+                        "column": 151,
+                        "line": 7
+                      },
+                      "message": "Error: locator.click: Test timeout of 45000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Photo' })\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"file\" class=\"sr-only\" accept=\"image/*\" capture=\"environment\" aria-label=\"Photograph a meal\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"sheet\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" class=\"sheet\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    84 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <dialog open=\"\" class=\"sheet\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n  5 |  const day=localDate(new Date(),'America/Los_Angeles'),stats={height:165,weight:65,age:30,activity:1 as const,goal:'maintain' as const};let state:State={...emptyState(),clock:{zone:'America/Los_Angeles',anchorDay:day,anchorLocal:day},profile:{...stats,targets:computeTargets(stats),overrides:{},baselineWeight:65,startDay:day}};let imageMarker='';let imageBytes=0;\n  6 |  await page.route('**/api/state',r=>r.fulfill({json:state}));await page.route('**/api/sync',r=>{const ops=r.request().postDataJSON();for(const op of ops)state=apply(state,op);return r.fulfill({json:{state,accepted:ops.map((o:{id:string})=>o.id),rejected:[]}});});await page.route('**/api/estimate',r=>{const request=r.request().postDataJSON();imageBytes=request.image.length;imageMarker=request.image.slice(200,350);return r.fulfill({json:{items:[{name:'chicken bowl',grams:350,calories:420,protein:25,source:'estimate'}],calories:420,protein:25,model:'test'}});});await page.addInitScript(s=>localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true})),state);\n> 7 |  const start=Date.now();await page.goto('/');await page.getByRole('button',{name:'Log a meal'}).click();await page.getByRole('button',{name:'Photo'}).click();await page.getByRole('button',{name:'Take meal photo'}).click();await expect(page.getByText('350 g · estimate')).toBeVisible();await page.screenshot({path:'evidence/camera-estimate.png'});await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('420 kcal')).toBeVisible();const elapsedMs=Date.now()-start;expect(imageBytes).toBeGreaterThan(500);expect(await page.locator('input[type=file]').inputValue()).toBe('');const saved=await page.evaluate(()=>localStorage.getItem('flaccid75-v1')!);expect(saved).not.toContain(imageMarker);expect(saved).not.toContain('data:image');expect(elapsedMs).toBeLessThan(5000);await writeFile('evidence/camera-actions.json',JSON.stringify({actions:['Open app','Tap food','Tap photo','Take photo','Add'],elapsedMs,source:'Chromium simulated camera; mocked model response; not physical-device timing',imageBytesSent:imageBytes,imagePersistedInClient:false},null,2));\n    |                                                                                                                                                       ^\n  8 | });\n  9 |\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/camera.chromium.spec.ts:7:151"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:04.345Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/camera.chromium-camera-cap-85dd5-s-without-storing-the-image-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/camera.chromium-camera-cap-85dd5-s-without-storing-the-image-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7db22d082e05eaf048f6-d2ee56e87e8850c0706a",
+          "file": "camera.chromium.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "gamify.spec.ts",
+      "file": "gamify.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 552,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:49.780Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "caa5daf97b7b114cfc38-aa8edd95de855958fa15",
+          "file": "gamify.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "walking moves the marker along the path and eating animates the bowl",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5,
+                  "error": {
+                    "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-m0jPKm --remote-debugging-pipe --no-startup-window\n<launched> pid=72312\n[pid=72312][err] [0909/122849.836787:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72312][err] 2026-09-09 12:28:49.912 chrome-headless-shell[72312:101649792] Error received in message reply handler: Connection invalid\n[pid=72312][err] 2026-09-09 12:28:49.912 chrome-headless-shell[72312:101649794] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72312][err] [0909/122849.929949:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72312][err] [0909/122849.960258:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72312][err] [0909/122849.978998:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)",
+                    "stack": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-m0jPKm --remote-debugging-pipe --no-startup-window\n<launched> pid=72312\n[pid=72312][err] [0909/122849.836787:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72312][err] 2026-09-09 12:28:49.912 chrome-headless-shell[72312:101649792] Error received in message reply handler: Connection invalid\n[pid=72312][err] 2026-09-09 12:28:49.912 chrome-headless-shell[72312:101649794] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72312][err] [0909/122849.929949:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72312][err] [0909/122849.960258:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72312][err] [0909/122849.978998:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-m0jPKm --remote-debugging-pipe --no-startup-window\n<launched> pid=72312\n[pid=72312][err] [0909/122849.836787:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72312][err] 2026-09-09 12:28:49.912 chrome-headless-shell[72312:101649792] Error received in message reply handler: Connection invalid\n[pid=72312][err] 2026-09-09 12:28:49.912 chrome-headless-shell[72312:101649794] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72312][err] [0909/122849.929949:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72312][err] [0909/122849.960258:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72312][err] [0909/122849.978998:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:50.470Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/gamify-walking-moves-the-m-963fb-nd-eating-animates-the-bowl-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "caa5daf97b7b114cfc38-10302e077a3888975a3f",
+          "file": "gamify.spec.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "reduced motion disables every animation and transition",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 82,
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_ACCESS_DENIED at http://localhost:3075/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3075/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_ACCESS_DENIED at http://localhost:3075/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3075/\", waiting until \"load\"\u001b[22m\n\n    at open (/Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts:6:440)\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts:34:134",
+                    "location": {
+                      "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts",
+                      "column": 440,
+                      "line": 6
+                    },
+                    "snippet": "  4 | import {emptyState,computeTargets,localDate,apply,type State} from '../../lib/domain';\n  5 | function seed(){const today=localDate(new Date(),'America/Los_Angeles');const stats={height:165,weight:65,age:30,activity:1 as const,goal:'maintain' as const};return {...emptyState(),clock:{zone:'America/Los_Angeles',anchorDay:today,anchorLocal:today},profile:{...stats,targets:computeTargets(stats),overrides:{},baselineWeight:65,startDay:today}} as State;}\n> 6 | async function open(page:Page,state:State){await page.route('**/api/state',r=>r.fulfill({json:state}));await page.route('**/api/sync',r=>{const ops=r.request().postDataJSON();for(const op of ops)state=apply(state,op);return r.fulfill({json:{state,accepted:ops.map((o:{id:string})=>o.id),rejected:[]}});});await page.addInitScript(s=>localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true})),state);await page.goto('/');await page.getByRole('button',{name:'Workout',exact:true}).waitFor();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                        ^\n  7 | const rects=(page:Page)=>page.evaluate(()=>Object.fromEntries([...document.querySelectorAll<HTMLElement>('.hero,.card,.chip-habit,.bottom-nav,.week-strip,.topbar')].map((el,i)=>{const r=el.getBoundingClientRect();return [el.className.split(' ')[0]+i,[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)]];})));\n  8 | test('a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly',async({page})=>{\n  9 |  await open(page,seed());"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts",
+                        "column": 440,
+                        "line": 6
+                      },
+                      "message": "Error: page.goto: net::ERR_ACCESS_DENIED at http://localhost:3075/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3075/\", waiting until \"load\"\u001b[22m\n\n\n  4 | import {emptyState,computeTargets,localDate,apply,type State} from '../../lib/domain';\n  5 | function seed(){const today=localDate(new Date(),'America/Los_Angeles');const stats={height:165,weight:65,age:30,activity:1 as const,goal:'maintain' as const};return {...emptyState(),clock:{zone:'America/Los_Angeles',anchorDay:today,anchorLocal:today},profile:{...stats,targets:computeTargets(stats),overrides:{},baselineWeight:65,startDay:today}} as State;}\n> 6 | async function open(page:Page,state:State){await page.route('**/api/state',r=>r.fulfill({json:state}));await page.route('**/api/sync',r=>{const ops=r.request().postDataJSON();for(const op of ops)state=apply(state,op);return r.fulfill({json:{state,accepted:ops.map((o:{id:string})=>o.id),rejected:[]}});});await page.addInitScript(s=>localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true})),state);await page.goto('/');await page.getByRole('button',{name:'Workout',exact:true}).waitFor();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                                                                        ^\n  7 | const rects=(page:Page)=>page.evaluate(()=>Object.fromEntries([...document.querySelectorAll<HTMLElement>('.hero,.card,.chip-habit,.bottom-nav,.week-strip,.topbar')].map((el,i)=>{const r=el.getBoundingClientRect();return [el.className.split(' ')[0]+i,[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)]];})));\n  8 | test('a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly',async({page})=>{\n  9 |  await open(page,seed());\n    at open (/Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts:6:440)\n    at /Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts:34:134"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:50.661Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/gamify-reduced-motion-disa-ada96-ry-animation-and-transition-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/gamify-reduced-motion-disa-ada96-ry-animation-and-transition-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/michaelchen/Projects/flacid-75/tests/e2e/gamify.spec.ts",
+                    "column": 440,
+                    "line": 6
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "caa5daf97b7b114cfc38-2b48441acad5ffb49979",
+          "file": "gamify.spec.ts",
+          "line": 33,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "history.spec.ts",
+      "file": "history.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "rest confirmation, exact quota, backfill, rescue, trend and settings",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 670,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:51.021Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "61dfc145f2d790550676-d656b01d33901401b886",
+          "file": "history.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
       "title": "horizontal.spec.ts",
       "file": "horizontal.spec.ts",
       "column": 0,
@@ -102,23 +572,23 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 5,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 1,
+                  "duration": 5,
                   "error": {
-                    "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\n<launched> pid=52476\n[pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52476\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=52476] <kill>\u001b[22m\n\u001b[2m  - [pid=52476] <will force kill>\u001b[22m\n\u001b[2m  - [pid=52476] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=52476] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=52476] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close end>\u001b[22m\n",
-                    "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\n<launched> pid=52476\n[pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52476\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=52476] <kill>\u001b[22m\n\u001b[2m  - [pid=52476] <will force kill>\u001b[22m\n\u001b[2m  - [pid=52476] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=52476] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=52476] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close end>\u001b[22m\n"
+                    "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-7B5tfy --remote-debugging-pipe --no-startup-window\n<launched> pid=72322\n[pid=72322][err] [0909/122851.059184:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72322][err] 2026-09-09 12:28:51.098 chrome-headless-shell[72322:101649997] Error received in message reply handler: Connection invalid\n[pid=72322][err] 2026-09-09 12:28:51.098 chrome-headless-shell[72322:101650017] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72322][err] [0909/122851.114369:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72322][err] [0909/122851.137409:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72322][err] [0909/122851.162359:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)",
+                    "stack": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-7B5tfy --remote-debugging-pipe --no-startup-window\n<launched> pid=72322\n[pid=72322][err] [0909/122851.059184:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72322][err] 2026-09-09 12:28:51.098 chrome-headless-shell[72322:101649997] Error received in message reply handler: Connection invalid\n[pid=72322][err] 2026-09-09 12:28:51.098 chrome-headless-shell[72322:101650017] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72322][err] [0909/122851.114369:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72322][err] [0909/122851.137409:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72322][err] [0909/122851.162359:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
                   },
                   "errors": [
                     {
-                      "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\n<launched> pid=52476\n[pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52476\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=52476] <kill>\u001b[22m\n\u001b[2m  - [pid=52476] <will force kill>\u001b[22m\n\u001b[2m  - [pid=52476] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=52476] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=52476] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close end>\u001b[22m\n"
+                      "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-7B5tfy --remote-debugging-pipe --no-startup-window\n<launched> pid=72322\n[pid=72322][err] [0909/122851.059184:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72322][err] 2026-09-09 12:28:51.098 chrome-headless-shell[72322:101649997] Error received in message reply handler: Connection invalid\n[pid=72322][err] 2026-09-09 12:28:51.098 chrome-headless-shell[72322:101650017] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72322][err] [0909/122851.114369:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72322][err] [0909/122851.137409:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72322][err] [0909/122851.162359:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T17:20:40.355Z",
+                  "startTime": "2026-09-09T19:28:51.781Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -134,11 +604,53 @@
           ],
           "id": "f14eeca23ccd8c4e2eb0-4f4ab9b3552133fec972",
           "file": "horizontal.spec.ts",
-          "line": 14,
+          "line": 15,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "v3.spec.ts",
+      "file": "v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "water goes down by one tap with no dialog, and never below zero",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 318,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:51.981Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-25d29a4561d154daba2e",
+          "file": "v3.spec.ts",
+          "line": 9,
           "column": 1
         },
         {
-          "title": "no horizontal scroll, drag or overflow on any screen at 390x844",
+          "title": "nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal",
           "ok": false,
           "tags": [],
           "tests": [
@@ -146,33 +658,33 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "webkit",
-              "projectName": "webkit",
+              "projectId": "chromium",
+              "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 1,
+                  "workerIndex": 6,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 1,
+                  "duration": 7,
                   "error": {
-                    "message": "TimeoutError: browserType.launch: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52525\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121587] Connection Invalid error for service com.apple.hiservices-xpcservice.\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121585] Error received in message reply handler: Connection invalid\u001b[22m\n",
-                    "stack": "TimeoutError: browserType.launch: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52525\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121587] Connection Invalid error for service com.apple.hiservices-xpcservice.\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121585] Error received in message reply handler: Connection invalid\u001b[22m\n"
+                    "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-brRGJv --remote-debugging-pipe --no-startup-window\n<launched> pid=72342\n[pid=72342][err] [0909/122852.017350:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72342][err] 2026-09-09 12:28:52.055 chrome-headless-shell[72342:101650147] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72342][err] 2026-09-09 12:28:52.055 chrome-headless-shell[72342:101650139] Error received in message reply handler: Connection invalid\n[pid=72342][err] [0909/122852.072402:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72342][err] [0909/122852.096466:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72342][err] [0909/122852.120557:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)",
+                    "stack": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-brRGJv --remote-debugging-pipe --no-startup-window\n<launched> pid=72342\n[pid=72342][err] [0909/122852.017350:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72342][err] 2026-09-09 12:28:52.055 chrome-headless-shell[72342:101650147] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72342][err] 2026-09-09 12:28:52.055 chrome-headless-shell[72342:101650139] Error received in message reply handler: Connection invalid\n[pid=72342][err] [0909/122852.072402:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72342][err] [0909/122852.096466:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72342][err] [0909/122852.120557:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
                   },
                   "errors": [
                     {
-                      "message": "TimeoutError: browserType.launch: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52525\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121587] Connection Invalid error for service com.apple.hiservices-xpcservice.\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121585] Error received in message reply handler: Connection invalid\u001b[22m\n"
+                      "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-brRGJv --remote-debugging-pipe --no-startup-window\n<launched> pid=72342\n[pid=72342][err] [0909/122852.017350:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72342][err] 2026-09-09 12:28:52.055 chrome-headless-shell[72342:101650147] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72342][err] 2026-09-09 12:28:52.055 chrome-headless-shell[72342:101650139] Error received in message reply handler: Connection invalid\n[pid=72342][err] [0909/122852.072402:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72342][err] [0909/122852.096466:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72342][err] [0909/122852.120557:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T17:20:40.682Z",
+                  "startTime": "2026-09-09T19:28:52.381Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "error-context",
                       "contentType": "text/markdown",
-                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/horizontal-no-horizontal-s-ac53a-ow-on-any-screen-at-390x844-webkit/error-context.md"
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/v3-nothing-transient-appea-e76cb--a-pour-a-meal-or-a-removal-chromium/error-context.md"
                     }
                   ]
                 }
@@ -180,9 +692,91 @@
               "status": "unexpected"
             }
           ],
-          "id": "f14eeca23ccd8c4e2eb0-c44cd5c03198a5c9f6e2",
-          "file": "horizontal.spec.ts",
-          "line": 14,
+          "id": "db0217481e7e2341cf40-483a6b4c4cfc5074b55e",
+          "file": "v3.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "the week strip opens a past day for backfill and comes back to today",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 252,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:52.607Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-f6bc2c8ebe2456536ffe",
+          "file": "v3.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "the served icons, maskable icon, apple touch icon and splash are the new brand",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 8,
+                  "error": {
+                    "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-ld9Zlv --remote-debugging-pipe --no-startup-window\n<launched> pid=72375\n[pid=72375][err] [0909/122852.654910:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72375][err] 2026-09-09 12:28:52.697 chrome-headless-shell[72375:101650569] Error received in message reply handler: Connection invalid\n[pid=72375][err] 2026-09-09 12:28:52.697 chrome-headless-shell[72375:101650571] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72375][err] [0909/122852.715207:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72375][err] [0909/122852.742611:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72375][err] [0909/122852.765387:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)",
+                    "stack": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-ld9Zlv --remote-debugging-pipe --no-startup-window\n<launched> pid=72375\n[pid=72375][err] [0909/122852.654910:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72375][err] 2026-09-09 12:28:52.697 chrome-headless-shell[72375:101650569] Error received in message reply handler: Connection invalid\n[pid=72375][err] 2026-09-09 12:28:52.697 chrome-headless-shell[72375:101650571] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72375][err] [0909/122852.715207:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72375][err] [0909/122852.742611:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72375][err] [0909/122852.765387:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --single-process --no-zygote --disable-gpu --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-ld9Zlv --remote-debugging-pipe --no-startup-window\n<launched> pid=72375\n[pid=72375][err] [0909/122852.654910:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=72375][err] 2026-09-09 12:28:52.697 chrome-headless-shell[72375:101650569] Error received in message reply handler: Connection invalid\n[pid=72375][err] 2026-09-09 12:28:52.697 chrome-headless-shell[72375:101650571] Connection Invalid error for service com.apple.hiservices-xpcservice.\n[pid=72375][err] [0909/122852.715207:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72375][err] [0909/122852.742611:ERROR:ui/display/mac/cv_display_link_mac.mm:195] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670\n[pid=72375][err] [0909/122852.765387:INFO:CONSOLE:3] \"Service Worker registration blocked by Playwright\", source:  (3)"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-09T19:28:52.956Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/v3-the-served-icons-maskab-7bcae-nd-splash-are-the-new-brand-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-ca32674fb818b5b72e9d",
+          "file": "v3.spec.ts",
+          "line": 45,
           "column": 1
         }
       ]
@@ -190,11 +784,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-09T17:20:40.119Z",
-    "duration": 180609.699,
-    "expected": 0,
-    "skipped": 0,
-    "unexpected": 2,
+    "startTime": "2026-09-09T19:27:52.104Z",
+    "duration": 60872.005000000005,
+    "expected": 4,
+    "skipped": 1,
+    "unexpected": 8,
     "flaky": 0
   }
 }

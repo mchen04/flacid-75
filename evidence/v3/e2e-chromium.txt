@@ -1,0 +1,8 @@
+Running 13 tests using 1 worker
+  -   1 [chromium] › tests/e2e/app.spec.ts:6:1 › gate rejects wrong passphrase and protects every write path
+  ✓   2 [chromium] › tests/e2e/app.spec.ts:7:1 › onboarding, all seven one-tap habits, celebration, correction, calendar and no page scroll (1.6s)
+  ✓   3 [chromium] › tests/e2e/app.spec.ts:27:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (940ms)
+  ✓   4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (611ms)
+  ✓   5 [chromium] › tests/e2e/gamify.spec.ts:9:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (590ms)
+  ✘   6 [chromium] › tests/e2e/gamify.spec.ts:27:1 › walking moves the marker along the path and eating animates the bowl (2.4s)
+  ✓   7 [chromium] › tests/e2e/gamify.spec.ts:34:1 › reduced motion disables every animation and transition (235ms)

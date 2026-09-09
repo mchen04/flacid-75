@@ -1,12 +1,13 @@
 {
   "actions": [
     "Open app",
-    "Tap camera",
+    "Tap food",
+    "Tap photo",
     "Take photo",
-    "Confirm estimate"
+    "Add"
   ],
-  "elapsedMs": 631,
+  "elapsedMs": 447,
   "source": "Chromium simulated camera; mocked model response; not physical-device timing",
-  "imageBytesSent": 14048,
+  "imageBytesSent": 13352,
   "imagePersistedInClient": false
 }

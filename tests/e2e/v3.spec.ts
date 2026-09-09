@@ -1,4 +1,5 @@
-import {test,expect,type Page} from '@playwright/test';
+import {test,expect} from './fixtures';
+import type {Page} from '@playwright/test';
 import {writeFile,readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {emptyState,computeTargets,localDate,addDays,apply,type State} from '../../lib/domain';
@@ -9,9 +10,9 @@ test('water goes down by one tap with no dialog, and never below zero',async({pa
  await open(page,seed());
  const water=page.getByRole('button',{name:'Water',exact:true});const minus=page.getByRole('button',{name:'Remove a glass'});
  await expect(minus).toBeDisabled();
- await water.click();await water.click();await expect(page.getByText('0.5 / 2 L')).toBeVisible();
- await minus.click();await expect(page.getByText('0.25 / 2 L')).toBeVisible();await expect(page.locator('dialog[open]')).toHaveCount(0);
- await minus.click();await expect(page.getByText('0 / 2 L')).toBeVisible();await expect(minus).toBeDisabled();
+ await water.click();await water.click();await expect(page.getByText('0.5 L')).toBeVisible();
+ await minus.click();await expect(page.getByText('0.25 L')).toBeVisible();await expect(page.locator('dialog[open]')).toHaveCount(0);
+ await minus.click();await expect(page.getByText('0 L')).toBeVisible();await expect(minus).toBeDisabled();
 });
 test('nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal',async({page})=>{
  await open(page,seed());
@@ -41,10 +42,13 @@ test('the week strip opens a past day for backfill and comes back to today',asyn
  await page.getByRole('button',{name:'Workout',exact:true}).click();await expect(page.getByRole('button',{name:'Workout',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.getByRole('button',{name:'Back to today'}).click();await expect(page.getByRole('heading',{name:'Past day'})).toHaveCount(0);await expect(page.getByRole('button',{name:'Workout',exact:true})).toHaveAttribute('aria-pressed','false');
 });
-test('the served icons, maskable icon, apple touch icon and splash are the new brand',async({page,request,baseURL})=>{
- const manifest=await (await request.get(baseURL+'/manifest.webmanifest')).json();
+test('the served icons, maskable icon, apple touch icon and splash are the new brand',async({page})=>{
+ await open(page,seed());
+ // Fetched from inside the page so the request follows the same path the browser uses (and the virtual server when enabled).
+ const fetchBytes=(path:string)=>page.evaluate(async p=>{const b=new Uint8Array(await (await fetch(p)).arrayBuffer());return btoa(String.fromCharCode(...b));},path).then(b64=>Buffer.from(b64,'base64'));
+ const manifest=JSON.parse((await fetchBytes('/manifest.webmanifest')).toString('utf8'));
  const hashes:Record<string,string>={};
- for(const path of [...manifest.icons.map((i:{src:string})=>i.src),'/apple-touch-icon.png','/splash-1170x2532.png','/icon.svg']){const body=await (await request.get(baseURL+path)).body();hashes[path]=createHash('sha256').update(body).digest('hex');expect(body.equals(await readFile('public'+path)),path).toBe(true);}
+ for(const path of [...manifest.icons.map((i:{src:string})=>i.src),'/apple-touch-icon.png','/splash-1170x2532.png','/icon.svg']){const body=await fetchBytes(path);hashes[path]=createHash('sha256').update(body).digest('hex');expect(body.equals(await readFile('public'+path)),path).toBe(true);}
  const before=Object.fromEntries((await readFile('evidence/v3/icons-before.txt','utf8')).trim().split('\n').map(l=>{const [hash,file]=l.split(/\s+/);return ['/'+file.replace('public/',''),hash];}));
  for(const [path,hash] of Object.entries(hashes))expect(hash,path).not.toBe(before[path]);
  expect(manifest.theme_color).toBe('#f4eee6');expect(manifest.description).not.toMatch(/pip/i);

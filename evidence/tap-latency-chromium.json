@@ -1,0 +1,12 @@
+{
+  "latencies": {
+    "Workout": 1.4000000953674316,
+    "Abs": 1.0999999046325684,
+    "Walk": 1.299999713897705,
+    "Floss": 0.9000000953674316,
+    "Water": 1.200000286102295
+  },
+  "layoutShift": false,
+  "viewport": "390x844",
+  "note": "MutationObserver from click to aria-pressed/text change; desktop engine timing"
+}
