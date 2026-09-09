@@ -18,52 +18,52 @@ TAP version 13
 # Subtest: seven habits including floss are all required; a missing floss breaks the chain
 ok 1 - seven habits including floss are all required; a missing floss breaks the chain
   ---
-  duration_ms: 10.074667
+  duration_ms: 8.453208
   ...
 # Subtest: a missing habit breaks the chain at midnight; today is not prematurely broken
 ok 2 - a missing habit breaks the chain at midnight; today is not prematurely broken
   ---
-  duration_ms: 1.11925
+  duration_ms: 0.995125
   ...
 # Subtest: rest is atomic at most once Monday-Sunday and preserves without increment
 ok 3 - rest is atomic at most once Monday-Sunday and preserves without increment
   ---
-  duration_ms: 0.83075
+  duration_ms: 0.739459
   ...
 # Subtest: rescue and backfill recalculate history, retain honest markers, allow any past day
 ok 4 - rescue and backfill recalculate history, retain honest markers, allow any past day
   ---
-  duration_ms: 1.784917
+  duration_ms: 1.398125
   ...
 # Subtest: 23:59, DST spring/fall, and timezone travel do not skip or duplicate days
 ok 5 - 23:59, DST spring/fall, and timezone travel do not skip or duplicate days
   ---
-  duration_ms: 0.474791
+  duration_ms: 0.389
   ...
 # Subtest: calculation, smoothing, editable overrides and material recomputation
 ok 6 - calculation, smoothing, editable overrides and material recomputation
   ---
-  duration_ms: 0.858125
+  duration_ms: 0.742542
   ...
 # Subtest: food corrections replace a meal and numeric goals remain estimates
 ok 7 - food corrections replace a meal and numeric goals remain estimates
   ---
-  duration_ms: 0.417959
+  duration_ms: 0.269
   ...
 # Subtest: the USDA table is loaded and plain names match sensible rows
 ok 8 - the USDA table is loaded and plain names match sensible rows
   ---
-  duration_ms: 15.177041
+  duration_ms: 14.763083
   ...
 # Subtest: a row whose head food is not in the query is rejected rather than misused
 ok 9 - a row whose head food is not in the query is rejected rather than misused
   ---
-  duration_ms: 4.448542
+  duration_ms: 4.215083
   ...
 # Subtest: grounding marks database rows and keeps model estimates when the row disagrees wildly
 ok 10 - grounding marks database rows and keeps model estimates when the row disagrees wildly
   ---
-  duration_ms: 1.337458
+  duration_ms: 2.083917
   ...
 1..10
 # tests 10
@@ -73,7 +73,7 @@ ok 10 - grounding marks database rows and keeps model estimates when the row dis
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 180.494792
+# duration_ms 160.706583
 
 > flaccid75@3.0.0 scan
 > node scripts/token-scan.mjs && node scripts/mascot-scan.mjs
@@ -89,21 +89,21 @@ ok 10 - grounding marks database rows and keeps model estimates when the row dis
 > node --import tsx scripts/tokens.ts
 
 wrote app/tokens.css
-Built phone renderer 3651f573f280 64929 bytes
+Built phone renderer b850b73684ea 64929 bytes
 ▲ Next.js 16.3.4 (Turbopack)
 - Environments: .env.local
-✓ Running next.config.ts took 45ms
+✓ Running next.config.ts took 44ms
 
   Creating an optimized production build ...
-✓ Compiled successfully in 370ms
+✓ Compiled successfully in 386ms
   Running TypeScript ...
-  Finished TypeScript in 1243ms ...
+  Finished TypeScript in 1003ms ...
   Collecting page data using 9 workers ...
   Generating static pages using 9 workers (0/8) ...
   Generating static pages using 9 workers (2/8) 
   Generating static pages using 9 workers (4/8) 
   Generating static pages using 9 workers (6/8) 
-✓ Generating static pages using 9 workers (8/8) in 260ms
+✓ Generating static pages using 9 workers (8/8) in 237ms
   Finalizing page optimization ...
 
 Route (app)
@@ -119,5 +119,4 @@ Route (app)
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
-{"gzipJavaScriptBytes":23103,"budgetBytes":40960,"pass":true}
-check exit 0
+{"gzipJavaScriptBytes":23104,"budgetBytes":40960,"pass":true}

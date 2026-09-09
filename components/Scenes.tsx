@@ -11,10 +11,10 @@ export const walkPath='M14 176C60 172 84 150 128 148S200 166 246 150s40-28 72-28
 export const walkStart={x:14,y:176},walkEnd={x:318,y:122};
 export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,className=''}:{phase?:Phase;walked?:boolean;celebrate?:boolean;quiet?:boolean;className?:string}){
  const night=phase==='night';const sunTone=night?c.card:c.butter;const sunY=phase==='morning'?96:phase==='day'?54:phase==='evening'?104:52;
- return <svg className={`scene ${className}`} viewBox="0 0 360 310" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-  <rect width="360" height="310" fill={sky[phase]}/><g transform="translate(0 110)">
+ return <svg className={`scene ${className}`} viewBox="0 0 360 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <rect width="360" height="400" fill={sky[phase]}/><g transform="translate(0 200)">
   {night&&[[40,30],[90,18],[150,40],[230,22],[290,44],[330,16],[200,70]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r={i%3?1.6:2.4} fill={c.card} opacity=".85"/>)}
-  <g className="sun">{celebrate&&<g className="rays" style={{transformOrigin:`272px ${sunY+110}px`}}>{Array.from({length:12},(_,i)=><rect key={i} x="-3" y="-72" width="6" height="18" rx="3" fill={c.butter} opacity=".7" transform={`translate(272 ${sunY}) rotate(${i*30})`}/>)}</g>}
+  <g className="sun">{celebrate&&<g className="rays" style={{transformOrigin:`272px ${sunY+200}px`}}>{Array.from({length:12},(_,i)=><rect key={i} x="-3" y="-72" width="6" height="18" rx="3" fill={c.butter} opacity=".7" transform={`translate(272 ${sunY}) rotate(${i*30})`}/>)}</g>}
    <circle cx="272" cy={sunY} r="46" fill={sunTone} opacity={night?.12:.28}/>
    <circle cx="272" cy={sunY} r="30" fill={sunTone}/>
    {night&&<circle cx="284" cy={sunY-8} r="26" fill={sky[phase]}/>}
@@ -28,7 +28,7 @@ export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,
   <path d={walkPath} fill="none" stroke={c.card} strokeWidth="3" strokeLinecap="round" strokeDasharray="1 9" opacity=".9"/>
   <g className="flag" transform={`translate(${walkEnd.x} ${walkEnd.y})`}><rect x="-1.5" y="-30" width="3" height="32" rx="1.5" fill={c.card}/><path d="M1 -30h20l-6 7 6 7H1z" fill={c.accent}/></g>
   <g className={`walker ${walked?'is-done':''}`} style={{transform:`translate(${(walked?walkEnd:walkStart).x}px,${(walked?walkEnd:walkStart).y}px)`}}><circle r="11" fill={c.accent}/><circle r="11" fill={c.accent} className="pulse" opacity=".35"/><circle r="4.5" fill={c.card}/></g>
-  {celebrate&&<g className="petals" aria-hidden="true">{[c.accent,c.rose,c.butter,c.lilac,c.sage,c.sky].flatMap((tone,i)=>[0,1,2].map(j=><rect key={i*3+j} className="petal" x={20+((i*3+j)*19)%330} y={-124} width="7" height="12" rx="3" fill={tone} style={{animationDelay:`${((i*3+j)%7)*.16}s`}}/>))}</g>}
+  {celebrate&&<g className="petals" aria-hidden="true">{[c.accent,c.rose,c.butter,c.lilac,c.sage,c.sky].flatMap((tone,i)=>[0,1,2].map(j=><rect key={i*3+j} className="petal" x={20+((i*3+j)*19)%330} y={-214} width="7" height="12" rx="3" fill={tone} style={{animationDelay:`${((i*3+j)%7)*.16}s`}}/>))}</g>}
   </g>
  </svg>;
 }
