@@ -72,7 +72,7 @@ export function Bowl({full=false,eating=false,level=0}:{full?:boolean;eating?:bo
 export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|'rest'|'rescue'|'scale'}){
  const marks={
   workout:<><rect x="8" y="20" width="32" height="8" rx="4" fill={c.accentDeep}/><rect x="4" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="36" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="0" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/><rect x="43" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/></>,
-  abs:<><rect x="6" y="30" width="36" height="8" rx="4" fill={c.accentSoft}/><path d="M14 30q2-16 12-16t12 16" fill={c.accent}/><circle cx="26" cy="12" r="6" fill={c.ink2}/><path d="M20 30h12" stroke={c.card} strokeWidth="2" strokeLinecap="round"/></>,
+  abs:<><rect x="2" y="34" width="44" height="8" rx="4" fill={c.accentSoft}/><path d="M40 34q6-18-6-18H22q-8 0-8 8v10z" fill={c.accent}/><circle cx="12" cy="22" r="8" fill={c.ink2}/><path d="M28 16q8 2 12 10" stroke={c.accentDeep} strokeWidth="4" strokeLinecap="round" fill="none"/></>,
   floss:<><path d="M14 8h20q6 0 6 6v10q0 12-8 22h-3l-3-14h-4l-3 14h-3q-8-10-8-22V14q0-6 6-6z" fill={c.accentSoft} stroke={c.ink2} strokeWidth="2"/><path d="M6 30c8-6 28-6 36 0" stroke={c.accent} strokeWidth="2.5" strokeLinecap="round" fill="none"/><circle cx="6" cy="30" r="3.5" fill={c.accent}/><circle cx="42" cy="30" r="3.5" fill={c.accent}/></>,
   walk:<><path d="M12 30q0-8 6-8t6 8v6q0 6-6 6t-6-6z" fill={c.accent}/><path d="M26 16q0-8 6-8t6 8v6q0 6-6 6t-6-6z" fill={c.accentDeep}/><circle cx="13" cy="17" r="2.5" fill={c.accent}/><circle cx="18" cy="15" r="2.5" fill={c.accent}/><circle cx="27" cy="3" r="2.5" fill={c.accentDeep}/><circle cx="32" cy="1.5" r="2.5" fill={c.accentDeep}/></>,
   water:<path d="M24 4S8 22 8 31a16 16 0 0 0 32 0c0-9-16-27-16-27z" fill={c.sky}/>,
@@ -103,18 +103,18 @@ const Plant=({x,y,s=1}:{x:number;y:number;s?:number})=><g transform={`translate(
 export function Gym({done=false,active=false}:{done?:boolean;active?:boolean}){
  return <svg className={`scene gym ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.butterSoft}/>
-  <Window x={232} y={172}/>
+  <g className="gym-clock"><circle cx="180" cy="150" r="38" fill={c.card}/><circle cx="180" cy="150" r="38" fill="none" stroke={c.cocoaSoft} strokeWidth="7"/><path d="M180 128v24l16 10" stroke={c.ink2} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
   <rect x="0" y="556" width="360" height="84" fill={c.cocoaSoft}/><rect x="0" y="556" width="360" height="8" fill={c.cocoa} opacity=".2"/>
   <Plant x={44} y={556} s={1.05}/>
   <g opacity=".9"><rect x="288" y="524" width="54" height="12" rx="6" fill={c.cocoa} opacity=".5"/><circle cx="292" cy="530" r="14" fill={c.ink2}/><circle cx="338" cy="530" r="14" fill={c.ink2}/></g>
   <ellipse cx="180" cy="558" rx="78" ry="11" fill={c.cocoa} opacity=".2"/>
   <g className="lifter">
-   <rect x="148" y="466" width="22" height="92" rx="11" fill={c.ink2}/><rect x="190" y="466" width="22" height="92" rx="11" fill={c.ink2}/>
+   <g className="lift-arms"><rect x="138" y="292" width="19" height="150" rx="9" fill={c.accentDeep}/><rect x="203" y="292" width="19" height="150" rx="9" fill={c.accentDeep}/></g>
+   <rect x="148" y="452" width="22" height="106" rx="11" fill={c.ink2}/><rect x="190" y="452" width="22" height="106" rx="11" fill={c.ink2}/>
    <rect x="146" y="368" width="68" height="118" rx="32" fill={c.accent}/>
    <circle cx="180" cy="338" r="31" fill={c.cocoa}/>
    <circle cx="170" cy="334" r="4" fill={c.card}/><circle cx="192" cy="334" r="4" fill={c.card}/>
    <path d="M170 350q10 7 20 0" stroke={c.card} strokeWidth="4" strokeLinecap="round" fill="none"/>
-   <g className="lift-arms"><rect x="120" y="296" width="20" height="112" rx="10" fill={c.accentDeep}/><rect x="220" y="296" width="20" height="112" rx="10" fill={c.accentDeep}/></g>
    <g className="barbell"><rect x="60" y="286" width="240" height="16" rx="8" fill={c.ink2}/>
     <rect x="52" y="258" width="26" height="72" rx="11" fill={c.accentDeep}/><rect x="282" y="258" width="26" height="72" rx="11" fill={c.accentDeep}/>
     <rect x="86" y="270" width="17" height="48" rx="8" fill={c.ink}/><rect x="257" y="270" width="17" height="48" rx="8" fill={c.ink}/></g>

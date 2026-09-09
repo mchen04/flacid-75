@@ -11,7 +11,7 @@ type Change=Operation extends infer O?O extends Operation?Omit<O,'id'|'at'|'day'
 const todayZone=()=>Intl.DateTimeFormat().resolvedOptions().timeZone;
 const format=(n:number)=>Math.round(n).toLocaleString();
 const litres=(ml:number)=>(ml/1000).toFixed(2).replace(/\.?0+$/,'');
-const weekdays=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const weekdays=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const weekInitials=['Mo','Tu','We','Th','Fr','Sa','Su'];
 export default function App(){
  const store=useStore();const {state}=store;
  const [now,setNow]=useState(()=>new Date());const [tab,setTab]=useState('today');const [selected,setSelected]=useState<string|null>(null);
@@ -64,7 +64,7 @@ export default function App(){
   {tab==='today'?<section className="today-view">
    <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label={done.walk?'Undo walk':'Log walk'} aria-pressed={done.walk} onClick={()=>habitTap('walk')}>
     <Hills phase={day.rest?'night':phase} walked={done.walk} progress={count/habits.length} celebrate={complete&&!selected}/>
-    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':done.walk?'Tap again to undo.':'Tap when you\u2019re back.'}</span></span>
+    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':`${count} of ${habits.length} done today`}</span></span>
     <span className="hero-tag">{done.walk?<><Icon name="check" size={14}/>Walk</>:<><Mark name="walk"/>Walk</>}</span>
     {selected&&<span className="hero-back">{`${count} of ${habits.length}`}</span>}
    </button>
@@ -96,9 +96,9 @@ export default function App(){
     onToggle={()=>tab==='rest'?restTap():habitTap(tab as Habit)}/>}
   {toast&&<div className="toast" role="status"><span>{toast.text}</span>{toast.undo&&<button onClick={()=>{toast.undo!();setToast(null);}}>Undo</button>}</div>}
   <nav className="bottom-nav" aria-label="Main navigation">
-   {[['today','home','Today'],['workout','workout','Workout'],['abs','abs','Abs']].map(([value,icon,label])=><button key={value} className={`${tab===value?'active':''} ${value==='today'?'':'icon-tab'}`} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/>{value==='today'&&<span>{label}</span>}</button>)}
+   {[['today','home','Today'],['workout','workout','Workout'],['abs','abs','Abs']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
    <button className="nav-add" aria-label="Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}><Icon name="plus" size={26}/></button>
-   {[['floss','floss','Floss'],['rest','rest','Rest']].map(([value,icon,label])=><button key={value} className={`icon-tab ${tab===value?'active':''}`} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/></button>)}
+   {[['floss','floss','Floss'],['rest','rest','Rest']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
   </nav>
   <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e=>{const f=e.target.files?.[0];if(f){setPhoto(f);setEditMeal(null);setModal('meal');}e.target.value='';}}/>
   {modal&&<Sheet title={modal==='camera'?'Photo':modal==='meal'?'Food':modal==='meals'?'Today’s food':modal==='rest'?'Rest day':modal==='rescue'?'Rescue this day':modal==='weight'?'Weigh in':modal==='targets'?'Daily targets':modal==='setup'?'Your details':modal==='zone'?'Timezone':modal==='lock'?'Lock this device?':'How targets are set'} onClose={()=>{setModal(null);setPhoto(null);setEditMeal(null);}}>
@@ -124,7 +124,7 @@ function HabitTab({habit,done,active,rests,week,past,onToggle}:{habit:'workout'|
   </button>
   <div className="week-strip">
    <span className="week-strip-head">This week<b>{kept} of 7</b></span>
-   <div className="week-dots">{week.map(d=><span key={d.day} className={`week-dot ${d.done?'is-done':''} ${d.future?'is-future':''}`}><i/><small>{weekdays[(dayDiff(weekStart(d.day),d.day)+7)%7].slice(0,1)}</small></span>)}</div>
+   <div className="week-dots">{week.map(d=><span key={d.day} className={`week-dot ${d.done?'is-done':''} ${d.future?'is-future':''}`}><i/><small>{weekInitials[(dayDiff(weekStart(d.day),d.day)+7)%7]}</small></span>)}</div>
   </div>
  </section>;
 }
@@ -186,8 +186,8 @@ function Progress({state,today,onOpen,onRescue}:{state:State;today:string;onOpen
    <div className="segmented">{[['week','Week'],['month','Month'],['trends','Trends']].map(([value,text])=><button key={value} className={mode===value?'active':''} onClick={()=>setMode(value)}>{text}</button>)}</div>
    {mode==='trends'?<Trends state={state} today={today}/>:<>
    <div className="calendar-heading"><button aria-label="Previous period" onClick={()=>setAnchor(addDays(first,-1))}><Icon name="back" size={18}/></button><h2>{heading}</h2><button aria-label="Next period" disabled={entries.at(-1)!>=today} onClick={()=>setAnchor(addDays(entries.at(-1)!,1))}><Icon name="arrow" size={18}/></button></div>
-   <div className="calendar-body">{mode==='week'?<div className="bars">{entries.map((d,i)=>{const n=d>today?0:Object.values(completion(state.days[d])).filter(Boolean).length;const kept=isKept(state.days[d]);return <button key={d} disabled={d>today} aria-label={label(d)} className={`bar ${d===today?'is-today':''} ${kept?'is-kept':''} ${d>today?'is-future':''} ${detail===d?'selected':''}`} onClick={()=>setDetail(d)}><span className="bar-track">{n>0&&<span className="bar-fill" style={{height:`${Math.max(16,n/habits.length*100)}%`}}><b>{n}</b></span>}</span><small>{weekdays[i].slice(0,1)}</small></button>;})}</div>
-   :<div className="calendar-grid">{['M','T','W','T','F','S','S'].map((d,i)=><span key={i}>{d}</span>)}{Array.from({length:(new Date(first+'T12:00Z').getUTCDay()+6)%7},(_,i)=><i key={'blank'+i}/>)}{entries.map(d=><button key={d} disabled={d>today} aria-label={label(d)} className={`${detail===d?'selected':''} ${isKept(state.days[d])?'kept':d<today&&d>=start?'broken':''} ${d===today?'today':''}`} onClick={()=>setDetail(d)}><strong>{Number(d.slice(-2))}</strong><small>{state.days[d]?.rescued?'\u2661':state.days[d]?.rest?'\u263e':''}{state.days[d]?.backfilled?'*':''}</small></button>)}</div>}</div>
+   <div className="calendar-body">{mode==='week'?<div className="bars">{entries.map((d,i)=>{const n=d>today?0:Object.values(completion(state.days[d])).filter(Boolean).length;const kept=isKept(state.days[d]);return <button key={d} disabled={d>today} aria-label={label(d)} className={`bar ${d===today?'is-today':''} ${kept?'is-kept':''} ${d>today?'is-future':''} ${detail===d?'selected':''}`} onClick={()=>setDetail(d)}><span className="bar-track">{n>0&&<span className="bar-fill" style={{height:`${Math.max(16,n/habits.length*100)}%`}}><b>{n}</b></span>}</span><small>{weekInitials[i]}</small></button>;})}</div>
+   :<div className="calendar-grid">{weekInitials.map((d,i)=><span key={i}>{d}</span>)}{Array.from({length:(new Date(first+'T12:00Z').getUTCDay()+6)%7},(_,i)=><i key={'blank'+i}/>)}{entries.map(d=><button key={d} disabled={d>today} aria-label={label(d)} className={`${detail===d?'selected':''} ${isKept(state.days[d])?'kept':d<today&&d>=start?'broken':''} ${d===today?'today':''}`} onClick={()=>setDetail(d)}><strong>{Number(d.slice(-2))}</strong><small>{state.days[d]?.rescued?'\u2661':state.days[d]?.rest?'\u263e':''}{state.days[d]?.backfilled?'*':''}</small></button>)}</div>}</div>
    <div className="day-detail"><p className="date">{new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(detail+'T12:00:00Z'))}{entry?.backfilled?' \u00b7 backfilled':''}{entry?.rescued?' \u00b7 rescued':''}</p><h2>{isComplete(entry)?'Complete.':entry?.rest?'Rest day.':entry?.rescued?'Rescued.':detail===today?'In progress.':!tracked?'Before you started.':'A day to rescue.'}</h2><p>{!tracked?'Backfill it if you like.':!isComplete(entry)?`${detail===today?'Left today':'Not checked'}: ${missing(entry).map(h=>names[h]).join(', ')}.`:`All ${habits.length} habits.`}</p></div>
    <div className="detail-actions"><button className="primary" onClick={()=>onOpen(detail)}>{detail===today?'Open today':'Backfill this day'}</button>{detail<today&&!isKept(entry)&&<button className="secondary" onClick={()=>onRescue(detail)}>Rescue day</button>}</div>
    </>}
