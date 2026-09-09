@@ -1,5 +1,7 @@
 # Evidence index
 
+Version 2 (gamify): start with [ACCEPTANCE-V2.md](ACCEPTANCE-V2.md), the version 2 section of [LEDGER.md](LEDGER.md), the mascot rounds in [blind/v2/rounds.md](blind/v2/rounds.md), [check-v2.txt](check-v2.txt), [live-estimate.json](live-estimate.json) and [secret-check.json](secret-check.json).
+
 Start with the [acceptance record](ACCEPTANCE.md), [delivery ledger](LEDGER.md), and [delivery note](DELIVERY.md).
 They describe the shipped implementation and its gaps.
 **Physical iPhone verification remains unfinished**, including installation, airplane mode, Safari behavior, and real-device timing.

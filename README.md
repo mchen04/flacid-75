@@ -1,15 +1,26 @@
 # Flaccid75
 
 A private fitness PWA for one person, with Pip the penguin.
-Open the [shipped preview](https://flaccid75-preview.vercel.app) in Safari.
+Open the [live app](https://flaccid75-preview.vercel.app) in Safari.
 The passphrase stays in the owner's private installation note, outside this repository.
 
-**Physical iPhone verification remains unfinished.** The preview is usable, but the full original acceptance goal is not complete.
-See the [acceptance record](evidence/ACCEPTANCE.md) for each requirement and the [evidence index](evidence/README.md) for retained results.
+## Version 2 · a game, not a form
+
+- Seven habits: workout, abs, walk, water, protein, calories and floss. All seven count toward the one streak.
+- Every habit is an interaction. Tap the glass and water pours in; log a meal and Pip eats it; tap the track and Pip waddles to the flag; workout, abs and floss each have their own moment. Calories and protein are filling meters. Finishing the day is a celebration.
+- Food is conversational. Type "two eggs and toast"; the app looks it up through a free OpenRouter model, grounds each item in the USDA FoodData Central table bundled in `lib/foods.json`, shows what it found with a USDA or estimate label, and adds nothing until you tap "Add to today". Photos still work and go through the same path.
+- Pip has nine moods and four poses, idles with breathing and blinks, and won a blind cuteness comparison against fifteen mascots ([rounds](evidence/blind/v2/rounds.md)).
+- No wordmark, no calendar strip on Today, no sync notices, no captions. Nothing scrolls sideways.
+- Every animation is decoration: the tap registers first, motion follows, and reduced-motion turns it all off.
+
+Acceptance for version 2: [evidence/ACCEPTANCE-V2.md](evidence/ACCEPTANCE-V2.md). Decisions and measurements: [evidence/LEDGER.md](evidence/LEDGER.md).
+Browser-driven checks are written in `tests/e2e/` and were not executed in the delivery session (its sandbox forbids local ports and browser launches); run them with `npm run build && npx next start -p 3075` and `npm run test:e2e`.
+
+**Physical iPhone verification remains unfinished.** See the version 1 [acceptance record](evidence/ACCEPTANCE.md) and the [evidence index](evidence/README.md).
 
 ## What ships
 
-- Six home-screen habits: workout, abs, walk, water, protein, and calories. Each has a one-tap check.
+- Seven home-screen habits: workout, abs, walk, water, protein, calories and floss. Each is one tap.
 - Water additions of 250 ml, editable meal estimates, and daily calorie and protein totals.
 - An in-app camera, photo upload fallback, text estimates, and manual entry when the model fails.
 - A weekly progress view by default, plus a month calendar with missing habits and backfill markers.
@@ -18,7 +29,7 @@ See the [acceptance record](evidence/ACCEPTANCE.md) for each requirement and the
 - Offline viewing and habit changes, with queued writes and duplicate-safe replay after reconnecting.
 - Original hand-authored SVG art, app icons, a manifest, and an iPhone 13-sized startup image.
 
-All six habits must be complete to add a streak day.
+All seven habits must be complete to add a streak day.
 Rest and rescue preserve a chain but do not add completed days.
 A missed closed day resets the chain; today's unfinished day preserves yesterday's count until midnight.
 Manual habit checks record an attestation without inventing food or water totals.

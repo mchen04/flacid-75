@@ -3,7 +3,8 @@
     "argv": [
       "/Users/michaelchen/.nvm/versions/node/v20.19.4/bin/node",
       "/Users/michaelchen/Projects/flacid-75/node_modules/.bin/playwright",
-      "test"
+      "test",
+      "tests/e2e/horizontal.spec.ts"
     ],
     "configFile": "/Users/michaelchen/Projects/flacid-75/playwright.config.ts",
     "rootDir": "/Users/michaelchen/Projects/flacid-75/tests/e2e",
@@ -83,14 +84,14 @@
   },
   "suites": [
     {
-      "title": "app.spec.ts",
-      "file": "app.spec.ts",
+      "title": "horizontal.spec.ts",
+      "file": "horizontal.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "gate rejects wrong passphrase and protects every write path",
-          "ok": true,
+          "title": "no horizontal scroll, drag or overflow on any screen at 390x844",
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -103,96 +104,42 @@
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1369,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 1,
+                  "error": {
+                    "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\n<launched> pid=52476\n[pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52476\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=52476] <kill>\u001b[22m\n\u001b[2m  - [pid=52476] <will force kill>\u001b[22m\n\u001b[2m  - [pid=52476] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=52476] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=52476] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close end>\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\n<launched> pid=52476\n[pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52476\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=52476] <kill>\u001b[22m\n\u001b[2m  - [pid=52476] <will force kill>\u001b[22m\n\u001b[2m  - [pid=52476] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=52476] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=52476] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close end>\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\n<launched> pid=52476\n[pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\n[pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --use-fake-device-for-media-stream --use-fake-ui-for-media-stream --user-data-dir=/tmp/claude-501/playwright_chromiumdev_profile-spJrBs --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52476\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.468590:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.\u001b[22m\n\u001b[2m  - [pid=52476][err] [0909/102040.472242:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.52476: Permission denied (1100)\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=52476] <kill>\u001b[22m\n\u001b[2m  - [pid=52476] <will force kill>\u001b[22m\n\u001b[2m  - [pid=52476] exception while trying to kill process: Error: kill EPERM\u001b[22m\n\u001b[2m  - [pid=52476] <process did exit: exitCode=null, signal=SIGTRAP>\u001b[22m\n\u001b[2m  - [pid=52476] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=52476] <gracefully close end>\u001b[22m\n"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T02:43:05.803Z",
+                  "startTime": "2026-09-09T17:20:40.355Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/horizontal-no-horizontal-s-ac53a-ow-on-any-screen-at-390x844-chromium/error-context.md"
+                    }
+                  ]
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
-          "id": "c31ff144dc4fee3acd0a-fbb08ec132bd0a44941f",
-          "file": "app.spec.ts",
-          "line": 6,
-          "column": 1
-        },
-        {
-          "title": "onboarding, all six one-tap habits, correction, calendar and no page scroll",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1380,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:07.185Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "c31ff144dc4fee3acd0a-3737cf4a2341a3c1beeb",
-          "file": "app.spec.ts",
-          "line": 7,
-          "column": 1
-        },
-        {
-          "title": "offline optimistic writes, reconnect deduplication and manual model fallback",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 807,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:08.709Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "c31ff144dc4fee3acd0a-f7bce457b9776d9d7608",
-          "file": "app.spec.ts",
+          "id": "f14eeca23ccd8c4e2eb0-4f4ab9b3552133fec972",
+          "file": "horizontal.spec.ts",
           "line": 14,
           "column": 1
         },
         {
-          "title": "gate rejects wrong passphrase and protects every write path",
-          "ok": true,
+          "title": "no horizontal scroll, drag or overflow on any screen at 390x844",
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -205,209 +152,37 @@
                 {
                   "workerIndex": 1,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 88,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 1,
+                  "error": {
+                    "message": "TimeoutError: browserType.launch: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52525\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121587] Connection Invalid error for service com.apple.hiservices-xpcservice.\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121585] Error received in message reply handler: Connection invalid\u001b[22m\n",
+                    "stack": "TimeoutError: browserType.launch: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52525\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121587] Connection Invalid error for service com.apple.hiservices-xpcservice.\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121585] Error received in message reply handler: Connection invalid\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "TimeoutError: browserType.launch: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/michaelchen/Library/Caches/ms-playwright/webkit-2359/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=52525\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121587] Connection Invalid error for service com.apple.hiservices-xpcservice.\u001b[22m\n\u001b[2m  - [pid=52525][err] 2026-09-09 10:20:41.230 Playwright[52531:101121585] Error received in message reply handler: Connection invalid\u001b[22m\n"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T02:43:11.146Z",
+                  "startTime": "2026-09-09T17:20:40.682Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/michaelchen/Projects/flacid-75/test-results/horizontal-no-horizontal-s-ac53a-ow-on-any-screen-at-390x844-webkit/error-context.md"
+                    }
+                  ]
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
-          "id": "c31ff144dc4fee3acd0a-b8bae8e086189aa5632f",
-          "file": "app.spec.ts",
-          "line": 6,
-          "column": 1
-        },
-        {
-          "title": "onboarding, all six one-tap habits, correction, calendar and no page scroll",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit",
-              "projectName": "webkit",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1135,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:11.247Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "c31ff144dc4fee3acd0a-151c54ee9457c0da2e31",
-          "file": "app.spec.ts",
-          "line": 7,
-          "column": 1
-        },
-        {
-          "title": "offline optimistic writes, reconnect deduplication and manual model fallback",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit",
-              "projectName": "webkit",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 787,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:12.606Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "c31ff144dc4fee3acd0a-1a2fe19e011b33054c49",
-          "file": "app.spec.ts",
+          "id": "f14eeca23ccd8c4e2eb0-c44cd5c03198a5c9f6e2",
+          "file": "horizontal.spec.ts",
           "line": 14,
-          "column": 1
-        }
-      ]
-    },
-    {
-      "title": "camera.chromium.spec.ts",
-      "file": "camera.chromium.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "camera capture reaches a correctable estimate in four actions without storing the image",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 718,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:09.525Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "7db22d082e05eaf048f6-d2ee56e87e8850c0706a",
-          "file": "camera.chromium.spec.ts",
-          "line": 4,
-          "column": 1
-        }
-      ]
-    },
-    {
-      "title": "history.spec.ts",
-      "file": "history.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "rest confirmation, exact quota, backfill, rescue, trend and settings",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 696,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:10.251Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "61dfc145f2d790550676-d656b01d33901401b886",
-          "file": "history.spec.ts",
-          "line": 3,
-          "column": 1
-        },
-        {
-          "title": "rest confirmation, exact quota, backfill, rescue, trend and settings",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit",
-              "projectName": "webkit",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 670,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T02:43:13.403Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "61dfc145f2d790550676-cb2e4bbf22f28eb180d4",
-          "file": "history.spec.ts",
-          "line": 3,
           "column": 1
         }
       ]
@@ -415,11 +190,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-09T02:43:05.566Z",
-    "duration": 8524.77,
-    "expected": 9,
+    "startTime": "2026-09-09T17:20:40.119Z",
+    "duration": 180609.699,
+    "expected": 0,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 2,
     "flaky": 0
   }
 }

@@ -1,4 +1,4 @@
-export const habits = ['workout','abs','walk','water','protein','calories'] as const;
+export const habits = ['workout','abs','walk','water','protein','calories','floss'] as const;
 export type Habit = typeof habits[number];
 export type Targets = {calorieMin:number;calorieMax:number;protein:number;water:number;steps:number};
 export type Stats = {height:number;weight:number;age:number;activity:0|1|2|3;goal:'maintain'|'lose'|'gain'};

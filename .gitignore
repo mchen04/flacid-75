@@ -12,3 +12,4 @@ tsconfig.tsbuildinfo
 
 public/assets/
 public/client-assets.json
+.claude/

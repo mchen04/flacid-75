@@ -1,5 +1,47 @@
 # Flaccid75 delivery ledger
 
+## Version 2 · gamify · 2026-09-09
+
+Goal: `flaccid75-v2-gamify.txt`. Acceptance for this version: [ACCEPTANCE-V2.md](ACCEPTANCE-V2.md). Mascot rounds: [blind/v2/rounds.md](blind/v2/rounds.md).
+
+### Decisions
+
+| Decision | Why |
+|---|---|
+| Flossing is the seventh habit and counts toward the streak from the start, with no grandfathering. | The account had no complete days when this shipped, so nothing breaks retroactively. Backfilling a past day now requires floss too, which keeps one rule for every day. |
+| Walking stays one tap; Pip walks the whole track on the tap. | Version 1 settled that walk has no detail. "In proportion to the day's walk" therefore means done or not done. |
+| Photos also go through OpenRouter; the Claude Agent SDK, its encrypted credential table and the model-auth scripts are removed. | One provider, one fallback chain, one secret. The photo request drops from about 11 s to a few seconds. Manual entry remains the fallback. |
+| Every animation is decoration. State changes synchronously in `dispatch`; a class is added afterwards and cleared by a timer; a second tap replaces it. | The tap must register instantly and be interruptible. |
+| Sync is invisible. The pending-count banner, the offline banner and the "changes stay on this device" notice are gone; storage failures still surface as a toast because they lose data. | Nothing may shift layout when she taps. |
+| The weigh-in is a chip in the top row, shown only in the morning until logged. The rest-day control is one line above the nav. | Nothing sits over the footer. |
+| Undo replaces confirmation. Habit taps toggle; water and meals get a five-second Undo toast. | Version 1 rule, kept. |
+| The remote agent probe and the local Playwright launch both fail inside this session's sandbox. Browser checks are written and committed, not executed. | Recorded plainly rather than claimed. See ACCEPTANCE-V2. |
+
+### Version 2 food
+
+| Item | Choice |
+|---|---|
+| Provider | OpenRouter, free models only, server side. Key in `.env.local` and the Vercel Production and Preview environments. |
+| Model, chosen 2026-09-09 from `GET /api/v1/models` | `google/gemma-4-26b-a4b-it:free` first: about 1–3 s, JSON output, accepts photos. Fallbacks in order: `nex-agi/nex-n2.5-mini:free`, `google/gemma-4-31b-it:free`, `nex-agi/nex-n2.5-pro:free`, `nvidia/nemotron-3-super-120b-a12b:free`, `openrouter/free`. Each gets a 22 s budget inside a 50 s total; a 429 or 5xx moves to the next. Probe timings: gemma-4-26b 2.4 s, nex-mini 0.3 s (rate-limited that minute), nemotron 0.4 s (overloaded), nex-pro 25 s, gemma-4-31b 11–34 s. |
+| Food database | USDA FoodData Central, SR Legacy (2018-04) plus Foundation Foods (2025-04-24), public domain, compacted to `lib/foods.json` (7,747 foods; kcal and protein per 100 g, up to two portions). Bundled server side, so no API key and no rate limit. Open Food Facts was considered for packaged goods and not used: it needs a network call per lookup and its coverage is uneven. |
+| Grounding | The model lists items as USDA-style names with grams and its own estimate. Each name is matched against the local table (token scoring; the row's head food must appear in the query; "mix", "dry", "low-fat" and similar are penalised). A match whose calories fall outside 0.4×–2.5× of the model's figure is treated as a wrong row and the model estimate is kept. Each item is labelled `usda` (with the matched description) or `estimate`. |
+| Probe results | "two eggs and toast" → Egg, whole, cooked, scrambled 100 g + Bread, white, toasted 50 g = 294 kcal, 14.5 g, 1.8 s. "chipotle bowl with chicken" → chicken breast, white rice, black beans (USDA) + corn salsa (estimate) = 776 kcal, 54 g, 3.0 s. "half a costco muffin" → Muffins, blueberry, toaster-type 75 g = 235 kcal, 1.1 s. "brb" → 422 "That does not look like food." |
+| Confirmation | The sheet shows every item with its source and editable numbers, then "Add to today" or "Not this". Nothing is dispatched before "Add". |
+
+### Copy
+
+Every string was read. Removed: "little" (12 uses), all Claude mentions, "six", the wordmark, tag lines, captions under controls, hint text, and every line that narrated what the user just did. Kept warm: "Good morning.", "Nearly there.", "Every one.", "Rest day.", "A missed day." No guilt, no pleading.
+
+### Removed from the Today screen
+
+Wordmark and icon; week strip; sync and offline banners; "Your daily six" heading and count; per-habit captions ("A little movement", "estimate" captions); the second text button row.
+
+### Deployment
+
+See the bottom of this file for the version 2 deployment record.
+
+---
+
 ## Current scope
 
 The [stable Vercel preview](https://flaccid75-preview.vercel.app) serves the shipped app.
