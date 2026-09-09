@@ -7,7 +7,7 @@ const overrides=z.object({calorieMin:n(1200,6000).optional(),calorieMax:n(1200,6
 const common={id:z.uuid(),at:z.iso.datetime(),day,zone};
 export const operationSchema=z.discriminatedUnion('type',[
  z.object({...common,type:z.literal('profile'),stats:statsSchema,overrides}),
- z.object({...common,type:z.literal('check'),habit:z.enum(['workout','abs','walk','water','protein','calories']),value:z.boolean()}),
+ z.object({...common,type:z.literal('check'),habit:z.enum(['workout','abs','walk','water','protein','calories','floss']),value:z.boolean()}),
  z.object({...common,type:z.literal('water'),amount:z.union([z.literal(250),z.literal(-250)])}),
  z.object({...common,type:z.literal('meal'),mealId:z.uuid(),calories:n(0,10000),protein:n(0,1000)}),
  z.object({...common,type:z.literal('deleteMeal'),mealId:z.uuid()}),
@@ -16,4 +16,7 @@ export const operationSchema=z.discriminatedUnion('type',[
  z.object({...common,type:z.literal('zone')})
 ]);
 export const operationsSchema=z.array(operationSchema).min(1).max(100);
-export const estimateSchema=z.object({calories:n(0,10000),protein:n(0,1000)});
+const rawItem=z.object({name:z.string().max(120),grams:n(0,5000),calories:n(0,10000).catch(0),protein:n(0,1000).catch(0)});
+export const estimateSchema=z.object({items:z.array(rawItem).max(12)});
+export type EstimateItem={name:string;grams:number;calories:number;protein:number;source:'usda'|'estimate';match?:string;fdcId?:number};
+export type Estimate={items:EstimateItem[];calories:number;protein:number;model:string};

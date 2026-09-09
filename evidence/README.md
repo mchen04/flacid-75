@@ -1,5 +1,9 @@
 # Evidence index
 
+Version 3 (rebrand): start with [ACCEPTANCE-V3.md](ACCEPTANCE-V3.md), the version 3 section of [LEDGER.md](LEDGER.md), the blind rounds in [blind/v3/rounds.md](blind/v3/rounds.md), and the `v3/` folder (token scan, mascot scan, icon hashes, transient check, captures).
+
+Version 2 (gamify): start with [ACCEPTANCE-V2.md](ACCEPTANCE-V2.md), the version 2 section of [LEDGER.md](LEDGER.md), the mascot rounds in [blind/v2/rounds.md](blind/v2/rounds.md), [check-v2.txt](check-v2.txt), [live-estimate.json](live-estimate.json) and [secret-check.json](secret-check.json).
+
 Start with the [acceptance record](ACCEPTANCE.md), [delivery ledger](LEDGER.md), and [delivery note](DELIVERY.md).
 They describe the shipped implementation and its gaps.
 **Physical iPhone verification remains unfinished**, including installation, airplane mode, Safari behavior, and real-device timing.

@@ -32,6 +32,6 @@ export async function synchronize(){if(syncing||!store.unlocked||!navigator.onLi
  const result=await res.json();const done=new Set<string>(batch.length?[...result.accepted,...result.rejected.map((r:{id:string})=>r.id)]:[]);
  const pending=store.pending.filter(op=>!done.has(op.id));let state:State=batch.length?result.state:result;for(const op of pending){try{state=apply(state,op);}catch{}}
  const next={...store,state,pending,notice:batch.length&&result.rejected.length?result.rejected.map((r:{reason:string})=>r.reason).join(' '):store.notice};if(persist(next)){set(next);progressed=true;}
- }catch{set({...store,notice:'Changes stay on this device until sync returns.'});}finally{syncing=false;}
+ }catch{set({...store,notice:''});}finally{syncing=false;}
  if(progressed&&store.pending.length>0)setTimeout(()=>void synchronize(),100);
 }

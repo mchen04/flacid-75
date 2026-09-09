@@ -1,22 +1,24 @@
 {
   "name": "flaccid75",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/build-client.mjs && next dev",
-    "build": "node scripts/build-client.mjs && next build && node scripts/budget.mjs",
+    "dev": "npm run tokens && node scripts/build-client.mjs && next dev",
+    "build": "npm run tokens && node scripts/build-client.mjs && next build && node scripts/budget.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/*.test.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "migrate": "node --env-file=.env.local scripts/migrate.mjs",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "check": "npm run lint && npm run typecheck && npm test && npm run scan && npm run build",
     "budget": "node scripts/budget.mjs",
+    "tokens": "node --import tsx scripts/tokens.ts",
+    "art": "npm run tokens && node --import tsx scripts/art.tsx",
+    "scan": "node scripts/token-scan.mjs && node scripts/mascot-scan.mjs",
     "test:integration": "node --env-file=.env.local --import tsx scripts/integration.ts"
   },
   "dependencies": {
-    "@anthropic-ai/claude-agent-sdk": "0.3.266",
     "esbuild": "^0.28.2",
     "next": "16.3.4",
     "pg": "^8.16.3",
@@ -36,7 +38,8 @@
     "lighthouse": "^12.8.2",
     "sharp": "^0.34.5",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "undici": "^6.28.1"
   },
   "type": "module"
 }

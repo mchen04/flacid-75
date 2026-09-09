@@ -1,0 +1,16 @@
+Running 13 tests using 1 worker
+  -   1 [chromium] › tests/e2e/app.spec.ts:6:1 › gate rejects wrong passphrase and protects every write path
+  ✓   2 [chromium] › tests/e2e/app.spec.ts:7:1 › onboarding, all seven one-tap habits, celebration, correction, calendar and no page scroll (1.6s)
+  ✓   3 [chromium] › tests/e2e/app.spec.ts:27:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (864ms)
+  ✓   4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (609ms)
+  ✓   5 [chromium] › tests/e2e/gamify.spec.ts:9:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (625ms)
+  ✓   6 [chromium] › tests/e2e/gamify.spec.ts:27:1 › walking moves the marker along the path and eating animates the bowl (2.4s)
+  ✓   7 [chromium] › tests/e2e/gamify.spec.ts:34:1 › reduced motion disables every animation and transition (212ms)
+  ✓   8 [chromium] › tests/e2e/history.spec.ts:3:1 › rest confirmation, exact quota, backfill, rescue, trend and settings (762ms)
+  ✓   9 [chromium] › tests/e2e/horizontal.spec.ts:17:1 › no horizontal scroll, drag or overflow on any screen at 390x844 (2.5s)
+  ✓  10 [chromium] › tests/e2e/v3.spec.ts:9:1 › water goes down by one tap with no dialog, and never below zero (354ms)
+  ✓  11 [chromium] › tests/e2e/v3.spec.ts:17:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (6.2s)
+  ✓  12 [chromium] › tests/e2e/v3.spec.ts:36:1 › backfill is reachable from Progress: pick a past day, open it, check a habit, come back to today (343ms)
+  ✓  13 [chromium] › tests/e2e/v3.spec.ts:44:1 › the served icons, maskable icon, apple touch icon and splash are the new brand (332ms)
+  1 skipped
+  12 passed (17.3s)

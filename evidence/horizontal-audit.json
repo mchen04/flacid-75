@@ -1,0 +1,44 @@
+[
+  {
+    "screen": "today",
+    "documentScrollWidth": 390,
+    "viewport": 390,
+    "offenders": [],
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "week",
+    "documentScrollWidth": 390,
+    "viewport": 390,
+    "offenders": [],
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "month",
+    "documentScrollWidth": 390,
+    "viewport": 390,
+    "offenders": [],
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "trends",
+    "documentScrollWidth": 390,
+    "viewport": 390,
+    "offenders": [],
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "settings",
+    "documentScrollWidth": 390,
+    "viewport": 390,
+    "offenders": [],
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "meal sheet",
+    "documentScrollWidth": 390,
+    "viewport": 390,
+    "offenders": [],
+    "dragDeltaX": 0
+  }
+]

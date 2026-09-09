@@ -1,0 +1,107 @@
+[
+ {
+  "competitor": "baymax",
+  "first": "baymax",
+  "second": "pip",
+  "a": "e2363f",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "brown",
+  "first": "pip",
+  "second": "brown",
+  "a": "e09ad8",
+  "b": "2a1ac5"
+ },
+ {
+  "competitor": "cinnamoroll",
+  "first": "cinnamoroll",
+  "second": "pip",
+  "a": "ef0562",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "clubpenguin",
+  "first": "clubpenguin",
+  "second": "pip",
+  "a": "be3046",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "doraemon",
+  "first": "doraemon",
+  "second": "pip",
+  "a": "c9a505",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "duo",
+  "first": "pip",
+  "second": "duo",
+  "a": "e09ad8",
+  "b": "f96ed1"
+ },
+ {
+  "competitor": "gudetama",
+  "first": "pip",
+  "second": "gudetama",
+  "a": "e09ad8",
+  "b": "6fff0f"
+ },
+ {
+  "competitor": "hellokitty",
+  "first": "pip",
+  "second": "hellokitty",
+  "a": "e09ad8",
+  "b": "ba9d04"
+ },
+ {
+  "competitor": "kirby",
+  "first": "pip",
+  "second": "kirby",
+  "a": "e09ad8",
+  "b": "ae402c"
+ },
+ {
+  "competitor": "molang",
+  "first": "pip",
+  "second": "molang",
+  "a": "e09ad8",
+  "b": "0e4de6"
+ },
+ {
+  "competitor": "pikachu",
+  "first": "pikachu",
+  "second": "pip",
+  "a": "cbfca2",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "pompompurin",
+  "first": "pompompurin",
+  "second": "pip",
+  "a": "5f8845",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "pusheen",
+  "first": "pusheen",
+  "second": "pip",
+  "a": "552120",
+  "b": "e09ad8"
+ },
+ {
+  "competitor": "snoopy",
+  "first": "pip",
+  "second": "snoopy",
+  "a": "e09ad8",
+  "b": "1712a2"
+ },
+ {
+  "competitor": "totoro",
+  "first": "pip",
+  "second": "totoro",
+  "a": "e09ad8",
+  "b": "3ddfb5"
+ }
+]
