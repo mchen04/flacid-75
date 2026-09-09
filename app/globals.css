@@ -77,7 +77,7 @@ h1,h2,h3,p{margin:0}h1{font-size:var(--t-xxl);font-weight:700;line-height:1.1;le
 @keyframes fall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(240px) rotate(300deg);opacity:0}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(min-width:600px){.app-shell,.gate{height:calc(100dvh - var(--s-8));margin:var(--s-5) auto;border-radius:var(--r-xl);box-shadow:var(--sh-float)}.sheet{margin:auto;border-radius:var(--r-xl)}}
-@media(max-height:760px){.today-view,.habit-view,.progress-view,.you-view{gap:var(--s-2)}.hero{min-height:var(--z-bars)}.card-art{flex-basis:var(--z-disc)}.disc-art{width:var(--z-disc);height:var(--z-disc)}.week-strip{padding:var(--s-3) var(--s-4)}.streak-card{padding:var(--s-4)}}
+@media(max-height:760px){.today-view,.habit-view,.progress-view,.you-view{gap:var(--s-2)}.hero{min-height:var(--z-sceneShort)}.card-art{flex-basis:var(--z-disc)}.disc-art{width:var(--z-disc);height:var(--z-disc)}.card-note{display:none}.card-value strong{font-size:var(--t-lg)}.pair .card{padding:var(--s-3)}.week-strip{padding:var(--s-3) var(--s-4)}.streak-card{padding:var(--s-4)}}
 @media(max-height:650px){.hero{min-height:var(--z-spark)}.card-art{flex-basis:var(--z-minus)}.disc-art{width:var(--z-cell);height:var(--z-cell)}.disc-art .mark{width:var(--s-6);height:var(--s-6)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 

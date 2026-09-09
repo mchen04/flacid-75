@@ -23,3 +23,15 @@ stays in the thumb zone.
 
 Each of workout, abs, floss and rest also gets its own tab. The tab is the game screen,
 never the only way in: the Today tiles still log each habit in one tap.
+
+## How this was verified
+
+`node --import tsx scripts/ui-shots.mjs <out>` drives every screen at 390x844, 375x667 and
+1280x900, screenshots each, and measures the one-page rule in the browser: no element scrolls and
+nothing is cut off by hidden overflow. It fails when either happens - reintroducing a fixed card
+height made it report `clipped: div.card.water 196>132` at all three sizes.
+
+`node --import tsx scripts/ui-interactions.mjs` proves the taps: three water taps each raise the
+level (88 -> 77 -> 66 -> 55) and change the reading, logging a meal raises the fill in the bowl,
+workout, abs and floss each log from Today in one tap and their tab holds the finished pose, rest
+logs in one tap and offers an undo, and the plus sits at dx 0, dy 0 inside its circle.
