@@ -52,7 +52,7 @@ export function apply(state:State,op:Operation):State{
  if(op.type==='weight'){
   next.weights[op.day]=op.weight;
   const trend=weightTrend(next.weights).at(-1)!.value;
-  if(Math.abs(trend/next.profile.baselineWeight-1)>=.02){next.profile.targets={...computeTargets({...next.profile,weight:trend}),...next.profile.overrides};next.profile.baselineWeight=trend;}
+  if(Math.abs(trend/next.profile.baselineWeight-1)>=.02){next.profile.targets={...computeTargets({...next.profile,weight:trend}),...next.profile.overrides};next.profile.baselineWeight=trend;const current=dayAt(next.clock,op.at);if(next.days[current])next.days[current].targets={...next.profile.targets};}
   return next;
  }
  const day=next.days[op.day]??=newDay(next.profile.targets);

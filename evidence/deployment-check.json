@@ -1,0 +1,12 @@
+{
+  "url": "https://flaccid75-preview.vercel.app",
+  "unauthenticated": {
+    "/api/state": 401,
+    "/api/sync": 401,
+    "/api/estimate": 401
+  },
+  "authenticatedGate": 200,
+  "crossOriginWrite": 403,
+  "accountUnconfigured": true,
+  "deployedClientMatchesVerifiedBuild": true
+}

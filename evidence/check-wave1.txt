@@ -68,9 +68,9 @@ ok 6 - food corrections replace a meal and numeric goals remain estimates
   Finished TypeScript in 2.6s ...
   Collecting page data using 9 workers ...
   Generating static pages using 9 workers (0/8) ...
-  Generating static pages using 9 workers (2/8) 
-  Generating static pages using 9 workers (4/8) 
-  Generating static pages using 9 workers (6/8) 
+  Generating static pages using 9 workers (2/8)
+  Generating static pages using 9 workers (4/8)
+  Generating static pages using 9 workers (6/8)
 ✓ Generating static pages using 9 workers (8/8) in 551ms
   Finalizing page optimization ...
 
@@ -86,4 +86,3 @@ Route (app)
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
-

@@ -9,3 +9,6 @@ test-results/
 .vercel
 
 tsconfig.tsbuildinfo
+
+public/assets/
+public/client-assets.json

@@ -26,12 +26,12 @@ export async function unlock(passphrase:string){try{const res=await fetch('/api/
  const next={...store,state,unlocked:true};persist(next);set(next);void synchronize();return '';
  }catch{return 'Connect to the internet to unlock this device.';}}
 export async function lock(){try{await fetch('/api/auth',{method:'DELETE'});}catch{}localStorage.removeItem(KEY);set({...store,state:emptyState(),pending:[],unlocked:false});}
-export async function synchronize(){if(syncing||!store.unlocked||!navigator.onLine)return;syncing=true;
+export async function synchronize(){if(syncing||!store.unlocked||!navigator.onLine)return;syncing=true;let progressed=false;
  try{const batch=store.pending.slice(0,100);const res=await fetch(batch.length?'/api/sync':'/api/state',batch.length?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(batch)}:{cache:'no-store'});
  if(!res.ok){if(res.status===401)set({...store,notice:'Unlock again to sync. Your offline changes are safe.',unlocked:false});return;}
  const result=await res.json();const done=new Set<string>(batch.length?[...result.accepted,...result.rejected.map((r:{id:string})=>r.id)]:[]);
  const pending=store.pending.filter(op=>!done.has(op.id));let state:State=batch.length?result.state:result;for(const op of pending){try{state=apply(state,op);}catch{}}
- const next={...store,state,pending,notice:batch.length&&result.rejected.length?result.rejected.map((r:{reason:string})=>r.reason).join(' '):store.notice};if(persist(next))set(next);
+ const next={...store,state,pending,notice:batch.length&&result.rejected.length?result.rejected.map((r:{reason:string})=>r.reason).join(' '):store.notice};if(persist(next)){set(next);progressed=true;}
  }catch{set({...store,notice:'Changes stay on this device until sync returns.'});}finally{syncing=false;}
- if(store.pending.length>100)setTimeout(()=>void synchronize(),100);
+ if(progressed&&store.pending.length>0)setTimeout(()=>void synchronize(),100);
 }

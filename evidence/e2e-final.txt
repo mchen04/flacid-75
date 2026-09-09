@@ -1,0 +1,18 @@
+
+> flaccid75@1.0.0 test:e2e
+> playwright test
+
+
+Running 9 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/app.spec.ts:6:1 › gate rejects wrong passphrase and protects every write path (1.4s)
+  ✓  2 [chromium] › tests/e2e/app.spec.ts:7:1 › onboarding, all six one-tap habits, correction, calendar and no page scroll (1.4s)
+  ✓  3 [chromium] › tests/e2e/app.spec.ts:14:1 › offline optimistic writes, reconnect deduplication and manual model fallback (807ms)
+  ✓  4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (718ms)
+  ✓  5 [chromium] › tests/e2e/history.spec.ts:3:1 › rest confirmation, exact quota, backfill, rescue, trend and settings (696ms)
+  ✓  6 [webkit] › tests/e2e/app.spec.ts:6:1 › gate rejects wrong passphrase and protects every write path (88ms)
+  ✓  7 [webkit] › tests/e2e/app.spec.ts:7:1 › onboarding, all six one-tap habits, correction, calendar and no page scroll (1.1s)
+  ✓  8 [webkit] › tests/e2e/app.spec.ts:14:1 › offline optimistic writes, reconnect deduplication and manual model fallback (787ms)
+  ✓  9 [webkit] › tests/e2e/history.spec.ts:3:1 › rest confirmation, exact quota, backfill, rescue, trend and settings (670ms)
+
+  9 passed (8.5s)

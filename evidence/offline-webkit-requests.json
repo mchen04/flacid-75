@@ -1,0 +1,106 @@
+[
+  {
+    "path": "/",
+    "type": "document",
+    "event": "start"
+  },
+  {
+    "path": "/manifest.webmanifest",
+    "type": "other",
+    "event": "start"
+  },
+  {
+    "path": "/assets/app-db4acbde7d92.js",
+    "type": "script",
+    "event": "start"
+  },
+  {
+    "path": "/",
+    "event": "done"
+  },
+  {
+    "path": "/manifest.webmanifest",
+    "event": "done"
+  },
+  {
+    "path": "/assets/app-db4acbde7d92.js",
+    "event": "done"
+  },
+  {
+    "path": "/sw.js",
+    "type": "xhr",
+    "event": "start"
+  },
+  {
+    "path": "/sw.js",
+    "event": "done"
+  },
+  {
+    "path": "/api/auth",
+    "type": "fetch",
+    "event": "start"
+  },
+  {
+    "path": "/api/auth",
+    "event": "done"
+  },
+  {
+    "path": "/api/state",
+    "type": "fetch",
+    "event": "start"
+  },
+  {
+    "path": "/api/state",
+    "event": "done"
+  },
+  {
+    "path": "/api/state",
+    "type": "fetch",
+    "event": "start"
+  },
+  {
+    "path": "/api/state",
+    "event": "done"
+  },
+  {
+    "path": "/api/sync",
+    "type": "fetch",
+    "event": "start"
+  },
+  {
+    "path": "/api/sync",
+    "event": "done"
+  },
+  {
+    "path": "/",
+    "type": "document",
+    "event": "start"
+  },
+  {
+    "path": "/manifest.webmanifest",
+    "type": "other",
+    "event": "start"
+  },
+  {
+    "path": "/assets/app-db4acbde7d92.js",
+    "type": "script",
+    "event": "start"
+  },
+  {
+    "path": "/",
+    "event": "done"
+  },
+  {
+    "path": "/manifest.webmanifest",
+    "event": "done"
+  },
+  {
+    "path": "/assets/app-db4acbde7d92.js",
+    "event": "done"
+  },
+  {
+    "path": "/api/state",
+    "type": "fetch",
+    "event": "start"
+  }
+]

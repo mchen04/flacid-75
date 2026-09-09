@@ -1,0 +1,35 @@
+
+> flaccid75@1.0.0 build
+> node scripts/build-client.mjs && next build && node scripts/budget.mjs
+
+Built phone renderer db4acbde7d92 56293 bytes
+▲ Next.js 16.3.4 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 12ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 338ms
+  Running TypeScript ...
+  Finished TypeScript in 823ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8)
+  Generating static pages using 9 workers (4/8)
+  Generating static pages using 9 workers (6/8)
+✓ Generating static pages using 9 workers (8/8) in 252ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth
+├ ƒ /api/estimate
+├ ƒ /api/state
+├ ƒ /api/sync
+└ ○ /manifest.webmanifest
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+{"gzipJavaScriptBytes":20583,"budgetBytes":40960,"pass":true}

@@ -1,0 +1,11 @@
+{
+  "url": "https://flaccid75-preview.vercel.app",
+  "realClaudeEndpoint": true,
+  "realFoodPhoto": true,
+  "persistedOnlyInIsolatedBrowserFixture": true,
+  "calories": 480,
+  "protein": 25,
+  "totalMs": 10734,
+  "modelRequestMs": 10578,
+  "clientTimeOutsideRequestMs": 156
+}

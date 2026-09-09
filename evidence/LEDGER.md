@@ -36,7 +36,7 @@ No native-use or blind-win claim yet. Capture and critic results follow below.
 |---|---|---|
 | Mark a habit | Tap its card/check | 1 |
 | Add water | Tap +250 ml | 1 |
-| Photograph lunch | Open app, camera, shutter, confirm | 4; OS camera review may add a device-dependent tap |
+| Photograph lunch | Open app, camera, shutter, confirm | 4 using the in-app camera; first-use permission is additional |
 | Correct an estimate | Food list, correct, edit, save | 4; keyboard keystrokes excluded |
 | Spend rest | Rest, confirm | 2 |
 | Rescue a selected broken day | Rescue, confirm | 2; calendar selection is navigation |
@@ -76,3 +76,86 @@ Claude Max is signed in. Official June 15 update permits Agent SDK subscription 
 https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan
 Only the server runs the SDK, without tools, sessions, history persistence, or image logs.
 Provider-side retention is outside the app's control; do not assert a provider zero-retention guarantee.
+
+
+## Verification and corrections
+
+The database migrations applied successfully to Neon. Integration tests use isolated temporary schemas.
+Three duplicate water deliveries produce one 250 ml addition and one operation row.
+Three simultaneous independent habit updates survive. The weekly rest race rejects the second rest.
+Deliberate faulty variants (partial-day completion, unlimited rests, and travel remapping) all fail the tests.
+
+The first browser pass found a local WebKit cookie issue, an incorrect viewport fixture, and an ambiguous test locator.
+All were corrected. Final tests cover both Chromium and WebKit at 390×844.
+The calendar now leaves pre-onboarding days neutral. Trend charts use date spacing and omit the raw seed weight.
+A midnight tap resolves the current day at the instant of the action. Undo keeps the original action date.
+A discovered stale Undo handler after meal editing is fixed; Undo restores the previous meal values.
+
+The first framework client shipped 272,691 gzip bytes and reached interaction at 2.37 seconds.
+Removing unused client validation reduced this to 186,504 bytes.
+A Next.js static route with a Preact phone renderer reduces this to about 21 KB gzip.
+Critical CSS is inline. Local Lighthouse records 100 performance, 100 accessibility, and 100 best practices.
+Its measured FCP and interaction readiness are 0.908 seconds, with 150 ms RTT, 1.6 Mbps and 4× CPU slowdown.
+The enforced browser JavaScript budget is 40 KB gzip. The checked bundle is the actual script loaded by the page.
+
+The real offline check uses the actual service worker and an isolated Neon schema.
+Chromium opens offline in 39 ms; its habit change updates the DOM in 1 ms.
+WebKit opens with the origin server suspended in 22 ms; its habit update takes 2 ms.
+Each queues three operations, survives reload, and retains exactly one copy after replay.
+The view is 390×844, with 844-pixel page height and zero home-content overflow.
+These are desktop-engine measurements, not physical iPhone timings.
+
+WebKit's browser-level offline emulation fails on navigation; the origin-suspension check exercises the real cache instead.
+A missing manifest cache response also prevented page load completion. The worker now serves the manifest offline.
+The browser issue is consistent with https://github.com/microsoft/playwright/issues/42273 but is not proven to be that exact defect.
+
+Claude subscription estimation works both locally and in the Vercel preview.
+The live preview text request returns 230 kcal and 14 g protein in 7.279 seconds including startup and model time.
+A real CC0 food photo from Andy Li returns 420 kcal and 25 g protein in 9.668 seconds.
+The photo audit watches the model configuration directory and scans its content for binary and base64 image markers.
+It finds zero markers; account state and operation-row count remain unchanged. This is not a kernel-wide trace.
+SDK files contain credential/configuration/session-process metadata; session conversation persistence is disabled.
+Provider retention is outside this application's control.
+
+The normal photo flow now uses an in-app live camera: open, camera, shutter, confirm.
+First-use camera permission adds a one-time OS action. The file-picker fallback can require an extra OS confirmation.
+The camera stream stops on capture, closure, and suspension. No captured image is written to disk.
+
+## Deployment constraints
+
+On a fresh project, Vercel promoted the first deployment to production even with an explicit preview target.
+Those bootstrap deployments contained no configured production account environment and failed closed.
+A subsequent deployment has API target null (preview). Bootstrap production deployments are removed during final cleanup.
+Preview credentials are sensitive environment values; model refresh credentials are encrypted in the database.
+No PR or merge is performed.
+
+## Evidence limits
+
+Official website and App Store screenshots are captured and retained for all named competitors.
+They do not prove native installation or actual use. Physical iPhone access remains unavailable.
+Two fresh critics choose Pip, but recognize Duo and flag framing bias. Strict blind wins are not claimed.
+Full native piece-by-piece comparisons and the Duolingo home-screen comparison remain unfinished.
+Current Lighthouse removes the PWA category: https://github.com/GoogleChrome/lighthouse/issues/15535 .
+Chrome's installability check returns zero errors; the physical home-screen install still needs observation.
+
+## Final preview checks
+
+Stable preview: https://flaccid75-preview.vercel.app .
+The deployed cold-load test scores 100 for performance, accessibility, and best practices.
+FCP and interaction readiness are 0.766 seconds at 150 ms RTT, 1.6 Mbps, and 4× CPU slowdown.
+This Lighthouse run measures the public entry screen, not a physical installed app.
+The browser payload is 21,411 gzip bytes against a 40,960-byte limit.
+The fake-camera test performs the four-action path in 631 ms with a stubbed model response.
+The real deployed photo estimate returns 480 kcal and 25 g protein in 10.734 seconds.
+The request takes 10.578 seconds; browser work outside it takes 156 ms.
+This request includes upload, server startup, and model time; it does not isolate model thinking.
+The source is a real published food photo, not a photograph taken on the unavailable physical phone.
+Nine browser checks pass across Chromium and WebKit. Database concurrency and deliberate mutation checks pass.
+The final physical-device check still reports the paired iPhone unavailable.
+Automated git deployment is disabled so a code push cannot promote the preview to production.
+
+The portable secret scan initially misread a blank environment assignment as the next line's value.
+Its parser now keeps whitespace inside a single line. LF/CRLF empty fixtures pass; synthetic secrets still fail.
+The scanner and its instructions are corrected in the active local skill directory.
+Exact credential scans find no values in tracked files, commit blobs, or the browser script.
+The existing authorized GitHub account already matches this repository; no account switch or rebase is needed.
