@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.env*
+!.env.example
+.vercel/
+playwright-report/
+test-results/
+.DS_Store
+.vercel
+
+tsconfig.tsbuildinfo
+
+public/assets/
+public/client-assets.json

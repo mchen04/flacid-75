@@ -1,0 +1,41 @@
+{
+  "platform": "arm64",
+  "realClaudeEstimate": {
+    "calories": 500,
+    "protein": 22
+  },
+  "elapsedMsWithTracing": 8180,
+  "descendantProcessesTraced": true,
+  "deletedSyntheticFileControlDetected": true,
+  "syntheticWriteBufferSuppressed": true,
+  "fileWritePaths": [
+    "/tmp/app/evidence/photo-audit.json",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.01963f93e6cd",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.5dccba436c91",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.755185184ea2",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.7f424a46a9ec",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.c06167c1dbfe",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.c3476795e5a9",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.d0e77b6b31fe",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.df139438a9a4",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.e7ec05a3f390",
+    "/tmp/flaccid75-model-auth/.claude.json.tmp.214.f280c48ecfc4",
+    "/tmp/flaccid75-model-auth/.credentials.json",
+    "/tmp/flaccid75-model-auth/.last-cleanup",
+    "/tmp/flaccid75-model-auth/.synthetic-privacy-control",
+    "/tmp/flaccid75-model-auth/sessions/214.04db430bce5a94a1592fc780f91180751833248aa89fca635aeb38f2d6637c5e.key.tmp.b11dce7f",
+    "/tmp/flaccid75-model-auth/sessions/214.json",
+    "/tmp/tsx-0/17889-058edaa9604e7430c9a4dd82930cb3b00b8caa32",
+    "/tmp/tsx-0/17889-0e6a8774dd67b53c30d56aade5602eafdb745156",
+    "/tmp/tsx-0/17889-1558a643756033817f80d5e046b5630f58b8f2f0",
+    "/tmp/tsx-0/17889-468abd32f9c33ede7e43c9328696fe7b88d87220",
+    "/tmp/tsx-0/17889-76101cd3830ac04b626dae3ff1c19ee870d9e238",
+    "/tmp/tsx-0/17889-ce376628206a215e87ee20c860d60f2d713fc0b3"
+  ],
+  "imageMarkerMatches": [],
+  "contentScanControlDetected": true,
+  "databaseStateUnchanged": true,
+  "operationRowsUnchanged": true,
+  "traceLines": 64200,
+  "scope": "Linux Node process and SDK descendants, file calls and write-family calls. Buffers suppressed. Final model-directory files scanned for image markers. Deleted-file contents and provider retention are not inspected. This is a local container with temporary memory storage, not Vercel host instrumentation."
+}

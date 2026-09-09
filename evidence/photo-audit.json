@@ -1,0 +1,39 @@
+{
+  "source": "https://commons.wikimedia.org/wiki/File:Scrambled_eggs_on_toast_-_Floral_Cafe_2026-02-25.jpg",
+  "sourceAuthor": "Andy Li",
+  "license": "CC0",
+  "input": "Real food photograph downloaded and resized only in RAM",
+  "estimate": {
+    "calories": 420,
+    "protein": 25
+  },
+  "elapsedMs": 9668,
+  "appStateUnchanged": true,
+  "operationRowsUnchanged": true,
+  "modelDirectoryWrites": [
+    ".credentials.json",
+    ".claude.json.tmp.69706.4f363977a043",
+    ".claude.json.lock",
+    "backups",
+    "backups/.claude.json.backup.1788920992596",
+    ".claude.json.tmp.69706.489897af78a2",
+    ".claude.json",
+    ".claude.json.tmp.69706.9c3d64bce1e4",
+    ".claude.json.tmp.69706.5c4c597a168f",
+    ".claude.json.tmp.69706.5ffc09326f0e",
+    ".claude.json.tmp.69706.4cce7f657ab8",
+    ".claude.json.tmp.69706.b9e308110637",
+    "sessions",
+    "sessions/69706.5a76b363187ab728db5652d43584b66c933f0dab8969b09e9b36d1212174e986.key.tmp.045f9a46",
+    "sessions/69706.5a76b363187ab728db5652d43584b66c933f0dab8969b09e9b36d1212174e986.key",
+    "sessions/69706.json",
+    ".claude.json.tmp.69706.a05a1acbf0ad",
+    ".claude.json.tmp.69706.06c9521fb871",
+    ".last-cleanup",
+    ".claude.json.tmp.69706.2514bf8bf903"
+  ],
+  "imageMarkerMatches": [],
+  "photoFileWritten": false,
+  "objectStoreConfigured": false,
+  "scope": "Configuration-directory file watcher and content scan; not a kernel-wide syscall trace. Provider retention not observable."
+}

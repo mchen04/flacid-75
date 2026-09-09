@@ -1,0 +1,5 @@
+
+> flaccid75@1.0.0 budget
+> node scripts/budget.mjs
+
+{"gzipJavaScriptBytes":186504,"budgetBytes":266240,"pass":true}

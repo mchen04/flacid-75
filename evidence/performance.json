@@ -1,0 +1,22 @@
+{
+  "url": "https://flaccid75-preview.vercel.app",
+  "scores": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1
+  },
+  "metrics": {
+    "first-contentful-paint": 765.965,
+    "largest-contentful-paint": 765.965,
+    "interactive": 765.9650000000001,
+    "total-blocking-time": 0
+  },
+  "throttling": {
+    "rttMs": 150,
+    "throughputKbps": 1638.4,
+    "requestLatencyMs": 562.5,
+    "downloadThroughputKbps": 1474.5600000000002,
+    "uploadThroughputKbps": 675,
+    "cpuSlowdownMultiplier": 4
+  }
+}

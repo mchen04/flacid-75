@@ -1,0 +1,88 @@
+
+> flaccid75@1.0.0 check
+> npm run lint && npm run typecheck && npm test && npm run build
+
+
+> flaccid75@1.0.0 lint
+> eslint .
+
+
+> flaccid75@1.0.0 typecheck
+> tsc --noEmit
+
+
+> flaccid75@1.0.0 test
+> tsx --test tests/*.test.ts
+
+TAP version 13
+# Subtest: a missing habit breaks the chain at midnight; today is not prematurely broken
+ok 1 - a missing habit breaks the chain at midnight; today is not prematurely broken
+  ---
+  duration_ms: 13.642041
+  ...
+# Subtest: rest is atomic at most once Monday-Sunday and preserves without increment
+ok 2 - rest is atomic at most once Monday-Sunday and preserves without increment
+  ---
+  duration_ms: 1.108375
+  ...
+# Subtest: rescue and backfill recalculate history, retain honest markers, allow any past day
+ok 3 - rescue and backfill recalculate history, retain honest markers, allow any past day
+  ---
+  duration_ms: 1.969042
+  ...
+# Subtest: 23:59, DST spring/fall, and timezone travel do not skip or duplicate days
+ok 4 - 23:59, DST spring/fall, and timezone travel do not skip or duplicate days
+  ---
+  duration_ms: 1.110834
+  ...
+# Subtest: calculation, smoothing, editable overrides and material recomputation
+ok 5 - calculation, smoothing, editable overrides and material recomputation
+  ---
+  duration_ms: 1.302709
+  ...
+# Subtest: food corrections replace a meal and numeric goals remain estimates
+ok 6 - food corrections replace a meal and numeric goals remain estimates
+  ---
+  duration_ms: 0.35775
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 616.855833
+
+> flaccid75@1.0.0 build
+> next build
+
+▲ Next.js 16.3.4 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 80ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 985ms
+  Running TypeScript ...
+  Finished TypeScript in 2.6s ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8)
+  Generating static pages using 9 workers (4/8)
+  Generating static pages using 9 workers (6/8)
+✓ Generating static pages using 9 workers (8/8) in 551ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth
+├ ƒ /api/estimate
+├ ƒ /api/state
+├ ƒ /api/sync
+└ ○ /manifest.webmanifest
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

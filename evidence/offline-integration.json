@@ -1,0 +1,40 @@
+[
+  {
+    "engine": "chromium",
+    "offlineColdOpenMs": 39,
+    "habitMutationMs": 1,
+    "queuedOperations": 3,
+    "replayedOperations": 3,
+    "waterMl": 250,
+    "storedOperationRows": 4,
+    "pageSize": {
+      "width": 390,
+      "height": 844,
+      "scrollHeight": 844,
+      "bodyScroll": 844,
+      "contentOverflow": 0
+    },
+    "realPostgres": true,
+    "realServiceWorker": true,
+    "networkBlock": "browser offline"
+  },
+  {
+    "engine": "webkit",
+    "offlineColdOpenMs": 22,
+    "habitMutationMs": 2,
+    "queuedOperations": 3,
+    "replayedOperations": 3,
+    "waterMl": 250,
+    "storedOperationRows": 4,
+    "pageSize": {
+      "width": 390,
+      "height": 844,
+      "scrollHeight": 844,
+      "bodyScroll": 844,
+      "contentOverflow": 0
+    },
+    "realPostgres": true,
+    "realServiceWorker": true,
+    "networkBlock": "origin server suspended"
+  }
+]

@@ -1,0 +1,15 @@
+
+> flaccid75@1.0.0 test:e2e
+> playwright test
+
+
+Running 6 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/app.spec.ts:6:1 › gate rejects wrong passphrase and protects every write path (719ms)
+  ✓  2 [chromium] › tests/e2e/app.spec.ts:7:1 › onboarding, all six one-tap habits, correction, calendar and no page scroll (1.3s)
+  ✓  3 [chromium] › tests/e2e/app.spec.ts:14:1 › offline optimistic writes, reconnect deduplication and manual model fallback (890ms)
+  ✓  4 [webkit] › tests/e2e/app.spec.ts:6:1 › gate rejects wrong passphrase and protects every write path (113ms)
+  ✓  5 [webkit] › tests/e2e/app.spec.ts:7:1 › onboarding, all six one-tap habits, correction, calendar and no page scroll (1.7s)
+  ✓  6 [webkit] › tests/e2e/app.spec.ts:14:1 › offline optimistic writes, reconnect deduplication and manual model fallback (991ms)
+
+  6 passed (7.4s)

@@ -1,0 +1,9 @@
+{
+  "gateStatus": 200,
+  "estimateStatus": 200,
+  "estimate": {
+    "calories": 230,
+    "protein": 14
+  },
+  "elapsedMs": 7279
+}

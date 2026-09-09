@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "regions": [
+    "iad1"
+  ],
+  "git": {
+    "deploymentEnabled": false
+  }
+}
