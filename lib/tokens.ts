@@ -19,7 +19,7 @@ export const text={xs:'11px',sm:'13px',md:'15px',lg:'17px',xl:'22px',xxl:'28px',
 export const track={tight:'-.03em',snug:'-.02em',normal:'-.01em'} as const;
 export const shadow={card:`0 2px 10px ${color.shadow}`,float:`0 10px 28px ${color.shadowDeep}`,sheet:`0 -8px 60px ${color.shadowDeep}`} as const;
 export const font={sans:"ui-rounded,'SF Pro Rounded','Avenir Next','Nunito','Segoe UI',system-ui,sans-serif"} as const;
-export const size={hairline:'1px',bw:'2px',ring:'3px',dot:'6px',meter:'8px',handle:'36px',icon:'22px',minus:'32px',cell:'36px',tap:'44px',disc:'56px',add:'56px',tile:'64px',nav:'64px',glass:'76px',bowl:'84px',bars:'112px',pair:'184px',hero:'368px',heroShort:'200px',spark:'100px',preview:'50dvh',shell:'440px',shellMax:'960px',sheet:'90dvh'} as const;
+export const size={hairline:'1px',bw:'2px',ring:'3px',dot:'6px',meter:'8px',handle:'36px',icon:'22px',minus:'32px',cell:'36px',tap:'44px',disc:'56px',add:'56px',tile:'64px',nav:'64px',glass:'76px',bowl:'84px',bars:'112px',pair:'184px',hero:'368px',heroShort:'200px',spark:'100px',preview:'50dvh',shell:'440px',shellMax:'960px',sheet:'90dvh',dot2:'10px',plate:'16px',discLg:'72px',tileArt:'96px',sceneShort:'150px',scene:'220px',rail:'40px',thumb:'132px',liftRise:'56px',flossDrop:'128px',restSink:'6px'} as const;
 export function cssVariables(){
  const lines:string[]=[];
  for(const [k,v] of Object.entries(color))lines.push(`--c-${k}:${v}`);

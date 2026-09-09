@@ -1,7 +1,7 @@
 export function Icon({name,size=22}:{name:string;size?:number}){
  const paths:Record<string,React.ReactNode>={
  workout:<><path d="M4 8v8m3-10v12m10-12v12m3-10v8M7 12h10"/></>,
- abs:<><path d="m8 3 1 5-3 12m10-17-1 5 3 12M9 8h6m-7 5h8m-9 5h10M12 9v11"/></>,
+ abs:<><circle cx="7" cy="6" r="2.5"/><path d="M9 9h5l4 4M5 20l4-6m5 6 4-4m-9-2 2 4"/></>,
  walk:<><path d="M9 3c3 0 4 3 3 6l-2 6-5-1 1-7q1-4 3-4m-5 14 5 1-1 3H3zm14-7c-3 0-4 3-3 6l2 3 4-1-1-5q0-3-2-3"/></>,
  water:<path d="M12 3S5 11 5 15a7 7 0 0 0 14 0c0-4-7-12-7-12ZM9 15q0 3 3 3"/>,
  protein:<><path d="M6 19c-8-5 0-18 10-13 4 2 6 9 1 12-3 2-6 0-11 1Z"/><path d="M8 13q-3-4 2-4m4 5 2-3"/></>,
@@ -18,6 +18,8 @@ export function Icon({name,size=22}:{name:string;size?:number}){
  flag:<><path d="M6 21V4m0 0h11l-3 4 3 4H6"/></>,
  edit:<><path d="m4 16 12-12 4 4L8 20H4v-4Zm10-10 4 4"/></>,
  minus:<path d="M5 12h14"/>,
+ floss:<><path d="M7 8h10a2 2 0 0 1 2 2v2c0 4-2 6-3.5 8h-1L13 15h-2l-1.5 5h-1C7 18 5 16 5 12v-2a2 2 0 0 1 2-2Z"/><path d="M4 6c5-2 11-2 16 0"/></>,
+ rest:<><path d="M20 15A8 8 0 0 1 9 4a8 8 0 1 0 11 11Z"/><path d="M15 4h4l-4 4h4"/></>,
  plus:<path d="M12 5v14M5 12h14"/>,
  back:<path d="m15 5-7 7 7 7"/>,
  };

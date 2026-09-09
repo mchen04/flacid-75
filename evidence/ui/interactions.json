@@ -1,0 +1,58 @@
+{
+  "base": "http://localhost:3075",
+  "checks": {
+    "waterRises": {
+      "levels": [
+        {
+          "y": 88,
+          "text": "0 L"
+        },
+        {
+          "y": 77,
+          "text": "0.25 L"
+        },
+        {
+          "y": 66,
+          "text": "0.5 L"
+        },
+        {
+          "y": 55,
+          "text": "0.75 L"
+        }
+      ],
+      "pass": true
+    },
+    "foodFills": {
+      "before": 22,
+      "after": 13,
+      "pass": true
+    },
+    "oneTapHabits": {
+      "workout": {
+        "loggedInOneTap": true,
+        "tabShowsDonePose": true
+      },
+      "abs": {
+        "loggedInOneTap": true,
+        "tabShowsDonePose": true
+      },
+      "floss": {
+        "loggedInOneTap": true,
+        "tabShowsDonePose": true
+      },
+      "rest": {
+        "loggedInOneTap": true,
+        "undoOffered": true
+      },
+      "pass": true
+    },
+    "walkOneTap": {
+      "pass": true
+    },
+    "plusCentred": {
+      "dx": 0,
+      "dy": 0,
+      "pass": true
+    }
+  }
+}

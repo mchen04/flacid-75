@@ -1,10 +1,10 @@
 'use client';
 import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
-import {Hills,Glass,Bowl,Mark,Brand,type Phase} from './Scenes';
+import {Hills,Glass,Bowl,Mark,Brand,Gym,Mat,Tooth,NightRest,type Phase} from './Scenes';
 import {Camera} from './Camera';
 import {Icon} from './Icon';
 import {startStore,useStore,dispatch,unlock,lock} from '@/lib/client-store';
-import {habits,dayAt,dayDiff,addDays,weekStart,completion,isComplete,isKept,missing,restsLeft,newDay,totals,streaks,weightTrend,computeTargets,type Operation,type Stats,type Targets,type State,type Habit} from '@/lib/domain';
+import {habits,dayAt,dayDiff,addDays,weekStart,completion,type Day,isComplete,isKept,missing,restsLeft,newDay,totals,streaks,weightTrend,computeTargets,type Operation,type Stats,type Targets,type State,type Habit} from '@/lib/domain';
 import type {Estimate,EstimateItem} from '@/lib/validation';
 export const names:Record<Habit,string>={workout:'Workout',abs:'Abs',walk:'Walk',water:'Water',protein:'Protein',calories:'Calories',floss:'Floss'};
 type Change=Operation extends infer O?O extends Operation?Omit<O,'id'|'at'|'day'|'zone'>:never:never;
@@ -17,7 +17,8 @@ export default function App(){
  const [now,setNow]=useState(()=>new Date());const [tab,setTab]=useState('today');const [selected,setSelected]=useState<string|null>(null);
  const [modal,updateModal]=useState<string|null>(null);const [editMeal,setEditMeal]=useState<string|null>(null);
  const [modalDay,setModalDay]=useState<string|null>(null);const file=useRef<HTMLInputElement>(null);const [photo,setPhoto]=useState<File|null>(null);
- const [pulse,setPulse]=useState<Partial<Record<Habit|'meal',boolean>>>({});const timers=useRef<Partial<Record<Habit|'meal',ReturnType<typeof setTimeout>>>>({});
+ const [toast,setToast]=useState<{text:string;undo?:()=>void}|null>(null);const toastTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
+ const [pulse,setPulse]=useState<Partial<Record<Habit|'meal'|'rest',boolean>>>({});const timers=useRef<Partial<Record<Habit|'meal'|'rest',ReturnType<typeof setTimeout>>>>({});
  const today=dayAt(state.clock,now,todayZone());const dayKey=selected??today;
  const profile=state.profile;const day=state.days[dayKey]??newDay(profile?.targets??computeTargets({height:165,weight:65,age:30,activity:1,goal:'maintain'}));
  const foodDayKey=modalDay??dayKey;const foodDay=state.days[foodDayKey]??newDay(profile?.targets??day.targets);
@@ -25,7 +26,8 @@ export default function App(){
  const done=completion(day);const count=Object.values(done).filter(Boolean).length;const food=totals(day);const streak=streaks(state,today);
  useEffect(()=>{startStore();const timer=setInterval(()=>setNow(new Date()),15000);const resume=()=>setNow(new Date());window.addEventListener('pageshow',resume);document.addEventListener('visibilitychange',resume);return()=>{clearInterval(timer);window.removeEventListener('pageshow',resume);document.removeEventListener('visibilitychange',resume);};},[]);
  function change(payload:Change,date=selected??dayAt(state.clock,new Date(),todayZone())){const at=new Date().toISOString();return dispatch({...payload,id:crypto.randomUUID(),at,day:date,zone:todayZone()} as Operation);}
- function bump(key:Habit|'meal',ms=1400){clearTimeout(timers.current[key]);setPulse(p=>({...p,[key]:true}));timers.current[key]=setTimeout(()=>setPulse(p=>({...p,[key]:false})),ms);}
+ function say(text:string,undo?:()=>void){if(toastTimer.current)clearTimeout(toastTimer.current);setToast({text,undo});toastTimer.current=setTimeout(()=>setToast(null),4000);}
+ function bump(key:Habit|'meal'|'rest',ms=1400){clearTimeout(timers.current[key]);setPulse(p=>({...p,[key]:true}));timers.current[key]=setTimeout(()=>setPulse(p=>({...p,[key]:false})),ms);}
  function toggle(h:Habit){const current=selected??dayAt(state.clock,new Date(),todayZone());const before=completion(state.days[current])[h];setNow(new Date());if(change({type:'check',habit:h,value:!before},current))bump(h,h==='walk'?2000:1400);}
  function pour(){const waterDay=selected??dayAt(state.clock,new Date(),todayZone());if(change({type:'water',amount:250},waterDay))bump('water',900);}
  function sip(){const waterDay=selected??dayAt(state.clock,new Date(),todayZone());const current=state.days[waterDay]?.water??0;if(current>0)change({type:'water',amount:-250},waterDay);}
@@ -40,44 +42,98 @@ export default function App(){
  const complete=count===habits.length;
  const headline=selected?'Past day':day.rest?'Rest day.':complete?'Every one.':count>=5?'Nearly there.':count>0?'Good going.':stumbled?'A new day.':morning?'Good morning.':hour<17?'Good afternoon.':'Good evening.';
  const rests=restsLeft(state,dayKey);
+
+ const habitTabs=['workout','abs','floss','rest'] as const;
+ const weekDays=Array.from({length:7},(_,i)=>addDays(weekStart(dayKey),i));
+ const title=tab==='today'?headline:tab==='progress'?'Progress':tab==='you'?'You':tab==='rest'?'Rest':names[tab as Habit];
+ const since=`Since ${new Intl.DateTimeFormat('en',{month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(profile.startDay+'T12:00:00Z'))}`;
+ function restTap(){
+  if(day.rest){if(change({type:'rest',value:false}))say('Rest undone.');return;}
+  if(!rests){setModal('rest');return;}
+  if(change({type:'rest',value:true})){bump('rest',1600);say('Resting today. The streak stays.',()=>change({type:'rest',value:false}));}
+ }
+ function habitTap(h:Habit){if(h==='walk'&&false)return;toggle(h);}
  return <main className="app-shell">
-  <header className="topbar"><div className="topbar-copy"><h1>{tab==='today'?headline:tab==='week'?'Progress':tab==='trends'?'Trends':'You'}</h1><p className="date">{tab==='week'?`Since ${new Intl.DateTimeFormat('en',{month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(profile.startDay+'T12:00:00Z'))}`:dateLabel}</p></div>{showWeight&&<button className="chip" onClick={()=>setModal('weight')}><Mark name="scale"/>Weigh in</button>}{tab!=='week'&&<button className="streak-badge" onClick={()=>setTab('week')} aria-label={`${streak.current} day streak`}><strong>{streak.current}</strong><span>day{streak.current===1?'':'s'}</span></button>}</header>
+  <header className="topbar">
+   <div className="topbar-copy"><h1>{title}</h1><p className="date">{tab==='progress'?since:dateLabel}</p></div>
+   {showWeight&&<button className="chip" onClick={()=>setModal('weight')}><Mark name="scale"/>Weigh in</button>}
+   <button className="streak-badge" onClick={()=>{setTab('progress');setSelected(null);}} aria-label={`${streak.current} day streak. Open progress`}><strong>{streak.current}</strong><span>day{streak.current===1?'':'s'}</span></button>
+   <button className={`icon-button gear ${tab==='you'?'active':''}`} aria-label="You" onClick={()=>{setTab('you');setSelected(null);}}><Icon name="settings"/></button>
+  </header>
   {state.clock&&state.clock.zone!==todayZone()&&<button className="zone-row" onClick={()=>setModal('zone')}>Your timezone changed. Keep your day in step<Icon name="arrow" size={16}/></button>}
   {tab==='today'?<section className="today-view">
-   <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label="Walk" aria-pressed={done.walk} onClick={()=>toggle('walk')}>
+   <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label={done.walk?'Undo walk':'Log walk'} aria-pressed={done.walk} onClick={()=>habitTap('walk')}>
     <Hills phase={day.rest?'night':phase} walked={done.walk} celebrate={complete&&!selected}/>
-    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':done.walk?'Tap again to undo.':'Tap when you’re back.'}</span></span>
+    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':done.walk?'Tap again to undo.':'Tap when you\u2019re back.'}</span></span>
     <span className="hero-tag">{done.walk?<><Icon name="check" size={14}/>Walk</>:<><Mark name="walk"/>Walk</>}</span>
     {selected&&<span className="hero-back">{`${count} of ${habits.length}`}</span>}
    </button>
-   <div className="chips">
-    {(['workout','abs','floss'] as const).map(h=><button key={h} className={`chip-habit ${h} ${done[h]?'is-done':''} ${pulse[h]?{workout:'lifting',abs:'crunching',floss:'shining'}[h]:''}`} aria-label={names[h]} aria-pressed={done[h]} onClick={()=>toggle(h)}><span className="chip-disc"><Mark name={h}/><span className="chip-check"><Icon name="check" size={13}/></span></span><span>{names[h]}</span></button>)}
-    <button className={`chip-habit rest ${day.rest?'is-done':''}`} aria-label={day.rest?'Undo rest':'Rest today'} aria-pressed={day.rest} disabled={!rests&&!day.rest} onClick={()=>day.rest?change({type:'rest',value:false}):setModal('rest')}><span className="chip-disc"><Mark name="rest"/><span className="chip-check"><Icon name="check" size={13}/></span></span><span>{day.rest?'Resting':'Rest'}</span></button>
+   <div className="discs">
+    {habitTabs.map(h=>{const isRest=h==='rest';const state2=isRest?day.rest:done[h as Habit];
+     return <button key={h} className={`disc-habit ${h} ${state2?'is-done':''} ${pulse[h as Habit]?{workout:'lifting',abs:'crunching',floss:'shining',rest:'dozing'}[h]:''}`} aria-label={isRest?(day.rest?'Undo rest':'Rest today'):`${done[h as Habit]?'Undo':'Log'} ${names[h as Habit].toLowerCase()}`} aria-pressed={state2} onClick={()=>isRest?restTap():habitTap(h as Habit)}>
+      <span className="disc-art"><Mark name={h}/><span className="disc-check"><Icon name="check" size={13}/></span></span>
+      <span>{isRest?(day.rest?'Resting':'Rest'):names[h as Habit]}</span></button>;})}
    </div>
    <div className="pair">
     <div className={`card water ${done.water?'is-done':''} ${pulse.water?'pouring':''}`}>
-     <button className="card-main" aria-label="Water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water}/></span><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong> of {litres(day.targets.water)} L</span></button>
+     <button className="card-main" aria-label="Add a glass of water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water} pouring={!!pulse.water}/></span><span className="card-copy"><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong> of {litres(day.targets.water)} L</span></span></button>
      <button className="card-minus" aria-label="Remove a glass" disabled={day.water<=0} onClick={sip}><Icon name="minus" size={16}/></button>
     </div>
-    <button className={`card food ${done.calories&&done.protein?'is-done':''} ${pulse.meal?'eating':''}`} aria-label="Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>
-     <span className="card-art"><Bowl full={food.calories>0} eating={!!pulse.meal}/></span>
-     <span className="card-title">Food</span>
-     <Meter label={names.calories} value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="kcal" done={done.calories}/>
-     <Meter label={names.protein} value={food.protein} max={day.targets.protein} unit="g" done={done.protein}/>
+    <button className={`card food ${done.calories&&done.protein?'is-done':''} ${pulse.meal?'eating':''}`} aria-label="Food. Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>
+     <span className="card-art"><Bowl full={food.calories>0} eating={!!pulse.meal} level={food.calories/Math.max(1,day.targets.calorieMax)}/></span>
+     <span className="card-copy"><span className="card-title">Food</span>
+      <Meter label={names.calories} value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="kcal" done={done.calories}/>
+      <Meter label={names.protein} value={food.protein} max={day.targets.protein} unit="g" done={done.protein}/></span>
     </button>
    </div>
    {selected&&<div className="home-footer"><span>{dateLabel}</span><button className="text-button" onClick={()=>setSelected(null)}>Back to today</button></div>}
-  </section>:tab==='week'?<Progress state={state} today={today} onOpen={d=>{setSelected(d===today?null:d);setTab('today');}} onRescue={d=>{setSelected(d);setModal('rescue');}}/>:tab==='trends'?<Trends state={state} today={today}/>:<section className="scroll-view settings">{store.notice&&<p className="notice-row" role="status">{store.notice}</p>}<div className="card list">{[['targets','Daily targets'],['setup','Your details'],['weight','Weigh in'],['about','How targets are set']].map(([key,label])=><button key={key} className="setting-row" onClick={()=>setModal(key)}><span>{label}</span><Icon name="arrow"/></button>)}</div><div className="install-note"><Brand size={72}/><p>Safari: Share, then Add to Home Screen.</p></div><button className="text-button" onClick={()=>setModal('lock')}>Lock this device</button></section>}
+  </section>
+  :tab==='progress'?<Progress state={state} today={today} onOpen={d=>{setSelected(d===today?null:d);setTab('today');}} onRescue={d=>{setSelected(d);setModal('rescue');}}/>
+  :tab==='you'?<You notice={store.notice} onOpen={setModal}/>
+  :<HabitTab habit={tab as typeof habitTabs[number]} day={day} done={tab==='rest'?day.rest:done[tab as Habit]} active={!!pulse[tab as Habit]} rests={rests} past={!!selected}
+    week={weekDays.map(d=>({day:d,done:d===dayKey?(tab==='rest'?day.rest:done[tab as Habit]):(tab==='rest'?!!state.days[d]?.rest:!!completion(state.days[d])[tab as Habit]),future:d>today}))}
+    onToggle={()=>tab==='rest'?restTap():habitTap(tab as Habit)}/>}
+  {toast&&<div className="toast" role="status"><span>{toast.text}</span>{toast.undo&&<button onClick={()=>{toast.undo!();setToast(null);}}>Undo</button>}</div>}
   <nav className="bottom-nav" aria-label="Main navigation">
-   {[['today','home','Today'],['week','calendar','Progress']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
-   <button className="nav-add" aria-label="Add" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}><Icon name="plus" size={26}/></button>
-   {[['trends','trends','Trends'],['settings','settings','You']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
+   {[['today','home','Today'],['workout','workout','Workout'],['abs','abs','Abs']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
+   <button className="nav-add" aria-label="Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}><Icon name="plus" size={26}/></button>
+   {[['floss','floss','Floss'],['rest','rest','Rest']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
   </nav>
   <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e=>{const f=e.target.files?.[0];if(f){setPhoto(f);setEditMeal(null);setModal('meal');}e.target.value='';}}/>
   {modal&&<Sheet title={modal==='camera'?'Photo':modal==='meal'?'Food':modal==='meals'?'Today’s food':modal==='rest'?'Rest day':modal==='rescue'?'Rescue this day':modal==='weight'?'Weigh in':modal==='targets'?'Daily targets':modal==='setup'?'Your details':modal==='zone'?'Timezone':modal==='lock'?'Lock this device?':'How targets are set'} onClose={()=>{setModal(null);setPhoto(null);setEditMeal(null);}}>
    {modal==='camera'?<Camera onCapture={photo=>{setPhoto(photo);setEditMeal(null);setModal('meal');}} onChoose={()=>file.current?.click()} onText={()=>{setPhoto(null);setEditMeal(null);setModal('meal');}}/>:modal==='meal'?<Meal photo={photo} initial={editMeal?foodDay.meals[editMeal]:undefined} count={Object.keys(foodDay.meals).length} onPhotoConsumed={()=>setPhoto(null)} onCamera={()=>setModal('camera')} onList={()=>setModal('meals')} onSave={(calories,protein)=>{const mealId=editMeal??crypto.randomUUID();if(change({type:'meal',mealId,calories,protein},foodDayKey)){setPhoto(null);setModal(null);bump('meal',1800);}}}/>:modal==='meals'?<div className="meal-list">{Object.entries(foodDay.meals).map(([id,m],i)=><div className="meal-row" key={id}><div><strong>Meal {i+1}</strong><p>{m.calories} kcal · {m.protein} g protein · estimate</p></div><button onClick={()=>{setEditMeal(id);setPhoto(null);setModal('meal');}}><Icon name="edit" size={16}/>Correct</button><button aria-label={`Remove meal ${i+1}`} onClick={()=>change({type:'deleteMeal',mealId:id},foodDayKey)}><Icon name="close" size={16}/></button></div>)}{!Object.keys(foodDay.meals).length&&<p>Nothing yet.</p>}<button className="secondary" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>Log a meal</button></div>:modal==='rest'?<><span className="sheet-mark"><Mark name="rest"/></span><p>{rests} rest day left this week. The streak stays.</p><button className="primary" onClick={()=>{if(change({type:'rest',value:true}))setModal(null);}}>Rest today</button></>:modal==='rescue'?<><span className="sheet-mark"><Mark name="rescue"/></span><p>{dayKey} keeps its checks and rejoins the streak, marked as rescued.</p><button className="primary" onClick={()=>{if(change({type:'rescue',value:true}))setModal(null);}}>Rescue this day</button></>:modal==='weight'?<Weight onSave={weight=>{if(change({type:'weight',weight},today))setModal(null);}}/>:modal==='setup'?<Setup initial={profile} onSave={(stats,overrides)=>{if(change({type:'profile',stats,overrides},today))setModal(null);}}/>:modal==='targets'?<TargetForm targets={profile.targets} onSave={overrides=>{if(change({type:'profile',stats:profile,overrides},today))setModal(null);}}/>:modal==='zone'?<><p>Use {todayZone().replaceAll('_',' ')} from now on. Today keeps its place; the next day starts at local midnight.</p><button className="primary" onClick={()=>{change({type:'zone'},today);setModal(null);}}>Use local time</button></>:modal==='lock'?<><p>{store.pending.length?'Sync your waiting changes before locking.':'This clears saved data from this device. Your synced history stays.'}</p><button className="primary" disabled={store.pending.length>0||!store.online} onClick={()=>{void lock();setModal(null);}}>Lock and clear</button></>:<About/>}
   </Sheet>}
  </main>;
+}
+function HabitTab({habit,done,active,rests,week,past,onToggle}:{habit:'workout'|'abs'|'floss'|'rest';day:Day;done:boolean;active:boolean;rests:number;past:boolean;week:{day:string;done:boolean;future:boolean}[];onToggle:()=>void}){
+ const Scene={workout:Gym,abs:Mat,floss:Tooth,rest:NightRest}[habit];
+ const copy={
+  workout:{idle:['Lift today.','Tap the bar and log it.'],done:['Lifted.','Tap again to undo.']},
+  abs:{idle:['Core today.','Tap to crunch it out.'],done:['Core done.','Tap again to undo.']},
+  floss:{idle:['Floss today.','Tap to run the floss through.'],done:['Flossed.','Tap again to undo.']},
+  rest:{idle:[rests?'Take a rest day?':'No rest left this week.',rests?'The streak stays. One a week.':'Rest returns on Monday.'],done:['Resting today.','Tap again to undo.']},
+ }[habit];
+ const [head,sub]=done?copy.done:copy.idle;
+ const kept=week.filter(d=>d.done).length;
+ return <section className="habit-view">
+  <button className={`stage ${habit} ${done?'is-done':''} ${active?'is-active':''}`} aria-pressed={done} aria-label={done?`${habit} done. Undo`:`Log ${habit}`} onClick={onToggle} disabled={habit==='rest'&&!rests&&!done}>
+   <Scene done={done} active={active}/>
+   <span className="stage-copy"><strong>{head}</strong><span>{sub}</span></span>
+   <span className="stage-tag">{done?<><Icon name="check" size={14}/>Done</>:<>{past?'Backfill':'Tap'}</>}</span>
+  </button>
+  <div className="week-strip">
+   <span className="week-strip-head">This week<b>{kept} of 7</b></span>
+   <div className="week-dots">{week.map(d=><span key={d.day} className={`week-dot ${d.done?'is-done':''} ${d.future?'is-future':''}`}><i/><small>{weekdays[(dayDiff(weekStart(d.day),d.day)+7)%7].slice(0,1)}</small></span>)}</div>
+  </div>
+ </section>;
+}
+function You({notice,onOpen}:{notice:string;onOpen:(key:string)=>void}){
+ return <section className="you-view">
+  {notice&&<p className="notice-row" role="status">{notice}</p>}
+  <div className="card list">{[['targets','Daily targets'],['setup','Your details'],['weight','Weigh in'],['about','How targets are set']].map(([key,label])=><button key={key} className="setting-row" onClick={()=>onOpen(key)}><span>{label}</span><Icon name="arrow"/></button>)}</div>
+  <div className="install-note"><Brand size={72}/><p>Safari: Share, then Add to Home Screen.</p></div>
+  <button className="text-button" onClick={()=>onOpen('lock')}>Lock this device</button>
+ </section>;
 }
 function Meter({label,value,min,max,unit,done}:{label:string;value:number;min?:number;max:number;unit:string;done:boolean}){
  const span=Math.max(max*1.15,value);const width=Math.min(100,value/span*100);
@@ -117,23 +173,32 @@ function Meal({photo,initial,count,onSave,onPhotoConsumed,onCamera,onList}:{phot
 }
 function Progress({state,today,onOpen,onRescue}:{state:State;today:string;onOpen:(d:string)=>void;onRescue:(d:string)=>void}){
  const [mode,setMode]=useState('week');const [anchor,setAnchor]=useState(today);const [detail,setDetail]=useState(today);const streak=streaks(state,today);
- const first=mode==='week'?weekStart(anchor):anchor.slice(0,7)+'-01';const days=mode==='week'?7:new Date(Number(first.slice(0,4)),Number(first.slice(5,7)),0).getDate();const entries=Array.from({length:days},(_,i)=>addDays(first,i));
+ const first=mode==='month'?anchor.slice(0,7)+'-01':weekStart(anchor);const days=mode==='month'?new Date(Number(first.slice(0,4)),Number(first.slice(5,7)),0).getDate():7;
+ const entries=Array.from({length:days},(_,i)=>addDays(first,i));
  const entry=state.days[detail];const tracked=detail>=state.profile!.startDay;const start=state.profile!.startDay;
  const status=(d:string)=>isComplete(state.days[d])?'complete':state.days[d]?.rest?'rest':state.days[d]?.rescued?'rescued':d<start?'not tracked':d<today?'broken':'in progress';
  const label=(d:string)=>`${d} ${status(d)}${state.days[d]?.backfilled?' backfilled':''}`;
  const heading=new Date(first+'T12:00Z').toLocaleDateString('en',{month:'long',year:'numeric',timeZone:'UTC'});
- return <section className="scroll-view progress-view">
-  <div className="progress-hero"><Hills phase="day" walked quiet/><div className="big-number"><strong>{streak.current}</strong><span>day streak{streak.longest>streak.current?` · longest ${streak.longest}`:streak.current>1?' · your longest':''}</span></div></div>
+ return <section className="progress-view">
+  <div className="progress-hero"><Hills phase="day" walked quiet/><div className="big-number"><strong>{streak.current}</strong><span>day streak{streak.longest>streak.current?` \u00b7 longest ${streak.longest}`:streak.current>1?' \u00b7 your longest':''}</span></div></div>
   <div className="card streak-card">
-   <div className="segmented"><button className={mode==='week'?'active':''} onClick={()=>setMode('week')}>Week</button><button className={mode==='month'?'active':''} onClick={()=>setMode('month')}>Month</button></div>
+   <div className="segmented">{[['week','Week'],['month','Month'],['trends','Trends']].map(([value,text])=><button key={value} className={mode===value?'active':''} onClick={()=>setMode(value)}>{text}</button>)}</div>
+   {mode==='trends'?<Trends state={state} today={today}/>:<>
    <div className="calendar-heading"><button aria-label="Previous period" onClick={()=>setAnchor(addDays(first,-1))}><Icon name="back" size={18}/></button><h2>{heading}</h2><button aria-label="Next period" disabled={entries.at(-1)!>=today} onClick={()=>setAnchor(addDays(entries.at(-1)!,1))}><Icon name="arrow" size={18}/></button></div>
-   {mode==='week'?<div className="bars">{entries.map((d,i)=>{const n=d>today?0:Object.values(completion(state.days[d])).filter(Boolean).length;const kept=isKept(state.days[d]);return <button key={d} disabled={d>today} aria-label={label(d)} className={`bar ${d===today?'is-today':''} ${kept?'is-kept':''} ${d>today?'is-future':''} ${detail===d?'selected':''}`} onClick={()=>setDetail(d)}><span className="bar-track">{n>0&&<span className="bar-fill" style={{height:`${Math.max(16,n/habits.length*100)}%`}}><b>{n}</b></span>}</span><small>{weekdays[i].slice(0,1)}</small></button>;})}</div>
-   :<div className="calendar-grid">{['M','T','W','T','F','S','S'].map((d,i)=><span key={i}>{d}</span>)}{Array.from({length:(new Date(first+'T12:00Z').getUTCDay()+6)%7},(_,i)=><i key={'blank'+i}/>)}{entries.map(d=><button key={d} disabled={d>today} aria-label={label(d)} className={`${detail===d?'selected':''} ${isKept(state.days[d])?'kept':d<today&&d>=start?'broken':''} ${d===today?'today':''}`} onClick={()=>setDetail(d)}><strong>{Number(d.slice(-2))}</strong><small>{state.days[d]?.rescued?'♡':state.days[d]?.rest?'☾':''}{state.days[d]?.backfilled?'*':''}</small></button>)}</div>}
-   <div className="day-detail"><p className="date">{new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(detail+'T12:00:00Z'))}{entry?.backfilled?' · backfilled':''}{entry?.rescued?' · rescued':''}</p><h2>{isComplete(entry)?'Complete.':entry?.rest?'Rest day.':entry?.rescued?'Rescued.':detail===today?'In progress.':!tracked?'Before you started.':'A missed day.'}</h2><p>{!tracked?'Backfill it if you like.':!isComplete(entry)?`${detail===today?'Left today':'Not checked'}: ${missing(entry).map(h=>names[h]).join(', ')}.`:`All ${habits.length} habits.`}</p></div>
+   <div className="calendar-body">{mode==='week'?<div className="bars">{entries.map((d,i)=>{const n=d>today?0:Object.values(completion(state.days[d])).filter(Boolean).length;const kept=isKept(state.days[d]);return <button key={d} disabled={d>today} aria-label={label(d)} className={`bar ${d===today?'is-today':''} ${kept?'is-kept':''} ${d>today?'is-future':''} ${detail===d?'selected':''}`} onClick={()=>setDetail(d)}><span className="bar-track">{n>0&&<span className="bar-fill" style={{height:`${Math.max(16,n/habits.length*100)}%`}}><b>{n}</b></span>}</span><small>{weekdays[i].slice(0,1)}</small></button>;})}</div>
+   :<div className="calendar-grid">{['M','T','W','T','F','S','S'].map((d,i)=><span key={i}>{d}</span>)}{Array.from({length:(new Date(first+'T12:00Z').getUTCDay()+6)%7},(_,i)=><i key={'blank'+i}/>)}{entries.map(d=><button key={d} disabled={d>today} aria-label={label(d)} className={`${detail===d?'selected':''} ${isKept(state.days[d])?'kept':d<today&&d>=start?'broken':''} ${d===today?'today':''}`} onClick={()=>setDetail(d)}><strong>{Number(d.slice(-2))}</strong><small>{state.days[d]?.rescued?'\u2661':state.days[d]?.rest?'\u263e':''}{state.days[d]?.backfilled?'*':''}</small></button>)}</div>}</div>
+   <div className="day-detail"><p className="date">{new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(detail+'T12:00:00Z'))}{entry?.backfilled?' \u00b7 backfilled':''}{entry?.rescued?' \u00b7 rescued':''}</p><h2>{isComplete(entry)?'Complete.':entry?.rest?'Rest day.':entry?.rescued?'Rescued.':detail===today?'In progress.':!tracked?'Before you started.':'A day to rescue.'}</h2><p>{!tracked?'Backfill it if you like.':!isComplete(entry)?`${detail===today?'Left today':'Not checked'}: ${missing(entry).map(h=>names[h]).join(', ')}.`:`All ${habits.length} habits.`}</p></div>
+   <div className="detail-actions"><button className="primary" onClick={()=>onOpen(detail)}>{detail===today?'Open today':'Backfill this day'}</button>{detail<today&&!isKept(entry)&&<button className="secondary" onClick={()=>onRescue(detail)}>Rescue day</button>}</div>
+   </>}
   </div>
-  <div className="detail-actions"><button className="primary" onClick={()=>onOpen(detail)}>{detail===today?'Open today':'Backfill this day'}</button>{detail<today&&!isKept(entry)&&<button className="secondary" onClick={()=>onRescue(detail)}>Rescue day</button>}</div>
-  <label className="date-pick">Open any past day<input type="date" max={today} min="2000-01-01" value={detail} onChange={e=>{if(e.target.value&&e.target.value<=today){setDetail(e.target.value);setAnchor(e.target.value);}}}/></label>
  </section>;}
 function Sparkline({values,label}:{values:{day:string;value:number}[];label:string}){if(!values.length)return <p className="empty-chart">Nothing yet.</p>;const min=Math.min(...values.map(v=>v.value)),max=Math.max(...values.map(v=>v.value));return <><svg className="sparkline" viewBox="0 0 300 90" role="img" aria-label={label}><path d="M10 80h280" className="axis"/><polyline points={values.map(v=>`${10+dayDiff(values[0].day,v.day)/Math.max(1,dayDiff(values[0].day,values.at(-1)!.day))*280},${70-(v.value-min)/Math.max(1,max-min)*50}`).join(' ')} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>{values.length===1&&<circle cx="10" cy="70" r="4" fill="currentColor"/>}</svg><div className="chart-dates"><span>{values[0].day}</span><span>{values.at(-1)!.day}</span></div></>;}
-function Trends({state,today}:{state:State;today:string}){const weight=weightTrend(state.weights).slice(1);const protein=Object.entries(state.days).sort(([a],[b])=>a.localeCompare(b)).map(([day,d])=>({day,value:totals(d).protein}));const streak=streaks(state,today);return <section className="scroll-view trends-view"><article className="card trend-card"><h2>Weight</h2><strong>{weight.length?`${weight.at(-1)!.value} kg`:'Two weigh-ins start a trend'}</strong><p>7-day smoothed trend</p><Sparkline values={weight.slice(-60)} label="Smoothed weight trend"/></article><article className="card trend-card"><h2>Protein</h2><p>Daily estimates, grams</p><Sparkline values={protein.slice(-30)} label="Protein estimates over time"/></article><article className="card trend-card"><h2>Streak</h2><Sparkline values={streak.history.slice(-60)} label="Daily streak history"/></article></section>;}
+function Trends({state,today}:{state:State;today:string}){
+ const weight=weightTrend(state.weights).slice(1);const protein=Object.entries(state.days).sort(([a],[b])=>a.localeCompare(b)).map(([day,d])=>({day,value:totals(d).protein}));const streak=streaks(state,today);
+ return <div className="trends-body">
+  <article className="trend-card"><h2>Weight</h2><strong>{weight.length?`${weight.at(-1)!.value} kg`:'Two weigh-ins start a trend'}</strong><Sparkline values={weight.slice(-60)} label="Smoothed weight trend"/></article>
+  <article className="trend-card"><h2>Protein</h2><strong>{protein.length?`${Math.round(protein.at(-1)!.value)} g today`:'No meals yet'}</strong><Sparkline values={protein.slice(-30)} label="Protein estimates over time"/></article>
+  <article className="trend-card"><h2>Streak</h2><strong>{streak.current} day{streak.current===1?'':'s'}</strong><Sparkline values={streak.history.slice(-60)} label="Daily streak history"/></article>
+ </div>;
+}
 function About(){return <div className="about"><p>Calories use the adult female <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" rel="noreferrer">Mifflin–St Jeor equation</a>: 10 × kg + 6.25 × cm − 5 × age − 161, multiplied by activity (1.2, 1.375, 1.55 or 1.725) and adjusted −10%, 0% or +10% for the goal. The range is ±100 kcal with a 1500 kcal floor.</p><p>Protein starts at <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noreferrer">1.6 g/kg</a>. Water starts at 30 ml/kg within 1.5–3.5 L. Steps start at 6,000–10,000 by activity. A 2% change in your smoothed weight updates calculated targets; edited targets stay yours.</p><p>All {habits.length} habits count. A missed day resets the streak at midnight. One rest day per week keeps the chain. Past days can be backfilled or rescued at any time. Weight never counts.</p><p>Food estimates come from your description or photo, matched against the USDA FoodData Central database where possible, and are always editable. Photos are never saved.</p></div>;}

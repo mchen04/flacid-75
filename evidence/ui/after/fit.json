@@ -1,0 +1,204 @@
+{
+  "base": "http://localhost:3075",
+  "today": "2026-09-09",
+  "viewports": {
+    "phone": {
+      "today": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "workout": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "abs": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "floss": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "rest": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "progress": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "trends": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "you": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      }
+    },
+    "small": {
+      "today": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "workout": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "abs": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "floss": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "rest": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "progress": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "trends": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "you": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      }
+    },
+    "desktop": {
+      "today": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "workout": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "abs": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "floss": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "rest": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "progress": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "trends": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      },
+      "you": {
+        "reached": true,
+        "clipped": [],
+        "documentScrollsY": false,
+        "documentScrollsX": false,
+        "windowScrollsY": false,
+        "scrollables": []
+      }
+    }
+  }
+}

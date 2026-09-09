@@ -34,12 +34,12 @@ for (const [i, w] of [[20, 66.2], [16, 65.9], [12, 65.6], [8, 65.4], [4, 65.1], 
 // the same script runs against the old and the new layout.
 const screens = [
   {name: 'today', open: null},
-  {name: 'workout', open: {role: 'button', name: 'Workout', exact: true}},
-  {name: 'abs', open: {role: 'button', name: 'Abs', exact: true}},
-  {name: 'floss', open: {role: 'button', name: 'Floss', exact: true}},
-  {name: 'rest', open: {role: 'button', name: 'Rest', exact: true}},
+  {name: 'workout', open: {nav: true, name: 'Workout'}},
+  {name: 'abs', open: {nav: true, name: 'Abs'}},
+  {name: 'floss', open: {nav: true, name: 'Floss'}},
+  {name: 'rest', open: {nav: true, name: 'Rest'}},
   {name: 'progress', open: {role: 'button', name: /day streak|Progress/}},
-  {name: 'trends', open: {role: 'button', name: 'Trends', exact: true}},
+  {name: 'trends', open: [{role: 'button', name: /day streak|^Progress$/}, {role: 'button', name: 'Trends', exact: true}]},
   {name: 'you', open: {role: 'button', name: /^(You|Your details|Settings)$/}},
 ];
 
@@ -55,7 +55,18 @@ const fitProbe = () => {
     selector: el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).join('.') : ''),
     scrollHeight: el.scrollHeight, clientHeight: el.clientHeight, scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
   }));
+  // Hidden overflow is not a pass: content cut off by the viewport still breaks the one-page rule.
+  const clipped = [...document.querySelectorAll('.app-shell *')].filter(el => {
+    const s = getComputedStyle(el);
+    if (!/hidden|clip/.test(s.overflowY) && !/hidden|clip/.test(s.overflowX)) return false;
+    if (el.closest('svg') || el.tagName.toLowerCase() === 'svg' || el.classList.contains('sr-only')) return false;
+    return el.scrollHeight - el.clientHeight > 2 || el.scrollWidth - el.clientWidth > 2;
+  }).map(el => ({
+    selector: el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).join('.') : ''),
+    scrollHeight: el.scrollHeight, clientHeight: el.clientHeight, scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
+  }));
   return {
+    clipped,
     documentScrollsY: doc.scrollHeight - doc.clientHeight > 1,
     documentScrollsX: doc.scrollWidth - doc.clientWidth > 1,
     windowScrollsY: document.body.scrollHeight > window.innerHeight + 1,
@@ -76,22 +87,25 @@ try {
     await page.addInitScript(s => localStorage.setItem('flaccid75-v1', JSON.stringify({state: s, pending: [], unlocked: true})), seed);
     await page.clock.install({time: new Date(today + 'T16:20:00')});
     await page.goto(base, {waitUntil: 'load'});
-    await page.getByRole('button', {name: 'Water'}).or(page.getByRole('button', {name: 'Workout', exact: true})).first().waitFor({timeout: 20000});
+    await page.locator('nav.bottom-nav, .today-view').first().waitFor({timeout: 20000});
     await page.waitForTimeout(700);
 
     const results = {};
     for (const screen of screens) {
-      if (screen.open) {
-        const target = page.getByRole(screen.open.role, {name: screen.open.name, exact: screen.open.exact}).first();
-        if (!(await target.count())) { results[screen.name] = {reached: false}; continue; }
+      let reached = true;
+      for (const step of [screen.open].flat().filter(Boolean)) {
+        const scope = step.nav ? page.locator('nav.bottom-nav') : page;
+        const target = scope.getByRole(step.role ?? 'button', {name: step.name, exact: step.exact ?? true}).first();
+        if (!(await target.count())) { reached = false; break; }
         await target.click();
         await page.waitForTimeout(650);
       }
+      if (!reached) { results[screen.name] = {reached: false}; continue; }
       const fit = await page.evaluate(fitProbe);
       await page.screenshot({path: `${out}/${vp.name}/${screen.name}.png`});
       results[screen.name] = {reached: true, ...fit};
       if (screen.open) {
-        const home = page.getByRole('button', {name: 'Today', exact: true}).first();
+        const home = page.locator('nav.bottom-nav').getByRole('button', {name: 'Today', exact: true}).first();
         if (await home.count()) { await home.click(); await page.waitForTimeout(400); }
       }
     }
@@ -103,7 +117,7 @@ try {
 }
 await writeFile(`${out}/fit.json`, JSON.stringify(report, null, 2));
 const failures = Object.entries(report.viewports).flatMap(([vp, screens]) =>
-  Object.entries(screens).filter(([, r]) => r.reached && (r.documentScrollsY || r.documentScrollsX || r.windowScrollsY || r.scrollables.length))
-    .map(([name, r]) => `${vp}/${name}: ${[r.documentScrollsY && 'document scrolls', r.windowScrollsX && 'document scrolls sideways', r.scrollables.length && r.scrollables.map(s => s.selector).join(', ')].filter(Boolean).join('; ')}`));
+  Object.entries(screens).filter(([, r]) => r.reached && (r.documentScrollsY || r.documentScrollsX || r.windowScrollsY || r.scrollables.length || r.clipped.length))
+    .map(([name, r]) => `${vp}/${name}: ${[r.documentScrollsY && 'document scrolls', r.windowScrollsX && 'document scrolls sideways', r.scrollables.length && ('scrolls: ' + r.scrollables.map(s => s.selector).join(', ')), r.clipped.length && ('clipped: ' + r.clipped.map(s => `${s.selector} ${s.scrollHeight}>${s.clientHeight}`).join(', '))].filter(Boolean).join('; ')}`));
 console.log(JSON.stringify({out, unreached: Object.entries(report.viewports).flatMap(([vp, s]) => Object.entries(s).filter(([, r]) => !r.reached).map(([n]) => `${vp}/${n}`)), failures}, null, 1));
 process.exitCode = failures.length ? 1 : 0;
