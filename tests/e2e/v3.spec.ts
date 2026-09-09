@@ -33,11 +33,10 @@ test('nothing transient appears and nothing shifts on a habit tap, a pour, a mea
  expect(churn.removed.filter(n=>!n.startsWith('DIALOG')),JSON.stringify(churn)).toEqual([]);
  await writeFile(`evidence/v3/transient-check-${test.info().project.name}.json`,JSON.stringify({rectsUnchanged:true,statusOrAlertNodes:0,addedOutsideHeroAndSheet:churn.added,removedOutsideHeroAndSheet:churn.removed},null,2));
 });
-test('the week strip opens a past day for backfill and comes back to today',async({page})=>{
- await open(page,seed(10));const today=localDate(new Date(),'America/Los_Angeles');const yesterday=addDays(today,-1);
- const strip=page.getByRole('group',{name:'This week'});
- const target=strip.getByRole('button',{pressed:false}).filter({hasNot:page.locator('[disabled]')}).first();
- if(await strip.getByRole('button',{pressed:false}).filter({hasText:String(Number(yesterday.slice(-2)))}).count()){await strip.getByRole('button',{pressed:false}).filter({hasText:String(Number(yesterday.slice(-2)))}).first().click();}else await target.click();
+test('backfill is reachable from Progress: pick a past day, open it, check a habit, come back to today',async({page})=>{
+ await open(page,seed(10));const today=localDate(new Date(),'America/Los_Angeles');const past=addDays(today,-3);
+ await expect(page.getByRole('group',{name:'This week'})).toHaveCount(0);
+ await page.getByRole('button',{name:'Progress',exact:true}).click();await page.getByLabel('Open any past day').fill(past);await page.getByRole('button',{name:'Backfill this day'}).click();
  await expect(page.getByRole('heading',{name:'Past day'})).toBeVisible();await expect(page.getByRole('button',{name:'Back to today'})).toBeVisible();
  await page.getByRole('button',{name:'Workout',exact:true}).click();await expect(page.getByRole('button',{name:'Workout',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.getByRole('button',{name:'Back to today'}).click();await expect(page.getByRole('heading',{name:'Past day'})).toHaveCount(0);await expect(page.getByRole('button',{name:'Workout',exact:true})).toHaveAttribute('aria-pressed','false');

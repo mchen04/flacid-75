@@ -39,13 +39,11 @@ export default function App(){
  const yesterday=state.days[addDays(today,-1)];const stumbled=!selected&&count===0&&!!yesterday&&!isKept(yesterday)&&addDays(today,-1)>=profile.startDay;
  const complete=count===habits.length;
  const headline=selected?'Past day':day.rest?'Rest day.':complete?'Every one.':count>=5?'Nearly there.':count>0?'Good going.':stumbled?'A new day.':morning?'Good morning.':hour<17?'Good afternoon.':'Good evening.';
- const week=Array.from({length:7},(_,i)=>addDays(weekStart(dayKey),i));
  const rests=restsLeft(state,dayKey);
  return <main className="app-shell">
   <header className="topbar"><div className="topbar-copy"><h1>{tab==='today'?headline:tab==='week'?'Progress':tab==='trends'?'Trends':'You'}</h1><p className="date">{tab==='week'?`Since ${new Intl.DateTimeFormat('en',{month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(profile.startDay+'T12:00:00Z'))}`:dateLabel}</p></div>{showWeight&&<button className="chip" onClick={()=>setModal('weight')}><Mark name="scale"/>Weigh in</button>}{tab!=='week'&&<button className="streak-badge" onClick={()=>setTab('week')} aria-label={`${streak.current} day streak`}><strong>{streak.current}</strong><span>day{streak.current===1?'':'s'}</span></button>}</header>
   {state.clock&&state.clock.zone!==todayZone()&&<button className="zone-row" onClick={()=>setModal('zone')}>Your timezone changed. Keep your day in step<Icon name="arrow" size={16}/></button>}
   {tab==='today'?<section className="today-view">
-   <div className="week-strip" role="group" aria-label="This week">{week.map((d,i)=>{const kept=isKept(state.days[d]);const future=d>today;return <button key={d} disabled={future} className={`day ${d===dayKey?'is-active':''} ${kept?'is-kept':''}`} aria-pressed={d===dayKey} aria-label={`${weekdays[i]} ${Number(d.slice(-2))}${kept?', kept':''}`} onClick={()=>setSelected(d===today?null:d)}><span>{weekdays[i]}</span><strong>{Number(d.slice(-2))}</strong></button>;})}</div>
    <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label="Walk" aria-pressed={done.walk} onClick={()=>toggle('walk')}>
     <Hills phase={day.rest?'night':phase} walked={done.walk} celebrate={complete&&!selected}/>
     <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong><span>{complete&&!selected?`All ${habits.length} habits, all done.`:day.rest?'The streak stays.':done.walk?'Tap again to undo.':'Tap when you’re back.'}</span></span>

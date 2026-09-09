@@ -1,10 +1,10 @@
 {
   "latencies": {
-    "Workout": 1.3999996185302734,
+    "Workout": 1.3000001907348633,
     "Abs": 1,
-    "Walk": 1,
+    "Walk": 1.1999998092651367,
     "Floss": 1,
-    "Water": 1.0999999046325684
+    "Water": 1
   },
   "layoutShift": false,
   "viewport": "390x844",

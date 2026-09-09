@@ -20,4 +20,6 @@ Live: https://flaccid75-preview.vercel.app (production alias; passphrase unchang
 | Lint, types, unit, integration, e2e and build all pass | **Lint, types, unit, scans, build and Chromium e2e pass.** Integration needs a direct Postgres connection, which the sandbox denies; it is unchanged from version 2 and runnable with `npm run test:integration`. WebKit e2e not run here. | [check-v3.txt](check-v3.txt), [v3/e2e-chromium.txt](v3/e2e-chromium.txt) |
 | Committed in clean waves, pushed to main, deployed to production, live URL works | **Done.** Three commits on `main`, production deployment aliased to the live URL, gate and CSRF checks pass against it, served icons hash-match the repository, and the live home and progress screens are captured. | [LEDGER.md](LEDGER.md#version-3-deployment--2026-09-09), [deployment-check.json](deployment-check.json), `v3/live/` |
 
+After the rounds, the week strip was removed from Today at Michael's request; backfill is reached from Progress (`tests/e2e/v3.spec.ts` "backfill is reachable from Progress"). The winning rounds were judged with the strip present; the screen without it has not been re-judged.
+
 Still unfinished and still true: physical iPhone install, real Safari behaviour and real-device timing; WebKit checks in this sandbox; the Neon credential exposed in version 1 tool output has not been rotated.
