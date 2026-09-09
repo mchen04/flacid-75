@@ -159,3 +159,10 @@ Its parser now keeps whitespace inside a single line. LF/CRLF empty fixtures pas
 The scanner and its instructions are corrected in the active local skill directory.
 Exact credential scans find no values in tracked files, commit blobs, or the browser script.
 The existing authorized GitHub account already matches this repository; no account switch or rebase is needed.
+
+The code is committed in two verified waves and pushed to the authorized repository.
+All outgoing commits pass the portable history scan and the exact-value credential scan.
+No pull request or merge occurs.
+Only preview deployments remain after bootstrap cleanup.
+A private install note outside Git contains the stable URL and passphrase.
+The physical phone stays unavailable; this runtime also lacks control of the iPhone Mirroring UI.
