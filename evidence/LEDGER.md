@@ -201,3 +201,14 @@ Git-triggered deployment is disabled, so source integration does not promote the
 The build branch retains detailed implementation and verification history.
 `main` is the authorized squash-integration destination; its squash commit identifies the reviewed source revision.
 The [delivery note](DELIVERY.md) records this integration method and the physical checks that remain open.
+
+## Version 2 deployment · 2026-09-09
+
+| Step | Result |
+|---|---|
+| Commit | `main` at the "Gamify" commit, pushed to origin. Wave 2 adds the live captures and this record. |
+| Build | `vercel deploy --prod`: production deployment `flaccid75-8d4xno28i…vercel.app`, Ready. Client bundle `app-184b38f6719a.js`, 22,205 gzip bytes against a 40,960 budget. |
+| Alias | `flaccid75.vercel.app` followed production automatically. `flaccid75-preview.vercel.app` is a hand-set alias and was re-pointed with `vercel alias set`; it now serves the new bundle with no wordmark. |
+| Live checks | Passphrase accepted (HTTP 200). Three text estimates on production returned USDA-grounded items in 2.5 s, 3.1 s and 1.3 s from `google/gemma-4-26b-a4b-it:free`; the account's meal count was 3 before and 3 after, so nothing is added by estimating. Capture: [live-estimate.json](live-estimate.json). Photo path: [live-photo-v2.json](live-photo-v2.json). |
+| Environment | `OPENROUTER_API_KEY` set in Vercel Production and Preview (feat/flaccid75 branch scope). Exact-value scan of tree, history and bundle: no findings. |
+| Not run here | Playwright (Chromium and WebKit), Lighthouse, the offline integration script and the Neon integration test. The sandbox denies port binding, browser launch and direct Postgres connections. All are committed and runnable outside it. |
