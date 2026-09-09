@@ -17,6 +17,9 @@ export function Icon({name,size=22}:{name:string;size?:number}){
  close:<path d="m6 6 12 12M6 18 18 6"/>,
  flag:<><path d="M6 21V4m0 0h11l-3 4 3 4H6"/></>,
  edit:<><path d="m4 16 12-12 4 4L8 20H4v-4Zm10-10 4 4"/></>,
+ minus:<path d="M5 12h14"/>,
+ plus:<path d="M12 5v14M5 12h14"/>,
+ back:<path d="m15 5-7 7 7 7"/>,
  };
- return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]??paths.leaf}</svg>;
+ return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]??paths.leaf}</svg>;
 }

@@ -1,18 +1,21 @@
 {
   "name": "flaccid75",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/build-client.mjs && next dev",
-    "build": "node scripts/build-client.mjs && next build && node scripts/budget.mjs",
+    "dev": "npm run tokens && node scripts/build-client.mjs && next dev",
+    "build": "npm run tokens && node scripts/build-client.mjs && next build && node scripts/budget.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "migrate": "node --env-file=.env.local scripts/migrate.mjs",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "check": "npm run lint && npm run typecheck && npm test && npm run scan && npm run build",
     "budget": "node scripts/budget.mjs",
+    "tokens": "node --import tsx scripts/tokens.ts",
+    "art": "npm run tokens && node --import tsx scripts/art.tsx",
+    "scan": "node scripts/token-scan.mjs && node scripts/mascot-scan.mjs",
     "test:integration": "node --env-file=.env.local --import tsx scripts/integration.ts"
   },
   "dependencies": {

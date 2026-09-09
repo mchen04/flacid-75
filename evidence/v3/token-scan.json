@@ -1,0 +1,23 @@
+{
+  "scanned": [
+    "app/api/auth/route.ts",
+    "app/api/estimate/route.ts",
+    "app/api/state/route.ts",
+    "app/api/sync/route.ts",
+    "app/globals.css",
+    "app/layout.tsx",
+    "app/manifest.ts",
+    "app/route.ts",
+    "components/App.tsx",
+    "components/Camera.tsx",
+    "lib/auth.ts",
+    "lib/browser-entry.tsx",
+    "lib/client-store.ts",
+    "lib/db.ts",
+    "lib/domain.ts",
+    "lib/estimate.ts",
+    "lib/foods.ts",
+    "lib/validation.ts"
+  ],
+  "findings": []
+}
