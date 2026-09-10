@@ -366,3 +366,65 @@ test('Floss has the same shape as the other activities: a primary Mark flossed, 
  await page.evaluate(()=>{location.hash='progress';});await page.getByLabel('Open any past day').fill(addDays(today,-1));await page.getByRole('button',{name:'Backfill this day'}).click();
  await expect(page.getByText('Once that day')).toBeVisible();await expect(page.getByText('0 of 7 that day')).toBeVisible();await page.getByRole('button',{name:'Open walk',exact:true}).click();await expect(page.getByText('A walk that day.')).toBeVisible();
 });
+// Review 162 regressions.
+test('R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay',async({page,context})=>{
+ const today=todayIn();const box=await openAt(page,seed(),at(today,'09:00:00'),'focus');
+ const runOne=async()=>{await page.getByLabel('Work minutes',{exact:true}).selectOption('25');await page.getByLabel('Break minutes',{exact:true}).selectOption('5');await page.getByRole('button',{name:'Start focus'}).click();await page.clock.runFor(2000);await page.clock.fastForward(26*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect(page.getByText(/1 finished this run/)).toBeVisible();await page.getByRole('button',{name:'End session'}).click();};
+ await runOne();await expect.poll(()=>box.state.days[today]?.focus).toBe(1500);
+ await runOne();await expect(page.getByText(/50 min focused today/)).toBeVisible();await expect.poll(()=>box.state.days[today]?.focus).toBe(3000);
+ expect(new Set(box.ops.filter(o=>o.type==='focus').map(o=>o.id)).size).toBe(2);
+ await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByText(/50 min focused today/)).toBeVisible();
+ // A third session finishes offline; its block is queued with its own id and replays once the device is back.
+ await context.setOffline(true);await runOne();await expect(page.getByText(/75 min focused today/)).toBeVisible();expect(box.state.days[today]?.focus).toBe(3000);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(1);
+ await context.setOffline(false);await page.evaluate(()=>window.dispatchEvent(new Event('online')));await expect.poll(()=>box.state.days[today]?.focus).toBe(4500);expect(box.ops.filter(o=>o.type==='focus')).toHaveLength(3);
+});
+test('R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted',async({page})=>{
+ const today=todayIn();const box=await openAt(page,seed(3),at(today,'08:00:00'),'walk');
+ await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(2000);await page.clock.fastForward(26*60*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
+ await expect(page.getByText('Sessions longer than 24 hours are logged as 24 hours.',{exact:false})).toBeVisible();
+ // It is now the next day; the session credits the day it started on, capped at 24 hours, and the page returns to ready.
+ await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('button',{name:'Start',exact:true})).toBeVisible();
+ await expect.poll(()=>box.state.days[today]?.sessions?.walk?.seconds).toBe(86400);expect(box.state.days[today]?.checks.walk).toBe(true);expect(box.rejected).toEqual([]);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeUndefined();
+});
+test('R3: a slow sync in one tab cannot erase a change another tab queued meanwhile',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ // Tab A syncs slowly: every sync response is held for three seconds.
+ await page.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));const raw=r.request().postDataJSON();const {validateBatch}=await import('../../lib/validation');const {apply}=await import('../../lib/domain');const batch=validateBatch(raw)!;for(const o of batch.valid){if(box.seen.has(o.id))continue;box.state=apply(box.state,o);box.ops.push(o);box.seen.add(o.id);}return r.fulfill({json:{state:box.state,accepted:batch.valid.map(o=>o.id),rejected:batch.invalid}});});
+ // Tab B is cut off from the account entirely.
+ const other=await context.newPage();await other.route('**/api/sync',r=>r.abort());await other.route('**/api/state',r=>r.fulfill({json:box.state}));await other.goto('/');await other.locator('.home-view').waitFor();
+ await page.getByRole('button',{name:'Log walk'}).click();await page.waitForTimeout(300);
+ await other.getByRole('button',{name:'Log floss'}).click();await expect(other.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ await expect.poll(()=>box.state.days[today]?.checks.walk,{timeout:10000}).toBe(true);await page.waitForTimeout(500);
+ // A's slow sync has completed and saved. B's floss must still be in the device queue and on screen in both tabs.
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!));
+ expect(saved.pending.some((o:{type:string;habit?:string})=>o.type==='check'&&o.habit==='floss')).toBe(true);
+ await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');await expect(other.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ // B closes without ever syncing; A reloads: floss is still there, and A's next sync delivers it.
+ await other.close();await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:15000}).toBe(true);
+});
+test('R2: a pour from a long-named container logs with a trimmed label, and a refusal shows at the action',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{hash:'water'});
+ await page.getByRole('button',{name:'Containers',exact:true}).click();const sheet=page.getByRole('dialog');await sheet.getByLabel('Container',{exact:true}).fill('Stanley Quencher 40 oz');await sheet.getByLabel('Size · oz').fill('40');await sheet.getByRole('button',{name:'Add container'}).click();await sheet.getByRole('button',{name:'Save',exact:true}).click();
+ await page.getByRole('button',{name:/Stanley Quencher 40 oz · 40 oz/}).click();await page.getByRole('button',{name:'Log three quarters of a Stanley Quencher 40 oz'}).click();
+ await expect(page.locator('.water-copy .big')).toHaveText('30 oz');await expect.poll(()=>box.state.days[today]?.waterLog?.length).toBe(1);
+ const entry=box.state.days[today].waterLog![0];expect(entry.label!.length).toBeLessThanOrEqual(60);expect(entry.label).toContain('Stanley Quencher 40 oz');expect(box.rejected).toEqual([]);
+ await page.getByLabel('Or say it').fill('three quarters of my Stanley Quencher 40 oz');await page.getByRole('button',{name:'Read it'}).click();await page.getByRole('button',{name:'Add 30 oz'}).click();await expect(page.locator('.water-copy .big')).toHaveText('60 oz');
+ // A refused pour (an impossible amount forced into the queue path) shows its reason on the page, not only in Settings.
+ // The account holds a container the form could never create (9,000 ml); the next sync brings it down and a full pour of it is refused by the bounds.
+ box.state={...box.state,profile:{...box.state.profile!,containers:[{id:'vat',name:'Vat',ml:9000}],defaultContainer:'vat'}};await page.reload();await page.locator('.app-shell').waitFor();await page.getByRole('button',{name:'Log a Vat'}).waitFor();
+ await page.getByRole('button',{name:'Log a Vat'}).click();await expect(page.locator('.pour-card .form-error')).toContainText('Outside the range the app accepts.');expect(box.state.days[today].waterLog).toHaveLength(2);
+});
+test('R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock',async({page})=>{
+ const box=await open(page,seed(),{hash:'you'});
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Weight · lb').fill('150');await page.getByRole('button',{name:'kg · cm'}).click();
+ await expect(page.getByLabel('Weight · kg',{exact:true})).toHaveValue('65');await page.getByRole('button',{name:'Update'}).click();await expect.poll(()=>box.state.profile?.weight).toBe(65);
+ // Unlock with a queued change the account now refuses (a redeem beyond the balance): unlock still succeeds and the change is set aside.
+ const today=todayIn();const bad={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'redeem',rewardId:crypto.randomUUID(),name:'Trip',cost:9000};
+ await page.evaluate(b=>{const c=JSON.parse(localStorage.getItem('flaccid75-v1')!);c.unlocked=false;c.pending=[b];localStorage.setItem('flaccid75-v1',JSON.stringify(c));},bad);
+ await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.reload();await page.getByLabel('Passphrase').fill('test-only');await page.getByRole('button',{name:'Open'}).click();
+ await expect(page.locator('.app-shell')).toBeVisible();await expect(page.getByRole('switch',{name:'Sound cues'})).toBeVisible();await expect(page.getByText('Connect to the internet',{exact:false})).toHaveCount(0);await expect(page.getByLabel('Passphrase')).toHaveCount(0);
+ await expect.poll(()=>box.rejected.length+(box.state.days[today]?.redeemed?Object.keys(box.state.days[today].redeemed!).length:0)).toBeGreaterThanOrEqual(1);
+});

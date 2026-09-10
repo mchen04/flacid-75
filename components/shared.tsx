@@ -13,7 +13,7 @@ export const longDate = (day: string) => new Intl.DateTimeFormat('en', {weekday:
 export const shortDate = (day: string) => new Intl.DateTimeFormat('en', {weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC'}).format(new Date(day + 'T12:00:00Z'));
 export type Pulse = Partial<Record<Habit | 'meal' | 'rest' | 'reward' | 'meditate' | 'focus', boolean>>;
 export type Ctx = {
- state: State; today: string; dayKey: string; selected: string | null; day: Day; done: Record<Habit, boolean>; units: Units; pulse: Pulse; lastMeal: {id: string; day: string} | null;
+ state: State; today: string; dayKey: string; selected: string | null; day: Day; done: Record<Habit, boolean>; units: Units; pulse: Pulse; lastMeal: {id: string; day: string} | null; notice: string;
  change: (payload: Change, date?: string) => boolean; navigate: (page: string) => void; open: (sheet: string) => void; select: (day: string | null) => void; bump: (key: keyof Pulse, ms?: number) => void;
 };
 export const AppContext = createContext<Ctx | null>(null);

@@ -2,7 +2,7 @@
 // `checkBounds` runs before a change is queued, so ordinary input cannot produce a change the server would refuse.
 // tests/bounds.test.ts holds this file to the server schema on the same good and bad operations.
 import type {Operation} from './domain';
-export const limits = {rewardCost: [1, 10000], rewards: 30, rewardName: 60, planLine: 60, planLines: 40, calories: [0, 10000], protein: [0, 1000], water: [-6000, 6000], seconds: [0, 86400], containerName: 30, containerMl: [30, 6000], containers: 12, weight: [35, 300], height: [120, 230], age: [18, 100]} as const;
+export const limits = {rewardCost: [1, 10000], rewards: 30, rewardName: 60, planLine: 60, planLines: 40, waterLabel: 60, calories: [0, 10000], protein: [0, 1000], water: [-6000, 6000], seconds: [0, 86400], containerName: 30, containerMl: [30, 6000], containers: 12, weight: [35, 300], height: [120, 230], age: [18, 100]} as const;
 const out = 'Outside the range the app accepts.';
 const inRange = (v: unknown, [lo, hi]: readonly [number, number]) => typeof v === 'number' && Number.isFinite(v) && v >= lo && v <= hi;
 const text = (v: unknown, max: number) => typeof v === 'string' && v.trim().length >= 1 && v.trim().length <= max;
@@ -11,7 +11,7 @@ const isUuid = (v: unknown) => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4
 export function checkBounds(op: Operation): string | null {
  if (!isUuid(op.id)) return out;
  switch (op.type) {
-  case 'water': return inRange(op.amount, limits.water) && op.amount !== 0 && (op.label === undefined || text(op.label, 40)) ? null : out;
+  case 'water': return inRange(op.amount, limits.water) && op.amount !== 0 && (op.label === undefined || text(op.label, limits.waterLabel)) ? null : out;
   case 'meal': return isUuid(op.mealId) && inRange(op.calories, limits.calories) && inRange(op.protein, limits.protein) ? null : 'A meal must be 0–10,000 kcal and 0–1,000 g protein.';
   case 'session': return inRange(op.seconds, limits.seconds) && (op.items === undefined || (op.items.length <= limits.planLines && op.items.every(i => typeof i === 'string' && i.length <= limits.planLine))) && (op.routine === undefined || (typeof op.routine === 'string' && op.routine.length <= 60)) ? null : out;
   case 'meditate': case 'focus': return inRange(op.seconds, limits.seconds) ? null : out;

@@ -4,6 +4,7 @@ import {randomUUID} from 'node:crypto';
 import {parsePhrase, pourMl, describe, inContainers, countOf, fractionOf} from '../lib/water';
 import {seedContainers, mlPerOz, apply, emptyState, containersOf, type Operation} from '../lib/domain';
 import {formatVolume, parseVolume, toOz, ozToMl} from '../lib/units';
+import {checkBounds, limits} from '../lib/bounds';
 import {operationSchema} from '../lib/validation';
 const [stanley, glass] = seedContainers();
 const oz = {weight: 'lb' as const, height: 'ftin' as const};
@@ -48,4 +49,22 @@ test('pours append to the day log, undo removes the last matching pour, and the 
  assert.ok(operationSchema.safeParse({...common(),type:'water',amount:443.6,label:'half a Stanley'}).success);assert.ok(!operationSchema.safeParse({...common(),type:'water',amount:0}).success);
  assert.ok(operationSchema.safeParse({...common(),type:'containers',containers:[{id:'stanley',name:'Stanley',ml:stanley.ml}],defaultContainer:'stanley'}).success);
  s=apply(s,{...common(),type:'containers',containers:[{id:'b',name:'Bottle',ml:500}],defaultContainer:'b'});assert.equal(containersOf(s.profile).default.name,'Bottle');
+});
+test('a long container name with three quarters yields a label the account accepts once trimmed to the bound; refilled my Stanley twice is two',()=>{
+ const long={id:'q',name:'Stanley Quencher 40 oz',ml:40*mlPerOz};
+ const label=describe(long,.75,1);assert.ok(label.length>40,label);
+ const base={id:'12345678-1234-4123-8123-123456789abc',at:'2026-09-10T12:00:00.000Z',day:'2026-09-10',zone:'UTC'};
+ assert.equal(checkBounds({...base,type:'water',amount:long.ml*.75,label:label.slice(0,limits.waterLabel)}),null);
+ assert.ok(operationSchema.safeParse({...base,type:'water',amount:long.ml*.75,label:label.slice(0,limits.waterLabel)}).success);
+ const worst=describe({id:'w',name:'x'.repeat(30),ml:500},.75,3);assert.ok(worst.length<=limits.waterLabel,`${worst.length}`);
+ assert.equal(countOf('refilled my Stanley twice'),2);assert.equal(countOf('refilled the Stanley 3 times'),3);assert.equal(countOf('refilled it'),1);
+ const r=parsePhrase('refilled my Stanley twice',[stanley,glass],stanley);assert.equal(r.kind,'ok');if(r.kind==='ok')assert.equal(r.ml,stanley.ml*2);
+});
+
+test('a container whose name contains another name or a number is read whole: no phantom counts',()=>{
+ const long={id:'q',name:'Stanley Quencher 40 oz',ml:40*mlPerOz};
+ const r=parsePhrase('three quarters of my Stanley Quencher 40 oz',[stanley,glass,long],stanley);assert.equal(r.kind,'ok');
+ if(r.kind==='ok'){assert.equal(r.container.id,'q');assert.equal(r.fraction,.75);assert.equal(r.count,1);assert.ok(Math.abs(toOz(r.ml)-30)<1e-9);}
+ const two=parsePhrase('two thirds of the Stanley',[stanley,glass,long],stanley);assert.equal(two.kind,'ok');if(two.kind==='ok'){assert.equal(two.count,1);assert.ok(Math.abs(two.fraction-2/3)<1e-9);}
+ const both=parsePhrase('2 Stanley Quencher 40 oz',[stanley,glass,long],stanley);assert.equal(both.kind,'ok');if(both.kind==='ok'){assert.equal(both.count,2);assert.equal(both.container.id,'q');}
 });

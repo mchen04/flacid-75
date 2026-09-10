@@ -5,12 +5,14 @@ import {Icon} from './Icon';
 import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, type Habit} from '@/lib/domain';
 import {routines, phaseAt, routineSeconds, intervalsOf, type Routine} from '@/lib/abs';
 import {useTimer, startTimer, pauseTimer, resumeTimer, clearTimer, updateTimer, useWakeLock, clock, type Timer} from '@/lib/timer';
+import {finishTimer, maxSessionSeconds} from '@/lib/sessions';
 import {prime, beep, buzz, soundOn} from '@/lib/sound';
 import {maxFocusBlocks} from '@/lib/settle';
 import {useApp, Dial, Meter, weekInitials, longDate, shortDate} from './shared';
 import {containersOf} from '@/lib/domain';
 import {formatVolume} from '@/lib/units';
 import {parsePhrase, pourMl, describe, inContainers, type Parsed} from '@/lib/water';
+import {limits} from '@/lib/bounds';
 // Shared timer controls. Start primes audio inside the tap, so later cues can sound; the timer itself is wall-clock based (lib/timer.ts).
 function Controls({timerKey, running, hasTimer, onFinish, finishLabel = 'Finish', disabled = false}: {timerKey: string; running: boolean; hasTimer: boolean; onFinish: () => void; finishLabel?: string; disabled?: boolean}) {
  const {dayKey} = useApp();
@@ -40,14 +42,14 @@ export function Walk() {
  const stale = !!timer && timer.day !== dayKey && !running;
  const target = (day.targets.walkMinutes ?? 30) * 60; const share = Math.min(1, elapsed / target);
  const session = day.sessions?.walk;
- function finish() {if (!timer) return; const seconds = elapsed; const creditDay = timer.day; clearTimer('walk'); if (change({type: 'session', habit: 'walk', seconds, done: true}, creditDay)) {bump('walk', 2000); beep('done'); buzz(80);}}
+ function finish() {if (finishTimer('walk', (seconds, creditDay) => change({type: 'session', habit: 'walk', seconds, done: true}, creditDay))) {bump('walk', 2000); beep('done'); buzz(80);}}
  return <section className="activity">
   <div className={`stage walk ${done.walk ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Hills phase="day" walked={done.walk} progress={done.walk ? 1 : share}/><span className="stage-copy"><strong>{done.walk ? 'Walked.' : running ? 'Walking.' : timer ? 'Paused.' : selected ? 'A walk that day.' : 'A walk today.'}</strong><span>{done.walk ? `${Math.round((session?.seconds ?? 0) / 60)} minutes` : `${Math.round(target / 60)} minutes keeps it simple`}</span></span></div>
   {done.walk ? <DoneCard title="Walk logged" detail={session ? `${clock(session.seconds)} on the path.` : 'Marked done without a timer.'} onUndo={() => change({type: 'session', habit: 'walk', seconds: 0, done: false})}/>
   : selected ? <button className="primary" onClick={() => change({type: 'check', habit: 'walk', value: true})}>Mark walked on this day</button>
   : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Walk" onFinish={finish}/>
   : <>
-   <div className="card timer-card"><Dial share={share}><strong className="dial-time" aria-live={running ? 'off' : 'polite'} aria-label={`Walk time ${clock(elapsed)}`}>{clock(elapsed)}</strong><span>{running ? 'walking' : timer ? 'paused' : 'ready'}</span></Dial><p className="fine-print">Counts for {dayKey === timer?.day || !timer ? 'today' : shortDate(timer.day)}. Keeps counting while the phone is locked or the app is in the background; the time comes from the clock, not from ticks. No chime or buzz can play while the phone is locked.</p></div>
+   <div className="card timer-card"><Dial share={share}><strong className="dial-time" aria-live={running ? 'off' : 'polite'} aria-label={`Walk time ${clock(elapsed)}`}>{clock(elapsed)}</strong><span>{running ? 'walking' : timer ? 'paused' : 'ready'}</span></Dial><p className="fine-print">Counts for {dayKey === timer?.day || !timer ? 'today' : shortDate(timer.day)}. Keeps counting while the phone is locked or the app is in the background; the time comes from the clock, not from ticks. No chime or buzz can play while the phone is locked.{elapsed > maxSessionSeconds ? ' Sessions longer than 24 hours are logged as 24 hours.' : ''}</p></div>
    <Controls timerKey="walk" running={running} hasTimer={!!timer} onFinish={finish}/>
    {!timer && <button className="text-button" onClick={() => {if (change({type: 'check', habit: 'walk', value: true})) bump('walk', 2000);}}>Already walked · mark done</button>}
   </>}
@@ -63,7 +65,7 @@ export function Workout() {
  const session = day.sessions?.workout;
  // Ticking a move starts the session clock if it is not running yet; the ticks live with the timer so they survive a reload.
  function toggleItem(item: string) {if (selected || stale) return; if (!timer) {void prime(); startTimer('workout', dayKey, {items: ''});} const next = new Set(checked); if (next.has(item)) next.delete(item); else next.add(item); updateTimer('workout', {items: [...next].join('\n')}); buzz(20);}
- function finish() {const seconds = elapsed; const items = [...checked]; const creditDay = timer?.day ?? dayKey; clearTimer('workout'); if (change({type: 'session', habit: 'workout', seconds, done: true, items}, creditDay)) {bump('workout'); beep('done'); buzz(80);}}
+ function finish() {const items = [...checked]; const ok = timer ? finishTimer('workout', (seconds, creditDay) => change({type: 'session', habit: 'workout', seconds, done: true, items}, creditDay)) : change({type: 'session', habit: 'workout', seconds: 0, done: true, items}, dayKey); if (ok) {bump('workout'); beep('done'); buzz(80);}}
  return <section className="activity">
   <div className={`stage workout ${done.workout ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Gym done={done.workout} active={running}/><span className="stage-copy"><strong>{done.workout ? 'Lifted.' : running ? 'In session.' : selected ? 'Lift that day.' : 'Lift today.'}</strong><span>{done.workout ? `${session?.items?.length ?? 0} of ${plan.length} moves` : `${checked.size} of ${plan.length} checked`}</span></span><span className="stage-tag">{timer && !stale ? clock(elapsed) : done.workout ? <><Icon name="check" size={14}/>Done</> : 'Plan'}</span></div>
   {done.workout ? <DoneCard title="Workout logged" detail={session ? `${session.items?.length ? session.items.join(', ') + '. ' : ''}${session.seconds ? clock(session.seconds) : 'No timer'}.` : 'Marked done.'} onUndo={() => change({type: 'session', habit: 'workout', seconds: 0, done: false})}/>
@@ -90,7 +92,7 @@ export function Abs() {
  const session = day.sessions?.abs;
  // Interval cues: a beep and a flash whenever the interval changes, the done chord when the routine ends. Derived from elapsed time, so a backgrounded run catches up correctly.
  useEffect(() => {if (!timer) {lastIndex.current = -1; return;} if (phase.index !== lastIndex.current) {if (lastIndex.current >= 0) {beep(phase.finished ? 'done' : phase.interval.kind === 'work' ? 'go' : 'tick'); buzz(phase.finished ? 120 : 40); setFlash(phase.finished ? 'is-finished' : phase.interval.kind === 'work' ? 'flash-go' : 'flash-rest'); setTimeout(() => setFlash(''), 700);} lastIndex.current = phase.index;}}, [phase.index, phase.finished, phase.interval.kind, timer]);
- function finish() {if (!timer) return; const seconds = Math.min(elapsed, routineSeconds(routine)); const creditDay = timer.day; clearTimer('abs'); if (change({type: 'session', habit: 'abs', seconds, done: true, routine: routine.name}, creditDay)) {bump('abs'); beep('done');}}
+ function finish() {if (finishTimer('abs', (seconds, creditDay) => change({type: 'session', habit: 'abs', seconds: Math.min(seconds, routineSeconds(routine)), done: true, routine: routine.name}, creditDay))) {bump('abs'); beep('done');}}
  const total = routineSeconds(routine); const intervals = intervalsOf(routine);
  return <section className="activity">
   <div className={`stage abs ${done.abs ? 'is-done' : ''} ${running ? 'is-active' : ''} ${flash}`}><Mat done={done.abs} active={running}/><span className="stage-copy"><strong>{done.abs ? 'Core done.' : timer ? phase.interval.exercise.name : selected ? 'Core that day.' : 'Core today.'}</strong><span>{done.abs ? session?.routine ?? 'Marked done' : timer ? (phase.interval.kind === 'rest' ? `Rest · next ${phase.interval.next?.name ?? 'finish'}` : `Move ${phase.interval.index + 1} of ${routine.exercises.length}`) : 'Pick a routine below'}</span></span>{timer && !stale && <span className="stage-tag">{clock(Math.ceil(phase.remaining))}</span>}</div>
@@ -123,12 +125,13 @@ export function Floss() {
  </section>;
 }
 export function Water() {
- const {state, day, done, pulse, units, change, bump, open} = useApp();
+ const {state, day, done, pulse, units, notice, change, bump, open} = useApp();
  const {list, default: main} = containersOf(state.profile);
  const [pick, setPick] = useState(main.id); const container = list.find(c => c.id === pick) ?? main;
  const [text, setText] = useState(''); const [pending, setPending] = useState<Parsed | null>(null); const [busy, setBusy] = useState(false); const [note, setNote] = useState('');
  const log = day.waterLog ?? [];
- function pour(ml: number, label: string) {if (change({type: 'water', amount: ml, label})) {bump('water', 900); setPending(null); setText(''); setNote('');}}
+ // The label is trimmed to the account's bound (a long container name plus "three quarters of a" can exceed it); a refusal shows right here.
+ function pour(ml: number, label: string) {if (change({type: 'water', amount: ml, label: label.slice(0, limits.waterLabel)})) {bump('water', 900); setPending(null); setText(''); setNote('');} else setNote('refused');}
  function undoLast() {const last = log.at(-1); if (!last) return; change({type: 'water', amount: -last.ml});}
  // Typed phrases: the local parser first. If it cannot read the note, the model may name the container and the share; the app does the arithmetic.
  async function read() {
@@ -158,7 +161,7 @@ export function Water() {
    {pending?.kind === 'ok' && <div className="confirm"><p><strong>{formatVolume(pending.ml, units)}</strong> · {pending.label}. {pending.count > 1 || pending.fraction !== 1 ? `${formatVolume(pending.container.ml, units)} × ${pending.fraction === 1 ? '' : pending.fraction === .5 ? '½' : pending.fraction === .25 ? '¼' : pending.fraction === .75 ? '¾' : Math.round(pending.fraction * 100) + '%'}${pending.count > 1 ? ` × ${pending.count}` : ''}` : ''}</p><div className="controls"><button className="secondary" onClick={() => setPending(null)}>Not this</button><button className="primary" onClick={() => pending.kind === 'ok' && pour(pending.ml, pending.label)}>Add {formatVolume(pending.ml, units)}</button></div></div>}
    {pending?.kind === 'ask' && <div className="confirm" role="group" aria-label={pending.question}><p><strong>{pending.question}</strong> Pick a share; nothing is guessed.</p><div className="fractions">{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'All']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`${l} of the ${pending.container!.name}`} onClick={() => pour(pourMl(pending.container!, f, 1), describe(pending.container!, f, 1))}><b>{l}</b><small>{formatVolume(pending.container!.ml * f, units)}</small></button>)}</div></div>}
    {pending?.kind === 'none' && <p className="form-error" role="alert">Name a container and how much of it, like “half my Stanley”.</p>}
-   {note && <p className="form-error" role="alert">{note}</p>}
+   {note && <p className="form-error" role="alert">{note === 'refused' ? (notice || 'That pour could not be logged.') : note}</p>}
   </div>
   {log.length > 0 && <div className="card list" role="group" aria-label="Today’s pours"><div className="card-head"><h2>Today</h2><button className="text-button" aria-label="Undo last pour" onClick={undoLast}><Icon name="undo" size={16}/>Undo last</button></div>{log.map((e, i) => <div key={i} className="meal-row"><div><strong>{formatVolume(e.ml, units)}</strong><p>{e.label ?? 'Water'}</p></div></div>)}</div>}
   <p className="fine-print">Sizes are stored once, in millilitres, and shown in your unit. A pour is the container size times the share you drank; the app does that arithmetic, never the model. Water counts on its own once the target is reached.</p>
@@ -185,7 +188,7 @@ export function Meditate() {
  const {timer, elapsed, running} = useTimer('meditate'); useWakeLock(running);
  const minutes = Number(timer?.meta?.minutes ?? 5); const target = minutes * 60; const remaining = Math.max(0, target - elapsed);
  const [choice, setChoice] = useState(5);
- function finish(seconds = elapsed) {if (!timer) return; const creditDay = timer.day; clearTimer('meditate'); if (change({type: 'meditate', seconds}, creditDay)) {bump('meditate'); beep('done'); buzz(80);}}
+ function finish(seconds?: number) {if (finishTimer('meditate', (elapsedCapped, creditDay) => change({type: 'meditate', seconds: seconds ?? elapsedCapped}, creditDay))) {bump('meditate'); beep('done'); buzz(80);}}
  // Completion itself is settled app-wide (lib/settle.ts); this page only shows the count.
  return <section className="activity">
   <div className="card timer-card optional-card">
@@ -218,7 +221,7 @@ export function Focus() {
    <p className="fine-print">{timer ? `Block ${block + 1} of ${maxFocusBlocks} · ${logged} finished this run` : ''}{day.focus ? `${timer ? ' · ' : ''}${Math.round(day.focus / 60)} min focused today.` : timer ? '' : `Work blocks are logged when they end, up to ${maxFocusBlocks} per session. Breaks are yours. This app does not block other apps.`}</p>
   </div>
   {selected ? <p className="fine-print">Timers run for today only. Past days show what was logged; nothing here can be backfilled.</p>
-  : !timer ? <button className="primary" onClick={() => {void prime(); startTimer('focus', dayKey, {work, rest, logged: 0}); buzz();}}><Icon name="play" size={18}/>Start focus</button>
+  : !timer ? <button className="primary" onClick={() => {void prime(); startTimer('focus', dayKey, {work, rest, logged: 0, run: crypto.randomUUID()}); buzz();}}><Icon name="play" size={18}/>Start focus</button>
   : <Controls timerKey="focus" running={running} hasTimer onFinish={() => clearTimer('focus')} finishLabel="End session"/>}
  </section>;
 }

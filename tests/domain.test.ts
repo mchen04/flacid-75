@@ -93,3 +93,10 @@ test('a session that runs past local midnight credits the day it was started on'
 });
 test('calculation, smoothing, editable overrides and material recomputation',()=>{assert.deepEqual(computeTargets(stats),{calorieMin:1800,calorieMax:2000,protein:105,water:2000,steps:7000,walkMinutes:30});let s=initial();s=apply(s,{...common(),type:'profile',stats,overrides:{protein:120}});s=apply(s,{...common(),type:'weight',weight:70});assert.equal(s.profile!.targets.protein,120);assert.equal(s.profile!.baselineWeight,70);const series=weightTrend({'2026-01-01':65,'2026-01-02':70});assert.ok(series[1].value>65&&series[1].value<70);assert.equal(streaks(s,'2026-09-01').current,0);});
 test('food corrections replace a meal and numeric goals remain estimates',()=>{let s=initial();const mealId=randomUUID();const op={...common(),type:'meal',mealId,calories:1800,protein:110} as Operation;s=apply(s,op);assert.equal(Object.keys(s.days['2026-09-01'].meals).length,1);s=apply(s,{...op,calories:2100} as Operation);assert.equal(Object.keys(s.days['2026-09-01'].meals).length,1);assert.equal(isComplete(s.days['2026-09-01']),false);});
+test('saving targets or details without editing the weight keeps the trend baseline; editing the weight resets it',()=>{
+ let s=initial();for(const [d,w] of [['2026-09-01',65],['2026-09-04',70],['2026-09-07',70],['2026-09-10',70]] as const)s=apply(s,{...common(d,d+'T20:00:00.000Z'),type:'weight',weight:w});
+ const trend=s.profile!.baselineWeight;assert.ok(trend>65&&trend<=70,`trend ${trend}`);const targets=s.profile!.targets;
+ s=apply(s,{...common('2026-09-10'),type:'profile',stats,overrides:{protein:120}});
+ assert.equal(s.profile!.baselineWeight,trend,'an unedited weight keeps the trend baseline');assert.equal(s.profile!.targets.calorieMin,targets.calorieMin);assert.equal(s.profile!.targets.protein,120);
+ s=apply(s,{...common('2026-09-10'),type:'profile',stats:{...stats,weight:80},overrides:{}});assert.equal(s.profile!.baselineWeight,80);
+});

@@ -9,7 +9,7 @@ const reward = z.object({id: z.uuid(), name: z.string().trim().min(1).max(60), c
 export const operationSchema = z.discriminatedUnion('type', [
  z.object({...common, type: z.literal('profile'), stats: statsSchema, overrides}),
  z.object({...common, type: z.literal('check'), habit: z.enum(['workout', 'abs', 'walk', 'water', 'protein', 'calories', 'floss']), value: z.boolean()}),
- z.object({...common, type: z.literal('water'), amount: n(-6000, 6000).refine(v => v !== 0), label: z.string().trim().min(1).max(40).optional()}),
+ z.object({...common, type: z.literal('water'), amount: n(-6000, 6000).refine(v => v !== 0), label: z.string().trim().min(1).max(60).optional()}),
  z.object({...common, type: z.literal('meal'), mealId: z.uuid(), calories: n(0, 10000), protein: n(0, 1000)}),
  z.object({...common, type: z.literal('deleteMeal'), mealId: z.uuid()}),
  z.object({...common, type: z.enum(['rest', 'rescue']), value: z.boolean()}),

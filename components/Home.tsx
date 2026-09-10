@@ -4,7 +4,8 @@ import {Icon} from './Icon';
 import {habits, totals, restsLeft, pointsBalance, streaks, milestoneDays, containersOf, type Habit} from '@/lib/domain';
 import {formatVolume} from '@/lib/units';
 import {inContainers} from '@/lib/water';
-import {clock, getTimer, elapsedSeconds, isRunning, clearTimer} from '@/lib/timer';
+import {clock, getTimer, elapsedSeconds, isRunning} from '@/lib/timer';
+import {finishTimer} from '@/lib/sessions';
 import {routines, routineSeconds} from '@/lib/abs';
 import {useApp, Row, Meter, names, format} from './shared';
 export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
@@ -18,7 +19,7 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
  // undoing a timed session removes the session, so a later plain log does not inherit its minutes.
  function toggle(h: Habit) {
   const before = done[h]; const timed = h === 'walk' || h === 'workout' || h === 'abs'; const t = timed ? getTimer(h) : null;
-  if (!before && timed && t && t.day === dayKey) {const seconds = elapsedSeconds(t); const items = (t.meta?.items as string | undefined)?.split('\n').filter(Boolean); const routine = h === 'abs' ? (routines.find(r => r.id === t.meta?.routine) ?? routines[1]) : null; clearTimer(h); if (change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: routine ? Math.min(seconds, routineSeconds(routine)) : seconds, done: true, ...(items?.length ? {items} : {}), ...(routine ? {routine: routine.name} : {})}, dayKey)) bump(h, h === 'walk' ? 2000 : 1400); return;}
+  if (!before && timed && t && t.day === dayKey) {const items = (t.meta?.items as string | undefined)?.split('\n').filter(Boolean); const routine = h === 'abs' ? (routines.find(r => r.id === t.meta?.routine) ?? routines[1]) : null; if (finishTimer(h, seconds => change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: routine ? Math.min(seconds, routineSeconds(routine)) : seconds, done: true, ...(items?.length ? {items} : {}), ...(routine ? {routine: routine.name} : {})}, dayKey))) bump(h, h === 'walk' ? 2000 : 1400); return;}
   if (before && timed && day.sessions?.[h as 'walk' | 'workout' | 'abs']) {change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: 0, done: false}, dayKey); return;}
   if (change({type: 'check', habit: h, value: !before}, dayKey)) bump(h, h === 'walk' ? 2000 : 1400);
  }

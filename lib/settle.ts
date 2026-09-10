@@ -23,7 +23,7 @@ export function settle(now = Date.now()): Settled[] {
  if (focus) {
   const w = Number(focus.meta?.work ?? 25) * 60, r = Number(focus.meta?.rest ?? 5) * 60; const cycle = w + r; const elapsed = elapsedSeconds(focus, now);
   const block = Math.floor(elapsed / cycle); const working = elapsed - block * cycle < w; const completed = Math.min(maxFocusBlocks, block + (working ? 0 : 1)); const logged = Number(focus.meta?.logged ?? 0);
-  for (let i = logged; i < completed; i++) out.push({timer: focus, clear: false, id: stableId(`focus|${focus.key}|${focus.day}|${focus.meta?.work}|${focus.meta?.rest}|block${i}`), op: {type: 'focus', seconds: w, day: focus.day}});
+  for (let i = logged; i < completed; i++) out.push({timer: focus, clear: false, id: stableId(`focus|${focus.key}|${focus.day}|${focus.meta?.run ?? focus.startedAt ?? 'p'}|${focus.meta?.work}|${focus.meta?.rest}|block${i}`), op: {type: 'focus', seconds: w, day: focus.day}});
   if (completed > logged) updateTimer('focus', {logged: completed});
   if (completed >= maxFocusBlocks) out.push({timer: focus, clear: true, id: stableId('focus-end|' + identity(focus)), op: {type: 'focus', seconds: 0, day: focus.day}});
  }

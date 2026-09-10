@@ -47,7 +47,7 @@ export default function App() {
  const complete = count === habits.length;
  const headline = selected ? 'Past day' : day.rest ? 'Rest day.' : complete ? 'Every one.' : count >= 5 ? 'Nearly there.' : count > 0 ? 'Good going.' : stumbled ? 'A new day.' : morning ? 'Good morning.' : hour < 17 ? 'Good afternoon.' : 'Good evening.';
  const title = page ? titles[page] ?? 'My Wellness' : headline === 'Every one.' ? 'All done.' : headline;
- const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, lastMeal, change, navigate, open, select: setSelected, bump};
+ const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, lastMeal, notice: store.notice, change, navigate, open, select: setSelected, bump};
  const showWeight = morning && !state.weights[today] && !selected && !page;
  const activity = ['walk', 'workout', 'abs', 'floss', 'water', 'rest', 'meditate', 'focus'] as const; type Activity = typeof activity[number];
  const body = (activity as readonly string[]).includes(page) ? <ActivitiesChunk kind={page as Activity}/> : page === 'food' ? <FoodChunk kind="page"/> : page === 'rewards' ? <RewardsChunk kind="page"/> : page === 'progress' ? <ProgressChunk/> : page === 'you' ? <SettingsChunk kind="you" notice={store.notice} failed={store.failed}/> : page === 'rules' ? <SettingsChunk kind="rules"/> : <Home hour={hour} stumbled={stumbled}/>;

@@ -49,9 +49,9 @@ export function Setup({initial, onSave}: {initial?: Stats & {overrides?: Partial
  {!initial && <h1>Welcome to My Wellness.</h1>}
  <div className="segmented" role="group" aria-label="Units">{([['lb', 'ftin', 'lb · ft in'], ['kg', 'cm', 'kg · cm']] as const).map(([w, h, l]) => <button type="button" key={w} className={units.weight === w ? 'active' : ''} aria-pressed={units.weight === w} onClick={() => setUnits({weight: w, height: h})}>{l}</button>)}</div>
  <div className="form-grid">
-  {units.height === 'cm' ? <label>Height · cm<input name="cm" type="number" inputMode="decimal" min="120" max="230" step="0.1" defaultValue={shown?.cm} placeholder="165" required/></label>
+  {units.height === 'cm' ? <label>Height · cm<input key="cm" name="cm" type="number" inputMode="decimal" min="120" max="230" step="0.1" defaultValue={shown?.cm} placeholder="165" required/></label>
   : <div className="ftin"><label>Height · ft<input name="feet" type="number" inputMode="numeric" min="3" max="7" defaultValue={shown?.feet} placeholder="5" required/></label><label>in<input name="inches" type="number" inputMode="numeric" min="0" max="11" defaultValue={shown?.inches} placeholder="5" required/></label></div>}
-  <label>Weight · {units.weight}<input name="weight" type="number" inputMode="decimal" min={units.weight === 'lb' ? 77 : 35} max={units.weight === 'lb' ? 661 : 300} step="0.1" defaultValue={shown?.weight} placeholder={units.weight === 'lb' ? '143' : '65'} required/></label>
+  <label>Weight · {units.weight}<input key={units.weight} name="weight" type="number" inputMode="decimal" min={units.weight === 'lb' ? 77 : 35} max={units.weight === 'lb' ? 661 : 300} step="0.1" defaultValue={shown?.weight} placeholder={units.weight === 'lb' ? '143' : '65'} required/></label>
   <label>Age<input name="age" type="number" inputMode="numeric" min="18" max="100" defaultValue={initial?.age} placeholder="30" required/></label>
   <label>Daily movement<select name="activity" defaultValue={initial?.activity ?? 1}><option value="0">Mostly sitting</option><option value="1">Lightly active</option><option value="2">Often moving</option><option value="3">Very active</option></select></label>
  </div>

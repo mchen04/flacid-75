@@ -7,25 +7,30 @@ const shares: [RegExp, number][] = [
  [/\b(three[- ]quarters?|3\/4|¾)\b/, .75], [/\b(two[- ]thirds?|2\/3)\b/, 2 / 3], [/\b(half|1\/2|½)\b/, .5], [/\b(a )?third\b|1\/3/, 1 / 3], [/\b(a )?quarter\b|1\/4|¼/, .25],
  [/\bmost\b/, .75], [/\b(whole|all of|all|entire|full|finished|drank it all|emptied|the lot)\b/, 1], [/\b(a (little|bit|sip|splash|few sips))\b/, NaN],
 ];
-export function findContainer(text: string, containers: Container[]) {const t = text.toLowerCase(); return containers.find(c => t.includes(c.name.toLowerCase())) ?? null;}
+// The longest matching name wins, so "Stanley Quencher" is not read as "Stanley".
+export function findContainer(text: string, containers: Container[]) {const t = text.toLowerCase(); return [...containers].sort((a, b) => b.name.length - a.name.length).find(c => t.includes(c.name.toLowerCase())) ?? null;}
 export function fractionOf(text: string): number | null {const t = text.toLowerCase(); for (const [re, f] of shares) if (re.test(t)) return f; return null;}
 // "refilled it twice" means two containers were emptied to be refilled; "two Stanleys" is plainly two.
 export function countOf(text: string): number | null {
  const t = text.toLowerCase();
- const refill = t.match(/refill(?:ed|s)?(?: it| the \w+)?(?: (\w+) times?| (\w+))?/); if (refill) {const w = refill[1] ?? refill[2] ?? 'once'; const n = words[w] ?? Number(w); return Number.isFinite(n) && n > 0 ? n : 1;}
- const explicit = t.match(/\b(\d+(?:\.\d+)?|a|an|one|two|three|four|five|six)\s+(?:x\s+)?[a-z]/); if (explicit) {const n = words[explicit[1]] ?? Number(explicit[1]); if (Number.isFinite(n) && n > 0 && n <= 20) return n;}
+ if (/refill/.test(t)) {const times = t.match(/(\w+)\s+times?\b/); const w = times?.[1] ?? (/\btwice\b/.test(t) ? 'twice' : /\bthrice\b/.test(t) ? 'thrice' : /\bonce\b/.test(t) ? 'once' : null); if (w === null) return 1; const n = words[w] ?? Number(w); return Number.isFinite(n) && n > 0 && n <= 20 ? n : 1;}
+ // A number that starts a share ("three quarters", "two thirds") is not a count.
+ const explicit = t.match(/\b(\d+(?:\.\d+)?|a|an|one|two|three|four|five|six)\s+(?:x\s+)?(?!quarters?\b|thirds?\b|halves\b|half\b)[a-z]/); if (explicit) {const n = words[explicit[1]] ?? Number(explicit[1]); if (Number.isFinite(n) && n > 0 && n <= 20) return n;}
  return null;
 }
 export function pourMl(container: Container, fraction: number, count = 1) {return container.ml * fraction * count;}
 export function describe(container: Container, fraction: number, count: number) {
  const share = fraction === 1 ? '' : fraction === .5 ? 'half a ' : fraction === .25 ? 'a quarter of a ' : fraction === .75 ? 'three quarters of a ' : Math.abs(fraction - 1 / 3) < .01 ? 'a third of a ' : `${Math.round(fraction * 100)}% of a `;
- if (fraction === 1) return count === 1 ? `a ${container.name}` : `${count} ${container.name}s`;
+ const plural = /s$/i.test(container.name) ? `${container.name}es` : `${container.name}s`;
+ if (fraction === 1) return count === 1 ? `a ${container.name}` : `${count} ${plural}`;
  return count === 1 ? `${share}${container.name}` : `${count} × ${share}${container.name}`;
 }
 export function parsePhrase(text: string, containers: Container[], fallback: Container): Parsed {
  const t = text.trim(); if (!t) return {kind: 'none'};
  const container = findContainer(t, containers) ?? (/\b(glass|cup|bottle|it|one|refill)\b/i.test(t) ? fallback : null);
- const fraction = fractionOf(t); const count = countOf(t);
+ // The container's own name (which may hold a number, "40 oz") is set aside before the share and the count are read.
+ const rest = container ? t.replace(new RegExp(container.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), 'it') : t;
+ const fraction = fractionOf(rest); const count = countOf(rest);
  if (fraction !== null && Number.isNaN(fraction)) return {kind: 'ask', container: container ?? fallback, question: `How much of the ${(container ?? fallback).name}?`};
  // A bare count ("a run", "twice") is not a pour: without a container or a share there is nothing to log.
  if (!container && fraction === null) return {kind: 'none'};

@@ -82,8 +82,11 @@ export function completeDays(state: State, today: string) {return Object.entries
 export function apply(state: State, op: Operation): State {
  const next: State = structuredClone(state);
  if (op.type === 'profile') {
-  const targets = {...computeTargets(op.stats), ...op.overrides};
-  next.profile = {...next.profile, ...op.stats, targets, overrides: op.overrides, baselineWeight: op.stats.weight, startDay: state.profile?.startDay ?? op.day};
+  // Saving targets or details without changing the weight keeps the trend baseline and recomputes from it; a changed weight resets the baseline.
+  const sameWeight = !!state.profile && state.profile.weight === op.stats.weight;
+  const baselineWeight = sameWeight ? state.profile!.baselineWeight : op.stats.weight;
+  const targets = {...computeTargets({...op.stats, weight: baselineWeight}), ...op.overrides};
+  next.profile = {...next.profile, ...op.stats, targets, overrides: op.overrides, baselineWeight, startDay: state.profile?.startDay ?? op.day};
   next.clock ??= {zone: op.zone, anchorDay: op.day, anchorLocal: localDate(op.at, op.zone)};
   if (next.days[op.day]) next.days[op.day].targets = {...targets};
   return next;
