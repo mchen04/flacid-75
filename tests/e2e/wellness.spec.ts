@@ -218,8 +218,8 @@ test('the hero opens whatever comes next, and water and meals undo from the dash
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  await expect(page.getByRole('button',{name:/^Open workout\. 0 of 7/})).toBeVisible();await page.getByRole('button',{name:/^Open workout\. 0 of 7/}).click();await expect(page.getByRole('heading',{name:'Workout'})).toBeVisible();await page.getByRole('button',{name:'Home'}).click();
  await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByRole('button',{name:/^Open abs\. 1 of 7/})).toBeVisible();
- await page.getByRole('button',{name:'Add a Stanley'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('2 of 3 Stanleys · 60 oz')).toBeVisible();
- await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.getByText('1 of 3 Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
+ await page.getByRole('button',{name:'Add a Stanley'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('2 of 2¼ Stanleys · 60 oz')).toBeVisible();
+ await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
  await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();await page.getByRole('button',{name:'Undo last meal'}).click();await expect(page.getByText('0 kcal · 0/105 g')).toBeVisible();expect(Object.keys(box.state.days[today].meals)).toHaveLength(0);
  await expect(page.getByRole('button',{name:'Log a meal'})).toBeVisible();
@@ -232,18 +232,20 @@ test('half a Stanley is exactly 15 oz, twice; the fill and the daily total match
  const before=await liquidY();
  await page.getByLabel('Or say it').fill('I drank half my Stanley');await page.getByRole('button',{name:'Read it'}).click();
  await expect(page.getByText('15 oz · half a Stanley.',{exact:false})).toBeVisible();await page.getByRole('button',{name:'Add 15 oz'}).click();
- await expect(page.locator('.water-copy .big')).toHaveText('15 oz');await expect(page.getByText('about ½ of 3 Stanleys',{exact:false})).toBeVisible();
+ await expect(page.locator('.water-copy .big')).toHaveText('15 oz');await expect(page.getByText('about ½ of 2¼ Stanleys',{exact:false})).toBeVisible();
  await page.waitForTimeout(1000);const mid=await liquidY();expect(mid).toBeLessThan(before);
  await page.getByLabel('Or say it').fill('half a Stanley');await page.getByRole('button',{name:'Read it'}).click();await page.getByRole('button',{name:'Add 15 oz'}).click();
- await expect(page.locator('.water-copy .big')).toHaveText('30 oz');await expect(page.getByText('about 1 of 3 Stanleys',{exact:false})).toBeVisible();
+ await expect(page.locator('.water-copy .big')).toHaveText('30 oz');await expect(page.getByText('about 1 of 2¼ Stanleys',{exact:false})).toBeVisible();
  await page.waitForTimeout(1000);expect(await liquidY()).toBeLessThan(mid);
  // The stored day holds two pours of exactly half a Stanley, in millilitres.
  await expect.poll(()=>box.state.days[today]?.waterLog?.map(e=>Math.round(e.ml*1000)/1000)).toEqual([443.603,443.603]);expect(box.state.days[today].waterLog?.map(e=>e.label)).toEqual(['half a Stanley','half a Stanley']);
  await expect(page.getByRole('group',{name:'Today’s pours'}).getByText('15 oz')).toHaveCount(2);
  // The dashboard says the same thing.
- await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('1 of 3 Stanleys · 30 oz')).toBeVisible();await page.getByRole('button',{name:'Open water',exact:true}).click();
+ await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();await page.getByRole('button',{name:'Open water',exact:true}).click();
+ // The water page is remounted on the way back; wait for its own state to be on screen before typing (WebKit otherwise fills the input of the first paint, and the phrase is lost).
+ await expect(page.locator('.water-copy .big')).toHaveText('30 oz');await expect(page.getByRole('button',{name:'Read it'})).toBeDisabled();
  // Refills, a quarter, most, the whole thing: the app multiplies; the confirmation shows the arithmetic.
- await page.getByLabel('Or say it').fill('refilled it twice');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByText('60 oz · 2 Stanleys.',{exact:false})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
+ await page.getByLabel('Or say it').fill('refilled it twice');await expect(page.getByRole('button',{name:'Read it'})).toBeEnabled();await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByText('60 oz · 2 Stanleys.',{exact:false})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
  await page.getByLabel('Or say it').fill('a quarter of the Stanley');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 7.5 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
  await page.getByLabel('Or say it').fill('most of it');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 22.5 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
  await page.getByLabel('Or say it').fill('the whole thing');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 30 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
@@ -265,9 +267,9 @@ test('containers are hers to name and size, in her unit, and the default drives 
  await page.getByRole('button',{name:'Water containers'}).click();await page.getByLabel('Container',{exact:true}).fill('Bottle');await page.getByLabel('Size · oz').fill('20');await page.getByRole('button',{name:'Add container'}).click();
  await expect(page.getByText('20 oz',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Make default'}).last().click();await page.getByRole('button',{name:'Save',exact:true}).click();
  await expect.poll(()=>box.state.profile?.containers?.map(c=>c.name)).toEqual(['Stanley','Glass','Bottle']);expect(box.state.profile?.containers?.[2].ml).toBeCloseTo(20*29.5735295625,6);
- await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Add a Bottle'}).click();await expect(page.getByText('1 of 4 Bottles · 20 oz')).toBeVisible();
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Add a Bottle'}).click();await expect(page.getByText('1 of 3½ Bottles · 20 oz')).toBeVisible();
  // Switch the display to millilitres: the stored size is untouched.
- await page.getByLabel('Settings').click();await page.getByRole('button',{name:'ml',exact:true}).click();await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('1 of 4 Bottles · 591 ml')).toBeVisible();expect(box.state.days[today].water).toBeCloseTo(20*29.5735295625,6);
+ await page.getByLabel('Settings').click();await page.getByRole('button',{name:'ml',exact:true}).click();await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('1 of 3½ Bottles · 591 ml')).toBeVisible();expect(box.state.days[today].water).toBeCloseTo(20*29.5735295625,6);
 });
 
 // Final audit repairs.
@@ -427,4 +429,213 @@ test('R-extra: switching the weight unit after typing does not reinterpret the n
  await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.reload();await page.getByLabel('Passphrase').fill('test-only');await page.getByRole('button',{name:'Open'}).click();
  await expect(page.locator('.app-shell')).toBeVisible();await expect(page.getByRole('switch',{name:'Sound cues'})).toBeVisible();await expect(page.getByText('Connect to the internet',{exact:false})).toHaveCount(0);await expect(page.getByLabel('Passphrase')).toHaveCount(0);
  await expect.poll(()=>box.rejected.length+(box.state.days[today]?.redeemed?Object.keys(box.state.days[today].redeemed!).length:0)).toBeGreaterThanOrEqual(1);
+});
+// Review 163 regressions.
+test('R163-1: when device storage refuses the write, an automatically finishing timer and a manual finish both keep their timer and retry once storage is back',async({page})=>{
+ const today=todayIn();const box=await openAt(page,seed(),at(today,'12:00:00'),'meditate');
+ // Storage refuses writes of the app store (as a full device would) while the flag is set; timer writes still succeed. The hook is on Storage.prototype, which both Chromium and WebKit honour (WebKit ignores an own property set on the localStorage instance).
+ await page.evaluate(()=>{const w=window as unknown as {__refuse:boolean};w.__refuse=false;const orig=Storage.prototype.setItem;Storage.prototype.setItem=function(this:Storage,k:string,v:string){if(this===localStorage&&w.__refuse&&(k==='flaccid75-v1'||k.startsWith('my-wellness-op:')))throw new DOMException('quota','QuotaExceededError');orig.call(this,k,v);};});
+ await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=true;});
+ await page.clock.runFor(2000);await page.clock.fastForward(4*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await page.clock.runFor(2500);
+ await expect(page.getByRole('button',{name:/Finish early/})).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').meditate)).toBeTruthy();expect(box.state.days[today]?.meditate).toBeUndefined();
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.clock.runFor(2500);
+ await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').meditate)).toBeUndefined();
+ // A focus block refused by storage is not marked logged, and lands once, when storage is back.
+ await page.evaluate(()=>{location.hash='focus';});await page.getByLabel('Work minutes',{exact:true}).selectOption('15');await page.getByLabel('Break minutes',{exact:true}).selectOption('3');await page.getByRole('button',{name:'Start focus'}).click();
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=true;});await page.clock.runFor(2000);await page.clock.fastForward(16*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await page.clock.runFor(2500);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')!).focus.meta.logged)).toBe(0);expect(box.state.days[today]?.focus).toBeUndefined();
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.clock.runFor(2500);await expect.poll(()=>box.state.days[today]?.focus).toBe(900);expect(box.ops.filter(o=>o.type==='focus')).toHaveLength(1);
+ await page.getByRole('button',{name:'End session'}).click();
+ // A manual finish under refusal keeps the walk timer; it finishes once storage is back.
+ await page.evaluate(()=>{location.hash='walk';});await page.getByRole('button',{name:'Start',exact:true}).click();await page.clock.runFor(60*1000);
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=true;});await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('button',{name:'Finish'})).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeTruthy();
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByText('Walk logged')).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+});
+test('R163-2: a refused batch during a slow sync cannot overwrite a change another tab queued and then closed on',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ // Tab A: the account answers every sync after three seconds with a 400.
+ await page.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));await r.fulfill({status:400,json:{error:'A batch must be 1 to 100 changes.'}});});
+ const other=await context.newPage();await other.route('**/api/sync',r=>r.abort());await other.route('**/api/state',r=>r.fulfill({json:box.state}));await other.goto('/');await other.locator('.home-view').waitFor();
+ await page.getByRole('button',{name:'Log walk'}).click();await page.waitForTimeout(300);
+ await other.getByRole('button',{name:'Log floss'}).click();await expect(other.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');await other.waitForTimeout(300);await other.close();
+ // A's 400 lands: walk is set aside, floss stays queued in storage and on screen.
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length),{timeout:10000}).toBe(1);
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!));expect(saved.pending.some((o:{type:string;habit?:string})=>o.type==='check'&&o.habit==='floss')).toBe(true);
+ await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ // The account recovers; the queued floss reaches it after a reload.
+ await page.unroute('**/api/sync');const {mock}=await import('./helpers');await mock(page,box);await page.reload();await page.locator('.app-shell').waitFor();
+ await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:15000}).toBe(true);
+});
+test('R163-3: an in-form unit toggle keeps untouched measurements exact',async({page})=>{
+ const box=await open(page,seed(),{hash:'you'});
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Weight · lb').fill('143.4');await page.getByRole('button',{name:'Update'}).click();
+ const exact=143.4*0.45359237;await expect.poll(()=>box.state.profile?.weight).toBeCloseTo(exact,10);
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByRole('button',{name:'kg · cm'}).click();await page.getByRole('button',{name:'Update'}).click();
+ await expect.poll(()=>box.state.profile?.units?.weight).toBe('kg');expect(box.state.profile?.weight).toBe(exact);expect(box.state.profile?.height).toBe(165);
+});
+
+test('R163-4: a change written by another tab exactly between this tab\'s read and its save survives, because every change has its own durable key',async({page})=>{
+ const today=todayIn();const box=await open(page,seed());
+ // The other tab's change lands in storage precisely when this tab writes its snapshot after a sync.
+ const floss={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check',habit:'floss',value:true};
+ await page.evaluate(op=>{const orig=Storage.prototype.setItem;const w=window as unknown as {__armed:boolean};w.__armed=true;Storage.prototype.setItem=function(this:Storage,k:string,v:string){if(this===localStorage&&w.__armed&&k==='flaccid75-v1'&&JSON.parse(v).pending.length===0){w.__armed=false;orig.call(this,'my-wellness-op:'+op.id,JSON.stringify(op));}orig.call(this,k,v);};},floss);
+ await page.getByRole('button',{name:'Log walk'}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+ // The hook fired: the snapshot this tab saved lists no floss, but floss has its own key. The tab's next queue read unions the journal, so floss reaches the account with no other tab open and no reload.
+ await expect.poll(()=>page.evaluate(()=>(window as unknown as {__armed:boolean}).__armed)).toBe(false);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.some((p:{habit?:string})=>p.habit==='floss'))).toBe(false);
+ await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:10000}).toBe(true);expect(box.ops.filter(o=>o.type==='check'&&o.habit==='floss')).toHaveLength(1);
+ await page.reload();await page.locator('.app-shell').waitFor();
+ await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');expect(box.ops.filter(o=>o.type==='check'&&o.habit==='floss')).toHaveLength(1);
+ expect(await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-op:')).length)).toBe(0);
+});
+
+test('non-text contrast: unchecked workout rings, the off and on switch, unit segments and unreached milestone labels meet 3:1 with inherited opacity applied',async({page})=>{
+ const box=await open(page,seed(),{hash:'workout'});await page.getByRole('group',{name:'Workout checklist'}).waitFor();
+ const measure=(sel:string,part:'border'|'background'|'inset'|'color')=>page.evaluate(([sel,part])=>{
+  const el=document.querySelector<HTMLElement>(sel);if(!el)return null;
+  const parse=(c:string)=>{const m=c.match(/[\d.]+/g)!.map(Number);return {r:m[0],g:m[1],b:m[2],a:m[3]??1};};
+  const lum=({r,g,b}:{r:number;g:number;b:number})=>{const f=(v:number)=>{v/=255;return v<=.03928?v/12.92:((v+.055)/1.055)**2.4;};return .2126*f(r)+.7152*f(g)+.0722*f(b);};
+  const blend=(fg:{r:number;g:number;b:number;a:number},bg:{r:number;g:number;b:number})=>({r:fg.r*fg.a+bg.r*(1-fg.a),g:fg.g*fg.a+bg.g*(1-fg.a),b:fg.b*fg.a+bg.b*(1-fg.a)});
+  // The colour behind the control: the nearest painted ancestor, over the page ground.
+  let bg={r:244,g:238,b:230};for(let n=el.parentElement;n;n=n.parentElement){const c=parse(getComputedStyle(n).backgroundColor);if(c.a>0){bg=c.a===1?c:blend(c,bg);break;}}
+  // Every ancestor opacity applies to what the eye sees.
+  let alpha=1;for(let n:HTMLElement|null=el;n;n=n.parentElement)alpha*=Number(getComputedStyle(n).opacity);
+  const s=getComputedStyle(el);const raw=part==='border'?s.borderTopColor:part==='background'?s.backgroundColor:part==='color'?s.color:(s.boxShadow.match(/inset[^,]*?(rgba?\([^)]*\))|(rgba?\([^)]*\))[^,]*inset/)?.[1]??s.boxShadow.match(/inset[^,]*?(rgba?\([^)]*\))|(rgba?\([^)]*\))[^,]*inset/)?.[2]??'rgba(0,0,0,0)');
+  const c=parse(raw);const fg=blend({...c,a:c.a*alpha},bg);const l1=lum(fg),l2=lum(bg);
+  return {ratio:Math.round((Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05)*100)/100,fg:raw,alpha,bg:`rgb(${Math.round(bg.r)},${Math.round(bg.g)},${Math.round(bg.b)})`};
+ },[sel,part] as const);
+ const results:Record<string,{ratio:number;fg:string;alpha:number;bg:string}|null>={};
+ results['workout unchecked ring (border)']=await measure('.check-row:not(.is-done) .check-box','border');
+ await page.evaluate(()=>{location.hash='you';});await page.getByRole('switch').waitFor();
+ results['switch off (track)']=await measure('.toggle:not(.is-on)','background');
+ // The track colour transitions for 200 ms; measure the settled colour.
+ await page.getByRole('switch').click();await expect(page.getByRole('switch')).toHaveAttribute('aria-checked','true');await page.waitForTimeout(400);results['switch on (track)']=await measure('.toggle.is-on','background');await page.getByRole('switch').click();await page.waitForTimeout(400);
+ results['unit segment active (inset boundary)']=await measure('.segmented .active','inset');
+ results['unit segment inactive (label)']=await measure('.segmented button:not(.active)','color');
+ await page.evaluate(()=>{location.hash='progress';});await page.getByRole('group',{name:'Milestones'}).waitFor();
+ results['unreached milestone label']=await measure('.medal:not(.is-reached) b','color');
+ await writeFile('evidence/my-wellness/nontext-contrast.json',JSON.stringify({standard:'WCAG 2.1 1.4.11 non-text contrast 3:1 for control boundaries and states; labels held to 4.5:1; ratios are effective, with every ancestor opacity multiplied in. Scope: the controls named in the review 163 triage plus unchecked workout rings.',results},null,2));
+ for(const [name,r] of Object.entries(results)){expect(r,name).not.toBeNull();expect(r!.ratio,`${name} ${JSON.stringify(r)}`).toBeGreaterThanOrEqual(name.includes('label')?4.5:3);}
+ expect(box.state.profile).toBeTruthy();
+});
+test('a live session keeps its controls in the first viewport at phone, small and desktop sizes',async({page})=>{
+ test.setTimeout(150000);
+ const boxes=async(names:string[])=>{const out:Record<string,{bottom:number;top:number}>={};for(const n of names){const b=await page.getByRole('button',{name:n,exact:true}).boundingBox();expect(b,n).not.toBeNull();out[n]={top:Math.round(b!.y),bottom:Math.round(b!.y+b!.height)};}return out;};
+ const report:Record<string,unknown>={};
+ for(const [size,width,height] of [['phone',390,844],['small',375,667],['desktop',1280,900]] as const){
+  // Each size starts from a fresh fixture with no timers left from the previous size.
+  if(size!=='phone')await page.evaluate(()=>{localStorage.removeItem('my-wellness-timers');sessionStorage.removeItem('seeded');});
+  await page.setViewportSize({width,height});await open(page,seed(),{hash:'walk'});
+  // Walk: running, then paused.
+await page.getByRole('button',{name:'Start',exact:true}).click();await page.clock.runFor(1000);
+  const walkRun=await boxes(['Pause','Finish']);await page.getByRole('button',{name:'Pause',exact:true}).click();const walkPause=await boxes(['Resume','Finish']);
+  await page.getByRole('button',{name:'Resume',exact:true}).click();
+  // Workout: running.
+  await page.evaluate(()=>{location.hash='workout';});await page.getByRole('button',{name:'Start',exact:true}).click();await page.clock.runFor(1000);const workout=await boxes(['Pause','Finish']);
+  // Abs: guided, running and paused.
+  await page.evaluate(()=>{location.hash='abs';});await page.getByRole('button',{name:/Classic five/}).click();await page.clock.runFor(1000);const absRun=await boxes(['Pause','Finish early']);await page.getByRole('button',{name:'Pause',exact:true}).click();const absPause=await boxes(['Resume','Finish early']);
+  report[size]={walkRun,walkPause,workout,absRun,absPause};
+  for(const [state,set] of Object.entries({walkRun,walkPause,workout,absRun,absPause}))for(const [n,b] of Object.entries(set))expect(b.bottom,`${size} ${state} ${n} bottom ${b.bottom} of ${height}`).toBeLessThanOrEqual(height);
+  await page.getByRole('button',{name:'Stop without logging'}).click();
+ }
+ await writeFile('evidence/my-wellness/live-controls-viewport.json',JSON.stringify(report,null,2));
+});
+test('the water target is shown and edited in her volume unit and an untouched field keeps the exact millilitres',async({page})=>{
+ const box=await open(page,seed(),{hash:'you'});
+ const before=box.state.profile!.targets.water;
+ // Ounces: the field shows the target in oz; saving without touching it keeps the stored ml exactly.
+ await page.getByRole('button',{name:'Daily targets'}).click();await expect(page.getByLabel('Water · oz',{exact:true})).toHaveValue(String(Math.round(before/29.5735295625*10)/10));
+ await page.getByLabel('Protein · g',{exact:true}).fill('110');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect.poll(()=>box.state.profile?.overrides?.protein).toBe(110);expect(box.state.profile!.targets.water).toBe(before);
+ // Typing 64 oz stores 64 oz worth of millilitres.
+ await page.getByRole('button',{name:'Daily targets'}).click();await page.getByLabel('Water · oz',{exact:true}).fill('64');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect.poll(()=>box.state.profile?.targets.water).toBeCloseTo(64*29.5735295625,9);
+ // Millilitres: the same target reads as ml and saves exact ml.
+ await page.getByRole('group',{name:'Volume unit'}).getByRole('button',{name:'ml'}).click();await expect.poll(()=>box.state.profile?.units?.volume).toBe('ml');
+ await page.getByRole('button',{name:'Daily targets'}).click();await expect(page.getByLabel('Water · ml',{exact:true})).toHaveValue(String(Math.round(64*29.5735295625)));
+ await page.getByLabel('Water · ml',{exact:true}).fill('2250');await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.profile?.targets.water).toBe(2250);
+ await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('0 of 2½ Stanleys · 0 ml')).toBeVisible();
+});
+
+test('R163-5: an offline start replays a change that only the journal holds, shows it once, and the account receives it once',async({page})=>{
+ const today=todayIn();const box=await open(page,seed());
+ // Another tab's acknowledged pour survived in its journal key while a stale snapshot (no pending) was saved over it.
+ const pour={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'water',amount:30*29.5735295625,label:'Stanley'};
+ await page.evaluate(op=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);s.pending=[];localStorage.setItem('flaccid75-v1',JSON.stringify(s));localStorage.setItem('my-wellness-op:'+op.id,JSON.stringify(op));},pour);
+ // The account is unreachable (every API call fails at the network) while the document and assets still load, as the installed worker serves them on a real device; the service worker itself is covered by the supervisor's offline integration run.
+ await page.route('**/api/**',r=>r.abort('internetdisconnected'));await page.reload();await page.locator('.home-view').waitFor();
+ // Before any server answer the pour is on screen exactly once and queued once.
+ await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.filter((p:{type:string})=>p.type==='water').length)).toBe(1);
+ expect(box.ops.filter(o=>o.type==='water')).toHaveLength(0);
+ // Back online: replayed once, deduplicated, journal cleared.
+ await page.unroute('**/api/**');await page.evaluate(()=>window.dispatchEvent(new Event('online')));
+ await expect.poll(()=>Math.round(box.state.days[today]?.water??0)).toBe(Math.round(pour.amount));expect(box.ops.filter(o=>o.type==='water')).toHaveLength(1);
+ await expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-op:')).length)).toBe(0);
+ await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();
+});
+test('R163-6: when the journal key itself is refused, the change is not applied, a notice is shown on the page, and a finishing timer is kept',async({page})=>{
+ const today=todayIn();const box=await openAt(page,seed(),at(today,'12:00:00'),'meditate');
+ // Only journal keys are refused; the snapshot key still writes, which is the order a full device fails in.
+ await page.evaluate(()=>{const w=window as unknown as {__refuse:boolean};w.__refuse=false;const orig=Storage.prototype.setItem;Storage.prototype.setItem=function(this:Storage,k:string,v:string){if(this===localStorage&&w.__refuse&&k.startsWith('my-wellness-op:'))throw new DOMException('quota','QuotaExceededError');orig.call(this,k,v);};});
+ await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();await page.clock.runFor(1000);
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=true;});
+ // A manual change on the home page: nothing applied, the notice is on the page.
+ await page.evaluate(()=>{location.hash='';});await page.getByRole('button',{name:'Log floss'}).click();
+ await expect(page.getByRole('status').filter({hasText:'Device storage is full'})).toBeVisible();await expect(page.getByRole('button',{name:'Log floss'})).toBeVisible();
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);expect(box.state.days[today]?.checks.floss).toBeUndefined();
+ // The meditation finishes while refused: its timer stays and nothing is queued.
+ await page.clock.fastForward(4*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await page.clock.runFor(2500);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').meditate)).toBeTruthy();expect(box.state.days[today]?.meditate).toBeUndefined();
+ // Storage back: the next settle lands the meditation once and the notice clears with the next accepted change.
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.clock.runFor(2500);
+ await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);
+ await page.getByRole('button',{name:'Log floss'}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);await expect(page.getByRole('status').filter({hasText:'Device storage is full'})).toHaveCount(0);
+});
+
+test('R163-7: a change the account refuses in tab A is kept by id when tab B\'s slow sync saves afterwards, survives a reload, and an explicit discard stays discarded in both tabs',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ // Tab B: its sync takes three seconds to succeed, so it defers storage events while A works.
+ const other=await context.newPage();await mock(other,box);await other.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));await r.fallback();});await other.goto('/');await other.locator('.home-view').waitFor();
+ await other.getByRole('button',{name:'Log walk'}).click();await other.waitForTimeout(200);
+ // Tab A: the account refuses floss.
+ await page.route('**/api/sync',async r=>{const ops=r.request().postDataJSON() as {id:string;habit?:string}[];const bad=ops.find(o=>o.habit==='floss');if(!bad)return r.fallback();await r.fulfill({json:{state:box.state,accepted:ops.filter(o=>o!==bad).map(o=>o.id),rejected:[{id:bad.id,reason:'The account refused this change.'}]}});});
+ await page.getByRole('button',{name:'Log floss'}).click();
+ const inFailed=(p:Page)=>p.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.map((f:{op:{habit?:string}})=>f.op.habit));
+ await expect.poll(()=>inFailed(page)).toEqual(['floss']);
+ // B's sync lands and B saves; its deferred merge runs; A takes B's event. Floss is still in the refused list everywhere.
+ await expect.poll(()=>box.state.days[today]?.checks.walk,{timeout:10000}).toBe(true);await page.waitForTimeout(1500);
+ expect(await inFailed(page)).toEqual(['floss']);
+ await page.evaluate(()=>{location.hash='you';});await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
+ await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
+ await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();expect(await inFailed(page)).toEqual(['floss']);
+ // An explicit discard in A empties the list in A, in the snapshot and in B, and B's own merge does not bring it back.
+ await page.getByRole('button',{name:/^Discard/}).click();await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0,{timeout:5000});await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log workout'}).click();
+ await expect.poll(()=>box.state.days[today]?.checks.workout,{timeout:10000}).toBe(true);await other.waitForTimeout(500);
+ expect(await inFailed(page)).toEqual([]);expect(await inFailed(other)).toEqual([]);await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ await other.close();
+});
+
+test('R163-8: tab A\'s refusal survives A closing and tab B saving a new change before B\'s slow sync answers; B\'s explicit discard then holds through its own later saves and a reload',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ const inFailed=(p:Page)=>p.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.map((f:{op:{habit?:string}})=>f.op.habit));
+ // Tab B: syncs answer after three seconds. B queues a walk, so a sync is in flight while A works.
+ const other=await context.newPage();await mock(other,box);await other.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));await r.fallback();});await other.goto('/');await other.locator('.home-view').waitFor();
+ await other.getByRole('button',{name:'Log walk'}).click();await other.waitForTimeout(200);
+ // Tab A: floss is refused, saved as refused, and A closes at once.
+ await page.route('**/api/sync',async r=>{const ops=r.request().postDataJSON() as {id:string;habit?:string}[];const bad=ops.find(o=>o.habit==='floss');if(!bad)return r.fallback();await r.fulfill({json:{state:box.state,accepted:ops.filter(o=>o!==bad).map(o=>o.id),rejected:[{id:bad.id,reason:'The account refused this change.'}]}});});
+ await page.getByRole('button',{name:'Log floss'}).click();await expect.poll(()=>inFailed(page)).toEqual(['floss']);await page.close();
+ // B logs a workout while its walk sync is still pending: B's own save must not overwrite A's refusal.
+ await other.getByRole('button',{name:'Log workout'}).click();expect(await inFailed(other)).toEqual(['floss']);
+ await expect.poll(()=>box.state.days[today]?.checks.workout,{timeout:15000}).toBe(true);await other.waitForTimeout(500);expect(await inFailed(other)).toEqual(['floss']);
+ await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
+ await other.reload();await other.locator('.app-shell').waitFor();await expect(other.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
+ // B discards. Its later saves and a reload keep the list empty.
+ await other.getByRole('button',{name:/^Discard/}).click();await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log abs'}).click();await expect.poll(()=>box.state.days[today]?.checks.abs,{timeout:15000}).toBe(true);await other.waitForTimeout(500);
+ expect(await inFailed(other)).toEqual([]);await other.reload();await other.locator('.app-shell').waitFor();expect(await inFailed(other)).toEqual([]);
+ await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ await other.close();
 });

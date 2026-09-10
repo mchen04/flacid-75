@@ -40,8 +40,9 @@ export function parsePhrase(text: string, containers: Container[], fallback: Con
  return {kind: 'ok', container: c, fraction: f, count: n, ml: pourMl(c, f, n), label: describe(c, f, n)};
 }
 // Progress in her terms: "about 1½ of 3 Stanleys". Halves are the finest step worth showing.
+// Progress in her terms: both numbers to the nearest quarter, so "about 1½ of 2¼ Stanleys" agrees with the exact volume next to it.
 export function inContainers(ml: number, target: number, container: Container, about = true) {
- const had = Math.round(ml / container.ml * 2) / 2; const of = Math.ceil(target / container.ml - 1e-9);
- const num = (n: number) => n % 1 === 0 ? String(n) : `${Math.floor(n) || ''}½`;
- return `${about ? 'about ' : ''}${num(had)} of ${of} ${container.name}${of === 1 ? '' : 's'}`;
+ const q = (v: number) => Math.round(v / container.ml * 4) / 4; const had = q(ml), of = q(target);
+ const num = (n: number) => {const w = Math.floor(n), f = n - w; const part = f === .25 ? '¼' : f === .5 ? '½' : f === .75 ? '¾' : ''; return `${w || (part ? '' : '0')}${part}`;};
+ return `${about ? 'about ' : ''}${num(had)} of ${num(of)} ${container.name}${of === 1 ? '' : 's'}`;
 }

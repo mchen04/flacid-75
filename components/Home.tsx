@@ -45,7 +45,7 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
    {nextMilestone && streak.current > 0 && !complete && <span className="hero-progress">{nextMilestone - streak.current} day{nextMilestone - streak.current === 1 ? '' : 's'} to {nextMilestone}</span>}
    {complete && !selected && <span className="hero-progress">+{format(habits.length * 10 + 30)} points</span>}</span>
   </button>
-  <p className="row-head">Today</p>
+  <p className="row-head">{selected ? 'That day' : 'Today'}</p>
   <div className="rows">
    <Row mark="walk" title="Walk" status={walkStatus} done={done.walk} onOpen={() => navigate('walk')} actionLabel={done.walk ? 'Undo walk' : 'Log walk'} onAction={() => toggle('walk')} pressed={done.walk} pulse={pulse.walk ? 'moving' : ''}/>
    <Row mark="workout" title="Workout" status={workoutStatus} done={done.workout} onOpen={() => navigate('workout')} actionLabel={done.workout ? 'Undo workout' : 'Log workout'} onAction={() => toggle('workout')} pressed={done.workout} pulse={pulse.workout ? 'lifting' : ''}/>

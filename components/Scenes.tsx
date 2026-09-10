@@ -28,7 +28,7 @@ export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,
   <path d="M0 252C60 220 120 218 180 234S300 230 360 208V400H0z" fill={far[phase]}/>
   <path d="M0 292C70 264 140 258 210 272S330 268 360 252V400H0z" fill={night?c.nightSoft:c.sage} opacity={night?.55:1}/>
   <path d="M0 348C60 320 130 308 200 308S320 298 360 286V400H0z" fill={night?c.night:c.sageDeep}/>
-  <Tree x={96} y={290} s={1.05} tone={night?c.nightSoft:c.sageDeep}/><Tree x={342} y={272} s={.9} tone={night?c.nightSoft:c.sageDeep}/><Tree x={294} y={282} s={.7} tone={night?c.nightSoft:c.sage}/>
+  <Tree x={96} y={290} s={1.05} tone={night?c.lilac:c.sageDeep}/><Tree x={342} y={272} s={.9} tone={night?c.lilac:c.sageDeep}/><Tree x={294} y={282} s={.7} tone={night?c.lilac:c.sage}/>
   <path d={walkPath} fill="none" stroke={c.card} strokeWidth="3" strokeLinecap="round" strokeDasharray="1 9" opacity=".9"/>
   <g className="flag" transform="translate(320 284)"><rect x="-1.5" y="-30" width="3" height="32" rx="1.5" fill={c.card}/><path d="M1 -30h20l-6 7 6 7H1z" fill={c.accent}/></g>
   <g className={`walker ${walked?'is-done':''}`} style={{transform:`translate(${wx}px,${wy}px)`}}><circle r="11" fill={c.accent}/><circle r="11" fill={c.accent} className="pulse" opacity=".35"/><circle r="4.5" fill={c.card}/></g>
@@ -147,7 +147,7 @@ export function Mat({done=false,active=false}:{done?:boolean;active?:boolean}){
     <path d="M70 454q12 9 24 0" stroke={c.card} strokeWidth="4.6" strokeLinecap="round" fill="none"/>
     <path d="M150 424q-26 8-34 26" stroke={c.accentDeep} strokeWidth="22" strokeLinecap="round" fill="none"/>
    </g></g>
-   <g className="pose pose-up" transform="rotate(-36 244 458)"><g>
+   <g className="pose pose-up" transform="rotate(36 244 458)"><g>
     <rect x="92" y="430" width="152" height="56" rx="28" fill={c.accent}/>
     <circle cx="82" cy="442" r="36" fill={c.cocoa}/>
     <circle cx="70" cy="434" r="4.6" fill={c.card}/><circle cx="94" cy="434" r="4.6" fill={c.card}/>

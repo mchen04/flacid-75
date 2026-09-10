@@ -20,7 +20,7 @@ test('onboarding in pounds and feet-inches, all seven one-tap habits from the da
  expect(Math.round(box.state.profile!.weight*10)/10).toBe(65);expect(Math.round(box.state.profile!.height)).toBe(165);await expect.poll(()=>box.state.profile?.units).toEqual({weight:'lb',height:'ftin'});
  for(const habit of ['walk','workout','abs','floss']){await page.getByRole('button',{name:`Log ${habit}`}).click();await expect(page.getByRole('button',{name:`Undo ${habit}`})).toHaveAttribute('aria-pressed','true');}
  // One tap logs a whole Stanley (30 oz); three of them pass the 2 L target.
- const water=page.getByRole('button',{name:'Add a Stanley'});for(let i=0;i<3;i++)await water.click();await expect(page.getByText('3 of 3 Stanleys · 90 oz')).toBeVisible();
+ const water=page.getByRole('button',{name:'Add a Stanley'});for(let i=0;i<3;i++)await water.click();await expect(page.getByText('3 of 2¼ Stanleys · 90 oz')).toBeVisible();
  // Food: type, see what was found, confirm once. Nothing is added before the confirmation.
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('two eggs and toast');await page.getByRole('button',{name:'Look it up'}).click();await expect(page.getByText('USDA · Egg, whole, cooked, scrambled')).toBeVisible();expect(Object.keys(Object.values(box.state.days)[0]?.meals??{})).toHaveLength(0);
  await page.getByRole('button',{name:'Not this'}).click();await expect(page.getByLabel('What did you eat?')).toBeVisible();
@@ -35,7 +35,7 @@ test('onboarding in pounds and feet-inches, all seven one-tap habits from the da
 test('offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails',async({page,context})=>{
  let server=seed();const seen=new Set<string>();await page.route('**/api/state',r=>r.fulfill({json:server}));await page.route('**/api/sync',async r=>{const {apply}=await import('../../lib/domain');const ops=r.request().postDataJSON();for(const op of ops){if(!seen.has(op.id)){server=apply(server,op);seen.add(op.id);}}await new Promise(resolve=>setTimeout(resolve,350));return r.fulfill({json:{state:server,accepted:ops.map((o:{id:string})=>o.id),rejected:[]}});});
  await page.addInitScript(s=>localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true})),server);await page.goto('/');await expect(page.locator('.home-view')).toBeVisible();await context.setOffline(true);
- await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByRole('button',{name:'Undo workout'})).toHaveAttribute('aria-pressed','true');await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('1 of 3 Stanleys · 30 oz')).toBeVisible();
+ await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByRole('button',{name:'Undo workout'})).toHaveAttribute('aria-pressed','true');await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();
  const local=await page.evaluate(()=>localStorage.getItem('flaccid75-v1'));expect(JSON.parse(local!).pending).toHaveLength(2);
  await expect(page.getByText(/waiting to sync/)).toHaveCount(0);
  await page.screenshot({path:`evidence/my-wellness/offline-${test.info().project.name}.png`});await context.setOffline(false);await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);expect(seen.size).toBe(2);

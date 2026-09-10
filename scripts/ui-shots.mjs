@@ -53,7 +53,7 @@ const screens = [
   {name: 'abs-done', expect: 'Abs logged', hash: 'abs', fixture: 'absDone'},
   {name: 'floss', expect: 'Mark flossed', hash: 'floss'},
   {name: 'floss-done', expect: 'Floss logged', hash: 'floss', fixture: 'flossDone'},
-  {name: 'water', expect: 'about 1½ of 3 Stanleys', hash: 'water'},
+  {name: 'water', expect: 'about 1½ of 2¼ Stanleys', hash: 'water'},
   {name: 'water-confirm', expect: 'Add 15 oz', hash: 'water', steps: [{fill: ['Or say it', 'half my Stanley']}, tap('Read it')]},
   {name: 'water-ask', expect: 'How much of the Stanley?', hash: 'water', steps: [{fill: ['Or say it', 'some of it']}, tap('Read it')]},
   {name: 'containers-sheet', expect: 'Add container', hash: 'water', steps: [tap('Containers', 'button', true)]},

@@ -43,7 +43,7 @@ export function Walk() {
  const target = (day.targets.walkMinutes ?? 30) * 60; const share = Math.min(1, elapsed / target);
  const session = day.sessions?.walk;
  function finish() {if (finishTimer('walk', (seconds, creditDay) => change({type: 'session', habit: 'walk', seconds, done: true}, creditDay))) {bump('walk', 2000); beep('done'); buzz(80);}}
- return <section className="activity">
+ return <section className={`activity ${timer ? 'is-live' : ''}`}>
   <div className={`stage walk ${done.walk ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Hills phase="day" walked={done.walk} progress={done.walk ? 1 : share}/><span className="stage-copy"><strong>{done.walk ? 'Walked.' : running ? 'Walking.' : timer ? 'Paused.' : selected ? 'A walk that day.' : 'A walk today.'}</strong><span>{done.walk ? `${Math.round((session?.seconds ?? 0) / 60)} minutes` : `${Math.round(target / 60)} minutes keeps it simple`}</span></span></div>
   {done.walk ? <DoneCard title="Walk logged" detail={session ? `${clock(session.seconds)} on the path.` : 'Marked done without a timer.'} onUndo={() => change({type: 'session', habit: 'walk', seconds: 0, done: false})}/>
   : selected ? <button className="primary" onClick={() => change({type: 'check', habit: 'walk', value: true})}>Mark walked on this day</button>
@@ -66,12 +66,12 @@ export function Workout() {
  // Ticking a move starts the session clock if it is not running yet; the ticks live with the timer so they survive a reload.
  function toggleItem(item: string) {if (selected || stale) return; if (!timer) {void prime(); startTimer('workout', dayKey, {items: ''});} const next = new Set(checked); if (next.has(item)) next.delete(item); else next.add(item); updateTimer('workout', {items: [...next].join('\n')}); buzz(20);}
  function finish() {const items = [...checked]; const ok = timer ? finishTimer('workout', (seconds, creditDay) => change({type: 'session', habit: 'workout', seconds, done: true, items}, creditDay)) : change({type: 'session', habit: 'workout', seconds: 0, done: true, items}, dayKey); if (ok) {bump('workout'); beep('done'); buzz(80);}}
- return <section className="activity">
+ return <section className={`activity ${timer ? 'is-live' : ''}`}>
   <div className={`stage workout ${done.workout ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Gym done={done.workout} active={running}/><span className="stage-copy"><strong>{done.workout ? 'Lifted.' : running ? 'In session.' : selected ? 'Lift that day.' : 'Lift today.'}</strong><span>{done.workout ? `${session?.items?.length ?? 0} of ${plan.length} moves` : `${checked.size} of ${plan.length} checked`}</span></span><span className="stage-tag">{timer && !stale ? clock(elapsed) : done.workout ? <><Icon name="check" size={14}/>Done</> : 'Plan'}</span></div>
   {done.workout ? <DoneCard title="Workout logged" detail={session ? `${session.items?.length ? session.items.join(', ') + '. ' : ''}${session.seconds ? clock(session.seconds) : 'No timer'}.` : 'Marked done.'} onUndo={() => change({type: 'session', habit: 'workout', seconds: 0, done: false})}/>
   : <>
    <div className="card checklist" role="group" aria-label="Workout checklist">
-    <div className="card-head"><h2>Today’s plan</h2><button className="text-button" onClick={() => open('plan')}><Icon name="edit" size={16}/>Edit plan</button></div>
+    <div className="card-head"><h2>{selected ? 'That day’s plan' : 'Today’s plan'}</h2><button className="text-button" onClick={() => open('plan')}><Icon name="edit" size={16}/>Edit plan</button></div>
     {plan.map(item => <label key={item} className={`check-row ${checked.has(item) ? 'is-done' : ''}`}><input type="checkbox" checked={checked.has(item)} disabled={!!selected || stale} onChange={() => toggleItem(item)}/><span className="check-box"><Icon name="check" size={14}/></span><span>{item}</span></label>)}
    </div>
    {selected ? <button className="primary" onClick={() => change({type: 'check', habit: 'workout', value: true})}>Mark done on this day</button>
@@ -94,7 +94,7 @@ export function Abs() {
  useEffect(() => {if (!timer) {lastIndex.current = -1; return;} if (phase.index !== lastIndex.current) {if (lastIndex.current >= 0) {beep(phase.finished ? 'done' : phase.interval.kind === 'work' ? 'go' : 'tick'); buzz(phase.finished ? 120 : 40); setFlash(phase.finished ? 'is-finished' : phase.interval.kind === 'work' ? 'flash-go' : 'flash-rest'); setTimeout(() => setFlash(''), 700);} lastIndex.current = phase.index;}}, [phase.index, phase.finished, phase.interval.kind, timer]);
  function finish() {if (finishTimer('abs', (seconds, creditDay) => change({type: 'session', habit: 'abs', seconds: Math.min(seconds, routineSeconds(routine)), done: true, routine: routine.name}, creditDay))) {bump('abs'); beep('done');}}
  const total = routineSeconds(routine); const intervals = intervalsOf(routine);
- return <section className="activity">
+ return <section className={`activity ${timer ? 'is-live' : ''}`}>
   <div className={`stage abs ${done.abs ? 'is-done' : ''} ${running ? 'is-active' : ''} ${flash}`}><Mat done={done.abs} active={running}/><span className="stage-copy"><strong>{done.abs ? 'Core done.' : timer ? phase.interval.exercise.name : selected ? 'Core that day.' : 'Core today.'}</strong><span>{done.abs ? session?.routine ?? 'Marked done' : timer ? (phase.interval.kind === 'rest' ? `Rest · next ${phase.interval.next?.name ?? 'finish'}` : `Move ${phase.interval.index + 1} of ${routine.exercises.length}`) : 'Pick a routine below'}</span></span>{timer && !stale && <span className="stage-tag">{clock(Math.ceil(phase.remaining))}</span>}</div>
   {done.abs ? <DoneCard title="Abs logged" detail={session ? `${session.routine ?? 'Routine'} · ${clock(session.seconds)}.` : 'Marked done.'} onUndo={() => change({type: 'session', habit: 'abs', seconds: 0, done: false})}/>
   : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Abs" onFinish={finish}/>

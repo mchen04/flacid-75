@@ -29,7 +29,7 @@ test('an ambiguous phrase asks once and never guesses a number',()=>{
  assert.equal(parsePhrase('',[stanley,glass],stanley).kind,'none');
 });
 test('progress reads in her terms',()=>{
- assert.equal(inContainers(stanley.ml*2,stanley.ml*2.25,stanley),'about 2 of 3 Stanleys');assert.equal(inContainers(stanley.ml*1.5,2000,stanley),'about 1½ of 3 Stanleys');assert.equal(inContainers(0,2000,stanley),'about 0 of 3 Stanleys');assert.equal(inContainers(300,600,stanley),'about ½ of 1 Stanley');
+ assert.equal(inContainers(stanley.ml*2,stanley.ml*2.25,stanley),'about 2 of 2¼ Stanleys');assert.equal(inContainers(stanley.ml*1.5,2000,stanley),'about 1½ of 2¼ Stanleys');assert.equal(inContainers(0,2000,stanley),'about 0 of 2¼ Stanleys');assert.equal(inContainers(300,600,stanley),'about ¼ of ¾ Stanleys');assert.equal(inContainers(2000,2000,stanley),'about 2¼ of 2¼ Stanleys');assert.equal(inContainers(stanley.ml,stanley.ml,stanley),'about 1 of 1 Stanley');assert.equal(inContainers(stanley.ml*.75,stanley.ml*.75,stanley,false),'¾ of ¾ Stanleys');
  assert.equal(describe(stanley,.75,1),'three quarters of a Stanley');assert.equal(pourMl(glass,1,3),750);
 });
 test('volumes round-trip through the unit setting without changing the stored millilitres',()=>{
