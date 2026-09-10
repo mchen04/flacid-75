@@ -16,7 +16,7 @@ export function startStore(){if(started)return;started=true;try{const raw=localS
  window.addEventListener('online',resume);window.addEventListener('offline',()=>set({...store,online:false}));window.addEventListener('pageshow',resume);
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resume();});
  window.addEventListener('storage',e=>{if(e.key===KEY&&!syncing){try{const saved=JSON.parse(e.newValue??'{}');if(saved.state)set({...store,...saved});}catch{}}});
- if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').then(registration=>{let controlled=!!navigator.serviceWorker.controller;
+ if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').then(registration=>{if(!registration)return;let controlled=!!navigator.serviceWorker.controller;
   // A new build claims the page as soon as it activates, so an open app reloads once instead of serving the old shell.
   // The first install claims an uncontrolled page, which is not an update and must not reload it.
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!navigator.serviceWorker.controller)return;if(!controlled){controlled=true;return;}if(!reloading){reloading=true;location.reload();}});

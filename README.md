@@ -1,8 +1,22 @@
-# Flaccid75
+# My Wellness
 
-A private fitness PWA for one person.
+A private wellness companion for one person, as a PWA. Formerly Flaccid75; the account, history, streaks and storage key are unchanged.
 Open the [live app](https://flaccid75-preview.vercel.app) in Safari.
 The passphrase stays in the owner's private installation note, outside this repository.
+
+## Version 4 · My Wellness
+
+- One dashboard. Every activity is a row with its art, one line of status, a chevron that opens its page and a separate one-tap action (Log/Undo, +Glass, +Meal, Rest). No bottom navigation: Home, the streak badge (Progress) and Settings sit in the top bar on every page, and the browser's back button works because pages are hash routes (`#walk`, `#workout`, `#abs`, `#floss`, `#water`, `#food`, `#rest`, `#meditate`, `#focus`, `#rewards`, `#progress`, `#you`, `#rules`).
+- Dedicated activity pages: a walk timer with start, pause and finish; a workout checklist with an editable plan and a session clock; a guided ab library with instructions, timed work and rest intervals, visual cues and optional sound; a floss scene; a water page; a food page with in-place edit and remove.
+- Timers count from the clock, not from ticks (`lib/timer.ts`), so a locked phone, a backgrounded tab or a reopened app shows the right time. Interval phases are derived from elapsed time, so a routine or a focus block that ends while the app is away is credited on return.
+- Two planned rest days per Monday–Sunday week, plannable ahead. Rest keeps the streak and is shown as rest, never as a miss. Earlier weeks keep what they had.
+- Optional meditation and focus (work/break) pages, logged but never counted toward the streak. The app does not block other apps.
+- Points and treats: ten points per required habit and thirty for a complete day; treats are whatever the user names, at the cost they choose, undoable the same day. Food is never a reward or a debt. Milestones at 3, 7, 14, 21, 30, 50, 75 and 100 days.
+- Units: lb and ft-in by default, kg and cm one tap away; measurements are stored once in kg and cm and never rounded by a switch.
+- Food estimates use free OpenRouter models only: every id must carry `:free` (or be `openrouter/free`) and every request sets a zero `max_price`. When no model answers, the numbers path still logs the meal.
+- The rules of the day (local day, required versus optional, completion, rest, rollover, points, timers, data) are written out in the app under How it works and in [evidence/my-wellness/RULES.md](evidence/my-wellness/RULES.md).
+
+Acceptance and evidence for version 4: [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Design references viewed and the direction taken: [evidence/my-wellness/DESIGN.md](evidence/my-wellness/DESIGN.md).
 
 ## Version 3 · illustrated
 
@@ -24,7 +38,7 @@ Acceptance for version 3: [evidence/ACCEPTANCE-V3.md](evidence/ACCEPTANCE-V3.md)
 - Every animation is decoration: the tap registers first, motion follows, and reduced-motion turns it all off.
 
 Acceptance for version 2: [evidence/ACCEPTANCE-V2.md](evidence/ACCEPTANCE-V2.md). Decisions and measurements: [evidence/LEDGER.md](evidence/LEDGER.md).
-Browser-driven checks are written in `tests/e2e/` and were not executed in the delivery session (its sandbox forbids local ports and browser launches); run them with `npm run build && npx next start -p 3075` and `npm run test:e2e`.
+Browser-driven checks live in `tests/e2e/`. In a sandbox that forbids listening sockets they run against the production build through request interception: `npm run build && VIRTUAL_SERVER=1 npm run test:e2e -- --project=chromium`. Against a real server: `npm run build && npx next start -p 3075` then `npm run test:e2e`.
 
 **Physical iPhone verification remains unfinished.** See the version 1 [acceptance record](evidence/ACCEPTANCE.md) and the [evidence index](evidence/README.md).
 
@@ -144,6 +158,8 @@ Next.js serves the static entry route, manifest, and private API endpoints.
 An esbuild bundle renders the phone interface through Preact's React compatibility layer.
 The measured bundle is 21,411 gzip bytes; the build enforces a 40,960-byte limit.
 Critical styles are inline, typography uses system faces, and all shipped illustrations are local assets.
+
+The local storage key (`flaccid75-v1`), the session cookie name, the service-worker cache prefix and the database tables keep their original names so an installed app updates in place without losing data.
 
 The service worker caches the shell, phone script, manifest, icons, and startup image.
 Its version hashes the client code, styles, and worker template.

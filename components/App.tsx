@@ -1,207 +1,75 @@
 'use client';
-import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
-import {Hills,Glass,Bowl,Mark,Brand,Gym,Mat,Tooth,NightRest,type Phase} from './Scenes';
+import {useEffect, useRef, useState} from 'react';
+import {Hills, Mark} from './Scenes';
 import {Camera} from './Camera';
 import {Icon} from './Icon';
-import {startStore,useStore,dispatch,unlock,lock} from '@/lib/client-store';
-import {habits,dayAt,dayDiff,addDays,weekStart,completion,type Day,isComplete,isKept,missing,restsLeft,newDay,totals,streaks,weightTrend,computeTargets,type Operation,type Stats,type Targets,type State,type Habit} from '@/lib/domain';
-import type {Estimate,EstimateItem} from '@/lib/validation';
-export const names:Record<Habit,string>={workout:'Workout',abs:'Abs',walk:'Walk',water:'Water',protein:'Protein',calories:'Calories',floss:'Floss'};
-type Change=Operation extends infer O?O extends Operation?Omit<O,'id'|'at'|'day'|'zone'>:never:never;
-const todayZone=()=>Intl.DateTimeFormat().resolvedOptions().timeZone;
-const format=(n:number)=>Math.round(n).toLocaleString();
-const litres=(ml:number)=>(ml/1000).toFixed(2).replace(/\.?0+$/,'');
-const weekdays=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const weekInitials=['Mo','Tu','We','Th','Fr','Sa','Su'];
-export default function App(){
- const store=useStore();const {state}=store;
- const [now,setNow]=useState(()=>new Date());const [tab,setTab]=useState('today');const [selected,setSelected]=useState<string|null>(null);
- const [modal,updateModal]=useState<string|null>(null);const [editMeal,setEditMeal]=useState<string|null>(null);
- const [modalDay,setModalDay]=useState<string|null>(null);const file=useRef<HTMLInputElement>(null);const [photo,setPhoto]=useState<File|null>(null);
- const [toast,setToast]=useState<{text:string;undo?:()=>void}|null>(null);const toastTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
- const [pulse,setPulse]=useState<Partial<Record<Habit|'meal'|'rest',boolean>>>({});const timers=useRef<Partial<Record<Habit|'meal'|'rest',ReturnType<typeof setTimeout>>>>({});
- const today=dayAt(state.clock,now,todayZone());const dayKey=selected??today;
- const profile=state.profile;const day=state.days[dayKey]??newDay(profile?.targets??computeTargets({height:165,weight:65,age:30,activity:1,goal:'maintain'}));
- const foodDayKey=modalDay??dayKey;const foodDay=state.days[foodDayKey]??newDay(profile?.targets??day.targets);
- function setModal(value:string|null){if(value&&modal===null)setModalDay(selected??dayAt(state.clock,new Date(),todayZone()));updateModal(value);}
- const done=completion(day);const count=Object.values(done).filter(Boolean).length;const food=totals(day);const streak=streaks(state,today);
- useEffect(()=>{startStore();const timer=setInterval(()=>setNow(new Date()),15000);const resume=()=>setNow(new Date());window.addEventListener('pageshow',resume);document.addEventListener('visibilitychange',resume);return()=>{clearInterval(timer);window.removeEventListener('pageshow',resume);document.removeEventListener('visibilitychange',resume);};},[]);
- function change(payload:Change,date=selected??dayAt(state.clock,new Date(),todayZone())){const at=new Date().toISOString();return dispatch({...payload,id:crypto.randomUUID(),at,day:date,zone:todayZone()} as Operation);}
- function say(text:string,undo?:()=>void){if(toastTimer.current)clearTimeout(toastTimer.current);setToast({text,undo});toastTimer.current=setTimeout(()=>setToast(null),4000);}
- function bump(key:Habit|'meal'|'rest',ms=1400){clearTimeout(timers.current[key]);setPulse(p=>({...p,[key]:true}));timers.current[key]=setTimeout(()=>setPulse(p=>({...p,[key]:false})),ms);}
- function toggle(h:Habit){const current=selected??dayAt(state.clock,new Date(),todayZone());const before=completion(state.days[current])[h];setNow(new Date());if(change({type:'check',habit:h,value:!before},current))bump(h,h==='walk'?2000:1400);}
- function pour(){const waterDay=selected??dayAt(state.clock,new Date(),todayZone());if(change({type:'water',amount:250},waterDay))bump('water',900);}
- function sip(){const waterDay=selected??dayAt(state.clock,new Date(),todayZone());const current=state.days[waterDay]?.water??0;if(current>0)change({type:'water',amount:-250},waterDay);}
- const dateLabel=new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(dayKey+'T12:00:00Z'));
- if(!store.ready)return <main className="gate"><Hills className="gate-scene"/></main>;
- if(!store.unlocked)return <Gate notice={store.notice}/>;
- if(!profile)return <main className="gate onboarding"><Setup onSave={(stats,overrides)=>change({type:'profile',stats,overrides},today)}/></main>;
- const hour=Number(new Intl.DateTimeFormat('en',{hour:'numeric',hourCycle:'h23',timeZone:state.clock?.zone}).format(now));
- const morning=hour<12;const phase:Phase=hour<11?'morning':hour<17?'day':hour<21?'evening':'night';
- const showWeight=morning&&!state.weights[today]&&!selected;
- const yesterday=state.days[addDays(today,-1)];const stumbled=!selected&&count===0&&!!yesterday&&!isKept(yesterday)&&addDays(today,-1)>=profile.startDay;
- const complete=count===habits.length;
- const headline=selected?'Past day':day.rest?'Rest day.':complete?'Every one.':count>=5?'Nearly there.':count>0?'Good going.':stumbled?'A new day.':morning?'Good morning.':hour<17?'Good afternoon.':'Good evening.';
- const rests=restsLeft(state,dayKey);
-
- const habitTabs=['workout','abs','floss','rest'] as const;
- const weekDays=Array.from({length:7},(_,i)=>addDays(weekStart(dayKey),i));
- const title=tab==='today'?headline:tab==='progress'?'Progress':tab==='you'?'You':tab==='rest'?'Rest':names[tab as Habit];
- const since=`Since ${new Intl.DateTimeFormat('en',{month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(profile.startDay+'T12:00:00Z'))}`;
- function restTap(){
-  if(day.rest){if(change({type:'rest',value:false}))say('Rest undone.');return;}
-  if(!rests){setModal('rest');return;}
-  if(change({type:'rest',value:true})){bump('rest',1600);say('Resting today. The streak stays.',()=>change({type:'rest',value:false}));}
- }
- function habitTap(h:Habit){if(h==='walk'&&false)return;toggle(h);}
- return <main className="app-shell">
+import {startStore, useStore, dispatch, unlock, lock} from '@/lib/client-store';
+import {habits, dayAt, addDays, completion, isKept, newDay, streaks, computeTargets, restsLeft, type Operation} from '@/lib/domain';
+import {AppContext, useHash, Sheet, names, todayZone, longDate, type Change, type Pulse, unitsOf} from './shared';
+import {Home} from './Home';
+import {Walk, Workout, Abs, Floss, Water, Rest, Meditate, Focus} from './Activities';
+import {Food, Meal} from './Food';
+import {Progress} from './Progress';
+import {Rewards, RewardsForm} from './Rewards';
+import {You, Setup, TargetForm, Weight, About, Rules, PlanForm} from './Settings';
+const titles: Record<string, string> = {walk: 'Walk', workout: 'Workout', abs: 'Abs', floss: 'Floss', water: 'Water', food: 'Food', rest: 'Rest days', meditate: 'Meditate', focus: 'Focus', rewards: 'Treats', progress: 'Progress', you: 'Settings', rules: 'How it works'};
+export default function App() {
+ const store = useStore(); const {state} = store;
+ const page = useHash();
+ const [now, setNow] = useState(() => new Date()); const [selected, setSelected] = useState<string | null>(null);
+ const [sheet, setSheet] = useState<string | null>(null); const [editMeal, setEditMeal] = useState<string | null>(null); const [sheetDay, setSheetDay] = useState<string | null>(null);
+ const file = useRef<HTMLInputElement>(null); const [photo, setPhoto] = useState<File | null>(null);
+ const [pulse, setPulse] = useState<Pulse>({}); const timers = useRef<Partial<Record<keyof Pulse, ReturnType<typeof setTimeout>>>>({});
+ const today = dayAt(state.clock, now, todayZone()); const dayKey = selected ?? today;
+ const profile = state.profile; const day = state.days[dayKey] ?? newDay(profile?.targets ?? computeTargets({height: 165, weight: 65, age: 30, activity: 1, goal: 'maintain'}));
+ const foodDayKey = sheetDay ?? dayKey; const foodDay = state.days[foodDayKey] ?? newDay(profile?.targets ?? day.targets);
+ const done = completion(day); const count = Object.values(done).filter(Boolean).length; const streak = streaks(state, today);
+ useEffect(() => {startStore(); const timer = setInterval(() => setNow(new Date()), 15000); const resume = () => setNow(new Date()); window.addEventListener('pageshow', resume); document.addEventListener('visibilitychange', resume); return () => {clearInterval(timer); window.removeEventListener('pageshow', resume); document.removeEventListener('visibilitychange', resume);};}, []);
+ // Every page starts at the top and moves focus to its heading, so keyboard and screen-reader users land where the page begins.
+ useEffect(() => {document.querySelector('.page')?.scrollTo?.(0, 0); const h = document.querySelector<HTMLElement>('.topbar h1'); if (h && page) {h.setAttribute('tabindex', '-1'); h.focus({preventScroll: true});}}, [page]);
+ function change(payload: Change, date = selected ?? dayAt(state.clock, new Date(), todayZone())) {const at = new Date().toISOString(); return dispatch({...payload, id: crypto.randomUUID(), at, day: date, zone: todayZone()} as Operation);}
+ function bump(key: keyof Pulse, ms = 1400) {clearTimeout(timers.current[key]); setPulse(p => ({...p, [key]: true})); timers.current[key] = setTimeout(() => setPulse(p => ({...p, [key]: false})), ms);}
+ function navigate(next: string) {if (next === page) return; location.hash = next ? '#' + next : ''; if (!next) history.replaceState(null, '', location.pathname);}
+ function open(value: string | null) {if (value && sheet === null) setSheetDay(selected ?? dayAt(state.clock, new Date(), todayZone())); setSheet(value); if (!value) {setPhoto(null); setEditMeal(null);}}
+ if (!store.ready) return <main className="gate"><Hills className="gate-scene"/></main>;
+ if (!store.unlocked) return <Gate notice={store.notice}/>;
+ if (!profile) return <main className="gate onboarding"><Setup onSave={(stats, overrides, units) => {if (change({type: 'profile', stats, overrides}, today)) change({type: 'units', units}, today);}}/></main>;
+ const hour = Number(new Intl.DateTimeFormat('en', {hour: 'numeric', hourCycle: 'h23', timeZone: state.clock?.zone}).format(now));
+ const morning = hour < 12;
+ const yesterday = state.days[addDays(today, -1)]; const stumbled = !selected && count === 0 && !!yesterday && !isKept(yesterday) && addDays(today, -1) >= profile.startDay;
+ const complete = count === habits.length;
+ const headline = selected ? 'Past day' : day.rest ? 'Rest day.' : complete ? 'Every one.' : count >= 5 ? 'Nearly there.' : count > 0 ? 'Good going.' : stumbled ? 'A new day.' : morning ? 'Good morning.' : hour < 17 ? 'Good afternoon.' : 'Good evening.';
+ const title = page ? titles[page] ?? 'My Wellness' : headline;
+ const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, change, navigate, open, select: setSelected, bump};
+ const showWeight = morning && !state.weights[today] && !selected && !page;
+ const body = page === 'walk' ? <Walk/> : page === 'workout' ? <Workout/> : page === 'abs' ? <Abs/> : page === 'floss' ? <Floss/> : page === 'water' ? <Water/> : page === 'food' ? <Food/> : page === 'rest' ? <Rest/> : page === 'meditate' ? <Meditate/> : page === 'focus' ? <Focus/> : page === 'rewards' ? <Rewards/> : page === 'progress' ? <Progress/> : page === 'you' ? <You notice={store.notice}/> : page === 'rules' ? <Rules/> : <Home hour={hour} stumbled={stumbled}/>;
+ return <AppContext.Provider value={ctx}><main className="app-shell">
   <header className="topbar">
-   <div className="topbar-copy"><h1>{title}</h1><p className="date">{tab==='progress'?since:dateLabel}</p></div>
-   {showWeight&&<button className="chip" onClick={()=>setModal('weight')}><Mark name="scale"/>Weigh in</button>}
-   <button className="streak-badge" onClick={()=>{setTab('progress');setSelected(null);}} aria-label={`${streak.current} day streak. Open progress`}><strong>{streak.current}</strong><span>day{streak.current===1?'':'s'}</span></button>
-   <button className={`icon-button gear ${tab==='you'?'active':''}`} aria-label="You" onClick={()=>{setTab('you');setSelected(null);}}><Icon name="settings"/></button>
+   {page && <button className="icon-button home" aria-label="Home" onClick={() => navigate('')}><Icon name="home"/></button>}
+   <div className="topbar-copy"><h1>{title}</h1><p className="date">{page === 'progress' ? `Since ${new Intl.DateTimeFormat('en', {month: 'long', day: 'numeric', timeZone: 'UTC'}).format(new Date(profile.startDay + 'T12:00:00Z'))}` : page === 'rules' || page === 'you' || page === 'rewards' ? 'My Wellness' : longDate(dayKey)}</p></div>
+   {showWeight && <button className="chip" onClick={() => open('weight')}><Mark name="scale"/>Weigh in</button>}
+   <button className={`streak-badge ${page === 'progress' ? 'active' : ''}`} onClick={() => {navigate('progress'); setSelected(null);}} aria-label={`${streak.current} day streak. Open progress`} aria-current={page === 'progress' ? 'page' : undefined}><strong>{streak.current}</strong><span>day{streak.current === 1 ? '' : 's'}</span></button>
+   <button className={`icon-button gear ${page === 'you' ? 'active' : ''}`} aria-label="Settings" aria-current={page === 'you' ? 'page' : undefined} onClick={() => {navigate('you'); setSelected(null);}}><Icon name="settings"/></button>
   </header>
-  {state.clock&&state.clock.zone!==todayZone()&&<button className="zone-row" onClick={()=>setModal('zone')}>Your timezone changed. Keep your day in step<Icon name="arrow" size={16}/></button>}
-  {tab==='today'?<section className="today-view">
-   <button className={`hero ${done.walk?'is-done':''} ${pulse.walk?'moving':''} ${complete?'is-complete':''}`} aria-label={done.walk?'Undo walk':'Log walk'} aria-pressed={done.walk} onClick={()=>habitTap('walk')}>
-    <Hills phase={day.rest?'night':phase} walked={done.walk} progress={count/habits.length} celebrate={complete&&!selected}/>
-    <span className="hero-copy"><strong>{complete&&!selected?'Every one.':day.rest?'Resting today.':done.walk?'Walked.':'A walk today.'}</strong></span>
-    <span className="hero-progress">{complete&&!selected?`All ${habits.length} habits`:`${count} of ${habits.length} today`}</span>
-    <span className="hero-tag">{done.walk?<><Icon name="check" size={14}/>Walk</>:<><Mark name="walk"/>Walk</>}</span>
-    {selected&&<span className="hero-back">{`${count} of ${habits.length}`}</span>}
-   </button>
-   <p className="row-head">Tap to log</p>
-   <div className="discs">
-    {habitTabs.map(h=>{const isRest=h==='rest';const state2=isRest?day.rest:done[h as Habit];
-     return <button key={h} className={`disc-habit ${h} ${state2?'is-done':''} ${pulse[h as Habit]?{workout:'lifting',abs:'crunching',floss:'shining',rest:'dozing'}[h]:''}`} aria-label={isRest?(day.rest?'Undo rest':'Rest today'):`${done[h as Habit]?'Undo':'Log'} ${names[h as Habit].toLowerCase()}`} aria-pressed={state2} onClick={()=>isRest?restTap():habitTap(h as Habit)}>
-      <span className="disc-art"><Mark name={h}/><span className="disc-check"><Icon name="check" size={13}/></span></span>
-      <span>{isRest?(day.rest?'Resting':'Rest'):names[h as Habit]}</span></button>;})}
-   </div>
-   <div className="pair">
-    <div className={`card water ${done.water?'is-done':''} ${pulse.water?'pouring':''}`}>
-     <button className="card-main" aria-label="Add a glass of water" aria-pressed={done.water} onClick={pour}><span className="card-art"><Glass level={day.water/day.targets.water} pouring={!!pulse.water}/></span><span className="card-copy"><span className="card-title">{names.water}</span><span className="card-value"><strong>{litres(day.water)} L</strong></span><Meter label="Glasses" value={day.water} max={day.targets.water} unit="" done={done.water} display={`${Math.round(day.water/250)} of ${Math.round(day.targets.water/250)}`}/><span className="card-note">Target {litres(day.targets.water)} L</span></span></button>
-     <span className="card-steps"><button className="card-step" aria-label="Remove a glass" disabled={day.water<=0} onClick={sip}><Icon name="minus" size={16}/></button><button className="card-step is-add" aria-label="Add a glass" onClick={pour}><Icon name="plus" size={16}/></button></span>
-    </div>
-    <button className={`card food ${done.calories&&done.protein?'is-done':''} ${pulse.meal?'eating':''}`} aria-label="Food. Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>
-     <span className="card-art"><Bowl full={food.calories>0} eating={!!pulse.meal} level={food.calories/Math.max(1,day.targets.calorieMax)}/></span>
-     <span className="card-copy"><span className="card-title">Food</span><span className="card-value"><strong>{format(food.calories)}</strong> kcal</span>
-      <Meter label={names.calories} value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="kcal" done={done.calories} display={`${format(day.targets.calorieMin)}\u2013${format(day.targets.calorieMax)}`}/>
-      <span className="card-note">Protein {format(food.protein)} of {format(day.targets.protein)} g</span>
-      <span className="card-cta"><Icon name="plus" size={16}/>Log a meal</span></span>
-    </button>
-   </div>
-   {selected&&<div className="home-footer"><span>{dateLabel}</span><button className="text-button" onClick={()=>setSelected(null)}>Back to today</button></div>}
-  </section>
-  :tab==='progress'?<Progress state={state} today={today} onOpen={d=>{setSelected(d===today?null:d);setTab('today');}} onRescue={d=>{setSelected(d);setModal('rescue');}}/>
-  :tab==='you'?<You notice={store.notice} onOpen={setModal}/>
-  :<HabitTab habit={tab as typeof habitTabs[number]} day={day} done={tab==='rest'?day.rest:done[tab as Habit]} active={!!pulse[tab as Habit]} rests={rests} past={!!selected}
-    week={weekDays.map(d=>({day:d,done:d===dayKey?(tab==='rest'?day.rest:done[tab as Habit]):(tab==='rest'?!!state.days[d]?.rest:!!completion(state.days[d])[tab as Habit]),future:d>today}))}
-    onToggle={()=>tab==='rest'?restTap():habitTap(tab as Habit)}/>}
-  {toast&&<div className="toast" role="status"><span>{toast.text}</span>{toast.undo&&<button onClick={()=>{toast.undo!();setToast(null);}}>Undo</button>}</div>}
-  <nav className="bottom-nav" aria-label="Main navigation">
-   {[['today','home','Today'],['workout','workout','Workout'],['abs','abs','Abs']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
-   <button className="nav-add" aria-label="Log a meal" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}><Icon name="plus" size={26}/></button>
-   {[['floss','floss','Floss'],['rest','rest','Rest']].map(([value,icon,label])=><button key={value} className={tab===value?'active':''} aria-label={label} aria-current={tab===value?'page':undefined} onClick={()=>{setTab(value);setSelected(null);}}><Icon name={icon}/><span>{label}</span></button>)}
-  </nav>
-  <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e=>{const f=e.target.files?.[0];if(f){setPhoto(f);setEditMeal(null);setModal('meal');}e.target.value='';}}/>
-  {modal&&<Sheet title={modal==='camera'?'Photo':modal==='meal'?'Food':modal==='meals'?'Today’s food':modal==='rest'?'Rest day':modal==='rescue'?'Rescue this day':modal==='weight'?'Weigh in':modal==='targets'?'Daily targets':modal==='setup'?'Your details':modal==='zone'?'Timezone':modal==='lock'?'Lock this device?':'How targets are set'} onClose={()=>{setModal(null);setPhoto(null);setEditMeal(null);}}>
-   {modal==='camera'?<Camera onCapture={photo=>{setPhoto(photo);setEditMeal(null);setModal('meal');}} onChoose={()=>file.current?.click()} onText={()=>{setPhoto(null);setEditMeal(null);setModal('meal');}}/>:modal==='meal'?<Meal photo={photo} initial={editMeal?foodDay.meals[editMeal]:undefined} count={Object.keys(foodDay.meals).length} onPhotoConsumed={()=>setPhoto(null)} onCamera={()=>setModal('camera')} onList={()=>setModal('meals')} onSave={(calories,protein)=>{const mealId=editMeal??crypto.randomUUID();if(change({type:'meal',mealId,calories,protein},foodDayKey)){setPhoto(null);setModal(null);bump('meal',1800);}}}/>:modal==='meals'?<div className="meal-list">{Object.entries(foodDay.meals).map(([id,m],i)=><div className="meal-row" key={id}><div><strong>Meal {i+1}</strong><p>{m.calories} kcal · {m.protein} g protein · estimate</p></div><button onClick={()=>{setEditMeal(id);setPhoto(null);setModal('meal');}}><Icon name="edit" size={16}/>Correct</button><button aria-label={`Remove meal ${i+1}`} onClick={()=>change({type:'deleteMeal',mealId:id},foodDayKey)}><Icon name="close" size={16}/></button></div>)}{!Object.keys(foodDay.meals).length&&<p>Nothing yet.</p>}<button className="secondary" onClick={()=>{setEditMeal(null);setPhoto(null);setModal('meal');}}>Log a meal</button></div>:modal==='rest'?<><span className="sheet-mark"><Mark name="rest"/></span><p>{rests} rest day left this week. The streak stays.</p><button className="primary" onClick={()=>{if(change({type:'rest',value:true}))setModal(null);}}>Rest today</button></>:modal==='rescue'?<><span className="sheet-mark"><Mark name="rescue"/></span><p>{dayKey} keeps its checks and rejoins the streak, marked as rescued.</p><button className="primary" onClick={()=>{if(change({type:'rescue',value:true}))setModal(null);}}>Rescue this day</button></>:modal==='weight'?<Weight onSave={weight=>{if(change({type:'weight',weight},today))setModal(null);}}/>:modal==='setup'?<Setup initial={profile} onSave={(stats,overrides)=>{if(change({type:'profile',stats,overrides},today))setModal(null);}}/>:modal==='targets'?<TargetForm targets={profile.targets} onSave={overrides=>{if(change({type:'profile',stats:profile,overrides},today))setModal(null);}}/>:modal==='zone'?<><p>Use {todayZone().replaceAll('_',' ')} from now on. Today keeps its place; the next day starts at local midnight.</p><button className="primary" onClick={()=>{change({type:'zone'},today);setModal(null);}}>Use local time</button></>:modal==='lock'?<><p>{store.pending.length?'Sync your waiting changes before locking.':'This clears saved data from this device. Your synced history stays.'}</p><button className="primary" disabled={store.pending.length>0||!store.online} onClick={()=>{void lock();setModal(null);}}>Lock and clear</button></>:<About/>}
+  {state.clock && state.clock.zone !== todayZone() && <button className="zone-row" onClick={() => open('zone')}>Your timezone changed. Keep your day in step<Icon name="arrow" size={16}/></button>}
+  {selected && <div className="past-row"><span>Editing {longDate(selected)}</span><button className="text-button" onClick={() => setSelected(null)}>Back to today</button></div>}
+  <div className="page" key={page}>{body}</div>
+  <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e => {const f = e.target.files?.[0]; if (f) {setPhoto(f); setEditMeal(null); open('meal');} e.target.value = '';}}/>
+  {sheet && <Sheet title={sheet === 'camera' ? 'Photo' : sheet === 'meal' ? (editMeal ? 'Correct this meal' : 'Log a meal') : sheet === 'rescue' ? 'Rescue this day' : sheet === 'weight' ? 'Weigh in' : sheet === 'targets' ? 'Daily targets' : sheet === 'setup' ? 'Your details' : sheet === 'zone' ? 'Timezone' : sheet === 'lock' ? 'Lock this device?' : sheet === 'treats' ? 'Your treats' : sheet === 'plan' ? 'Workout plan' : sheet === 'rest' ? 'Rest today' : 'How targets are set'} onClose={() => open(null)}>
+   {sheet === 'camera' ? <Camera onCapture={p => {setPhoto(p); setEditMeal(null); open('meal');}} onChoose={() => file.current?.click()} onText={() => {setPhoto(null); setEditMeal(null); open('meal');}}/>
+   : sheet === 'meal' ? <Meal photo={photo} initial={editMeal ? foodDay.meals[editMeal] : undefined} count={Object.keys(foodDay.meals).length} onPhotoConsumed={() => setPhoto(null)} onCamera={() => open('camera')} onList={() => {open(null); navigate('food');}} onSave={(calories, protein) => {const mealId = editMeal ?? crypto.randomUUID(); if (change({type: 'meal', mealId, calories, protein}, foodDayKey)) {open(null); bump('meal', 1800);}}}/>
+   : sheet === 'rescue' ? <><span className="sheet-mark"><Mark name="rescue"/></span><p>{longDate(dayKey)} keeps its checks and rejoins the streak, marked as rescued.</p><button className="primary" onClick={() => {if (change({type: 'rescue', value: true})) open(null);}}>Rescue this day</button></>
+   : sheet === 'rest' ? <><span className="sheet-mark"><Mark name="rest"/></span><p>{restsLeft(state, dayKey)} of this week’s rest days left. A rest day keeps the streak and is never a miss.</p><button className="primary" onClick={() => {if (change({type: 'rest', value: true})) {open(null); bump('rest', 1600);}}}>Rest today</button><button className="text-button" onClick={() => {open(null); navigate('rest');}}>Plan the week instead</button></>
+   : sheet === 'weight' ? <Weight onSave={weight => {if (change({type: 'weight', weight}, today)) open(null);}}/>
+   : sheet === 'setup' ? <Setup initial={profile} onSave={(stats, overrides, units) => {if (change({type: 'profile', stats, overrides}, today)) {change({type: 'units', units}, today); open(null);}}}/>
+   : sheet === 'targets' ? <TargetForm targets={profile.targets} onSave={overrides => {if (change({type: 'profile', stats: profile, overrides}, today)) open(null);}}/>
+   : sheet === 'treats' ? <RewardsForm rewards={profile.rewards ?? []} onSave={rewards => {if (change({type: 'rewards', rewards}, today)) open(null);}}/>
+   : sheet === 'plan' ? <PlanForm plan={profile.plan} onSave={workout => {if (change({type: 'plan', workout}, today)) open(null);}}/>
+   : sheet === 'zone' ? <><p>Use {todayZone().replaceAll('_', ' ')} from now on. Today keeps its place; the next day starts at local midnight.</p><button className="primary" onClick={() => {change({type: 'zone'}, today); open(null);}}>Use local time</button></>
+   : sheet === 'lock' ? <><p>{store.pending.length ? 'Sync your waiting changes before locking.' : 'This clears saved data from this device. Your synced history stays.'}</p><button className="primary" disabled={store.pending.length > 0 || !store.online} onClick={() => {void lock(); open(null);}}>Lock and clear</button></>
+   : <About/>}
   </Sheet>}
- </main>;
+ </main></AppContext.Provider>;
 }
-function HabitTab({habit,done,active,rests,week,past,onToggle}:{habit:'workout'|'abs'|'floss'|'rest';day:Day;done:boolean;active:boolean;rests:number;past:boolean;week:{day:string;done:boolean;future:boolean}[];onToggle:()=>void}){
- const Scene={workout:Gym,abs:Mat,floss:Tooth,rest:NightRest}[habit];
- const copy={
-  workout:{idle:['Lift today.','Tap the bar and log it.'],done:['Lifted.','Tap again to undo.']},
-  abs:{idle:['Core today.','Tap to crunch it out.'],done:['Core done.','Tap again to undo.']},
-  floss:{idle:['Floss today.','Tap to run the floss through.'],done:['Flossed.','Tap again to undo.']},
-  rest:{idle:[rests?'Take a rest day?':'No rest left this week.',rests?'The streak stays. One a week.':'Rest returns on Monday.'],done:['Resting today.','Tap again to undo.']},
- }[habit];
- const [head,sub]=done?copy.done:copy.idle;
- const kept=week.filter(d=>d.done).length;
- return <section className="habit-view">
-  <button className={`stage ${habit} ${done?'is-done':''} ${active?'is-active':''}`} aria-pressed={done} aria-label={done?`${habit} done. Undo`:`Log ${habit}`} onClick={onToggle} disabled={habit==='rest'&&!rests&&!done}>
-   <Scene done={done} active={active}/>
-   <span className="stage-copy"><strong>{head}</strong><span>{sub}</span></span>
-   <span className="stage-tag">{done?<><Icon name="check" size={14}/>Done</>:<>{past?'Backfill':'Tap'}</>}</span>
-  </button>
-  <div className="week-strip">
-   <span className="week-strip-head">This week<b>{kept} of 7</b></span>
-   <div className="week-dots">{week.map(d=><span key={d.day} className={`week-dot ${d.done?'is-done':''} ${d.future?'is-future':''}`}><i/><small>{weekInitials[(dayDiff(weekStart(d.day),d.day)+7)%7]}</small></span>)}</div>
-  </div>
- </section>;
-}
-function You({notice,onOpen}:{notice:string;onOpen:(key:string)=>void}){
- return <section className="you-view">
-  {notice&&<p className="notice-row" role="status">{notice}</p>}
-  <div className="card list">{[['targets','Daily targets'],['setup','Your details'],['weight','Weigh in'],['about','How targets are set']].map(([key,label])=><button key={key} className="setting-row" onClick={()=>onOpen(key)}><span>{label}</span><Icon name="arrow"/></button>)}</div>
-  <div className="install-note"><Brand size={72}/><p>Safari: Share, then Add to Home Screen.</p></div>
-  <button className="text-button" onClick={()=>onOpen('lock')}>Lock this device</button>
- </section>;
-}
-function Meter({label,value,min,max,unit,done,display}:{label:string;value:number;min?:number;max:number;unit:string;done:boolean;display?:string}){
- const span=Math.max(max*1.15,value);const width=Math.min(100,value/span*100);
- return <span className={`meter ${done?'is-done':''}`}><span className="meter-head"><span>{label}</span><span>{display??`${format(value)}${min?'':` / ${format(max)}`} ${unit}`}</span></span><span className="meter-bar">{min&&<span className="meter-range" style={{left:`${min/span*100}%`,width:`${(max-min)/span*100}%`}}/>}<span className="meter-fill" style={{width:`${width}%`}}/></span></span>;
-}
-function Gate({notice}:{notice:string}){const [error,setError]=useState('');const [busy,setBusy]=useState(false);return <main className="gate"><Hills className="gate-scene"/><form onSubmit={async e=>{e.preventDefault();setBusy(true);setError(await unlock(String(new FormData(e.currentTarget).get('passphrase'))));setBusy(false);}}><label>Passphrase<input name="passphrase" type="password" autoComplete="current-password" required/></label><button className="primary" disabled={busy}>{busy?'Opening…':'Open'}</button>{(error||notice)&&<p role="alert">{error||notice}</p>}</form></main>;}
-function Sheet({title,onClose,children}:{title:string;onClose:()=>void;children:ReactNode}){const ref=useRef<HTMLDialogElement>(null);useEffect(()=>{const el=ref.current;el?.showModal();return()=>el?.close();},[]);return <dialog ref={ref} className="sheet" onCancel={onClose} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><div className="sheet-inner"><div className="sheet-handle"/><header><h2>{title}</h2><button aria-label="Close" className="icon-button" onClick={onClose}><Icon name="close"/></button></header>{children}</div></dialog>;}
-function Setup({initial,onSave}:{initial?:Stats&{overrides?:Partial<Targets>};onSave:(s:Stats,o:Partial<Targets>)=>void}){
- const [error,setError]=useState('');
- return <form className="setup-form" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);const activity=Number(f.get('activity'));const goal=f.get('goal');if(![0,1,2,3].includes(activity)||(goal!=='maintain'&&goal!=='lose'&&goal!=='gain')){setError('Check your details.');return;}onSave({height:Number(f.get('height')),weight:Number(f.get('weight')),age:Number(f.get('age')),activity:activity as Stats['activity'],goal},initial?.overrides??{});}}>
- {!initial&&<><Hills className="setup-scene"/><h1>Welcome.</h1></>}
- <div className="form-grid"><label>Height · cm<input name="height" type="number" inputMode="decimal" min="120" max="230" step="0.1" defaultValue={initial?.height} placeholder="165" required/></label><label>Weight · kg<input name="weight" type="number" inputMode="decimal" min="35" max="300" step="0.1" placeholder="65" required/></label><label>Age<input name="age" type="number" inputMode="numeric" min="18" max="100" defaultValue={initial?.age} placeholder="30" required/></label><label>Daily movement<select name="activity" defaultValue={initial?.activity??1}><option value="0">Mostly sitting</option><option value="1">Lightly active</option><option value="2">Often moving</option><option value="3">Very active</option></select></label></div>
- <label>Goal<select name="goal" defaultValue={initial?.goal??'maintain'}><option value="maintain">Maintain</option><option value="lose">Lose weight</option><option value="gain">Gain</option></select></label><details><summary>How targets are set</summary><About/></details><button className="primary">{initial?'Update':'Start'}</button>{error&&<p role="alert">{error}</p>}</form>;
-}
-function TargetForm({targets,onSave}:{targets:Targets;onSave:(t:Partial<Targets>)=>void}){const [error,setError]=useState('');const fields:[keyof Targets,string,number,number][]=[['calorieMin','Calories · lower',1200,6000],['calorieMax','Calories · upper',1200,6500],['protein','Protein · g',20,400],['water','Water · ml',500,6000],['steps','Steps',500,40000]];return <form onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);const t=Object.fromEntries(fields.map(([k])=>[k,Number(f.get(k))])) as Targets;if(t.calorieMin>t.calorieMax){setError('The lower number must be below the upper number.');return;}onSave(t);}}><div className="form-grid">{fields.map(([key,label,min,max])=><label key={key}>{label}<input name={key} type="number" inputMode="numeric" min={min} max={max} defaultValue={targets[key]} required/></label>)}</div><button className="primary">Save</button><button className="text-button" type="button" onClick={()=>onSave({})}>Use calculated targets</button>{error&&<p role="alert">{error}</p>}</form>;}
-function Weight({onSave}:{onSave:(weight:number)=>void}){return <form onSubmit={e=>{e.preventDefault();onSave(Number(new FormData(e.currentTarget).get('weight')));}}><label>Today’s weight · kg<input autoFocus name="weight" type="number" inputMode="decimal" min="35" max="300" step="0.1" required/></label><p className="fine-print">Only the smoothed trend is shown. Skipping never touches the streak.</p><button className="primary">Save</button></form>;}
-async function imageForRequest(file:File){if(file.size>25000000)throw new Error('That photo is too large.');const bitmap=await createImageBitmap(file);const scale=Math.min(1,1200/Math.max(bitmap.width,bitmap.height));const canvas=document.createElement('canvas');canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);canvas.getContext('2d')!.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();return canvas.toDataURL('image/jpeg',.75).split(',')[1];}
-function Meal({photo,initial,count,onSave,onPhotoConsumed,onCamera,onList}:{photo:File|null;initial?:{calories:number;protein:number};count:number;onPhotoConsumed:()=>void;onCamera:()=>void;onList:()=>void;onSave:(calories:number,protein:number)=>void}){
- const [text,setText]=useState('');const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [items,setItems]=useState<EstimateItem[]|null>(null);const [manual,setManual]=useState(!!initial);
- const [calories,setCalories]=useState(initial?String(initial.calories):'');const [protein,setProtein]=useState(initial?String(initial.protein):'');
- const requestRef=useRef<AbortController|null>(null);const started=useRef(false);
- async function estimate(withPhoto?:File){setBusy(true);setError('');const controller=new AbortController();requestRef.current=controller;
- try{const image=withPhoto?await imageForRequest(withPhoto):undefined;const res=await fetch('/api/estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,image}),signal:controller.signal});const result=await res.json() as Estimate&{error?:string};if(!res.ok)throw new Error(result.error);setItems(result.items);}catch(e){if(!controller.signal.aborted)setError(e instanceof Error?e.message:'No estimate right now.');}finally{if(!controller.signal.aborted){setBusy(false);if(withPhoto)onPhotoConsumed();}}}
- useEffect(()=>{if(photo&&!started.current){started.current=true;void estimate(photo);}return()=>{requestRef.current?.abort();};},[photo]); // eslint-disable-line react-hooks/exhaustive-deps
- const sum=items?.reduce((a,i)=>({calories:a.calories+i.calories,protein:a.protein+i.protein}),{calories:0,protein:0});
- if(items&&sum)return <div className="found"><ul className="items">{items.map((item,i)=><li key={i}><div><strong>{item.name}</strong><small>{item.grams} g · {item.source==='usda'?'USDA · '+item.match:'estimate'}</small></div><label>kcal<input type="number" inputMode="decimal" min="0" max="10000" value={item.calories} onChange={e=>setItems(items.map((it,j)=>j===i?{...it,calories:Number(e.target.value)}:it))}/></label><label>g<input type="number" inputMode="decimal" min="0" max="1000" step="0.1" value={item.protein} onChange={e=>setItems(items.map((it,j)=>j===i?{...it,protein:Number(e.target.value)}:it))}/></label></li>)}</ul>
-  <p className="sum"><strong>{format(sum.calories)} kcal · {Math.round(sum.protein*10)/10} g protein</strong> estimate</p>
-  <button className="primary" onClick={()=>onSave(Math.round(sum.calories),Math.round(sum.protein*10)/10)}>Add to today</button><button className="secondary" onClick={()=>{setItems(null);}}>Not this</button></div>;
- return <form onSubmit={(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();if(manual)onSave(Number(calories),Number(protein));else void estimate();}}>
- <span className="sheet-art"><Bowl full eating={busy}/></span>
- {manual?<div className="form-grid"><label>Calories · kcal<input name="calories" value={calories} onChange={e=>setCalories(e.target.value)} type="number" inputMode="decimal" min="0" max="10000" step="1" required autoFocus/></label><label>Protein · g<input name="protein" value={protein} onChange={e=>setProtein(e.target.value)} type="number" inputMode="decimal" min="0" max="1000" step="0.1" required/></label></div>:<label>What did you eat?<textarea value={text} onChange={e=>setText(e.target.value)} maxLength={1000} placeholder="two eggs and toast" autoFocus={!photo}/></label>}
- {error&&<p className="form-error" role="alert">{error}</p>}
- {manual?<button className="primary" disabled={calories===''||protein===''}>{initial?'Save':'Add to today'}</button>:<button className="primary" disabled={busy||(!text.trim()&&!photo)}>{busy?'Looking…':'Look it up'}</button>}
- {busy&&<button type="button" className="text-button" onClick={()=>{requestRef.current?.abort();setBusy(false);onPhotoConsumed();}}>Stop</button>}
- <div className="meal-tools">{!initial&&<button type="button" className="text-button" onClick={()=>setManual(!manual)}>{manual?'Describe it instead':'Enter numbers'}</button>}{!manual&&<button type="button" className="text-button" onClick={onCamera}>Photo</button>}{count>0&&<button type="button" className="text-button" onClick={onList}>Today’s food · {count}</button>}</div>
- </form>;
-}
-function Progress({state,today,onOpen,onRescue}:{state:State;today:string;onOpen:(d:string)=>void;onRescue:(d:string)=>void}){
- const [mode,setMode]=useState('week');const [anchor,setAnchor]=useState(today);const [detail,setDetail]=useState(today);const streak=streaks(state,today);
- const first=mode==='month'?anchor.slice(0,7)+'-01':weekStart(anchor);const days=mode==='month'?new Date(Number(first.slice(0,4)),Number(first.slice(5,7)),0).getDate():7;
- const entries=Array.from({length:days},(_,i)=>addDays(first,i));
- const entry=state.days[detail];const tracked=detail>=state.profile!.startDay;const start=state.profile!.startDay;
- const status=(d:string)=>isComplete(state.days[d])?'complete':state.days[d]?.rest?'rest':state.days[d]?.rescued?'rescued':d<start?'not tracked':d<today?'broken':'in progress';
- const label=(d:string)=>`${d} ${status(d)}${state.days[d]?.backfilled?' backfilled':''}`;
- const heading=new Date(first+'T12:00Z').toLocaleDateString('en',{month:'long',year:'numeric',timeZone:'UTC'});
- return <section className="progress-view">
-  <div className="progress-hero"><Hills phase="day" walked quiet/><div className="big-number"><strong>{streak.current}</strong><span>day streak{streak.longest>streak.current?` \u00b7 longest ${streak.longest}`:streak.current>1?' \u00b7 your longest':''}</span></div></div>
-  <div className="card streak-card">
-   <div className="segmented">{[['week','Week'],['month','Month'],['trends','Trends']].map(([value,text])=><button key={value} className={mode===value?'active':''} onClick={()=>setMode(value)}>{text}</button>)}</div>
-   {mode==='trends'?<Trends state={state} today={today}/>:<>
-   <div className="calendar-heading"><button aria-label="Previous period" onClick={()=>setAnchor(addDays(first,-1))}><Icon name="back" size={18}/></button><h2>{heading}</h2><button aria-label="Next period" disabled={entries.at(-1)!>=today} onClick={()=>setAnchor(addDays(entries.at(-1)!,1))}><Icon name="arrow" size={18}/></button></div>
-   <div className="calendar-body">{mode==='week'?<div className="bars">{entries.map((d,i)=>{const n=d>today?0:Object.values(completion(state.days[d])).filter(Boolean).length;const kept=isKept(state.days[d]);return <button key={d} disabled={d>today} aria-label={label(d)} className={`bar ${d===today?'is-today':''} ${kept?'is-kept':''} ${d>today?'is-future':''} ${detail===d?'selected':''}`} onClick={()=>setDetail(d)}><span className="bar-track">{n>0&&<span className="bar-fill" style={{height:`${Math.max(16,n/habits.length*100)}%`}}><b>{n}</b></span>}</span><small>{weekInitials[i]}</small></button>;})}</div>
-   :<div className="calendar-grid">{weekInitials.map((d,i)=><span key={i}>{d}</span>)}{Array.from({length:(new Date(first+'T12:00Z').getUTCDay()+6)%7},(_,i)=><i key={'blank'+i}/>)}{entries.map(d=><button key={d} disabled={d>today} aria-label={label(d)} className={`${detail===d?'selected':''} ${isKept(state.days[d])?'kept':d<today&&d>=start?'broken':''} ${d===today?'today':''}`} onClick={()=>setDetail(d)}><strong>{Number(d.slice(-2))}</strong><small>{state.days[d]?.rescued?'\u2661':state.days[d]?.rest?'\u263e':''}{state.days[d]?.backfilled?'*':''}</small></button>)}</div>}</div>
-   <div className="day-detail"><p className="date">{new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(detail+'T12:00:00Z'))}{entry?.backfilled?' \u00b7 backfilled':''}{entry?.rescued?' \u00b7 rescued':''}</p><h2>{isComplete(entry)?'Complete.':entry?.rest?'Rest day.':entry?.rescued?'Rescued.':detail===today?'In progress.':!tracked?'Before you started.':'A day to rescue.'}</h2><p>{!tracked?'Backfill it if you like.':!isComplete(entry)?`${detail===today?'Left today':'Not checked'}: ${missing(entry).map(h=>names[h]).join(', ')}.`:`All ${habits.length} habits.`}</p></div>
-   <div className="detail-actions"><button className="primary" onClick={()=>onOpen(detail)}>{detail===today?'Open today':'Backfill this day'}</button>{detail<today&&!isKept(entry)&&<button className="secondary" onClick={()=>onRescue(detail)}>Rescue day</button>}</div>
-   </>}
-  </div>
- </section>;}
-function Sparkline({values,label}:{values:{day:string;value:number}[];label:string}){if(!values.length)return <p className="empty-chart">Nothing yet.</p>;const min=Math.min(...values.map(v=>v.value)),max=Math.max(...values.map(v=>v.value));return <><svg className="sparkline" viewBox="0 0 300 90" role="img" aria-label={label}><path d="M10 80h280" className="axis"/><polyline points={values.map(v=>`${10+dayDiff(values[0].day,v.day)/Math.max(1,dayDiff(values[0].day,values.at(-1)!.day))*280},${70-(v.value-min)/Math.max(1,max-min)*50}`).join(' ')} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>{values.length===1&&<circle cx="10" cy="70" r="4" fill="currentColor"/>}</svg><div className="chart-dates"><span>{values[0].day}</span><span>{values.at(-1)!.day}</span></div></>;}
-function Trends({state,today}:{state:State;today:string}){
- const weight=weightTrend(state.weights).slice(1);const protein=Object.entries(state.days).sort(([a],[b])=>a.localeCompare(b)).map(([day,d])=>({day,value:totals(d).protein}));const streak=streaks(state,today);
- return <div className="trends-body">
-  <article className="trend-card"><h2>Weight</h2><strong>{weight.length?`${weight.at(-1)!.value} kg`:'Two weigh-ins start a trend'}</strong><Sparkline values={weight.slice(-60)} label="Smoothed weight trend"/></article>
-  <article className="trend-card"><h2>Protein</h2><strong>{protein.length?`${Math.round(protein.at(-1)!.value)} g today`:'No meals yet'}</strong><Sparkline values={protein.slice(-30)} label="Protein estimates over time"/></article>
-  <article className="trend-card"><h2>Streak</h2><strong>{streak.current} day{streak.current===1?'':'s'}</strong><Sparkline values={streak.history.slice(-60)} label="Daily streak history"/></article>
- </div>;
-}
-function About(){return <div className="about"><p>Calories use the adult female <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" rel="noreferrer">Mifflin–St Jeor equation</a>: 10 × kg + 6.25 × cm − 5 × age − 161, multiplied by activity (1.2, 1.375, 1.55 or 1.725) and adjusted −10%, 0% or +10% for the goal. The range is ±100 kcal with a 1500 kcal floor.</p><p>Protein starts at <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noreferrer">1.6 g/kg</a>. Water starts at 30 ml/kg within 1.5–3.5 L. Steps start at 6,000–10,000 by activity. A 2% change in your smoothed weight updates calculated targets; edited targets stay yours.</p><p>All {habits.length} habits count. A missed day resets the streak at midnight. One rest day per week keeps the chain. Past days can be backfilled or rescued at any time. Weight never counts.</p><p>Food estimates come from your description or photo, matched against the USDA FoodData Central database where possible, and are always editable. Photos are never saved.</p></div>;}
+function Gate({notice}: {notice: string}) {const [error, setError] = useState(''); const [busy, setBusy] = useState(false); return <main className="gate"><Hills className="gate-scene"/><form onSubmit={async e => {e.preventDefault(); setBusy(true); setError(await unlock(String(new FormData(e.currentTarget).get('passphrase')))); setBusy(false);}}><h1 className="gate-title">My Wellness</h1><label>Passphrase<input name="passphrase" type="password" autoComplete="current-password" required/></label><button className="primary" disabled={busy}>{busy ? 'Opening…' : 'Open'}</button>{(error || notice) && <p role="alert">{error || notice}</p>}</form></main>;}
+export {names};

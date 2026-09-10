@@ -69,7 +69,7 @@ export function Bowl({full=false,eating=false,level=0}:{full?:boolean;eating?:bo
  </svg>;
 }
 // Flat two-tone habit marks, used inside the round chips.
-export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|'rest'|'rescue'|'scale'}){
+export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|'rest'|'rescue'|'scale'|'meditate'|'focus'|'reward'|'progress'|'star'}){
  const marks={
   workout:<><rect x="8" y="20" width="32" height="8" rx="4" fill={c.accentDeep}/><rect x="4" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="36" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="0" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/><rect x="43" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/></>,
   abs:<><rect x="11" y="5" width="26" height="38" rx="12" fill={c.accentSoft} stroke={c.ink2} strokeWidth="2.5"/><path d="M24 7v34M13 19h22M13 29h22" stroke={c.ink2} strokeWidth="2.5" strokeLinecap="round"/></>,
@@ -80,6 +80,11 @@ export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|
   rest:<><path d="M30 6a16 16 0 1 0 12 26A14 14 0 0 1 30 6z" fill={c.accent}/><circle cx="12" cy="10" r="2" fill={c.accentSoft}/><circle cx="8" cy="20" r="1.5" fill={c.accentSoft}/></>,
   rescue:<path d="M24 42S6 30 6 18a9 9 0 0 1 18-4 9 9 0 0 1 18 4c0 12-18 24-18 24z" fill={c.rose}/>,
   scale:<><rect x="8" y="14" width="32" height="28" rx="6" fill={c.lilacSoft}/><path d="M16 26q8-8 16 0" stroke={c.lilac} strokeWidth="3" strokeLinecap="round" fill="none"/><path d="M24 26l3-5" stroke={c.ink2} strokeWidth="2.5" strokeLinecap="round"/></>,
+  meditate:<><circle cx="24" cy="14" r="7" fill={c.cocoa}/><path d="M12 40q0-16 12-16t12 16z" fill={c.lilac}/><path d="M6 40q10-8 18-4 8-4 18 4" stroke={c.lilacSoft} strokeWidth="5" strokeLinecap="round" fill="none"/><circle cx="24" cy="44" r="2.5" fill={c.card}/></>,
+  focus:<><circle cx="24" cy="27" r="17" fill={c.rose}/><path d="M24 10q-2-6 4-8m-4 8q-8-4-12 2 6 4 12-2 8-4 12 2-6 4-12-2" fill={c.sage} stroke={c.sageDeep} strokeWidth="1.5" strokeLinejoin="round"/><path d="M24 18v9l6 4" stroke={c.card} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></>,
+  reward:<><rect x="6" y="20" width="36" height="22" rx="5" fill={c.butter}/><rect x="4" y="12" width="40" height="10" rx="4" fill={c.butterSoft}/><rect x="21" y="12" width="6" height="30" fill={c.rose}/><path d="M24 12q-10-2-8-8 6-2 8 8 2-10 8-8 2 6-8 8z" fill={c.rose}/></>,
+  progress:<><rect x="6" y="26" width="8" height="16" rx="3" fill={c.sage}/><rect x="20" y="16" width="8" height="26" rx="3" fill={c.sageDeep}/><rect x="34" y="6" width="8" height="36" rx="3" fill={c.accent}/></>,
+  star:<path d="M24 4l6 13 14 1-11 9 4 14-13-8-13 8 4-14L4 18l14-1z" fill={c.butter}/>,
  };
  return <svg className="mark" viewBox="0 0 48 48" aria-hidden="true">{marks[name]}</svg>;
 }

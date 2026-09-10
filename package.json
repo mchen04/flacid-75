@@ -1,6 +1,6 @@
 {
-  "name": "flaccid75",
-  "version": "3.0.0",
+  "name": "my-wellness",
+  "version": "4.0.0",
   "private": true,
   "scripts": {
     "dev": "npm run tokens && node scripts/build-client.mjs && next dev",
