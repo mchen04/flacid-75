@@ -4,6 +4,7 @@
     "app/api/estimate/route.ts",
     "app/api/state/route.ts",
     "app/api/sync/route.ts",
+    "app/api/water/route.ts",
     "app/globals.css",
     "app/layout.tsx",
     "app/manifest.ts",
@@ -29,7 +30,8 @@
     "lib/sound.ts",
     "lib/timer.ts",
     "lib/units.ts",
-    "lib/validation.ts"
+    "lib/validation.ts",
+    "lib/water.ts"
   ],
   "findings": []
 }

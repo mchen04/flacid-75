@@ -23,3 +23,10 @@ Also viewed: the previous build's own captures (`evidence/ui/after/phone/*.png`)
 - **Contrast fixed by tokens.** Muted text darkened (`#6f675e`, 5.6:1 on white), accent-ink darkened (`#9c4b18`), a sage-ink added for done text, and primary buttons use ink backgrounds. The browser check `text contrast meets WCAG AA on every page` walks every text node on every page.
 - **Scenes are framed, not cropped.** After review, the four character scenes are shown through the canvas band they live in (viewBox `0 200 360 440`) and the stage keeps that aspect ratio, so the lifter, the crunch, the tooth and the sleeper are whole at every width. Copy and tags sit on white cards in corners the art leaves clear.
 - **Vertical scroll is allowed, sideways never.** The page scrolls inside `.page` when its content asks; the capture script fails on any horizontal overflow or clipped element and captures the full scrolling page so nothing below the fold is hidden from review.
+
+## After the final visual audit
+- Words on the hero are a stacked overlay (copy card and chip on top, pill below) so they can never overlap; the hero grows instead. The capture probe now measures pairwise overlap of every hero and stage word and fails on any.
+- On short screens the primary control comes before the scene; the scene stays whole below it. No footer navigation, no clipping.
+- Done states on the dashboard are calm: a sage "Done" pill with a small underlined Undo, the accessible name unchanged.
+- Floss uses the same shape as the other activities. Abs copy moved top-left, away from the character.
+- Rejected: an illustration on every page (M1). The brief asks for a coherent language, not decoration everywhere; meditate, focus, rules and onboarding stay minimal and put the control first.

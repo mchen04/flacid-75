@@ -12,7 +12,7 @@ These are the defaults the app ships with. Each one is deliberate, visible in th
 
 ## Completion per habit
 - Workout, abs, walk, floss: done when the user says so, by finishing a session on the activity page or tapping **Log** on the dashboard. Tapping again undoes.
-- Water: done when the day's millilitres reach the target (250 ml per glass; minus removes a glass).
+- Water: done when the day's millilitres reach the target (see Water by container; the minus undoes the last pour).
 - Protein: done when the day's protein total reaches the target.
 - Calories: done when the day's total lands inside the range [lower, upper].
 - Explicit manual checks (`check` operations) on water, protein and calories are cleared by the next water or meal change so the derived value wins again.
@@ -28,15 +28,25 @@ These are the defaults the app ships with. Each one is deliberate, visible in th
 
 ## Points and treats
 - 10 points per required habit done, plus 30 for a complete day, so a full day is 100. Rest days earn nothing and cost nothing.
-- Treats are entirely user-defined (name and point cost) and can be redeemed when the balance covers them. Redeeming is idempotent per operation id, guarded against a double tap, and undoable the same day. Nothing in the app frames food as a reward or a debt, and no thresholds are presented as science.
+- Treats are entirely user-defined (name and point cost) and can be redeemed when the balance covers them. Redeeming is idempotent per operation id, guarded against a double tap, and undoable from the day it was logged on. Nothing in the app frames food as a reward or a debt, and no thresholds are presented as science.
 
 ## Timers
 - Timers store only a start instant and the time banked before the last pause (`lib/timer.ts`); elapsed time is recomputed from the clock on every render. A locked phone, a backgrounded tab, or a closed and reopened app therefore shows the right count. Interval phases (abs routines, focus blocks) are derived from elapsed time, so blocks that finish while the app is away are credited on return.
 - Cues are visual by default (ring, flash, colour). Sound is off until turned on in Settings (device-local preference), and vibration follows the phone.
 - The screen wake lock is requested while a timer runs, where the browser offers one.
 
+## Water by container
+- Water is stored in millilitres. Containers are named by the user and sized in her unit; the seeded default is a 30 oz Stanley (887.2 ml), with a 250 ml glass alongside.
+- A pour is container size × share × count, computed by the app. A typed phrase is read by a deterministic parser (half, a quarter, three quarters, a third, most, the whole thing, refilled N times, N containers). Only when the parser cannot read it does a free model get to name the container and the share; it never returns a volume. Anything still unclear asks once with share buttons; nothing is guessed.
+- One tap on the dashboard logs a whole default container. Every pour is kept in the day's log with its label, and the last pour can be undone from the dashboard or the page.
+- Progress reads in her terms ("about 1½ of 3 Stanleys") next to the volume in her unit.
+
 ## Units
 - Measurements are stored in kilograms and centimetres. The display unit defaults to lb and ft-in; kg and cm are one tap away in Settings. Conversion never rounds the stored value (`tests/units.test.ts`).
 
 ## Data
-- Logs live in local storage under the existing key and in the private account. Only a described or photographed meal is sent for an estimate, to free OpenRouter models only, with a per-request `max_price` of zero and an id check that refuses any non-free model. No other log leaves the device.
+- Logs live in local storage under the existing key and in the private account. Only a described or photographed meal (and, when the local parser cannot read it, a water note with the container names) is sent, to free OpenRouter models only, with a per-request `max_price` of zero and an id check that refuses any non-free model. No other log leaves the device.
+
+## Bounds and refusals
+- Every change is checked against the account's bounds on the device before it is queued (`lib/bounds.ts`, held to the server schema by `tests/bounds.test.ts`), and forms cannot produce a change outside them.
+- The account validates each change on its own: a malformed change is refused by id with a reason and never blocks the valid ones behind it. Refused changes are set aside on the device, listed under Settings with their reason, and can be discarded; everything else keeps saving.
