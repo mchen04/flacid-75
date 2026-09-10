@@ -1,7 +1,7 @@
 {
   "base": "http://localhost:3075",
   "today": "2026-09-10",
-  "runner": "scripts/ui-shots.mjs: fresh page and fixture per state, expected text asserted per state, overlap probe; three bounded runs (ONLY_VIEWPORT) merged",
+  "runner": "scripts/ui-shots.mjs",
   "viewports": {
     "phone": {
       "home": {
@@ -188,7 +188,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 826,
+        "pageScrollHeight": 834,
         "unexpectedScrollers": []
       },
       "water-confirm": {
@@ -199,7 +199,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 946,
+        "pageScrollHeight": 954,
         "unexpectedScrollers": []
       },
       "water-ask": {
@@ -210,7 +210,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 977,
+        "pageScrollHeight": 985,
         "unexpectedScrollers": []
       },
       "containers-sheet": {
@@ -221,7 +221,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 826,
+        "pageScrollHeight": 834,
         "unexpectedScrollers": []
       },
       "food": {
@@ -817,7 +817,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 826,
+        "pageScrollHeight": 834,
         "unexpectedScrollers": []
       },
       "water-confirm": {
@@ -828,7 +828,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 946,
+        "pageScrollHeight": 954,
         "unexpectedScrollers": []
       },
       "water-ask": {
@@ -839,7 +839,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 977,
+        "pageScrollHeight": 985,
         "unexpectedScrollers": []
       },
       "containers-sheet": {
@@ -850,7 +850,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 826,
+        "pageScrollHeight": 834,
         "unexpectedScrollers": []
       },
       "food": {
@@ -1446,7 +1446,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 826,
+        "pageScrollHeight": 834,
         "unexpectedScrollers": []
       },
       "water-confirm": {
@@ -1457,7 +1457,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 946,
+        "pageScrollHeight": 954,
         "unexpectedScrollers": []
       },
       "water-ask": {
@@ -1468,7 +1468,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 977,
+        "pageScrollHeight": 985,
         "unexpectedScrollers": []
       },
       "containers-sheet": {
@@ -1479,7 +1479,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 826,
+        "pageScrollHeight": 834,
         "unexpectedScrollers": []
       },
       "food": {

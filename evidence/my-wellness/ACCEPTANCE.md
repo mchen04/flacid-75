@@ -1,10 +1,46 @@
-# My Wellness · acceptance matrix (t_7531365d)
+# My Wellness · acceptance record (t_7531365d)
 
-Date: 2026-09-10. Owner: Claude Fable 5.1 (sole implementation owner). Status: **final-audit repairs and the water-by-container feature done; awaiting the new independent read-only final review. Not accepted until that review passes.**
+Owner: Claude Fable 5.1 (sole implementation owner). Status: **review 162 repairs done; awaiting the next independent review. Not accepted until that review passes. No exhaustive visual approval is claimed.**
 
-**Environment.** This session's sandbox forbids listening sockets (`listen EPERM`), outbound loopback (`connect EPERM 127.0.0.1`), shared memory for PostgreSQL (`shmget` fails in `initdb`), and WebKit (`webkit.launch` times out). Chromium runs only single-process. Every browser check here therefore runs against the production build served through request interception (`scripts/virtual-server.mjs`, `VIRTUAL_SERVER=1`), with API routes mocked by the real domain code. What that cannot cover is listed under *For Forge to run outside the sandbox* and *Limitations*.
+## Current summary · commit c21ff6d (code) and the evidence commit that follows (2026-09-10)
 
-## Final audit repairs · finding to proof
+Everything in this section was produced from this commit's build in this session, except the rows marked supervisor, which name their own artifact.
+
+| Check | Result | Artifact |
+|---|---|---|
+| Unit (`npm test`) | 48 passed | [check.txt](check.txt) |
+| Typecheck, lint, token scan, mascot scan | clean | [check.txt](check.txt) |
+| Bundle: critical path (entry plus every transitively static-imported chunk) | 32,400 of 40,960 gzip bytes (limit unchanged) | [check.txt](check.txt) |
+| Bundle: total JavaScript including lazy page chunks | 52,568 of 65,536 gzip bytes (explicit ceiling); every chunk in the shell prefetch list and the worker's install scan | [check.txt](check.txt) |
+| Chromium via virtual server (sandbox; mock account runs the real schema and dedupes by id) | 48 passed, 1 skipped (gate needs a real server) | [e2e-chromium.txt](e2e-chromium.txt), [e2e-results.json](e2e-results.json) |
+| Captures (fresh page and fixture per state, expected text per state, overlap probe) | 193 states, all reached: 273 PNG frames (a scrolling state also gets a `-full` frame, so frames exceed states) | [after/fit.json](after/fit.json), `after/{phone,small,desktop}/`, `after/extras/` |
+| Supervisor, snapshot v163 (predates the R-extra readiness fix and the parser fix): unit 47, typecheck, lint, build; disposable database integration 18 operations; real offline integration Chromium and WebKit (3 queued, 3 replayed, 5 rows, lazy pages offline) | passed, as reported by the supervisor | supervisor's log (not in this folder) |
+| Supervisor, real-server suite on this commit | pending | to be supplied |
+
+**Physical-device limitations stay as before**: no physical phone, WebKit and the real service worker not run here, sound while locked not observable. Real-server, WebKit, database and offline runs are the supervisor's.
+
+## Review 162 · finding to proof
+
+| # | Finding | Repair | Proof |
+|---|---|---|---|
+| 1 HIGH | Focus sessions on one day shared block ids | Each focus session carries its own `run` id from start; the block id includes it (timers stored before this key fall back to their start instant); the same session settled in two tabs still shares ids | `tests/sessions.test.ts` "two focus sessions on the same day credit separately…"; `wellness.spec.ts` "R1: two focus sessions… 25 + 25 = 50 minutes, after a reload and after an offline replay" (three sessions: 25, 50 after reload, 75 after an offline replay; three distinct ids on the account) |
+| 2 MED | A long container name made a label the bound refused, silently | Label bound raised to 60 on both server and device and labels trimmed to it at the action; a refused pour shows the account's reason in the pour card; the parser now prefers the longest container name and never reads a fraction word or a number in the name as a count | `tests/water.test.ts` (label trim, worst-case length, "refilled my Stanley twice", whole-name reading); `wellness.spec.ts` "R2: a pour from a long-named container…" (¾ of a 22-character name via button and via phrase; a forced refusal shows on the page) |
+| 3 MED | A sync in one tab could erase another tab's queued change | Storage events are never ignored: during a sync they are held and merged when it settles; a merge takes the other tab's state, re-applies this tab's queue on top and saves the union; a completed sync merges changes that arrived meanwhile before saving | `wellness.spec.ts` "R3: a slow sync in one tab cannot erase a change another tab queued meanwhile" (A syncs slowly, B is cut off, B's floss survives A's save, both tabs show it, A reloads and delivers it) |
+| 4 MED | Timers cleared before the change was accepted; over 24 h refused and lost | `lib/sessions.ts`: elapsed is capped at 24 h, the change is queued first, the timer is cleared only when accepted; a refusal leaves the timer; the walk page says long sessions log as 24 h | `tests/sessions.test.ts` (cap, refusal keeps the timer, acceptance clears it); `wellness.spec.ts` "R4: a walk left running for 26 hours…" (86,400 s credited to the start day, nothing refused, timer cleared) |
+| 5 VISUAL | Read it / input flush with the card's rounded bottom on desktop | Bottom padding on the pour card and margins on the phrase form and the confirm/ask states | `after/desktop/water*.png`, `water-confirm.png`, `water-ask.png` (opened in this session; see the visual note below) |
+| 6 EVIDENCE | Mixed current and stale numbers | This record: one commit-bound summary above; older checkpoints below are labelled historical | this file |
+| extra | Weight unit toggle reinterpreted a typed number | The weight and height fields are keyed by unit, so a toggle gives a fresh field with the stored value | `wellness.spec.ts` "R-extra…" (150 typed as lb, toggle to kg, field shows 65) |
+| extra | A refused queued change made unlock report "offline" | Queued changes are re-applied with a guard on unlock, as in sync | `wellness.spec.ts` "R-extra…" (unlock with a refused redeem queued succeeds) |
+| extra | "refilled my Stanley twice" counted one | Refill counting reads "twice/thrice/N times" anywhere in the note | `tests/water.test.ts` |
+| extra | Saving targets recomputed from the setup weight | A profile save that does not change the weight keeps the trend baseline and recomputes from it | `tests/domain.test.ts` "saving targets or details without editing the weight keeps the trend baseline…" |
+
+Plan sheet (review 162): opened `after/desktop/plan-sheet.png` in this session; the text beside the header is the Settings page scrolled beneath the fixed top bar behind the dimmed backdrop, not an overlap of the sheet. Not reproduced as a defect.
+
+Visual note: in this session I opened the phone water frames and the failing-test frames while fixing R2; the desktop water frame after the padding fix is listed above for the reviewer to open. I do not claim an exhaustive visual pass.
+
+## Historical checkpoints (labelled; superseded by the summary above)
+
+### Historical · final audit repairs (b324755) · finding to proof
 
 | Finding | Repair | Proof |
 |---|---|---|
@@ -28,7 +64,7 @@ Date: 2026-09-10. Owner: Claude Fable 5.1 (sole implementation owner). Status: *
 
 Rejected or deferred, with rationale: **M1** (an illustration on every page) is not a requirement of the brief; minimal pages for meditate, focus, rules and onboarding keep the primary control first, and the visual language is carried by tokens, cards and type. **L5** (the date field showing a system focus highlight in captures) is the capture's own fill action focusing the field; it is not autofocused by the app. **L7 "the Abs icon reads as a globe"** is noted; the mark is the existing torso glyph and unchanged. **No in-app Back button**: Home is on every page and hash routes keep the platform back gesture working in Safari and in the installed app on iOS 16+; a second back control would duplicate it.
 
-## Water by container (stanley-water-20260910.md)
+### Historical · water by container (64e5c9d)
 
 | Ask | Done | Proof |
 |---|---|---|
@@ -41,11 +77,11 @@ Rejected or deferred, with rationale: **M1** (an illustration on every page) is 
 | Ambiguous phrase asks once, never guesses | "some of my Stanley" and a model failure both show "How much of the Stanley?" with share buttons; nothing is logged until one is picked | `wellness.spec.ts` "half a Stanley…" ambiguity and model-down blocks; `after/*/water-ask.png` |
 | Real browser: half a Stanley twice, exactly 15 oz each, fill and total match | Chromium via the virtual server: two pours of 443.603 ml, each shown as 15 oz, total 30 oz, the glass fill lower after each, the dashboard agreeing | `wellness.spec.ts` "half a Stanley is exactly 15 oz, twice…" → [water-stanley-chromium.png](water-stanley-chromium.png); the supervisor's real-server run covers WebKit |
 
-## Bundle budget after the repairs
+### Historical · bundle budget after the repairs (b324755)
 
 The original 40,960 gzip-byte limit is unchanged and still enforced, on the critical path: the first script plus every chunk it reaches through static imports, transitively (`scripts/budget.mjs`). Every other page and sheet is a lazily loaded chunk, prefetched by the shell after the first paint and precached by the service worker (`scripts/chunk-check.mjs` fails the build if any chunk is missing from the shell's prefetch links or the worker's install scan). Total JavaScript is reported alongside and has its own explicit ceiling of 65,536 bytes. Before splitting, the single file had reached 45,015 bytes with the water feature and the repairs; the numbers now are in [check.txt](check.txt).
 
-## Real-suite follow-up on b324755 (85 passed, 2 failed)
+### Historical · real-suite follow-up on b324755 (85 passed, 2 failed) and be53778
 
 | Failure | Cause | Repair | Check |
 |---|---|---|---|
@@ -53,7 +89,7 @@ The original 40,960 gzip-byte limit is unchanged and still enforced, on the crit
 | WebKit counted the rest rows before the lazy page body rendered | Readiness, not behaviour | The spec waits for the week list and polls the count; the assertion is unchanged | `history.spec.ts` |
 | `scripts/offline-integration.mjs` timed out on its reloads | Two stale waits for "Log workout" (the reload helper, and the return home after the offline page tour), which no longer exists once the workout is logged; and a stale operation-row count (onboarding now stores profile and units, so five rows, not four) | Both waits target the dashboard and the logged state; the row count is five; the replay must accept exactly the three queued ids and reject none. **No offline success is claimed here**: the script needs a real service worker and runs only in the supervisor's environment | supervisor rerun |
 
-## Review round 1 (findings-1.txt) · what changed
+### Historical · review round 1 (findings-1.txt)
 
 | # | Finding | Fix | Check |
 |---|---|---|---|
@@ -79,13 +115,13 @@ The original 40,960 gzip-byte limit is unchanged and still enforced, on the crit
 
 The JavaScript budget stays at 40,960 gzip bytes; the bundle is 40,066. No verification threshold was changed.
 
-## Supervisor outputs (produced outside this sandbox, included as they are)
+### Historical · supervisor outputs on earlier checkpoints
 - `evidence/pwa.json`: Chromium installability against the local production server, no errors; `physicalInstallVerified` stays false.
 - `evidence/performance.json`, `evidence/lighthouse-current.json`: throttled Lighthouse of the public gate screen on the local server; scores 1.0/1.0/1.0. This measures the gate, not the signed-in dashboard.
 - Real-server browser run on the frozen build (Chromium and WebKit, localhost, test-only auth): 67 passed, 0 failed, 0 skipped, in 6.1 minutes: [e2e-real-supervisor.txt](e2e-real-supervisor.txt).
 - Database integration against a disposable PostgreSQL, isolated schema: passed, 17 operations recorded, every check true: [integration-supervisor.txt](integration-supervisor.txt).
 
-## Commands and results (final repairs checkpoint)
+### Historical · commands and results at b324755
 
 | Command | Result | Capture |
 |---|---|---|
@@ -105,7 +141,7 @@ node scripts/offline-integration.mjs      # real service worker: Settings, Rules
 node scripts/pwa-check.mjs && node scripts/performance.mjs
 ```
 
-## Scope items 1–19
+### Scope items 1–19 (how each is met; proofs reference the current specs)
 
 | # | Item | How it is met | Evidence |
 |---|---|---|---|
@@ -129,7 +165,7 @@ node scripts/pwa-check.mjs && node scripts/performance.mjs
 | 18 | Explicit completion/rest/rollover rules; optional vs required; documented defaults | In-app `#rules` page and [RULES.md](RULES.md) | `wellness.spec.ts` midnight rollover and rest-across-midnight tests; `after/phone/rules-full.png` |
 | 19 | Accessible, responsive, reduced motion, data-preserving, no unnecessary AI transmission | Keyboard order and visible focus ring; WCAG AA contrast audit of every text node on every page; reduced-motion disables all animation on every page; three viewports; only the described meal is ever sent | `wellness.spec.ts` keyboard + contrast → [contrast-audit.json](contrast-audit.json) (0 failures on 16 screens); `gamify.spec.ts` reduced motion; `after/{phone,small,desktop}` |
 
-## Retained features
+### Retained features
 | Feature | Check |
 |---|---|
 | Seven-habit all-or-nothing streak, midnight boundary, rescue, backfill | `tests/domain.test.ts`; `history.spec.ts`; `wellness.spec.ts` backfill |
@@ -141,10 +177,10 @@ node scripts/pwa-check.mjs && node scripts/performance.mjs
 | Tokens only, no mascot leftovers | `npm run scan` in [check.txt](check.txt) |
 | Trends (weight in chosen unit, protein, streak) | `history.spec.ts` → [trends-chromium.png](trends-chromium.png) |
 
-## Empty, loading, error and completed states inventoried
+### States inventoried
 Gate (loading scene, error line) · onboarding (validation error) · dashboard (0 of 7, partial, complete/celebration, rest day, past-day banner, "a fresh start" after a miss) · walk/workout/abs (ready, running, paused, done card, backfill mode) · abs guided (work, rest, finished flash) · food (empty list, meals, edit form, estimate loading "Looking…", estimate error with manual fallback, "Not this") · rest (planned, used, none left, before-start, missed) · meditate/focus (ready, running, break, logged) · treats (empty, affordable, "n more", redeemed with undo) · progress (in progress, complete, rest, planned rest, rescued, missed, ahead, before start; empty trends) · settings (storage notice row) · timezone banner · lock sheet (pending changes). Each is reachable in the captures or the specs above.
 
-## For Forge to run outside the sandbox
+### For the supervisor to run outside the sandbox
 ```sh
 # database integration, disposable localhost database only (never the production URL)
 DATABASE_URL='postgres://michaelchen@127.0.0.1:55475/postgres' node --import tsx scripts/integration.ts
@@ -156,7 +192,7 @@ node scripts/performance.mjs
 ```
 The gate test (`app.spec.ts` "gate rejects wrong passphrase…") is the one skipped here; it runs unmodified against a real server.
 
-## Limitations, stated plainly
+### Limitations, stated plainly
 - **Not verified on a physical device.** Wall-clock timers are verified with a virtual clock in Chromium (reload, 20-minute sleep, midnight). iOS may terminate a backgrounded PWA; on reopen the timer resumes from storage, but no notification or sound fires while the app is closed, and the wake lock only holds while the page is visible. Sound needs a user gesture first, which Start provides.
 - **WebKit not run here** (launch timeout in the sandbox). Specs are engine-agnostic and committed.
 - **Database integration not run here** (no loopback). The script is updated for the new rules and fields; Forge runs it.
