@@ -20,7 +20,7 @@ export function You({notice}: {notice: string}) {
   </div>
   <div className="card list"><div className="card-head"><h2>Timers</h2></div>
    <div className="setting-row"><span>Sound cues</span><button className={`toggle ${sound ? 'is-on' : ''}`} role="switch" aria-checked={sound} onClick={() => {setSound(!sound); setSoundState(!sound);}}><i/></button></div>
-   <p className="fine-print">A short chime marks interval changes and the end of a timer. Off by default; stored on this device only. Vibration follows the phone’s own settings.</p>
+   <p className="fine-print">A short chime marks interval changes and the end of a timer. Off by default; stored on this device only. Vibration follows the phone’s own settings. While the phone is locked or the app is closed, the count stays right but no chime or buzz can play; cues catch up when you come back.</p>
   </div>
   <div className="card list">{[['targets', 'Daily targets'], ['setup', 'Your details'], ['weight', 'Weigh in'], ['plan', 'Workout plan'], ['treats', 'Treats'], ['about', 'How targets are set']].map(([key, label]) => <button key={key} className="setting-row" onClick={() => open(key)}><span>{label}</span><Icon name="arrow"/></button>)}<button className="setting-row" onClick={() => navigate('rules')}><span>How it works</span><Icon name="arrow"/></button><button className="setting-row" onClick={() => navigate('progress')}><span>History and progress</span><Icon name="arrow"/></button></div>
   <div className="install-note"><Brand size={72}/><p>My Wellness · Safari: Share, then Add to Home Screen.</p></div>
@@ -34,7 +34,10 @@ export function Setup({initial, onSave}: {initial?: Stats & {overrides?: Partial
   const height = parseHeight(String(f.get('feet') ?? ''), String(f.get('inches') ?? ''), String(f.get('cm') ?? ''), units); const weight = parseWeight(String(f.get('weight') ?? ''), units);
   if (![0, 1, 2, 3].includes(activity) || (goal !== 'maintain' && goal !== 'lose' && goal !== 'gain') || height === null || weight === null) {setError('Check your details.'); return;}
   if (height < 120 || height > 230 || weight < 35 || weight > 300) {setError('Those numbers are outside the range the targets can use.'); return;}
-  onSave({height, weight, age: Number(f.get('age')), activity: activity as Stats['activity'], goal}, initial?.overrides ?? {}, units);}}>
+  // A field left at its displayed value keeps the exact stored measurement: display rounding must never rewrite the data.
+  const keptHeight = initial && Math.abs(height - initial.height) < 1.3 ? initial.height : height;
+  const keptWeight = initial && Math.abs(weight - initial.weight) < 0.06 ? initial.weight : weight;
+  onSave({height: keptHeight, weight: keptWeight, age: Number(f.get('age')), activity: activity as Stats['activity'], goal}, initial?.overrides ?? {}, units);}}>
  {!initial && <h1>Welcome to My Wellness.</h1>}
  <div className="segmented" role="group" aria-label="Units">{([['lb', 'ftin', 'lb · ft in'], ['kg', 'cm', 'kg · cm']] as const).map(([w, h, l]) => <button type="button" key={w} className={units.weight === w ? 'active' : ''} aria-pressed={units.weight === w} onClick={() => setUnits({weight: w, height: h})}>{l}</button>)}</div>
  <div className="form-grid">

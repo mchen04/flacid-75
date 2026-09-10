@@ -100,17 +100,18 @@ export function Brand({size=512,padded=true}:{size?:number;padded?:boolean}){
  </svg>;
 }
 
-// One scene per habit tab, drawn on a tall canvas so a phone-shaped stage crops almost
-// nothing. Copy sits over the top left, so nothing important goes above y=180 on the left.
+// One scene per activity page. Each is drawn on a 360×640 canvas but shown through the band y=200…640, and the stage keeps that
+// band's aspect ratio (360:440) so nothing is cropped at any width. Copy sits bottom-left and the tag bottom-right, over floor or ground;
+// the rest scene puts its copy top-left, over sky. Nothing important sits in those corners.
 // `active` runs the tap animation; `done` holds the finished pose after it ends.
 const Window=({x,y}:{x:number;y:number})=><g transform={`translate(${x} ${y})`}><rect width="104" height="120" rx="16" fill={c.skySoft}/><circle cx="70" cy="36" r="18" fill={c.butter}/><path d="M0 84c22-16 40-16 52-6s30 8 52-10v36q0 16-16 16H16Q0 120 0 104z" fill={c.sageSoft}/><rect x="48" y="0" width="8" height="120" fill={c.card} opacity=".7"/><rect x="0" y="56" width="104" height="8" fill={c.card} opacity=".7"/><rect width="104" height="120" rx="16" fill="none" stroke={c.card} strokeWidth="7"/></g>;
 const Plant=({x,y,s=1}:{x:number;y:number;s?:number})=><g transform={`translate(${x} ${y}) scale(${s})`}><path d="M0 0q-30-18-24-52 26 4 26 34" fill={c.sage}/><path d="M2 0q28-22 22-56-28 8-26 38" fill={c.sageDeep}/><path d="M-22 0h46l-6 40q-1 8-9 8h-16q-8 0-9-8z" fill={c.cocoaSoft}/></g>;
 export function Gym({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene gym ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene gym ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.butterSoft}/>
   <g className="gym-clock"><circle cx="180" cy="150" r="38" fill={c.card}/><circle cx="180" cy="150" r="38" fill="none" stroke={c.cocoaSoft} strokeWidth="7"/><path d="M180 128v24l16 10" stroke={c.ink2} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
   <rect x="0" y="556" width="360" height="84" fill={c.cocoaSoft}/><rect x="0" y="556" width="360" height="8" fill={c.cocoa} opacity=".2"/>
-  <Plant x={44} y={556} s={1.05}/>
+  <Plant x={250} y={556} s={.9}/>
   <g opacity=".9"><rect x="288" y="524" width="54" height="12" rx="6" fill={c.cocoa} opacity=".5"/><circle cx="292" cy="530" r="14" fill={c.ink2}/><circle cx="338" cy="530" r="14" fill={c.ink2}/></g>
   <ellipse cx="180" cy="558" rx="78" ry="11" fill={c.cocoa} opacity=".2"/>
   <g className="lifter">
@@ -127,12 +128,12 @@ export function Gym({done=false,active=false}:{done?:boolean;active?:boolean}){
  </svg>;
 }
 export function Mat({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene mat ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene mat ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.lilacSoft}/>
   <Window x={238} y={168}/>
   <rect x="0" y="486" width="360" height="154" fill={c.cardTint}/>
   <Plant x={318} y={620} s={1.15}/>
-  <g><rect x="42" y="546" width="30" height="62" rx="14" fill={c.sky}/><rect x="49" y="532" width="16" height="18" rx="7" fill={c.skyDeep}/></g>
+  <g><rect x="196" y="536" width="30" height="62" rx="14" fill={c.sky}/><rect x="203" y="522" width="16" height="18" rx="7" fill={c.skyDeep}/></g>
   <ellipse cx="180" cy="492" rx="152" ry="15" fill={c.lilac} opacity=".35"/>
   <rect x="28" y="446" width="304" height="48" rx="24" fill={c.lilac}/>
   <rect x="28" y="446" width="304" height="15" rx="8" fill={c.card} opacity=".4"/>
@@ -158,7 +159,7 @@ export function Mat({done=false,active=false}:{done?:boolean;active?:boolean}){
  </svg>;
 }
 export function Tooth({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene tooth ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene tooth ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.skySoft}/>
   <circle cx="180" cy="430" r="168" fill={c.card} opacity=".45"/>
   <ellipse cx="180" cy="588" rx="104" ry="15" fill={c.skyDeep} opacity=".18"/>
@@ -173,7 +174,7 @@ export function Tooth({done=false,active=false}:{done?:boolean;active?:boolean})
  </svg>;
 }
 export function NightRest({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene night ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene night ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.night}/>
   {[[54,214],[104,184],[158,230],[228,194],[292,240],[322,190],[196,270],[76,294],[268,308],[130,330],[40,352]].map(([x,y],i)=><circle key={i} className={`star st${i%4}`} cx={x} cy={y} r={i%3?2.4:3.4} fill={c.card} opacity=".85"/>)}
   <g className="moon"><circle cx="250" cy="226" r="56" fill={c.butter} opacity=".14"/><circle cx="250" cy="226" r="36" fill={c.butterSoft}/><circle cx="265" cy="213" r="30" fill={c.night}/></g>

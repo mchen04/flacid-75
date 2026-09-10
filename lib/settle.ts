@@ -1,0 +1,44 @@
+// Timers settle themselves wherever the app is open: a finished ab routine or meditation logs itself, and finished focus blocks are
+// credited, whether or not their page is on screen. Pure over the stored timers, so it is unit-testable and runs from one place (App).
+import {useEffect, useRef} from 'react';
+import {getTimer, elapsedSeconds, clearTimer, updateTimer, type Timer} from './timer';
+import {routines, phaseAt, routineSeconds} from './abs';
+import type {Operation} from './domain';
+type Distribute<O> = O extends Operation ? Omit<O, 'id' | 'at' | 'zone'> : never;
+export type SettledOp = Distribute<Operation>;
+export type Settled = {op: SettledOp; timer: Timer; clear: boolean};
+// Focus sessions end on their own after this many work blocks, so a forgotten session cannot credit blocks all night.
+export const maxFocusBlocks = 8;
+export function settle(now = Date.now()): Settled[] {
+ const out: Settled[] = [];
+ const abs = getTimer('abs');
+ if (abs) {const routine = routines.find(r => r.id === abs.meta?.routine) ?? routines[1]; const elapsed = elapsedSeconds(abs, now); if (phaseAt(routine, elapsed).finished) out.push({timer: abs, clear: true, op: {type: 'session', habit: 'abs', seconds: routineSeconds(routine), done: true, routine: routine.name, day: abs.day}});}
+ const med = getTimer('meditate');
+ if (med) {const target = Number(med.meta?.minutes ?? 5) * 60; if (elapsedSeconds(med, now) >= target) out.push({timer: med, clear: true, op: {type: 'meditate', seconds: target, day: med.day}});}
+ const focus = getTimer('focus');
+ if (focus) {
+  const w = Number(focus.meta?.work ?? 25) * 60, r = Number(focus.meta?.rest ?? 5) * 60; const cycle = w + r; const elapsed = elapsedSeconds(focus, now);
+  const block = Math.floor(elapsed / cycle); const working = elapsed - block * cycle < w; const completed = Math.min(maxFocusBlocks, block + (working ? 0 : 1)); const logged = Number(focus.meta?.logged ?? 0);
+  for (let i = logged; i < completed; i++) out.push({timer: focus, clear: false, op: {type: 'focus', seconds: w, day: focus.day}});
+  if (completed > logged) updateTimer('focus', {logged: completed});
+  if (completed >= maxFocusBlocks) out.push({timer: focus, clear: true, op: {type: 'focus', seconds: 0, day: focus.day}});
+ }
+ return out;
+}
+// Polls once a second and on every return to the app. Nothing re-renders unless something actually settled, so this costs nothing while idle.
+export function useSettle(change: (op: SettledOp) => boolean, active: boolean) {
+ const ref = useRef(change);
+ useEffect(() => {ref.current = change;});
+ useEffect(() => {
+  if (!active) return;
+  const run = () => applySettled(settle(), op => ref.current(op));
+  run(); const id = setInterval(run, 1000);
+  document.addEventListener('visibilitychange', run); window.addEventListener('pageshow', run); window.addEventListener('focus', run);
+  return () => {clearInterval(id); document.removeEventListener('visibilitychange', run); window.removeEventListener('pageshow', run); window.removeEventListener('focus', run);};
+ }, [active]);
+}
+// Apply the settled operations through the app's dispatcher. Clears each timer before dispatching so a failed dispatch cannot repeat a log.
+export function applySettled(list: Settled[], change: (op: Settled['op']) => boolean) {
+ for (const item of list) {if (item.clear) clearTimer(item.timer.key); if (item.op.type === 'focus' && item.op.seconds === 0) continue; change(item.op);}
+ return list.length;
+}

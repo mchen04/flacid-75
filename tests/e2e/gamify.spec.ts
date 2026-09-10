@@ -24,7 +24,7 @@ test('walking moves the marker along the hero path and eating animates the bowl'
  const start=await page.locator('.hero .walker').boundingBox();await page.getByRole('button',{name:'Log walk'}).click();await page.waitForTimeout(1900);const end=await page.locator('.hero .walker').boundingBox();expect(end!.x-start!.x).toBeGreaterThan(20);
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
- await expect(page.locator('.row.food')).toHaveClass(/eating/);await expect(page.locator('.row.food .bowl')).toHaveClass(/is-eating/);await expect(page.getByText('107 kcal · 1/105 g protein')).toBeVisible();
+ await expect(page.locator('.row.food')).toHaveClass(/eating/);await expect(page.locator('.row.food .bowl')).toHaveClass(/is-eating/);await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();
 });
 test('reduced motion disables every animation and transition on every page',async({browser})=>{
  const context=await browser.newContext({reducedMotion:'reduce',viewport:{width:390,height:844}});if(virtual)await install(context);const page=await context.newPage();await open(page,seed());

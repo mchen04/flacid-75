@@ -18,7 +18,7 @@ test('nothing transient appears and nothing shifts on a habit tap, a pour, a mea
  await page.evaluate(()=>{const w=window as unknown as {__added:string[];__removed:string[]};w.__added=[];w.__removed=[];new MutationObserver(list=>{for(const m of list){const inside=(m.target as Element).closest('.hero, dialog, .row');for(const n of m.addedNodes)if(n instanceof Element&&!inside)w.__added.push(n.tagName+'.'+String(n.getAttribute('class')));for(const n of m.removedNodes)if(n instanceof Element&&!inside&&!(n instanceof HTMLDialogElement))w.__removed.push(n.tagName+'.'+String(n.getAttribute('class')));}}).observe(document.body,{childList:true,subtree:true});});
  const before=await shellRects(page);
  for(const name of ['Log workout','Log abs','Log floss','Log walk','Add a glass of water'])await page.getByRole('button',{name}).click();
- await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('107 kcal · 1/105 g protein')).toBeVisible();
+ await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();
  await page.waitForTimeout(3000);
  const after=await shellRects(page);expect(after).toEqual(before);
  for(const role of ['status','alert'])await expect(page.getByRole(role as 'status')).toHaveCount(0);

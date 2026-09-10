@@ -6,6 +6,7 @@ import {Icon} from './Icon';
 import {startStore, useStore, dispatch, unlock, lock} from '@/lib/client-store';
 import {habits, dayAt, addDays, completion, isKept, newDay, streaks, computeTargets, restsLeft, type Operation} from '@/lib/domain';
 import {AppContext, useHash, Sheet, names, todayZone, longDate, type Change, type Pulse, unitsOf} from './shared';
+import {useSettle} from '@/lib/settle';
 import {Home} from './Home';
 import {Walk, Workout, Abs, Floss, Water, Rest, Meditate, Focus} from './Activities';
 import {Food, Meal} from './Food';
@@ -20,6 +21,8 @@ export default function App() {
  const [sheet, setSheet] = useState<string | null>(null); const [editMeal, setEditMeal] = useState<string | null>(null); const [sheetDay, setSheetDay] = useState<string | null>(null);
  const file = useRef<HTMLInputElement>(null); const [photo, setPhoto] = useState<File | null>(null);
  const [pulse, setPulse] = useState<Pulse>({}); const timers = useRef<Partial<Record<keyof Pulse, ReturnType<typeof setTimeout>>>>({});
+ const [lastMeal, setLastMeal] = useState<{id: string; day: string} | null>(null);
+
  const today = dayAt(state.clock, now, todayZone()); const dayKey = selected ?? today;
  const profile = state.profile; const day = state.days[dayKey] ?? newDay(profile?.targets ?? computeTargets({height: 165, weight: 65, age: 30, activity: 1, goal: 'maintain'}));
  const foodDayKey = sheetDay ?? dayKey; const foodDay = state.days[foodDayKey] ?? newDay(profile?.targets ?? day.targets);
@@ -28,6 +31,8 @@ export default function App() {
  // Every page starts at the top and moves focus to its heading, so keyboard and screen-reader users land where the page begins.
  useEffect(() => {document.querySelector('.page')?.scrollTo?.(0, 0); const h = document.querySelector<HTMLElement>('.topbar h1'); if (h && page) {h.setAttribute('tabindex', '-1'); h.focus({preventScroll: true});}}, [page]);
  function change(payload: Change, date = selected ?? dayAt(state.clock, new Date(), todayZone())) {const at = new Date().toISOString(); return dispatch({...payload, id: crypto.randomUUID(), at, day: date, zone: todayZone()} as Operation);}
+ // Settle finished timers wherever the app is: a finished routine, meditation or focus block logs itself once (lib/settle.ts).
+ useSettle(op => {const ok = change(op as Change, op.day); if (ok && (op.type === 'session' || op.type === 'meditate' || op.type === 'focus')) bump(op.type === 'session' ? 'abs' : op.type); return ok;}, store.ready && store.unlocked && !!state.profile);
  function bump(key: keyof Pulse, ms = 1400) {clearTimeout(timers.current[key]); setPulse(p => ({...p, [key]: true})); timers.current[key] = setTimeout(() => setPulse(p => ({...p, [key]: false})), ms);}
  function navigate(next: string) {if (next === page) return; location.hash = next ? '#' + next : ''; if (!next) history.replaceState(null, '', location.pathname);}
  function open(value: string | null) {if (value && sheet === null) setSheetDay(selected ?? dayAt(state.clock, new Date(), todayZone())); setSheet(value); if (!value) {setPhoto(null); setEditMeal(null);}}
@@ -40,7 +45,7 @@ export default function App() {
  const complete = count === habits.length;
  const headline = selected ? 'Past day' : day.rest ? 'Rest day.' : complete ? 'Every one.' : count >= 5 ? 'Nearly there.' : count > 0 ? 'Good going.' : stumbled ? 'A new day.' : morning ? 'Good morning.' : hour < 17 ? 'Good afternoon.' : 'Good evening.';
  const title = page ? titles[page] ?? 'My Wellness' : headline;
- const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, change, navigate, open, select: setSelected, bump};
+ const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, lastMeal, change, navigate, open, select: setSelected, bump};
  const showWeight = morning && !state.weights[today] && !selected && !page;
  const body = page === 'walk' ? <Walk/> : page === 'workout' ? <Workout/> : page === 'abs' ? <Abs/> : page === 'floss' ? <Floss/> : page === 'water' ? <Water/> : page === 'food' ? <Food/> : page === 'rest' ? <Rest/> : page === 'meditate' ? <Meditate/> : page === 'focus' ? <Focus/> : page === 'rewards' ? <Rewards/> : page === 'progress' ? <Progress/> : page === 'you' ? <You notice={store.notice}/> : page === 'rules' ? <Rules/> : <Home hour={hour} stumbled={stumbled}/>;
  return <AppContext.Provider value={ctx}><main className="app-shell">
@@ -57,7 +62,7 @@ export default function App() {
   <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e => {const f = e.target.files?.[0]; if (f) {setPhoto(f); setEditMeal(null); open('meal');} e.target.value = '';}}/>
   {sheet && <Sheet title={sheet === 'camera' ? 'Photo' : sheet === 'meal' ? (editMeal ? 'Correct this meal' : 'Log a meal') : sheet === 'rescue' ? 'Rescue this day' : sheet === 'weight' ? 'Weigh in' : sheet === 'targets' ? 'Daily targets' : sheet === 'setup' ? 'Your details' : sheet === 'zone' ? 'Timezone' : sheet === 'lock' ? 'Lock this device?' : sheet === 'treats' ? 'Your treats' : sheet === 'plan' ? 'Workout plan' : sheet === 'rest' ? 'Rest today' : 'How targets are set'} onClose={() => open(null)}>
    {sheet === 'camera' ? <Camera onCapture={p => {setPhoto(p); setEditMeal(null); open('meal');}} onChoose={() => file.current?.click()} onText={() => {setPhoto(null); setEditMeal(null); open('meal');}}/>
-   : sheet === 'meal' ? <Meal photo={photo} initial={editMeal ? foodDay.meals[editMeal] : undefined} count={Object.keys(foodDay.meals).length} onPhotoConsumed={() => setPhoto(null)} onCamera={() => open('camera')} onList={() => {open(null); navigate('food');}} onSave={(calories, protein) => {const mealId = editMeal ?? crypto.randomUUID(); if (change({type: 'meal', mealId, calories, protein}, foodDayKey)) {open(null); bump('meal', 1800);}}}/>
+   : sheet === 'meal' ? <Meal photo={photo} initial={editMeal ? foodDay.meals[editMeal] : undefined} count={Object.keys(foodDay.meals).length} onPhotoConsumed={() => setPhoto(null)} onCamera={() => open('camera')} onList={() => {open(null); navigate('food');}} onSave={(calories, protein) => {const mealId = editMeal ?? crypto.randomUUID(); if (change({type: 'meal', mealId, calories, protein}, foodDayKey)) {open(null); if (!editMeal) setLastMeal({id: mealId, day: foodDayKey}); bump('meal', 6000);}}}/>
    : sheet === 'rescue' ? <><span className="sheet-mark"><Mark name="rescue"/></span><p>{longDate(dayKey)} keeps its checks and rejoins the streak, marked as rescued.</p><button className="primary" onClick={() => {if (change({type: 'rescue', value: true})) open(null);}}>Rescue this day</button></>
    : sheet === 'rest' ? <><span className="sheet-mark"><Mark name="rest"/></span><p>{restsLeft(state, dayKey)} of this week’s rest days left. A rest day keeps the streak and is never a miss.</p><button className="primary" onClick={() => {if (change({type: 'rest', value: true})) {open(null); bump('rest', 1600);}}}>Rest today</button><button className="text-button" onClick={() => {open(null); navigate('rest');}}>Plan the week instead</button></>
    : sheet === 'weight' ? <Weight onSave={weight => {if (change({type: 'weight', weight}, today)) open(null);}}/>

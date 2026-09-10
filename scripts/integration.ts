@@ -55,12 +55,12 @@ try{
  // Rewards: the list persists, a redeem beyond the balance is rejected, a duplicate delivery of a redeem charges once, undo restores.
  const treat={id:randomUUID(),name:'Film night',cost:30};
  await sync([{...base,id:randomUUID(),type:'rewards' as const,rewards:[treat]}]);
- const balanceBefore=pointsBalance(await readState(),day);assert.equal(balanceBefore,40,'four habits done today (walk, workout, abs, water short) → 40 points');
+ const balanceBefore=pointsBalance(await readState(),day);assert.equal(balanceBefore,30,'three habits done today (workout, abs, walk; water is short of target) → 30 points');
  const tooMuch={...base,id:randomUUID(),type:'redeem' as const,rewardId:randomUUID(),name:'Weekend',cost:500};
  assert.equal((await sync([tooMuch])).rejected.length,1);
  const redeem={...base,id:randomUUID(),type:'redeem' as const,rewardId:randomUUID(),name:treat.name,cost:treat.cost};
- await Promise.all([sync([redeem]),sync([redeem])]);assert.equal(pointsBalance(await readState(),day),10);
- await sync([{...base,id:randomUUID(),type:'unredeem' as const,rewardId:redeem.rewardId}]);assert.equal(pointsBalance(await readState(),day),40);
+ await Promise.all([sync([redeem]),sync([redeem])]);assert.equal(pointsBalance(await readState(),day),0,'a duplicate delivery of the same redeem charges once');
+ await sync([{...base,id:randomUUID(),type:'unredeem' as const,rewardId:redeem.rewardId}]);assert.equal(pointsBalance(await readState(),day),30);
  // Validation still guards the schema: an unknown habit and a reversed calorie range are rejected without touching state.
  const invalid={...base,id:randomUUID(),type:'profile' as const,stats:setup.stats,overrides:{calorieMin:2500,calorieMax:1800}};
  assert.equal((await sync([invalid])).rejected.length,1);

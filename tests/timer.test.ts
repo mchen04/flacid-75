@@ -25,3 +25,9 @@ test('only free OpenRouter models are ever called',()=>{
  assert.ok(models.length>0);for(const m of models)assert.ok(isFree(m),m);
  assert.equal(isFree('openai/gpt-4o'),false);assert.equal(isFree('google/gemma-4-26b-a4b-it'),false);assert.equal(isFree('google/gemma-4-26b-a4b-it:free'),true);assert.equal(isFree('openrouter/free'),true);
 });
+test('the OpenRouter request body carries the zero max price and a non-free model never reaches the request',async()=>{
+ const {requestBody}=await import('../lib/estimate');
+ const body=requestBody('google/gemma-4-26b-a4b-it:free','Meal: toast') as {model:string;provider:{max_price:{prompt:number;completion:number}}};
+ assert.equal(body.model,'google/gemma-4-26b-a4b-it:free');assert.deepEqual(body.provider,{max_price:{prompt:0,completion:0}});
+ assert.throws(()=>requestBody('openai/gpt-4o','Meal: toast'),/paid model refused/);assert.throws(()=>requestBody('google/gemma-4-26b-a4b-it','Meal: toast'),/paid model refused/);
+});

@@ -6,10 +6,10 @@ import {pointsBalance, pointsEarned, pointsSpent, pointsPerHabit, pointsPerDay, 
 import {useApp, format, longDate} from './shared';
 export function Rewards() {
  const {state, today, dayKey, day, change, open, bump, pulse} = useApp();
- const rewards = state.profile?.rewards ?? []; const balance = pointsBalance(state, today);
+ const rewards = state.profile?.rewards ?? []; const raw = pointsBalance(state, today); const balance = Math.max(0, raw);
  const redeemed = Object.entries(day.redeemed ?? {});
  return <section className="activity">
-  <div className={`card points-card ${pulse.reward ? 'is-active' : ''}`}><span className="points-art"><Mark name="reward"/></span><div><strong className="big">{format(balance)} points</strong><p>{format(pointsEarned(state, today))} earned · {format(pointsSpent(state))} spent</p></div></div>
+  <div className={`card points-card ${pulse.reward ? 'is-active' : ''}`}><span className="points-art"><Mark name="reward"/></span><div><strong className="big">{format(balance)} points</strong><p>{format(pointsEarned(state, today))} earned · {format(pointsSpent(state))} spent{raw < 0 ? ` · ${format(-raw)} ahead of the earned total after an undo; nothing is owed` : ''}</p></div></div>
   <div className="card list" role="group" aria-label="Your treats">
    <div className="card-head"><h2>Your treats</h2><button className="text-button" onClick={() => open('treats')}><Icon name="edit" size={16}/>Edit</button></div>
    {rewards.length === 0 && <p className="empty">Add anything you would enjoy: a film night, a long bath, new socks, an afternoon off. You choose what counts as a treat.</p>}
