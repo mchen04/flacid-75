@@ -218,9 +218,54 @@ test('the hero opens whatever comes next, and water and meals undo from the dash
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  await expect(page.getByRole('button',{name:/^Open workout\. 0 of 7/})).toBeVisible();await page.getByRole('button',{name:/^Open workout\. 0 of 7/}).click();await expect(page.getByRole('heading',{name:'Workout'})).toBeVisible();await page.getByRole('button',{name:'Home'}).click();
  await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByRole('button',{name:/^Open abs\. 1 of 7/})).toBeVisible();
- await page.getByRole('button',{name:'Add a glass of water'}).click();await page.getByRole('button',{name:'Add a glass of water'}).click();await expect(page.getByText('2 of 8 · 0.5 L')).toBeVisible();
- await page.getByRole('button',{name:'Remove a glass'}).click();await expect(page.getByText('1 of 8 · 0.25 L')).toBeVisible();expect(box.state.days[today].water).toBe(250);
+ await page.getByRole('button',{name:'Add a Stanley'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('about 2 of 3 Stanleys · 60 oz')).toBeVisible();
+ await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.getByText('about 1 of 3 Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
  await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();await page.getByRole('button',{name:'Undo last meal'}).click();await expect(page.getByText('0 kcal · 0/105 g')).toBeVisible();expect(Object.keys(box.state.days[today].meals)).toHaveLength(0);
  await expect(page.getByRole('button',{name:'Log a meal'})).toBeVisible();
+});
+
+// Water by container.
+test('half a Stanley is exactly 15 oz, twice; the fill and the daily total match; refills, ambiguity and the model fallback behave',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{hash:'water'});
+ const liquidY=()=>page.locator('.water-card .liquid').evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).f);
+ const before=await liquidY();
+ await page.getByLabel('Or say it').fill('I drank half my Stanley');await page.getByRole('button',{name:'Read it'}).click();
+ await expect(page.getByText('15 oz · half a Stanley.',{exact:false})).toBeVisible();await page.getByRole('button',{name:'Add 15 oz'}).click();
+ await expect(page.locator('.water-copy .big')).toHaveText('15 oz');await expect(page.getByText('about ½ of 3 Stanleys',{exact:false})).toBeVisible();
+ await page.waitForTimeout(1000);const mid=await liquidY();expect(mid).toBeLessThan(before);
+ await page.getByLabel('Or say it').fill('half a Stanley');await page.getByRole('button',{name:'Read it'}).click();await page.getByRole('button',{name:'Add 15 oz'}).click();
+ await expect(page.locator('.water-copy .big')).toHaveText('30 oz');await expect(page.getByText('about 1 of 3 Stanleys',{exact:false})).toBeVisible();
+ await page.waitForTimeout(1000);expect(await liquidY()).toBeLessThan(mid);
+ // The stored day holds two pours of exactly half a Stanley, in millilitres.
+ await expect.poll(()=>box.state.days[today]?.waterLog?.map(e=>Math.round(e.ml*1000)/1000)).toEqual([443.603,443.603]);expect(box.state.days[today].waterLog?.map(e=>e.label)).toEqual(['half a Stanley','half a Stanley']);
+ await expect(page.getByRole('group',{name:'Today’s pours'}).getByText('15 oz')).toHaveCount(2);
+ // The dashboard says the same thing.
+ await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('about 1 of 3 Stanleys · 30 oz')).toBeVisible();await page.getByRole('button',{name:'Open water',exact:true}).click();
+ // Refills, a quarter, most, the whole thing: the app multiplies; the confirmation shows the arithmetic.
+ await page.getByLabel('Or say it').fill('refilled it twice');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByText('60 oz · 2 Stanleys.',{exact:false})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
+ await page.getByLabel('Or say it').fill('a quarter of the Stanley');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 7.5 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
+ await page.getByLabel('Or say it').fill('most of it');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 22.5 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
+ await page.getByLabel('Or say it').fill('the whole thing');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 30 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
+ // Ambiguous: asked once, nothing logged until a share is picked.
+ await page.getByLabel('Or say it').fill('some of my Stanley');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('group',{name:'How much of the Stanley?'})).toBeVisible();expect(box.state.days[today].waterLog).toHaveLength(2);
+ await page.getByRole('button',{name:'¼ of the Stanley'}).click();await expect(page.locator('.water-copy .big')).toHaveText('37.5 oz');
+ // A phrase the parser cannot read goes to the model, which only names the container and the share; the app still does the arithmetic.
+ let asked:unknown=null;await page.route('**/api/water',r=>{asked=r.request().postDataJSON();return r.fulfill({json:{container:'Stanley',fraction:0.5,count:null,model:'test'}});});
+ await page.getByLabel('Or say it').fill('polished off the tumbler after yoga');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 15 oz'})).toBeVisible();expect((asked as {containers:string[]}).containers).toEqual(['Stanley','Glass']);await page.getByRole('button',{name:'Not this'}).click();
+ // The model is down: ask once, never guess.
+ await page.route('**/api/water',r=>r.fulfill({status:503,json:{error:'That could not be read right now.'}}));
+ await page.getByLabel('Or say it').fill('polished off the tumbler after yoga');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('group',{name:'How much of the Stanley?'})).toBeVisible();
+ // Undo the last pour from the page.
+ await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.locator('.water-copy .big')).toHaveText('30 oz');
+ await page.screenshot({path:`evidence/my-wellness/water-stanley-${test.info().project.name}.png`});
+});
+test('containers are hers to name and size, in her unit, and the default drives the one-tap',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{hash:'you'});
+ await page.getByRole('button',{name:'Water containers'}).click();await page.getByLabel('Container',{exact:true}).fill('Bottle');await page.getByLabel('Size · oz').fill('20');await page.getByRole('button',{name:'Add container'}).click();
+ await expect(page.getByText('20 oz',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Make default'}).last().click();await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect.poll(()=>box.state.profile?.containers?.map(c=>c.name)).toEqual(['Stanley','Glass','Bottle']);expect(box.state.profile?.containers?.[2].ml).toBeCloseTo(20*29.5735295625,6);
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Add a Bottle'}).click();await expect(page.getByText('about 1 of 4 Bottles · 20 oz')).toBeVisible();
+ // Switch the display to millilitres: the stored size is untouched.
+ await page.getByLabel('Settings').click();await page.getByRole('button',{name:'ml',exact:true}).click();await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('about 1 of 4 Bottles · 591 ml')).toBeVisible();expect(box.state.days[today].water).toBeCloseTo(20*29.5735295625,6);
 });

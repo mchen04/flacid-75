@@ -5,19 +5,19 @@ import {createHash} from 'node:crypto';
 import {open,seed} from './helpers';
 const shellRects=(page:Page)=>page.evaluate(()=>{document.querySelector('.page')!.scrollTo(0,0);return [...document.querySelectorAll<HTMLElement>('.app-shell > *, .home-view > *, .rows > *')].map(el=>{const r=el.getBoundingClientRect();return [el.className.split(' ')[0],Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)].join(':');});});
 test('water goes down by one tap with no dialog, and never below zero',async({page})=>{
- await open(page,seed(),{hash:'water'});
- const add=page.getByRole('button',{name:'Add a glass of water'});const minus=page.getByRole('button',{name:'Remove a glass'});
+ await open(page,seed());
+ const add=page.getByRole('button',{name:'Add a Stanley'});const minus=page.getByRole('button',{name:'Undo last pour'});
  await expect(minus).toBeDisabled();
- await add.click();await add.click();await expect(page.getByText('0.5 L',{exact:true})).toBeVisible();
- await minus.click();await expect(page.getByText('0.25 L',{exact:true})).toBeVisible();await expect(page.locator('dialog[open]')).toHaveCount(0);
- await minus.click();await expect(page.getByText('0 L',{exact:true})).toBeVisible();await expect(minus).toBeDisabled();
+ await add.click();await add.click();await expect(page.getByText('about 2 of 3 Stanleys · 60 oz')).toBeVisible();
+ await minus.click();await expect(page.getByText('about 1 of 3 Stanleys · 30 oz')).toBeVisible();await expect(page.locator('dialog[open]')).toHaveCount(0);
+ await minus.click();await expect(page.getByText('about 0 of 3 Stanleys · 0 oz')).toBeVisible();await expect(minus).toBeDisabled();
 });
 test('nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal',async({page})=>{
  await open(page,seed());
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  await page.evaluate(()=>{const w=window as unknown as {__added:string[];__removed:string[]};w.__added=[];w.__removed=[];new MutationObserver(list=>{for(const m of list){const inside=(m.target as Element).closest('.hero, dialog, .row');for(const n of m.addedNodes)if(n instanceof Element&&!inside)w.__added.push(n.tagName+'.'+String(n.getAttribute('class')));for(const n of m.removedNodes)if(n instanceof Element&&!inside&&!(n instanceof HTMLDialogElement))w.__removed.push(n.tagName+'.'+String(n.getAttribute('class')));}}).observe(document.body,{childList:true,subtree:true});});
  const before=await shellRects(page);
- for(const name of ['Log workout','Log abs','Log floss','Log walk','Add a glass of water'])await page.getByRole('button',{name}).click();
+ for(const name of ['Log workout','Log abs','Log floss','Log walk','Add a Stanley'])await page.getByRole('button',{name}).click();
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();
  await page.waitForTimeout(3000);
  const after=await shellRects(page);expect(after).toEqual(before);

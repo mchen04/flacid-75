@@ -7,7 +7,7 @@ const rects=(page:Page)=>page.evaluate(()=>Object.fromEntries([...document.query
 test('a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly',async({page})=>{
  await open(page,seed());
  const before=await rects(page);const latencies:Record<string,number>={};
- for(const [label,cls] of [['Log workout','lifting'],['Log abs','crunching'],['Log walk','moving'],['Log floss','shining'],['Add a glass of water','pouring']]){
+ for(const [label,cls] of [['Log workout','lifting'],['Log abs','crunching'],['Log walk','moving'],['Log floss','shining'],['Add a Stanley','pouring']]){
   const ms=await page.evaluate(name=>new Promise<number>(resolve=>{const button=document.querySelector<HTMLElement>(`button[aria-label="${name}"]`)!;const row=button.closest('.row')!;const start=performance.now();const observer=new MutationObserver(()=>{observer.disconnect();resolve(performance.now()-start);});observer.observe(row,{attributes:true,subtree:true,childList:true,characterData:true});button.click();}),label);
   latencies[label]=ms;expect(ms,label).toBeLessThan(100);
   await expect(page.locator(`.row.${cls}`)).toHaveCount(1);
@@ -28,7 +28,7 @@ test('walking moves the marker along the hero path and eating animates the bowl'
 });
 test('reduced motion disables every animation and transition on every page',async({browser})=>{
  const context=await browser.newContext({reducedMotion:'reduce',viewport:{width:390,height:844}});if(virtual)await install(context);const page=await context.newPage();await open(page,seed());
- await page.getByRole('button',{name:'Log walk'}).click();await page.getByRole('button',{name:'Add a glass of water'}).click();
+ await page.getByRole('button',{name:'Log walk'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();
  const animatedOn=async()=>page.evaluate(()=>[...document.querySelectorAll('*')].filter(el=>{const s=getComputedStyle(el);return s.animationName!=='none'||(s.transitionDuration!=='0s'&&s.transitionProperty!=='none'&&s.transitionDuration!=='');}).map(el=>el.tagName+'.'+String(el.className)));
  expect(await animatedOn()).toEqual([]);
  for(const hash of ['walk','abs','progress','rewards']){await page.evaluate(h=>{location.hash=h;},hash);await page.waitForTimeout(200);expect(await animatedOn(),hash).toEqual([]);}

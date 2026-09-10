@@ -9,7 +9,7 @@ const reward = z.object({id: z.uuid(), name: z.string().trim().min(1).max(60), c
 export const operationSchema = z.discriminatedUnion('type', [
  z.object({...common, type: z.literal('profile'), stats: statsSchema, overrides}),
  z.object({...common, type: z.literal('check'), habit: z.enum(['workout', 'abs', 'walk', 'water', 'protein', 'calories', 'floss']), value: z.boolean()}),
- z.object({...common, type: z.literal('water'), amount: z.union([z.literal(250), z.literal(-250)])}),
+ z.object({...common, type: z.literal('water'), amount: n(-6000, 6000).refine(v => v !== 0), label: z.string().trim().min(1).max(40).optional()}),
  z.object({...common, type: z.literal('meal'), mealId: z.uuid(), calories: n(0, 10000), protein: n(0, 1000)}),
  z.object({...common, type: z.literal('deleteMeal'), mealId: z.uuid()}),
  z.object({...common, type: z.enum(['rest', 'rescue']), value: z.boolean()}),
@@ -20,7 +20,8 @@ export const operationSchema = z.discriminatedUnion('type', [
  z.object({...common, type: z.literal('rewards'), rewards: z.array(reward).max(30)}),
  z.object({...common, type: z.literal('redeem'), rewardId: z.uuid(), name: z.string().trim().min(1).max(60), cost: n(1, 10000).int()}),
  z.object({...common, type: z.literal('unredeem'), rewardId: z.uuid()}),
- z.object({...common, type: z.literal('units'), units: z.object({weight: z.enum(['lb', 'kg']), height: z.enum(['ftin', 'cm'])})}),
+ z.object({...common, type: z.literal('units'), units: z.object({weight: z.enum(['lb', 'kg']), height: z.enum(['ftin', 'cm']), volume: z.enum(['oz', 'ml']).optional()})}),
+ z.object({...common, type: z.literal('containers'), containers: z.array(z.object({id: z.string().min(1).max(40), name: z.string().trim().min(1).max(30), ml: n(30, 6000)})).min(1).max(12), defaultContainer: z.string().max(40).optional()}),
  z.object({...common, type: z.literal('plan'), workout: z.array(z.string().trim().min(1).max(60)).max(40)}),
 ]);
 export const operationsSchema = z.array(operationSchema).min(1).max(100);
@@ -28,3 +29,5 @@ const rawItem = z.object({name: z.string().max(120), grams: n(0, 5000), calories
 export const estimateSchema = z.object({items: z.array(rawItem).max(12)});
 export type EstimateItem = {name: string; grams: number; calories: number; protein: number; source: 'usda' | 'estimate'; match?: string; fdcId?: number};
 export type Estimate = {items: EstimateItem[]; calories: number; protein: number; model: string};
+// What the model may return for a water phrase: which container and what share of it. Never a volume.
+export const waterPhraseSchema = z.object({container: z.string().max(40).nullable().catch(null), fraction: n(0, 1).nullable().catch(null), count: n(0, 20).nullable().catch(null)});

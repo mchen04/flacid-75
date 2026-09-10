@@ -2,8 +2,8 @@
 import {useState} from 'react';
 import {Brand} from './Scenes';
 import {Icon} from './Icon';
-import {habits, defaultUnits, defaultPlan, restDaysPerWeek, pointsPerHabit, pointsPerDay, type Stats, type Targets, type Units} from '@/lib/domain';
-import {feetInches, formatHeight, formatWeight, parseHeight, parseWeight, toLb} from '@/lib/units';
+import {habits, defaultUnits, defaultPlan, restDaysPerWeek, pointsPerHabit, pointsPerDay, type Stats, type Targets, type Units, type Container} from '@/lib/domain';
+import {feetInches, formatHeight, formatWeight, parseHeight, parseWeight, toLb, volumeUnit, formatVolume, parseVolume, toOz} from '@/lib/units';
 import {soundOn, setSound} from '@/lib/sound';
 import {useApp} from './shared';
 export function You({notice}: {notice: string}) {
@@ -16,13 +16,14 @@ export function You({notice}: {notice: string}) {
   <div className="card list"><div className="card-head"><h2>Units</h2></div>
    <div className="setting-row"><span>Weight</span><div className="segmented small" role="group" aria-label="Weight unit">{(['lb', 'kg'] as const).map(u => <button key={u} className={units.weight === u ? 'active' : ''} aria-pressed={units.weight === u} onClick={() => setUnits({weight: u})}>{u}</button>)}</div></div>
    <div className="setting-row"><span>Height</span><div className="segmented small" role="group" aria-label="Height unit">{([['ftin', 'ft in'], ['cm', 'cm']] as const).map(([u, l]) => <button key={u} className={units.height === u ? 'active' : ''} aria-pressed={units.height === u} onClick={() => setUnits({height: u})}>{l}</button>)}</div></div>
+   <div className="setting-row"><span>Water</span><div className="segmented small" role="group" aria-label="Volume unit">{(['oz', 'ml'] as const).map(u => <button key={u} className={volumeUnit(units) === u ? 'active' : ''} aria-pressed={volumeUnit(units) === u} onClick={() => setUnits({volume: u})}>{u}</button>)}</div></div>
    <p className="fine-print">Your measurements are stored once and only displayed in the unit you choose. Switching never rounds them: {formatWeight(profile.weight, units)} and {formatHeight(profile.height, units)} right now.</p>
   </div>
   <div className="card list"><div className="card-head"><h2>Timers</h2></div>
    <div className="setting-row"><span>Sound cues</span><button className={`toggle ${sound ? 'is-on' : ''}`} role="switch" aria-checked={sound} onClick={() => {setSound(!sound); setSoundState(!sound);}}><i/></button></div>
    <p className="fine-print">A short chime marks interval changes and the end of a timer. Off by default; stored on this device only. Vibration follows the phone’s own settings. While the phone is locked or the app is closed, the count stays right but no chime or buzz can play; cues catch up when you come back.</p>
   </div>
-  <div className="card list">{[['targets', 'Daily targets'], ['setup', 'Your details'], ['weight', 'Weigh in'], ['plan', 'Workout plan'], ['treats', 'Treats'], ['about', 'How targets are set']].map(([key, label]) => <button key={key} className="setting-row" onClick={() => open(key)}><span>{label}</span><Icon name="arrow"/></button>)}<button className="setting-row" onClick={() => navigate('rules')}><span>How it works</span><Icon name="arrow"/></button><button className="setting-row" onClick={() => navigate('progress')}><span>History and progress</span><Icon name="arrow"/></button></div>
+  <div className="card list">{[['targets', 'Daily targets'], ['setup', 'Your details'], ['weight', 'Weigh in'], ['plan', 'Workout plan'], ['containers', 'Water containers'], ['treats', 'Treats'], ['about', 'How targets are set']].map(([key, label]) => <button key={key} className="setting-row" onClick={() => open(key)}><span>{label}</span><Icon name="arrow"/></button>)}<button className="setting-row" onClick={() => navigate('rules')}><span>How it works</span><Icon name="arrow"/></button><button className="setting-row" onClick={() => navigate('progress')}><span>History and progress</span><Icon name="arrow"/></button></div>
   <div className="install-note"><Brand size={72}/><p>My Wellness · Safari: Share, then Add to Home Screen.</p></div>
   <button className="text-button" onClick={() => open('lock')}>Lock this device</button>
  </section>;
@@ -57,6 +58,18 @@ export function Weight({onSave}: {onSave: (kg: number) => void}) {
 export function PlanForm({plan, onSave}: {plan?: string[]; onSave: (items: string[]) => void}) {
  const [text, setText] = useState((plan?.length ? plan : defaultPlan).join('\n'));
  return <div><label>One move per line<textarea value={text} onChange={e => setText(e.target.value)} rows={8} maxLength={2000}/></label><p className="fine-print">Your checklist for every workout. Tick moves as you go; the session clock starts on the first tick.</p><button className="primary" onClick={() => onSave(text.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 40))}>Save plan</button></div>;
+}
+export function ContainersForm({containers, defaultId, onSave}: {containers: Container[]; defaultId: string; onSave: (c: Container[], d: string) => void}) {
+ const {units} = useApp(); const [list, setList] = useState(containers); const [def, setDef] = useState(defaultId); const [name, setName] = useState(''); const [size, setSize] = useState(''); const [error, setError] = useState('');
+ function add() {const n = name.trim(); const ml = parseVolume(size, units); if (!n || ml === null || ml < 30 || ml > 6000) {setError('Give it a name and a size between 1 and 200 oz.'); return;} setList([...list, {id: crypto.randomUUID(), name: n, ml}]); setName(''); setSize(''); setError('');}
+ return <div className="treats-form">
+  {list.map(c => <div key={c.id} className="meal-row"><div><strong>{c.name}</strong><p>{formatVolume(c.ml, units)}{c.id === def ? ' · one-tap default' : ''}</p></div>{c.id !== def && <button onClick={() => setDef(c.id)}>Make default</button>}<button aria-label={`Remove ${c.name}`} disabled={list.length === 1} onClick={() => {const next = list.filter(x => x.id !== c.id); setList(next); if (def === c.id) setDef(next[0].id);}}><Icon name="close" size={16}/></button></div>)}
+  <div className="form-grid treat-add"><label>Container<input value={name} onChange={e => setName(e.target.value)} maxLength={30} placeholder="Bottle"/></label><label>Size · {volumeUnit(units)}<input value={size} onChange={e => setSize(e.target.value)} type="number" inputMode="decimal" min="1" step="0.1" placeholder={volumeUnit(units) === 'oz' ? '30' : '887'}/></label></div>
+  {error && <p className="form-error" role="alert">{error}</p>}
+  <button className="secondary" type="button" onClick={add} disabled={!name.trim() || !size}>Add container</button>
+  <p className="fine-print">Sizes are kept exactly as entered ({units.volume === 'ml' ? 'millilitres' : `ounces, ${Math.round(toOz(1000) * 100) / 100} oz per litre`}) and never rounded by a unit switch.</p>
+  <button className="primary" onClick={() => onSave(list, def)}>Save</button>
+ </div>;
 }
 export function About() {return <div className="about"><p>Calories use the adult female <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" rel="noreferrer">Mifflin–St Jeor equation</a>: 10 × kg + 6.25 × cm − 5 × age − 161, multiplied by activity (1.2, 1.375, 1.55 or 1.725) and adjusted −10%, 0% or +10% for the goal. The range is ±100 kcal with a 1500 kcal floor.</p><p>Protein starts at <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noreferrer">1.6 g/kg</a>. Water starts at 30 ml/kg within 1.5–3.5 L. Steps start at 6,000–10,000 by activity; the walk timer defaults to 30 minutes. A 2% change in your smoothed weight updates calculated targets; edited targets stay yours.</p><p>Food estimates come from your description or photo, matched against the USDA FoodData Central database where possible, and are always editable. Photos are never saved.</p></div>;}
 // The rules, written out. Every default here is deliberate and reversible; the same text lives in evidence/my-wellness/RULES.md.

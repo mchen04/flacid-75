@@ -7,7 +7,10 @@ import {routines, phaseAt, routineSeconds, intervalsOf, type Routine} from '@/li
 import {useTimer, startTimer, pauseTimer, resumeTimer, clearTimer, updateTimer, useWakeLock, clock, type Timer} from '@/lib/timer';
 import {prime, beep, buzz, soundOn} from '@/lib/sound';
 import {maxFocusBlocks} from '@/lib/settle';
-import {useApp, Dial, weekInitials, litres, longDate, shortDate} from './shared';
+import {useApp, Dial, Meter, weekInitials, longDate, shortDate} from './shared';
+import {containersOf} from '@/lib/domain';
+import {formatVolume} from '@/lib/units';
+import {parsePhrase, pourMl, describe, inContainers, type Parsed} from '@/lib/water';
 // Shared timer controls. Start primes audio inside the tap, so later cues can sound; the timer itself is wall-clock based (lib/timer.ts).
 function Controls({timerKey, running, hasTimer, onFinish, finishLabel = 'Finish', disabled = false}: {timerKey: string; running: boolean; hasTimer: boolean; onFinish: () => void; finishLabel?: string; disabled?: boolean}) {
  const {dayKey} = useApp();
@@ -117,16 +120,45 @@ export function Floss() {
  </section>;
 }
 export function Water() {
- const {day, done, pulse, change, bump} = useApp();
- const glasses = Math.round(day.water / 250), target = Math.round(day.targets.water / 250);
+ const {state, day, done, pulse, units, change, bump, open} = useApp();
+ const {list, default: main} = containersOf(state.profile);
+ const [pick, setPick] = useState(main.id); const container = list.find(c => c.id === pick) ?? main;
+ const [text, setText] = useState(''); const [pending, setPending] = useState<Parsed | null>(null); const [busy, setBusy] = useState(false); const [note, setNote] = useState('');
+ const log = day.waterLog ?? [];
+ function pour(ml: number, label: string) {if (change({type: 'water', amount: Math.round(ml * 100) / 100, label})) {bump('water', 900); setPending(null); setText(''); setNote('');}}
+ function undoLast() {const last = log.at(-1); if (!last) return; change({type: 'water', amount: -last.ml});}
+ // Typed phrases: the local parser first. If it cannot read the note, the model may name the container and the share; the app does the arithmetic.
+ async function read() {
+  const local = parsePhrase(text, list, container); if (local.kind !== 'none') {setPending(local); return;}
+  setBusy(true); setNote('');
+  try {
+   const res = await fetch('/api/water', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text, containers: list.map(c => c.name)})});
+   const r = await res.json() as {container: string | null; fraction: number | null; count: number | null; error?: string};
+   if (!res.ok) throw new Error(r.error);
+   const c = (r.container ? list.find(x => x.name.toLowerCase() === r.container!.toLowerCase()) : null) ?? container;
+   if (r.fraction === null || r.fraction <= 0) setPending({kind: 'ask', container: c, question: `How much of the ${c.name}?`});
+   else {const n = r.count && r.count > 0 ? Math.min(20, Math.round(r.count)) : 1; const f = Math.min(1, r.fraction); setPending({kind: 'ok', container: c, fraction: f, count: n, ml: pourMl(c, f, n), label: describe(c, f, n)});}
+  } catch {setPending({kind: 'ask', container, question: `How much of the ${container.name}?`});}
+  finally {setBusy(false);}
+ }
  return <section className="activity">
   <div className={`card water-card ${done.water ? 'is-done' : ''} ${pulse.water ? 'pouring' : ''}`}>
    <div className="water-art"><Glass level={day.water / day.targets.water} pouring={!!pulse.water}/></div>
-   <div className="water-copy"><strong className="big">{litres(day.water)} L</strong><p>{glasses} of {target} glasses · target {litres(day.targets.water)} L</p>
-    <div className="glass-dots" aria-hidden="true">{Array.from({length: Math.max(target, glasses)}, (_, i) => <i key={i} className={i < glasses ? 'is-full' : ''}/>)}</div></div>
+   <div className="water-copy"><strong className="big">{formatVolume(day.water, units)}</strong><p>{inContainers(day.water, day.targets.water, main)} · target {formatVolume(day.targets.water, units)}</p>
+    <Meter label="" value={day.water} max={day.targets.water} unit="" done={done.water} display=""/></div>
   </div>
-  <div className="controls"><button className="secondary" aria-label="Remove a glass" disabled={day.water <= 0} onClick={() => change({type: 'water', amount: -250})}><Icon name="minus" size={18}/>Glass</button><button className="primary" aria-label="Add a glass of water" onClick={() => {if (change({type: 'water', amount: 250})) bump('water', 900);}}><Icon name="plus" size={18}/>Glass</button></div>
-  <p className="fine-print">A glass is 250 ml. Water counts on its own once the target is reached; the minus undoes a glass.</p>
+  <div className="card list pour-card">
+   <div className="card-head"><h2>Log a pour</h2><button className="text-button" onClick={() => open('containers')}><Icon name="edit" size={16}/>Containers</button></div>
+   <div className="chips left" role="group" aria-label="Container">{list.map(c => <button key={c.id} className={`chip ${c.id === container.id ? 'active' : ''}`} aria-pressed={c.id === container.id} onClick={() => setPick(c.id)}>{c.name} · {formatVolume(c.ml, units)}</button>)}</div>
+   <div className="fractions" role="group" aria-label={`Share of the ${container.name}`}>{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'Full']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`Log ${describe(container, f, 1)}`} onClick={() => pour(pourMl(container, f, 1), describe(container, f, 1))}><b>{l}</b><small>{formatVolume(container.ml * f, units)}</small></button>)}</div>
+   <form className="phrase" onSubmit={e => {e.preventDefault(); if (text.trim()) void read();}}><label>Or say it<input value={text} onChange={e => {setText(e.target.value); setPending(null);}} maxLength={200} placeholder="half my Stanley" aria-label="Or say it"/></label><button className="secondary" disabled={busy || !text.trim()}>{busy ? 'Reading…' : 'Read it'}</button></form>
+   {pending?.kind === 'ok' && <div className="confirm"><p><strong>{formatVolume(pending.ml, units)}</strong> · {pending.label}. {pending.count > 1 || pending.fraction !== 1 ? `${formatVolume(pending.container.ml, units)} × ${pending.fraction === 1 ? '' : pending.fraction === .5 ? '½' : pending.fraction === .25 ? '¼' : pending.fraction === .75 ? '¾' : Math.round(pending.fraction * 100) + '%'}${pending.count > 1 ? ` × ${pending.count}` : ''}` : ''}</p><div className="controls"><button className="secondary" onClick={() => setPending(null)}>Not this</button><button className="primary" onClick={() => pending.kind === 'ok' && pour(pending.ml, pending.label)}>Add {formatVolume(pending.ml, units)}</button></div></div>}
+   {pending?.kind === 'ask' && <div className="confirm" role="group" aria-label={pending.question}><p><strong>{pending.question}</strong> Pick a share; nothing is guessed.</p><div className="fractions">{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'All']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`${l} of the ${pending.container!.name}`} onClick={() => pour(pourMl(pending.container!, f, 1), describe(pending.container!, f, 1))}><b>{l}</b><small>{formatVolume(pending.container!.ml * f, units)}</small></button>)}</div></div>}
+   {pending?.kind === 'none' && <p className="form-error" role="alert">Name a container and how much of it, like “half my Stanley”.</p>}
+   {note && <p className="form-error" role="alert">{note}</p>}
+  </div>
+  {log.length > 0 && <div className="card list" role="group" aria-label="Today’s pours"><div className="card-head"><h2>Today</h2><button className="text-button" aria-label="Undo last pour" onClick={undoLast}><Icon name="undo" size={16}/>Undo last</button></div>{log.map((e, i) => <div key={i} className="meal-row"><div><strong>{formatVolume(e.ml, units)}</strong><p>{e.label ?? 'Water'}</p></div></div>)}</div>}
+  <p className="fine-print">Sizes are stored once, in millilitres, and shown in your unit. A pour is the container size times the share you drank; the app does that arithmetic, never the model. Water counts on its own once the target is reached.</p>
   <WeekStrip habit="water" label="Water"/>
  </section>;
 }

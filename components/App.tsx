@@ -4,7 +4,7 @@ import {Hills, Mark} from './Scenes';
 import {Camera} from './Camera';
 import {Icon} from './Icon';
 import {startStore, useStore, dispatch, unlock, lock} from '@/lib/client-store';
-import {habits, dayAt, addDays, completion, isKept, newDay, streaks, computeTargets, restsLeft, type Operation} from '@/lib/domain';
+import {habits, dayAt, addDays, completion, isKept, newDay, streaks, computeTargets, restsLeft, containersOf, type Operation} from '@/lib/domain';
 import {AppContext, useHash, Sheet, names, todayZone, longDate, type Change, type Pulse, unitsOf} from './shared';
 import {useSettle} from '@/lib/settle';
 import {Home} from './Home';
@@ -12,7 +12,7 @@ import {Walk, Workout, Abs, Floss, Water, Rest, Meditate, Focus} from './Activit
 import {Food, Meal} from './Food';
 import {Progress} from './Progress';
 import {Rewards, RewardsForm} from './Rewards';
-import {You, Setup, TargetForm, Weight, About, Rules, PlanForm} from './Settings';
+import {You, Setup, TargetForm, Weight, About, Rules, PlanForm, ContainersForm} from './Settings';
 const titles: Record<string, string> = {walk: 'Walk', workout: 'Workout', abs: 'Abs', floss: 'Floss', water: 'Water', food: 'Food', rest: 'Rest days', meditate: 'Meditate', focus: 'Focus', rewards: 'Treats', progress: 'Progress', you: 'Settings', rules: 'How it works'};
 export default function App() {
  const store = useStore(); const {state} = store;
@@ -60,7 +60,7 @@ export default function App() {
   {selected && <div className="past-row"><span>Editing {longDate(selected)}</span><button className="text-button" onClick={() => setSelected(null)}>Back to today</button></div>}
   <div className="page" key={page}>{body}</div>
   <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e => {const f = e.target.files?.[0]; if (f) {setPhoto(f); setEditMeal(null); open('meal');} e.target.value = '';}}/>
-  {sheet && <Sheet title={sheet === 'camera' ? 'Photo' : sheet === 'meal' ? (editMeal ? 'Correct this meal' : 'Log a meal') : sheet === 'rescue' ? 'Rescue this day' : sheet === 'weight' ? 'Weigh in' : sheet === 'targets' ? 'Daily targets' : sheet === 'setup' ? 'Your details' : sheet === 'zone' ? 'Timezone' : sheet === 'lock' ? 'Lock this device?' : sheet === 'treats' ? 'Your treats' : sheet === 'plan' ? 'Workout plan' : sheet === 'rest' ? 'Rest today' : 'How targets are set'} onClose={() => open(null)}>
+  {sheet && <Sheet title={sheet === 'camera' ? 'Photo' : sheet === 'meal' ? (editMeal ? 'Correct this meal' : 'Log a meal') : sheet === 'rescue' ? 'Rescue this day' : sheet === 'weight' ? 'Weigh in' : sheet === 'targets' ? 'Daily targets' : sheet === 'setup' ? 'Your details' : sheet === 'zone' ? 'Timezone' : sheet === 'lock' ? 'Lock this device?' : sheet === 'treats' ? 'Your treats' : sheet === 'plan' ? 'Workout plan' : sheet === 'containers' ? 'Water containers' : sheet === 'rest' ? 'Rest today' : 'How targets are set'} onClose={() => open(null)}>
    {sheet === 'camera' ? <Camera onCapture={p => {setPhoto(p); setEditMeal(null); open('meal');}} onChoose={() => file.current?.click()} onText={() => {setPhoto(null); setEditMeal(null); open('meal');}}/>
    : sheet === 'meal' ? <Meal photo={photo} initial={editMeal ? foodDay.meals[editMeal] : undefined} count={Object.keys(foodDay.meals).length} onPhotoConsumed={() => setPhoto(null)} onCamera={() => open('camera')} onList={() => {open(null); navigate('food');}} onSave={(calories, protein) => {const mealId = editMeal ?? crypto.randomUUID(); if (change({type: 'meal', mealId, calories, protein}, foodDayKey)) {open(null); if (!editMeal) setLastMeal({id: mealId, day: foodDayKey}); bump('meal', 6000);}}}/>
    : sheet === 'rescue' ? <><span className="sheet-mark"><Mark name="rescue"/></span><p>{longDate(dayKey)} keeps its checks and rejoins the streak, marked as rescued.</p><button className="primary" onClick={() => {if (change({type: 'rescue', value: true})) open(null);}}>Rescue this day</button></>
@@ -69,6 +69,7 @@ export default function App() {
    : sheet === 'setup' ? <Setup initial={profile} onSave={(stats, overrides, units) => {if (change({type: 'profile', stats, overrides}, today)) {change({type: 'units', units}, today); open(null);}}}/>
    : sheet === 'targets' ? <TargetForm targets={profile.targets} onSave={overrides => {if (change({type: 'profile', stats: profile, overrides}, today)) open(null);}}/>
    : sheet === 'treats' ? <RewardsForm rewards={profile.rewards ?? []} onSave={rewards => {if (change({type: 'rewards', rewards}, today)) open(null);}}/>
+   : sheet === 'containers' ? <ContainersForm containers={containersOf(profile).list} defaultId={containersOf(profile).default.id} onSave={(containers, defaultContainer) => {if (change({type: 'containers', containers, defaultContainer}, today)) open(null);}}/>
    : sheet === 'plan' ? <PlanForm plan={profile.plan} onSave={workout => {if (change({type: 'plan', workout}, today)) open(null);}}/>
    : sheet === 'zone' ? <><p>Use {todayZone().replaceAll('_', ' ')} from now on. Today keeps its place; the next day starts at local midnight.</p><button className="primary" onClick={() => {change({type: 'zone'}, today); open(null);}}>Use local time</button></>
    : sheet === 'lock' ? <><p>{store.pending.length ? 'Sync your waiting changes before locking.' : 'This clears saved data from this device. Your synced history stays.'}</p><button className="primary" disabled={store.pending.length > 0 || !store.online} onClick={() => {void lock(); open(null);}}>Lock and clear</button></>

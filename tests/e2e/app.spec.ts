@@ -19,7 +19,8 @@ test('onboarding in pounds and feet-inches, all seven one-tap habits from the da
  await expect(page.locator('.home-view')).toBeVisible();
  expect(Math.round(box.state.profile!.weight*10)/10).toBe(65);expect(Math.round(box.state.profile!.height)).toBe(165);await expect.poll(()=>box.state.profile?.units).toEqual({weight:'lb',height:'ftin'});
  for(const habit of ['walk','workout','abs','floss']){await page.getByRole('button',{name:`Log ${habit}`}).click();await expect(page.getByRole('button',{name:`Undo ${habit}`})).toHaveAttribute('aria-pressed','true');}
- const water=page.getByRole('button',{name:'Add a glass of water'});for(let i=0;i<8;i++)await water.click();await expect(page.getByText('8 of 8 · 2 L')).toBeVisible();
+ // One tap logs a whole Stanley (30 oz); three of them pass the 2 L target.
+ const water=page.getByRole('button',{name:'Add a Stanley'});for(let i=0;i<3;i++)await water.click();await expect(page.getByText('about 3 of 3 Stanleys · 90 oz')).toBeVisible();
  // Food: type, see what was found, confirm once. Nothing is added before the confirmation.
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('two eggs and toast');await page.getByRole('button',{name:'Look it up'}).click();await expect(page.getByText('USDA · Egg, whole, cooked, scrambled')).toBeVisible();expect(Object.keys(Object.values(box.state.days)[0]?.meals??{})).toHaveLength(0);
  await page.getByRole('button',{name:'Not this'}).click();await expect(page.getByLabel('What did you eat?')).toBeVisible();

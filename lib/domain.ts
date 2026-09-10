@@ -6,20 +6,24 @@ export const optionalHabits = ['meditate', 'focus'] as const;
 export type OptionalHabit = typeof optionalHabits[number];
 export type Targets = {calorieMin: number; calorieMax: number; protein: number; water: number; steps: number; walkMinutes?: number};
 export type Stats = {height: number; weight: number; age: number; activity: 0 | 1 | 2 | 3; goal: 'maintain' | 'lose' | 'gain'};
-export type Units = {weight: 'lb' | 'kg'; height: 'ftin' | 'cm'};
+export type Units = {weight: 'lb' | 'kg'; height: 'ftin' | 'cm'; volume?: 'oz' | 'ml'};
+// A named drinking container. Size is canonical millilitres; the name is whatever she calls it.
+export type Container = {id: string; name: string; ml: number};
 export type Reward = {id: string; name: string; cost: number};
 export type Session = {seconds: number; items?: string[]; routine?: string};
-export type Profile = Stats & {targets: Targets; overrides: Partial<Targets>; baselineWeight: number; startDay: string; units?: Units; rewards?: Reward[]; plan?: string[]};
+export type Profile = Stats & {targets: Targets; overrides: Partial<Targets>; baselineWeight: number; startDay: string; units?: Units; rewards?: Reward[]; plan?: string[]; containers?: Container[]; defaultContainer?: string};
 export type Day = {
  checks: Partial<Record<Habit, boolean>>; water: number; meals: Record<string, {calories: number; protein: number}>; targets: Targets; rest: boolean; rescued: boolean; backfilled: boolean;
  sessions?: Partial<Record<'walk' | 'workout' | 'abs', Session>>; meditate?: number; focus?: number; redeemed?: Record<string, {name: string; cost: number}>;
+ // Every pour, in order, so the last one can be undone and the day can be read back in her own terms.
+ waterLog?: {ml: number; label?: string}[];
 };
 export type Clock = {zone: string; anchorDay: string; anchorLocal: string};
 export type State = {profile: Profile | null; clock: Clock | null; days: Record<string, Day>; weights: Record<string, number>};
 export type Operation = {id: string; at: string; day: string; zone: string} & (
  | {type: 'profile'; stats: Stats; overrides: Partial<Targets>}
  | {type: 'check'; habit: Habit; value: boolean}
- | {type: 'water'; amount: number}
+ | {type: 'water'; amount: number; label?: string}
  | {type: 'meal'; mealId: string; calories: number; protein: number}
  | {type: 'deleteMeal'; mealId: string}
  | {type: 'rest' | 'rescue'; value: boolean}
@@ -31,11 +35,18 @@ export type Operation = {id: string; at: string; day: string; zone: string} & (
  | {type: 'redeem'; rewardId: string; name: string; cost: number}
  | {type: 'unredeem'; rewardId: string}
  | {type: 'units'; units: Units}
- | {type: 'plan'; workout: string[]});
+ | {type: 'plan'; workout: string[]}
+ | {type: 'containers'; containers: Container[]; defaultContainer?: string});
 export const restDaysPerWeek = 2;
 export const defaultUnits: Units = {weight: 'lb', height: 'ftin'};
 export const defaultWalkMinutes = 30;
 export const defaultPlan = ['Warm up', 'Squats', 'Push-ups', 'Rows', 'Plank', 'Stretch'];
+// One US fluid ounce in millilitres. Containers are entered in her unit and stored in millilitres at full precision.
+export const mlPerOz = 29.5735295625;
+export const glassMl = 250;
+// The seeded container: a 30 oz Stanley, the default for one-tap logging. A plain glass stays available.
+export const seedContainers = (): Container[] => [{id: 'stanley', name: 'Stanley', ml: 30 * mlPerOz}, {id: 'glass', name: 'Glass', ml: glassMl}];
+export function containersOf(profile: Profile | null) {const list = profile?.containers?.length ? profile.containers : seedContainers(); const def = list.find(c => c.id === profile?.defaultContainer) ?? list[0]; return {list, default: def};}
 // Points are a small, transparent game: ten for each required habit, thirty more for a whole day. Treats are chosen by the user and cost points.
 export const pointsPerHabit = 10, pointsPerDay = 30;
 export const milestoneDays = [3, 7, 14, 21, 30, 50, 75, 100];
@@ -82,6 +93,7 @@ export function apply(state: State, op: Operation): State {
  if (op.type === 'units') {next.profile.units = op.units; return next;}
  if (op.type === 'rewards') {next.profile.rewards = op.rewards; return next;}
  if (op.type === 'plan') {next.profile.plan = op.workout; return next;}
+ if (op.type === 'containers') {next.profile.containers = op.containers; next.profile.defaultContainer = op.defaultContainer ?? op.containers[0]?.id; return next;}
  const today = dayAt(next.clock, op.at);
  // Rest days may be planned ahead within the current Monday–Sunday week. Everything else is today or the past.
  const plannable = op.type === 'rest' && op.day <= addDays(weekStart(today), 6);
@@ -97,7 +109,13 @@ export function apply(state: State, op: Operation): State {
  if (op.day < today) day.backfilled = true;
  switch (op.type) {
   case 'check': day.checks[op.habit] = op.value; break;
-  case 'water': day.water = Math.max(0, day.water + op.amount); delete day.checks.water; break;
+  case 'water': {
+   // Positive amounts append a pour; a negative amount removes the matching last pour (or just subtracts, for old clients).
+   day.waterLog ??= [];
+   if (op.amount > 0) day.waterLog.push({ml: op.amount, ...(op.label ? {label: op.label} : {})});
+   else {const i = day.waterLog.map(e => e.ml).lastIndexOf(-op.amount); if (i >= 0) day.waterLog.splice(i, 1);}
+   day.water = Math.max(0, day.water + op.amount); delete day.checks.water; break;
+  }
   case 'meal': day.meals[op.mealId] = {calories: op.calories, protein: op.protein}; delete day.checks.calories; delete day.checks.protein; break;
   case 'deleteMeal': delete day.meals[op.mealId]; delete day.checks.calories; delete day.checks.protein; break;
   case 'rest': if (op.value && !day.rest && restsLeft(next, op.day) === 0) throw new Error(`This week’s ${restDaysPerWeek} rest days are already planned.`); day.rest = op.value; break;

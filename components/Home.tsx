@@ -1,12 +1,15 @@
 'use client';
 import {Hills, Glass, Bowl, Mark, type Phase} from './Scenes';
 import {Icon} from './Icon';
-import {habits, totals, restsLeft, pointsBalance, streaks, milestoneDays, type Habit} from '@/lib/domain';
+import {habits, totals, restsLeft, pointsBalance, streaks, milestoneDays, containersOf, type Habit} from '@/lib/domain';
+import {formatVolume} from '@/lib/units';
+import {inContainers} from '@/lib/water';
 import {clock, getTimer, elapsedSeconds, isRunning, clearTimer} from '@/lib/timer';
 import {routines, routineSeconds} from '@/lib/abs';
-import {useApp, Row, Meter, names, format, litres} from './shared';
+import {useApp, Row, Meter, names, format} from './shared';
 export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
- const {state, today, dayKey, selected, day, done, pulse, lastMeal, change, navigate, open, bump} = useApp();
+ const {state, today, dayKey, selected, day, done, pulse, lastMeal, units, change, navigate, open, bump} = useApp();
+ const main = containersOf(state.profile).default; const lastPour = day.waterLog?.at(-1);
  const count = Object.values(done).filter(Boolean).length; const complete = count === habits.length; const food = totals(day);
  const phase: Phase = hour < 11 ? 'morning' : hour < 17 ? 'day' : hour < 21 ? 'evening' : 'night';
  const rests = restsLeft(state, dayKey); const points = pointsBalance(state, today); const streak = streaks(state, today);
@@ -19,7 +22,8 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
   if (before && timed && day.sessions?.[h as 'walk' | 'workout' | 'abs']) {change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: 0, done: false}, dayKey); return;}
   if (change({type: 'check', habit: h, value: !before}, dayKey)) bump(h, h === 'walk' ? 2000 : 1400);
  }
- function pour() {if (change({type: 'water', amount: 250}, dayKey)) bump('water', 900);}
+ // One tap logs a whole default container, in her name for it.
+ function pour() {if (change({type: 'water', amount: Math.round(main.ml * 100) / 100, label: `a ${main.name}`}, dayKey)) bump('water', 900);}
  function restTap() {if (day.rest) {change({type: 'rest', value: false}, dayKey); return;} if (!rests) {navigate('rest'); return;} if (change({type: 'rest', value: true}, dayKey)) bump('rest', 1600);}
  const session = (h: 'walk' | 'workout' | 'abs') => day.sessions?.[h];
  const live = (key: string) => {const t = getTimer(key); return t && t.day === dayKey ? `${isRunning(t) ? 'Running' : 'Paused'} · ${clock(elapsedSeconds(t))}` : null;};
@@ -46,8 +50,8 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
    <Row mark="abs" title="Abs" status={absStatus} done={done.abs} onOpen={() => navigate('abs')} actionLabel={done.abs ? 'Undo abs' : 'Log abs'} onAction={() => toggle('abs')} pressed={done.abs} pulse={pulse.abs ? 'crunching' : ''}/>
    <Row mark="floss" title="Floss" status={done.floss ? 'Flossed' : 'Once today'} done={done.floss} onOpen={() => navigate('floss')} actionLabel={done.floss ? 'Undo floss' : 'Log floss'} onAction={() => toggle('floss')} pressed={done.floss} pulse={pulse.floss ? 'shining' : ''}/>
    <div className={`row water ${done.water ? 'is-done' : ''} ${pulse.water ? 'pouring' : ''}`}>
-    <button className="row-open" onClick={() => navigate('water')} aria-label="Open water"><span className="row-art glass-art"><Glass level={day.water / day.targets.water} pouring={!!pulse.water}/></span><span className="row-copy"><span className="row-title">Water</span><span className="row-status">{Math.round(day.water / 250)} of {Math.round(day.targets.water / 250)} · {litres(day.water)} L</span><Meter label="" value={day.water} max={day.targets.water} unit="" done={done.water} display=""/></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
-    <span className="row-actions"><button className="row-action is-minus" aria-label="Remove a glass" disabled={day.water <= 0} onClick={() => change({type: 'water', amount: -250}, dayKey)}><Icon name="minus" size={16}/></button><button className="row-action is-add is-icon" aria-label="Add a glass of water" onClick={pour}><Icon name="plus" size={18}/></button></span>
+    <button className="row-open" onClick={() => navigate('water')} aria-label="Open water"><span className="row-art glass-art"><Glass level={day.water / day.targets.water} pouring={!!pulse.water}/></span><span className="row-copy"><span className="row-title">Water</span><span className="row-status">{inContainers(day.water, day.targets.water, main)} · {formatVolume(day.water, units)}</span><Meter label="" value={day.water} max={day.targets.water} unit="" done={done.water} display=""/></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
+    <span className="row-actions"><button className="row-action is-minus" aria-label="Undo last pour" disabled={!lastPour} onClick={() => lastPour && change({type: 'water', amount: -lastPour.ml}, dayKey)}><Icon name="minus" size={16}/></button><button className="row-action is-add is-icon" aria-label={`Add a ${main.name}`} onClick={pour}><Icon name="plus" size={18}/></button></span>
    </div>
    <div className={`row food ${done.calories && done.protein ? 'is-done' : ''} ${pulse.meal ? 'eating' : ''}`}>
     <button className="row-open" onClick={() => navigate('food')} aria-label="Open food"><span className="row-art bowl-art"><Bowl full={food.calories > 0} eating={!!pulse.meal} level={food.calories / Math.max(1, day.targets.calorieMax)}/></span><span className="row-copy"><span className="row-title">Food</span><span className="row-status">{format(food.calories)} kcal · {format(food.protein)}/{format(day.targets.protein)} g</span><Meter label="" value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="" done={done.calories} display=""/></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
