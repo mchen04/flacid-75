@@ -1,0 +1,41 @@
+{
+  "standard": "WCAG 2.1 1.4.11 non-text contrast 3:1 for control boundaries and states; labels held to 4.5:1; ratios are effective, with every ancestor opacity multiplied in. Scope: the controls named in the review 163 triage plus unchecked workout rings.",
+  "results": {
+    "workout unchecked ring (border)": {
+      "ratio": 5.56,
+      "fg": "rgb(111, 103, 94)",
+      "alpha": 1,
+      "bg": "rgb(255,255,255)"
+    },
+    "switch off (track)": {
+      "ratio": 5.56,
+      "fg": "rgb(111, 103, 94)",
+      "alpha": 1,
+      "bg": "rgb(255,255,255)"
+    },
+    "switch on (track)": {
+      "ratio": 3.33,
+      "fg": "rgb(217, 112, 47)",
+      "alpha": 1,
+      "bg": "rgb(255,255,255)"
+    },
+    "unit segment active (inset boundary)": {
+      "ratio": 6.46,
+      "fg": "rgb(91, 84, 77)",
+      "alpha": 1,
+      "bg": "rgb(244,238,230)"
+    },
+    "unit segment inactive (label)": {
+      "ratio": 6.46,
+      "fg": "rgb(91, 84, 77)",
+      "alpha": 1,
+      "bg": "rgb(244,238,230)"
+    },
+    "unreached milestone label": {
+      "ratio": 5.56,
+      "fg": "rgb(111, 103, 94)",
+      "alpha": 1,
+      "bg": "rgb(255,255,255)"
+    }
+  }
+}

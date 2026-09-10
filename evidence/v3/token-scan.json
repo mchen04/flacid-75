@@ -27,6 +27,7 @@
     "lib/domain.ts",
     "lib/estimate.ts",
     "lib/foods.ts",
+    "lib/sessions.ts",
     "lib/settle.ts",
     "lib/sound.ts",
     "lib/timer.ts",

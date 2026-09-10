@@ -1,6 +1,4 @@
 {
-  "base": "http://localhost:3075",
-  "today": "2026-09-10",
   "runner": "scripts/ui-shots.mjs",
   "viewports": {
     "phone": {
@@ -188,7 +186,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 834,
+        "pageScrollHeight": 854,
         "unexpectedScrollers": []
       },
       "water-confirm": {
@@ -199,7 +197,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 954,
+        "pageScrollHeight": 974,
         "unexpectedScrollers": []
       },
       "water-ask": {
@@ -210,7 +208,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 985,
+        "pageScrollHeight": 1005,
         "unexpectedScrollers": []
       },
       "containers-sheet": {
@@ -221,7 +219,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 834,
+        "pageScrollHeight": 854,
         "unexpectedScrollers": []
       },
       "food": {
@@ -817,7 +815,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 834,
+        "pageScrollHeight": 854,
         "unexpectedScrollers": []
       },
       "water-confirm": {
@@ -828,7 +826,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 954,
+        "pageScrollHeight": 974,
         "unexpectedScrollers": []
       },
       "water-ask": {
@@ -839,7 +837,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 985,
+        "pageScrollHeight": 1005,
         "unexpectedScrollers": []
       },
       "containers-sheet": {
@@ -850,7 +848,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 834,
+        "pageScrollHeight": 854,
         "unexpectedScrollers": []
       },
       "food": {
@@ -1446,7 +1444,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 834,
+        "pageScrollHeight": 854,
         "unexpectedScrollers": []
       },
       "water-confirm": {
@@ -1457,7 +1455,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 954,
+        "pageScrollHeight": 974,
         "unexpectedScrollers": []
       },
       "water-ask": {
@@ -1468,7 +1466,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 985,
+        "pageScrollHeight": 1005,
         "unexpectedScrollers": []
       },
       "containers-sheet": {
@@ -1479,7 +1477,7 @@
         "documentScrollsX": false,
         "documentScrollsY": false,
         "pageScrollsY": true,
-        "pageScrollHeight": 834,
+        "pageScrollHeight": 854,
         "unexpectedScrollers": []
       },
       "food": {
@@ -2140,5 +2138,7 @@
       "unexpectedScrollers": [],
       "animated": 0
     }
-  }
+  },
+  "base": "http://localhost:3075",
+  "today": "2026-09-10"
 }

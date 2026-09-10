@@ -14,68 +14,69 @@
 > my-wellness@4.0.0 test
 > node --import tsx --test tests/*.test.ts
 
-✔ every change the server would refuse is refused by the browser bounds first, with a reason (19.448375ms)
-✔ every change the server accepts passes the browser bounds (0.604625ms)
-✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.431083ms)
-✔ seven habits including floss are all required; a missing floss breaks the chain (17.819875ms)
-✔ a missing habit breaks the chain at midnight; today is not prematurely broken (1.404667ms)
-✔ two planned rest days per Monday-Sunday week keep the streak without adding to it; a third is refused (0.939666ms)
-✔ rest days can be planned ahead within the current week, never beyond it; other habits cannot be logged ahead (0.293541ms)
-✔ existing history with one rest per week is preserved and still valid under the two-day rule (0.305542ms)
-✔ sessions record time and detail, mark the habit, and undo cleanly (0.639333ms)
-✔ meditation and focus are logged but never touch completion, the streak or points (0.535875ms)
-✔ points: ten per habit, thirty for a whole day; treats are user-chosen, idempotent to redeem, and undoable (0.743958ms)
-✔ milestones follow the longest streak and remember the day each was first reached (2.424417ms)
-✔ units are stored as a preference; measurements stay in kilograms and centimetres (0.399167ms)
-✔ a workout plan is saved on the profile and a profile update keeps it (0.253667ms)
-✔ rescue and backfill recalculate history, retain honest markers, allow any past day (1.434084ms)
-✔ 23:59, DST spring/fall, and timezone travel do not skip or duplicate days (0.963459ms)
-✔ a session that runs past local midnight credits the day it was started on (0.6285ms)
-✔ calculation, smoothing, editable overrides and material recomputation (1.161292ms)
-✔ food corrections replace a meal and numeric goals remain estimates (0.361709ms)
-✔ saving targets or details without editing the weight keeps the trend baseline; editing the weight resets it (0.49025ms)
-✔ the USDA table is loaded and plain names match sensible rows (15.373125ms)
-✔ a row whose head food is not in the query is rejected rather than misused (4.174875ms)
-✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (3.32675ms)
-✔ a session that ran for 26 hours is logged as 24 hours, which the account accepts, and only then is the timer cleared (1.05275ms)
-✔ a refused change keeps the timer so the session can be finished again; nothing is lost silently (0.180209ms)
-✔ two focus sessions on the same day credit separately; the same session settled twice (two tabs) shares its ids (0.385042ms)
-✔ a finished ab routine settles once, credited to its start day, and clears itself (1.372625ms)
-✔ a paused routine never finishes on its own (0.186792ms)
-✔ meditation credits the chosen length when the countdown ends (0.165166ms)
-✔ focus credits each finished work block once, catches up after time away, and ends itself after the cap (0.248709ms)
-✔ settlement ids are stable: the same timer settled twice (two tabs) yields the same id, different blocks differ, and the id is a valid uuid (70.139584ms)
-✔ elapsed time is computed from the clock, so time away from the app still counts (0.733334ms)
-✔ the clock face formats minutes, seconds and hours (0.107417ms)
-✔ every ab routine has instructions, timed intervals, and a phase derivable from any elapsed time (0.360292ms)
-✔ only free OpenRouter models are ever called (0.088584ms)
-✔ the OpenRouter request body carries the zero max price and a non-free model never reaches the request (0.989083ms)
-✔ defaults are pounds and feet-inches (0.7935ms)
-✔ conversions round-trip without drifting the stored value (0.231167ms)
-✔ display follows the unit; input parses to kilograms and centimetres (9.664667ms)
-✔ the seeded Stanley is 30 oz stored in millilitres and shown in her unit (10.541334ms)
-✔ half a Stanley is exactly 15 oz: container size times share, computed by the app (0.972208ms)
-✔ a quarter, most of it, the whole thing and refilled twice all resolve to the right share and count (0.676833ms)
-✔ an ambiguous phrase asks once and never guesses a number (0.1745ms)
-✔ progress reads in her terms (0.184333ms)
-✔ volumes round-trip through the unit setting without changing the stored millilitres (0.112042ms)
-✔ pours append to the day log, undo removes the last matching pour, and the schema accepts container sizes (7.326417ms)
-✔ a long container name with three quarters yields a label the account accepts once trimmed to the bound; refilled my Stanley twice is two (0.349625ms)
-✔ a container whose name contains another name or a number is read whole: no phantom counts (0.167917ms)
-ℹ tests 48
+✔ every change the server would refuse is refused by the browser bounds first, with a reason (18.512042ms)
+✔ every change the server accepts passes the browser bounds (0.719792ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.537666ms)
+✔ seven habits including floss are all required; a missing floss breaks the chain (16.641958ms)
+✔ a missing habit breaks the chain at midnight; today is not prematurely broken (1.370667ms)
+✔ two planned rest days per Monday-Sunday week keep the streak without adding to it; a third is refused (1.198083ms)
+✔ rest days can be planned ahead within the current week, never beyond it; other habits cannot be logged ahead (0.356875ms)
+✔ existing history with one rest per week is preserved and still valid under the two-day rule (0.683542ms)
+✔ sessions record time and detail, mark the habit, and undo cleanly (1.016292ms)
+✔ meditation and focus are logged but never touch completion, the streak or points (0.824458ms)
+✔ points: ten per habit, thirty for a whole day; treats are user-chosen, idempotent to redeem, and undoable (0.774541ms)
+✔ milestones follow the longest streak and remember the day each was first reached (2.23275ms)
+✔ units are stored as a preference; measurements stay in kilograms and centimetres (0.162542ms)
+✔ a workout plan is saved on the profile and a profile update keeps it (0.129625ms)
+✔ rescue and backfill recalculate history, retain honest markers, allow any past day (1.730833ms)
+✔ 23:59, DST spring/fall, and timezone travel do not skip or duplicate days (0.45325ms)
+✔ a session that runs past local midnight credits the day it was started on (0.104375ms)
+✔ calculation, smoothing, editable overrides and material recomputation (0.826916ms)
+✔ food corrections replace a meal and numeric goals remain estimates (0.232666ms)
+✔ saving targets or details without editing the weight keeps the trend baseline; editing the weight resets it (0.278792ms)
+✔ the USDA table is loaded and plain names match sensible rows (12.752667ms)
+✔ a row whose head food is not in the query is rejected rather than misused (3.764083ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.406791ms)
+✔ a session that ran for 26 hours is logged as 24 hours, which the account accepts, and only then is the timer cleared (1.42375ms)
+✔ a refused change keeps the timer so the session can be finished again; nothing is lost silently (0.20475ms)
+✔ two focus sessions on the same day credit separately; the same session settled twice (two tabs) shares its ids (0.372208ms)
+✔ a finished ab routine settles once, credited to its start day, and clears itself (1.4325ms)
+✔ a paused routine never finishes on its own (0.274125ms)
+✔ meditation credits the chosen length when the countdown ends (0.420416ms)
+✔ focus credits each finished work block once, catches up after time away, and ends itself after the cap (0.340959ms)
+✔ settlement ids are stable: the same timer settled twice (two tabs) yields the same id, different blocks differ, and the id is a valid uuid (60.189583ms)
+✔ automatic settlement dispatches first: a refused change leaves the timer and the focus block for a stable retry; an accepted one clears it (0.409666ms)
+✔ elapsed time is computed from the clock, so time away from the app still counts (0.382625ms)
+✔ the clock face formats minutes, seconds and hours (0.072292ms)
+✔ every ab routine has instructions, timed intervals, and a phase derivable from any elapsed time (0.242583ms)
+✔ only free OpenRouter models are ever called (0.13525ms)
+✔ the OpenRouter request body carries the zero max price and a non-free model never reaches the request (0.693416ms)
+✔ defaults are pounds and feet-inches (0.695459ms)
+✔ conversions round-trip without drifting the stored value (0.188166ms)
+✔ display follows the unit; input parses to kilograms and centimetres (10.014375ms)
+✔ the seeded Stanley is 30 oz stored in millilitres and shown in her unit (9.854125ms)
+✔ half a Stanley is exactly 15 oz: container size times share, computed by the app (0.816208ms)
+✔ a quarter, most of it, the whole thing and refilled twice all resolve to the right share and count (0.600458ms)
+✔ an ambiguous phrase asks once and never guesses a number (0.290875ms)
+✔ progress reads in her terms (0.158459ms)
+✔ volumes round-trip through the unit setting without changing the stored millilitres (0.171ms)
+✔ pours append to the day log, undo removes the last matching pour, and the schema accepts container sizes (8.540959ms)
+✔ a long container name with three quarters yields a label the account accepts once trimmed to the bound; refilled my Stanley twice is two (0.30975ms)
+✔ a container whose name contains another name or a number is read whole: no phantom counts (0.114958ms)
+ℹ tests 49
 ℹ suites 0
-ℹ pass 48
+ℹ pass 49
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 207.848333
+ℹ duration_ms 215.379291
 
 > my-wellness@4.0.0 scan
 > node scripts/token-scan.mjs && node scripts/mascot-scan.mjs
 
-{"scanned":33,"findings":0}
-{"scanned":103,"hits":0}
+{"scanned":34,"findings":0}
+{"scanned":105,"hits":0}
 
 > my-wellness@4.0.0 build
 > npm run tokens && node scripts/build-client.mjs && next build && node scripts/budget.mjs && node scripts/chunk-check.mjs
@@ -85,20 +86,20 @@
 > node --import tsx scripts/tokens.ts
 
 wrote app/tokens.css
-Built phone renderer 6166695457ca 18455 bytes entry, 11 chunk(s)
+Built phone renderer b9c629c15b48 18565 bytes entry, 11 chunk(s)
 ▲ Next.js 16.3.4 (Turbopack)
-✓ Running next.config.ts took 11ms
+✓ Running next.config.ts took 14ms
 
   Creating an optimized production build ...
-✓ Compiled successfully in 317ms
+✓ Compiled successfully in 365ms
   Running TypeScript ...
-  Finished TypeScript in 675ms ...
+  Finished TypeScript in 742ms ...
   Collecting page data using 10 workers ...
   Generating static pages using 10 workers (0/9) ...
   Generating static pages using 10 workers (2/9) 
   Generating static pages using 10 workers (4/9) 
   Generating static pages using 10 workers (6/9) 
-✓ Generating static pages using 10 workers (9/9) in 282ms
+✓ Generating static pages using 10 workers (9/9) in 295ms
   Finalizing page optimization ...
 
 Route (app)
@@ -115,6 +116,5 @@ Route (app)
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
-{"gzipJavaScriptBytes":32400,"budgetBytes":40960,"pass":true,"criticalPath":["/assets/app-EML77UHK.js","/assets/chunk-P7AXN2YY.js","/assets/chunk-ZDQUH6B3.js","/assets/chunk-TKDZI5E2.js","/assets/chunk-MTD5ZBNR.js","/assets/chunk-MOJMMDAX.js"],"lazyChunkGzipBytes":{"/assets/chunk-ZLXMW6DP.js":7047,"/assets/chunk-JVWDVLAM.js":2775,"/assets/chunk-5YVDH7EJ.js":2803,"/assets/chunk-YS6IUUBK.js":1612,"/assets/chunk-62HLK674.js":5412,"/assets/chunk-SH2YFG7M.js":519},"totalGzipJavaScriptBytes":52568,"totalBudgetBytes":65536}
-{"shellPrefetches":12,"chunks":11,"version":"6166695457ca","allCached":true}
-exit 0
+{"gzipJavaScriptBytes":33042,"budgetBytes":40960,"pass":true,"criticalPath":["/assets/app-3TXV5MXF.js","/assets/chunk-HPJDHWNI.js","/assets/chunk-HVYZK2BH.js","/assets/chunk-GPUXJDTJ.js","/assets/chunk-MTD5ZBNR.js","/assets/chunk-LGIHGJZB.js"],"lazyChunkGzipBytes":{"/assets/chunk-FAHU4KVY.js":7081,"/assets/chunk-5M23SUVD.js":2771,"/assets/chunk-SSI6F2AO.js":2804,"/assets/chunk-D7EX5UJG.js":1614,"/assets/chunk-4OVFPW55.js":5497,"/assets/chunk-SH2YFG7M.js":519},"totalGzipJavaScriptBytes":53328,"totalBudgetBytes":65536}
+{"shellPrefetches":12,"chunks":11,"version":"b9c629c15b48","allCached":true}
