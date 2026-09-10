@@ -18,7 +18,9 @@ export function startStore(){if(started)return;started=true;try{const raw=localS
  const resume=()=>{set({...store,online:navigator.onLine});void synchronize();};
  window.addEventListener('online',resume);window.addEventListener('offline',()=>set({...store,online:false}));window.addEventListener('pageshow',resume);
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resume();});
- window.addEventListener('storage',e=>{if(e.key===KEY&&!syncing){try{const saved=JSON.parse(e.newValue??'{}');if(saved.state)set({...store,...saved});}catch{}}});
+ // Another tab wrote the device store. Take its state, but merge the queues by id: a change this tab queued and has not yet synced
+ // must survive the other tab's write, and a change the other tab queued must not be lost either. The account applies each id once.
+ window.addEventListener('storage',e=>{if(e.key===KEY&&!syncing){try{const saved=JSON.parse(e.newValue??'{}');if(saved.state){const theirs:Operation[]=Array.isArray(saved.pending)?saved.pending:[];const mine=store.pending.filter(p=>!theirs.some(t=>t.id===p.id));set({...store,...saved,pending:[...theirs,...mine],failed:Array.isArray(saved.failed)?saved.failed:store.failed});}}catch{}}});
  if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').then(registration=>{if(!registration)return;let controlled=!!navigator.serviceWorker.controller;
   // A new build claims the page as soon as it activates, so an open app reloads once instead of serving the old shell.
   // The first install claims an uncontrolled page, which is not an update and must not reload it.

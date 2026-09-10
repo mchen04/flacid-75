@@ -3,7 +3,7 @@ import {test,expect} from './fixtures';
 import type {Page} from '@playwright/test';
 import {writeFile} from 'node:fs/promises';
 import {addDays,apply} from '../../lib/domain';
-import {open,seed,todayIn,op,complete,zone} from './helpers';
+import {open,mock,seed,todayIn,op,complete,zone} from './helpers';
 const at=(day:string,time:string)=>new Date(`${day}T${time}`);
 async function openAt(page:Page,state:ReturnType<typeof seed>,time:Date,hash=''){const box=await open(page,state,{go:false});await page.clock.install({time});await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();return box;}
 test('every page is one tap from the dashboard, has an obvious Home, and the browser back button works',async({page})=>{
@@ -331,11 +331,15 @@ test('two tabs settling the same meditation credit it once',async({page,context}
  const today=todayIn();const box=await openAt(page,seed(),at(today,'12:00:00'),'meditate');
  await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();
  // A second tab on the same device shares the stored timer and the queue.
- const other=await context.newPage();await other.clock.install({time:at(today,'12:00:05')});await other.goto('/#meditate');await other.locator('.app-shell').waitFor();
+ // The second tab shares the device's storage (and so the running timer and the queue) and talks to the same mocked account.
+ const other=await context.newPage();await mock(other,box);await other.clock.install({time:at(today,'12:00:05')});await other.goto('/#meditate');await other.locator('.app-shell').waitFor();await other.getByRole('button',{name:'Finish early'}).waitFor();
+ // Both tabs wake at once and both try to settle the finished timer.
  await page.clock.fastForward(4*60*1000);await other.clock.fastForward(4*60*1000);
- await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await other.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
- await page.waitForTimeout(1500);await other.waitForTimeout(1500);
- await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);
+ await Promise.all([page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange'))),other.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')))]);
+ await expect.poll(()=>box.state.days[today]?.meditate,{timeout:10000}).toBe(180);
+ // Give a second, duplicate settlement every chance to arrive, then check the account applied one and both tabs show one.
+ await page.waitForTimeout(2500);expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);expect(box.state.days[today]?.meditate).toBe(180);
+ await expect(page.getByText('3 min logged today.',{exact:false}).or(page.getByText('3 min today'))).toBeVisible();
  await other.close();
 });
 test('optional timers cannot be started for a past day',async({page})=>{

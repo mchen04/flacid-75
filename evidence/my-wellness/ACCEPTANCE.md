@@ -45,6 +45,14 @@ Rejected or deferred, with rationale: **M1** (an illustration on every page) is 
 
 The original 40,960 gzip-byte limit is unchanged and still enforced, on the critical path: the first script plus every chunk it reaches through static imports, transitively (`scripts/budget.mjs`). Every other page and sheet is a lazily loaded chunk, prefetched by the shell after the first paint and precached by the service worker (`scripts/chunk-check.mjs` fails the build if any chunk is missing from the shell's prefetch links or the worker's install scan). Total JavaScript is reported alongside and has its own explicit ceiling of 65,536 bytes. Before splitting, the single file had reached 45,015 bytes with the water feature and the repairs; the numbers now are in [check.txt](check.txt).
 
+## Real-suite follow-up on b324755 (85 passed, 2 failed)
+
+| Failure | Cause | Repair | Check |
+|---|---|---|---|
+| Two-tab settlement timed out on the real server | The second tab had no mocked account, so on a real server it reached the gate; the sandbox run had passed only because that tab was effectively offline | The helper exposes `mock(page, box)` and the second tab shares the same mocked account, which now applies each id once like the real server. Making both tabs live exposed a real race: on a storage event each tab replaced its queue with the other tab's copy, so a queued change could be dropped before it synced. Queues are now merged by id on storage events (`lib/client-store.ts`) | `wellness.spec.ts` "two tabs settling the same meditation credit it once", run three times consecutively in the sandbox: 3/3 |
+| WebKit counted the rest rows before the lazy page body rendered | Readiness, not behaviour | The spec waits for the week list and polls the count; the assertion is unchanged | `history.spec.ts` |
+| `scripts/offline-integration.mjs` timed out on its second reload | The script's own reload helper waited for "Log workout", which no longer exists once the workout is logged | The helper waits for the dashboard itself; the offline assertions are unchanged. **No offline success is claimed here**: the script needs a real service worker and runs only in the supervisor's environment | supervisor rerun |
+
 ## Review round 1 (findings-1.txt) · what changed
 
 | # | Finding | Fix | Check |

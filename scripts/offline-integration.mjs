@@ -4,7 +4,7 @@ import {spawn} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
 import pg from 'pg';
 import assert from 'node:assert/strict';
-async function reload(page){await page.reload({waitUntil:'commit'});await page.getByRole('button',{name:'Log workout'}).waitFor();}
+async function reload(page){await page.reload({waitUntil:'commit'});await page.locator('.home-view').waitFor();}
 const env=Object.fromEntries((await readFile('.env.local','utf8')).split('\n').filter(l=>l.includes('=')).map(l=>[l.slice(0,l.indexOf('=')),l.slice(l.indexOf('=')+1)]));
 const admin=new pg.Client({connectionString:env.DATABASE_URL});await admin.connect();const schema='flaccid75_browser_'+randomUUID().replaceAll('-','');await admin.query(`CREATE SCHEMA ${schema}`);
 const uri=new URL(env.DATABASE_URL);uri.hostname=uri.hostname.replace('-pooler','');uri.searchParams.set('options','-c search_path='+schema);const db=new pg.Client({connectionString:uri.toString()});await db.connect();await db.query(await readFile('migrations/001_initial.sql','utf8'));

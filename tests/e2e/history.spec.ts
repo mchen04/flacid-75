@@ -8,7 +8,9 @@ test('rest in one tap with undo, two per week, planned ahead; backfill, rescue, 
  await page.getByRole('button',{name:'Undo rest'}).click();await expect(page.getByText('2 of 2 left this week')).toBeVisible();
  // Plan the week: two rest days, a third refused; the page says so.
  await page.getByRole('button',{name:'Open rest'}).click();await expect(page.getByRole('heading',{name:'Rest days'})).toBeVisible();
- const free=page.locator('.plan-row .row-action[aria-pressed="false"]:not([disabled])');expect(await free.count()).toBeGreaterThanOrEqual(2);
+ // The page body is a lazily loaded chunk: wait for the week list itself before counting its rows.
+ await page.getByRole('group',{name:'This week'}).waitFor();
+ const free=page.locator('.plan-row .row-action[aria-pressed="false"]:not([disabled])');await expect.poll(()=>free.count()).toBeGreaterThanOrEqual(2);
  await free.nth(0).click();await expect(page.getByText(/1 rest day left this week/)).toBeVisible();await free.nth(0).click();await expect(page.getByText('Both rest days planned.')).toBeVisible();
  expect(Object.values(box.state.days).filter(d=>d.rest)).toHaveLength(2);
  await expect(page.locator('.plan-row .row-action[aria-pressed="false"]:not([disabled])')).toHaveCount(0);

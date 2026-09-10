@@ -20,6 +20,7 @@
     "components/shared.tsx",
     "lib/abs.ts",
     "lib/auth.ts",
+    "lib/bounds.ts",
     "lib/browser-entry.tsx",
     "lib/client-store.ts",
     "lib/db.ts",
