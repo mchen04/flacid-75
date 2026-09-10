@@ -35,8 +35,8 @@ export function parsePhrase(text: string, containers: Container[], fallback: Con
  return {kind: 'ok', container: c, fraction: f, count: n, ml: pourMl(c, f, n), label: describe(c, f, n)};
 }
 // Progress in her terms: "about 1½ of 3 Stanleys". Halves are the finest step worth showing.
-export function inContainers(ml: number, target: number, container: Container) {
+export function inContainers(ml: number, target: number, container: Container, about = true) {
  const had = Math.round(ml / container.ml * 2) / 2; const of = Math.ceil(target / container.ml - 1e-9);
  const num = (n: number) => n % 1 === 0 ? String(n) : `${Math.floor(n) || ''}½`;
- return `about ${num(had)} of ${of} ${container.name}${of === 1 ? '' : 's'}`;
+ return `${about ? 'about ' : ''}${num(had)} of ${of} ${container.name}${of === 1 ? '' : 's'}`;
 }

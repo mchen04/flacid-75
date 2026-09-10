@@ -61,9 +61,13 @@ try{
  const redeem={...base,id:randomUUID(),type:'redeem' as const,rewardId:randomUUID(),name:treat.name,cost:treat.cost};
  await Promise.all([sync([redeem]),sync([redeem])]);assert.equal(pointsBalance(await readState(),day),0,'a duplicate delivery of the same redeem charges once');
  await sync([{...base,id:randomUUID(),type:'unredeem' as const,rewardId:redeem.rewardId}]);assert.equal(pointsBalance(await readState(),day),30);
+ // A batch with a malformed first change (as the sync route receives it) still applies the valid change behind it and names the bad one by id.
+ const {validateBatch}=await import('../lib/validation');
+ const poison={...base,id:randomUUID(),type:'rewards',rewards:[{id:randomUUID(),name:'Trip',cost:20000}]};const behind={...base,id:randomUUID(),type:'check' as const,habit:'floss' as const,value:true};
+ const batch=validateBatch([poison,behind])!;assert.equal(batch.invalid[0].id,poison.id);const applied=await sync(batch.valid);assert.deepEqual(applied.accepted,[behind.id]);assert.equal((await readState()).days[day].checks.floss,true);
  // Validation still guards the schema: an unknown habit and a reversed calorie range are rejected without touching state.
  const invalid={...base,id:randomUUID(),type:'profile' as const,stats:setup.stats,overrides:{calorieMin:2500,calorieMax:1800}};
  assert.equal((await sync([invalid])).rejected.length,1);
  const opCount=(await db.query('SELECT count(*)::int AS n FROM flaccid75_operations')).rows[0].n;
- console.log(JSON.stringify({isolatedSchema:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,operationsRecorded:opCount,productionDataUntouched:true}));
+ console.log(JSON.stringify({isolatedSchema:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
 }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}

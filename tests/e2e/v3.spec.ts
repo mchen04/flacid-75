@@ -8,9 +8,9 @@ test('water goes down by one tap with no dialog, and never below zero',async({pa
  await open(page,seed());
  const add=page.getByRole('button',{name:'Add a Stanley'});const minus=page.getByRole('button',{name:'Undo last pour'});
  await expect(minus).toBeDisabled();
- await add.click();await add.click();await expect(page.getByText('about 2 of 3 Stanleys · 60 oz')).toBeVisible();
- await minus.click();await expect(page.getByText('about 1 of 3 Stanleys · 30 oz')).toBeVisible();await expect(page.locator('dialog[open]')).toHaveCount(0);
- await minus.click();await expect(page.getByText('about 0 of 3 Stanleys · 0 oz')).toBeVisible();await expect(minus).toBeDisabled();
+ await add.click();await add.click();await expect(page.getByText('2 of 3 Stanleys · 60 oz')).toBeVisible();
+ await minus.click();await expect(page.getByText('1 of 3 Stanleys · 30 oz')).toBeVisible();await expect(page.locator('dialog[open]')).toHaveCount(0);
+ await minus.click();await expect(page.getByText('0 of 3 Stanleys · 0 oz')).toBeVisible();await expect(minus).toBeDisabled();
 });
 test('nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal',async({page})=>{
  await open(page,seed());

@@ -51,8 +51,8 @@ const screens = [
   {name: 'abs-library', expect: 'Pick a routine below', hash: 'abs'},
   {name: 'abs-guided', expect: 'Move 1 of 5', hash: 'abs', steps: [tap(/Classic five/)]},
   {name: 'abs-done', expect: 'Abs logged', hash: 'abs', fixture: 'absDone'},
-  {name: 'floss', expect: 'Floss today.', hash: 'floss'},
-  {name: 'floss-done', expect: 'Flossed.', hash: 'floss', fixture: 'flossDone'},
+  {name: 'floss', expect: 'Mark flossed', hash: 'floss'},
+  {name: 'floss-done', expect: 'Floss logged', hash: 'floss', fixture: 'flossDone'},
   {name: 'water', expect: 'about 1½ of 3 Stanleys', hash: 'water'},
   {name: 'water-confirm', expect: 'Add 15 oz', hash: 'water', steps: [{fill: ['Or say it', 'half my Stanley']}, tap('Read it')]},
   {name: 'water-ask', expect: 'How much of the Stanley?', hash: 'water', steps: [{fill: ['Or say it', 'some of it']}, tap('Read it')]},
@@ -62,6 +62,10 @@ const screens = [
   {name: 'meal-sheet', expect: 'What did you eat?', hash: 'food', steps: [tap('Log a meal', 'button', true)]},
   {name: 'meal-estimate', expect: 'Add to today', hash: 'food', steps: [tap('Log a meal', 'button', true), {fill: ['What did you eat?', 'two eggs and toast']}, tap('Look it up'), {waitText: 'USDA · Egg, whole, cooked, scrambled'}]},
   {name: 'meal-numbers', expect: 'Calories · kcal', hash: 'food', steps: [tap('Log a meal', 'button', true), tap('Enter numbers')]},
+  {name: 'meal-loading', expect: 'Looking…', hash: 'food', estimate: 'slow', steps: [tap('Log a meal', 'button', true), {fill: ['What did you eat?', 'two eggs and toast']}, tap('Look it up'), {settle: 300}]},
+  {name: 'meal-error', expect: 'That could not be looked up right now. You can enter the numbers instead.', hash: 'food', estimate: 'down', steps: [tap('Log a meal', 'button', true), {fill: ['What did you eat?', 'two eggs and toast']}, tap('Look it up')]},
+  {name: 'meal-not-food', expect: 'That does not look like food. You can enter the numbers instead.', hash: 'food', estimate: 'notfood', steps: [tap('Log a meal', 'button', true), {fill: ['What did you eat?', 'brb']}, tap('Look it up')]},
+  {name: 'camera-failed', expect: 'The camera could not open.', hash: 'food', camera: 'fail', steps: [tap('Log a meal', 'button', true), tap('Photo', 'button', true)]},
   {name: 'camera-sheet', expect: 'Take meal photo', hash: 'food', steps: [tap('Log a meal', 'button', true), tap('Photo', 'button', true)]},
   {name: 'rest', expect: '2 rest days left this week.', hash: 'rest'},
   {name: 'rest-planned', expect: 'Both rest days planned.', hash: 'rest', fixture: 'rest'},
@@ -104,16 +108,20 @@ const fixtures = {
   flossDone: () => apply(seed, op(today, {type: 'check', habit: 'floss', value: true})),
 };
 // Extra states that need their own browser context: the gate, onboarding, a changed timezone, reduced motion and a short screen.
+const sizes = [['phone', 390, 844], ['small', 375, 667], ['desktop', 1280, 900]].filter(([n]) => !process.env.ONLY_VIEWPORT || n === process.env.ONLY_VIEWPORT);
 const extras = [
-  {name: 'gate', width: 390, height: 844, setup: 'none'},
-  {name: 'onboarding', width: 390, height: 844, setup: 'empty'},
-  {name: 'timezone-banner', width: 390, height: 844, setup: 'zone'},
-  {name: 'reduced-motion-home', width: 390, height: 844, setup: 'reduced'},
-  {name: 'reduced-motion-walk-running', width: 390, height: 844, setup: 'reduced', hash: 'walk', tap: {role: 'button', name: 'Start', exact: true}},
-  {name: 'short-home', width: 375, height: 640, setup: 'seed'},
-  {name: 'short-abs', width: 375, height: 640, setup: 'seed', hash: 'abs'},
-  {name: 'short-walk', width: 375, height: 640, setup: 'seed', hash: 'walk'},
-  {name: 'short-progress', width: 375, height: 640, setup: 'seed', hash: 'progress'},
+  ...sizes.flatMap(([n, width, height]) => [
+   {name: `gate-${n}`, width, height, setup: 'none', expect: 'Passphrase'},
+   {name: `gate-wrong-passphrase-${n}`, width, height, setup: 'none', auth: 401, fill: ['Passphrase', 'not-it'], tap: {role: 'button', name: 'Open', exact: true}, expect: 'That passphrase does not match.'},
+   {name: `onboarding-${n}`, width, height, setup: 'empty', expect: 'Welcome to My Wellness.'},
+   {name: `timezone-banner-${n}`, width, height, setup: 'zone', expect: 'Your timezone changed.'},
+   {name: `reduced-motion-home-${n}`, width, height, setup: 'reduced', expect: 'Today'},
+   {name: `reduced-motion-walk-running-${n}`, width, height, setup: 'reduced', hash: 'walk', tap: {role: 'button', name: 'Start', exact: true}, expect: 'Walking.'},
+  ]),
+  {name: 'short-home', width: 375, height: 640, setup: 'seed', expect: 'Today'},
+  {name: 'short-abs', width: 375, height: 640, setup: 'seed', hash: 'abs', expect: 'Pick a routine below'},
+  {name: 'short-walk', width: 375, height: 640, setup: 'seed', hash: 'walk', expect: 'Start'},
+  {name: 'short-progress', width: 375, height: 640, setup: 'seed', hash: 'progress', expect: 'Milestones'},
 ];
 const pastMissed = addDays(today, -13);
 
@@ -134,7 +142,12 @@ const fitProbe = () => {
     return el.scrollHeight - el.clientHeight > 2;
   }).map(el => ({selector: name(el), scrollHeight: el.scrollHeight, clientHeight: el.clientHeight}));
   const page = document.querySelector('.page');
+  // Words on the hero and stages must never overlap each other: the copy card, the chip and the pill are measured pairwise.
+  const words = [...document.querySelectorAll('.hero-copy,.hero-tag,.hero-progress,.stage-copy,.stage-tag')].filter(e => e.getBoundingClientRect().width > 0);
+  const overlapping = [];
+  for (let i = 0; i < words.length; i++) for (let j = i + 1; j < words.length; j++) { const a = words[i].getBoundingClientRect(), b = words[j].getBoundingClientRect(); const x = Math.min(a.right, b.right) - Math.max(a.left, b.left), y = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top); if (x > 1 && y > 1) overlapping.push(`${name(words[i])}×${name(words[j])}`); }
   return {
+    overlapping,
     sideways, clipped,
     documentScrollsX: doc.scrollWidth - doc.clientWidth > 1,
     documentScrollsY: doc.scrollHeight - doc.clientHeight > 1,
@@ -163,7 +176,11 @@ try {
      const page = await context.newPage();
      try {
       let state = (fixtures[screen.fixture ?? 'base'])();
-      await page.route('**/api/estimate', r => r.fulfill({json: estimate}));
+      if (screen.estimate === 'down') await page.route('**/api/estimate', r => r.fulfill({status: 503, json: {error: 'That could not be looked up right now.'}}));
+      else if (screen.estimate === 'notfood') await page.route('**/api/estimate', r => r.fulfill({status: 422, json: {error: 'That does not look like food.'}}));
+      else if (screen.estimate === 'slow') await page.route('**/api/estimate', async r => { await new Promise(res => setTimeout(res, 6000)); await r.fulfill({json: estimate}).catch(() => {}); });
+      else await page.route('**/api/estimate', r => r.fulfill({json: estimate}));
+      if (screen.camera === 'fail') await page.addInitScript(() => { Object.defineProperty(navigator, 'mediaDevices', {value: {getUserMedia: () => Promise.reject(new Error('denied'))}}); });
       await page.route('**/api/state', r => r.fulfill({json: state}));
       await page.route('**/api/sync', r => { const ops = r.request().postDataJSON(); const rejected = []; for (const o of ops) { try { state = apply(state, o); } catch (e) { rejected.push({id: o.id, reason: String(e.message)}); } } return r.fulfill({json: {state, accepted: ops.map(o => o.id), rejected}}); });
       await page.addInitScript(s => { if (navigator.serviceWorker) navigator.serviceWorker.register = () => Promise.resolve(undefined); localStorage.clear(); localStorage.setItem('flaccid75-v1', JSON.stringify({state: s, pending: [], unlocked: true})); }, state);
@@ -176,6 +193,7 @@ try {
         if (step.hash !== undefined) { await page.evaluate(h => { location.hash = h; }, step.hash); await page.waitForTimeout(500); continue; }
         if (step.fill) { const field = page.getByLabel(step.fill[0]); if (!(await field.count())) { failed = `fill ${step.fill[0]}`; break; } await field.fill(step.fill[1] === 'PAST_MISSED' ? pastMissed : step.fill[1]); await page.waitForTimeout(300); continue; }
         if (step.waitText) { await page.getByText(step.waitText).waitFor({timeout: 5000}); continue; }
+        if (step.settle) { await page.waitForTimeout(step.settle); continue; }
         const target = page.getByRole(step.role, {name: step.name, exact: step.exact}).first();
         if (!(await target.count())) { failed = `tap ${step.name}`; break; }
         await target.click(); await page.waitForTimeout(700);
@@ -209,11 +227,16 @@ try {
     const state = extra.setup === 'zone' ? {...seed, clock: {...seed.clock, zone: 'Europe/London'}} : extra.setup === 'empty' ? emptyState() : seed;
     await page.route('**/api/state', r => r.fulfill({json: state}));
     await page.route('**/api/sync', r => r.fulfill({json: {state, accepted: r.request().postDataJSON().map(o => o.id), rejected: []}}));
+    if (extra.auth) await page.route('**/api/auth', r => r.fulfill({status: extra.auth, json: {error: 'That passphrase does not match.'}}));
     if (extra.setup !== 'none') await page.addInitScript(s => localStorage.setItem('flaccid75-v1', JSON.stringify({state: s, pending: [], unlocked: true})), state);
     await page.clock.install({time: new Date(today + 'T16:20:00')});
     await page.goto(base + (extra.hash ? '#' + extra.hash : ''), {waitUntil: 'load'});
     await page.waitForTimeout(800);
+    if (extra.fill) { await page.getByLabel(extra.fill[0]).fill(extra.fill[1]); }
     if (extra.tap) { await page.getByRole(extra.tap.role, {name: extra.tap.name, exact: extra.tap.exact ?? false}).first().click(); await page.waitForTimeout(700); }
+    let missing = '';
+    if (extra.expect) { const found = (await page.getByText(extra.expect).count()) + (await page.getByLabel(extra.expect).count()); if (!found) missing = `expected "${extra.expect}" not on page`; }
+    if (missing) { report.extras[extra.name] = {reached: false, failed: missing}; console.error(`extras/${extra.name}: ${missing}`); await context.close(); continue; }
     const fit = await page.evaluate(fitProbe);
     await page.screenshot({path: `${out}/extras/${extra.name}.png`});
     if (extra.setup === 'reduced') fit.animated = await page.evaluate(() => [...document.querySelectorAll('*')].filter(el => { const s = getComputedStyle(el); return s.animationName !== 'none' || (s.transitionDuration !== '0s' && s.transitionProperty !== 'none' && s.transitionDuration !== ''); }).length);
@@ -225,8 +248,8 @@ try {
 }
 await writeFile(`${out}/fit.json`, JSON.stringify(report, null, 2));
 const failures = Object.entries({...report.viewports, extras: report.extras}).flatMap(([vp, screens]) =>
-  Object.entries(screens).filter(([, r]) => r.reached && (r.documentScrollsX || r.documentScrollsY || r.sideways.length || r.clipped.length || r.unexpectedScrollers.length))
-    .map(([name, r]) => `${vp}/${name}: ${[r.documentScrollsX && 'document scrolls sideways', r.documentScrollsY && 'document scrolls', r.sideways.length && ('sideways: ' + r.sideways.map(s => `${s.selector} ${s.scrollWidth}>${s.clientWidth}`).join(', ')), r.clipped.length && ('clipped: ' + r.clipped.map(s => `${s.selector} ${s.scrollHeight}>${s.clientHeight}`).join(', ')), r.unexpectedScrollers.length && ('unexpected scrollers: ' + r.unexpectedScrollers.join(', '))].filter(Boolean).join('; ')}`));
+  Object.entries(screens).filter(([, r]) => r.reached && (r.documentScrollsX || r.documentScrollsY || r.sideways.length || r.clipped.length || r.unexpectedScrollers.length || r.overlapping?.length))
+    .map(([name, r]) => `${vp}/${name}: ${[r.documentScrollsX && 'document scrolls sideways', r.documentScrollsY && 'document scrolls', r.sideways.length && ('sideways: ' + r.sideways.map(s => `${s.selector} ${s.scrollWidth}>${s.clientWidth}`).join(', ')), r.clipped.length && ('clipped: ' + r.clipped.map(s => `${s.selector} ${s.scrollHeight}>${s.clientHeight}`).join(', ')), r.unexpectedScrollers.length && ('unexpected scrollers: ' + r.unexpectedScrollers.join(', ')), r.overlapping?.length && ('overlapping words: ' + r.overlapping.join(', '))].filter(Boolean).join('; ')}`));
 console.log(JSON.stringify({out, unreached: Object.entries(report.viewports).flatMap(([vp, s]) => Object.entries(s).filter(([, r]) => !r.reached).map(([n]) => `${vp}/${n}`)), failures}, null, 1));
 const unreached = Object.entries({...report.viewports, extras: report.extras}).flatMap(([vp, s]) => Object.entries(s).filter(([, r]) => !r.reached).map(([n]) => `${vp}/${n}`));
 // A state that could not be reached is missing evidence, and missing evidence fails the run.

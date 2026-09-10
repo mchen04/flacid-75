@@ -32,7 +32,7 @@ export function Meter({label, value, min, max, unit, done, display}: {label: str
 export function Sheet({title, onClose, children}: {title: string; onClose: () => void; children: ReactNode}) {
  const ref = useRef<HTMLDialogElement>(null);
  useEffect(() => {const el = ref.current; el?.showModal(); return () => el?.close();}, []);
- return <dialog ref={ref} className="sheet" onCancel={e => {e.preventDefault(); onClose();}} onClick={e => {if (e.target === e.currentTarget) onClose();}}><div className="sheet-inner"><div className="sheet-handle"/><header><h2>{title}</h2><button aria-label="Close" className="icon-button" onClick={onClose}><Icon name="close"/></button></header>{children}</div></dialog>;
+ return <dialog ref={ref} className="sheet" aria-labelledby="sheet-title" onCancel={e => {e.preventDefault(); onClose();}} onClick={e => {if (e.target === e.currentTarget) onClose();}}><div className="sheet-inner"><div className="sheet-handle"/><header><h2 id="sheet-title">{title}</h2><button aria-label="Close" className="icon-button" onClick={onClose}><Icon name="close"/></button></header>{children}</div></dialog>;
 }
 // A progress ring for timers. Geometry is SVG user units; the stroke colours are tokens through CSS.
 export function Dial({share, children, small = false, tone = ''}: {share: number; children: ReactNode; small?: boolean; tone?: string}) {
@@ -43,6 +43,6 @@ export function Dial({share, children, small = false, tone = ''}: {share: number
 export function Row({mark, title, status, done, onOpen, action, actionLabel, onAction, pulse = '', tone = '', pressed}: {mark: Parameters<typeof Mark>[0]['name']; title: string; status: string; done?: boolean; onOpen: () => void; action?: ReactNode; actionLabel?: string; onAction?: () => void; pulse?: string; tone?: string; pressed?: boolean}) {
  return <div className={`row ${done ? 'is-done' : ''} ${pulse} ${tone}`}>
   <button className="row-open" onClick={onOpen} aria-label={`Open ${title.toLowerCase()}`}><span className="row-art"><Mark name={mark}/><span className="row-check"><Icon name="check" size={12}/></span></span><span className="row-copy"><span className="row-title">{title}</span><span className="row-status">{status}</span></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
-  {action ?? (onAction && <button className="row-action" onClick={onAction} aria-label={actionLabel} aria-pressed={pressed}>{done ? <><Icon name="check" size={16}/>Undo</> : 'Log'}</button>)}
+  {action ?? (onAction && <button className={`row-action ${done ? 'is-done' : ''}`} onClick={onAction} aria-label={actionLabel} aria-pressed={pressed}>{done ? <><Icon name="check" size={16}/>Done<small>Undo</small></> : 'Log'}</button>)}
  </div>;
 }

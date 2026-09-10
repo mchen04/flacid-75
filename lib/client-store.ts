@@ -1,17 +1,20 @@
 import {useSyncExternalStore} from 'react';
 import {apply,emptyState,type State,type Operation} from './domain';
+import {checkBounds} from './bounds';
 const KEY='flaccid75-v1';
-type Store={state:State;pending:Operation[];ready:boolean;unlocked:boolean;notice:string;online:boolean};
-let store:Store={state:emptyState(),pending:[],ready:false,unlocked:false,notice:'',online:true};
+// `failed` holds changes the account refused, with the reason, until the user discards them; they never block the queue.
+export type Failed={op:Operation;reason:string;at:string};
+type Store={state:State;pending:Operation[];failed:Failed[];ready:boolean;unlocked:boolean;notice:string;online:boolean};
+let store:Store={state:emptyState(),pending:[],failed:[],ready:false,unlocked:false,notice:'',online:true};
 const serverStore=store;
 const listeners=new Set<()=>void>();
 let syncing=false,started=false;
 function emit(){for(const listener of listeners)listener();}
-function persist(next:Store){try{localStorage.setItem(KEY,JSON.stringify({state:next.state,pending:next.pending,unlocked:next.unlocked}));return true;}catch{store={...store,notice:'Device storage is full. This change was not saved.'};emit();return false;}}
+function persist(next:Store){try{localStorage.setItem(KEY,JSON.stringify({state:next.state,pending:next.pending,failed:next.failed,unlocked:next.unlocked}));return true;}catch{store={...store,notice:'Device storage is full. This change was not saved.'};emit();return false;}}
 let reloading=false;
 function set(next:Store){store=next;emit();}
 export function useStore(){return useSyncExternalStore(fn=>{listeners.add(fn);return()=>listeners.delete(fn);},()=>store,()=>serverStore);}
-export function startStore(){if(started)return;started=true;try{const raw=localStorage.getItem(KEY);if(raw){const saved=JSON.parse(raw);store={...store,...saved};}}catch{store={...store,notice:'Saved data could not load. Connect to restore it.'};}set({...store,ready:true,online:navigator.onLine});
+export function startStore(){if(started)return;started=true;try{const raw=localStorage.getItem(KEY);if(raw){const saved=JSON.parse(raw);store={...store,...saved,failed:Array.isArray(saved.failed)?saved.failed:[]};}}catch{store={...store,notice:'Saved data could not load. Connect to restore it.'};}set({...store,ready:true,online:navigator.onLine});
  const resume=()=>{set({...store,online:navigator.onLine});void synchronize();};
  window.addEventListener('online',resume);window.addEventListener('offline',()=>set({...store,online:false}));window.addEventListener('pageshow',resume);
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resume();});
@@ -26,20 +29,30 @@ export function startStore(){if(started)return;started=true;try{const raw=localS
  }).catch(()=>set({...store,notice:'Offline setup failed. Reopen online to retry.'}));
  setInterval(()=>void synchronize(),30000);void synchronize();
 }
-export function dispatch(op:Operation){try{const next={...store,state:apply(store.state,op),pending:[...store.pending,op],notice:''};if(!persist(next))return false;set(next);void synchronize();return true;}catch(error){set({...store,notice:error instanceof Error?error.message:'Unable to save.'});return false;}}
+export function dispatch(op:Operation){
+ // A change outside the account's bounds is refused here, with the reason, rather than queued to be refused later.
+ const reason=checkBounds(op);if(reason){set({...store,notice:reason});return false;}
+ // The same change twice (a second tab settling the same timer) is queued once.
+ if(store.pending.some(p=>p.id===op.id))return true;
+ try{const next={...store,state:apply(store.state,op),pending:[...store.pending,op],notice:''};if(!persist(next))return false;set(next);void synchronize();return true;}catch(error){set({...store,notice:error instanceof Error?error.message:'Unable to save.'});return false;}}
 export async function unlock(passphrase:string){try{const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passphrase})});const result=await res.json();if(!res.ok)return result.error as string;
  // Onboarding waits for the remote account, preventing a second first-run flow on a new device.
  const data=await fetch('/api/state',{cache:'no-store'});if(!data.ok)return 'Your data could not load. Try again.';
  let state:State=await data.json();for(const op of store.pending)state=apply(state,op);
  const next={...store,state,unlocked:true};persist(next);set(next);void synchronize();return '';
  }catch{return 'Connect to the internet to unlock this device.';}}
-export async function lock(){try{await fetch('/api/auth',{method:'DELETE'});}catch{}localStorage.removeItem(KEY);set({...store,state:emptyState(),pending:[],unlocked:false});}
+export async function lock(){try{await fetch('/api/auth',{method:'DELETE'});}catch{}localStorage.removeItem(KEY);try{localStorage.removeItem('my-wellness-timers');}catch{}set({...store,state:emptyState(),pending:[],failed:[],unlocked:false});}
+export function discardFailed(){const next={...store,failed:[],notice:''};persist(next);set(next);}
 export async function synchronize(){if(syncing||!store.unlocked||!navigator.onLine)return;syncing=true;let progressed=false;
  try{const batch=store.pending.slice(0,100);const res=await fetch(batch.length?'/api/sync':'/api/state',batch.length?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(batch)}:{cache:'no-store'});
- if(!res.ok){if(res.status===401)set({...store,notice:'Unlock again to sync. Your offline changes are safe.',unlocked:false});return;}
+ if(!res.ok){if(res.status===401)set({...store,notice:'Unlock again to sync. Your offline changes are safe.',unlocked:false});
+  // A refused batch must not stall the queue: the first change is set aside with the server's reason and the rest are retried.
+  else if(res.status===400&&batch.length){let reason='The account refused this change.';try{reason=(await res.json()).error??reason;}catch{}const [first,...rest]=store.pending;const next={...store,pending:rest,failed:[...store.failed,{op:first,reason,at:new Date().toISOString()}],notice:reason};if(persist(next)){set(next);progressed=true;}}
+  return;}
  const result=await res.json();const done=new Set<string>(batch.length?[...result.accepted,...result.rejected.map((r:{id:string})=>r.id)]:[]);
  const pending=store.pending.filter(op=>!done.has(op.id));let state:State=batch.length?result.state:result;for(const op of pending){try{state=apply(state,op);}catch{}}
- const next={...store,state,pending,notice:batch.length&&result.rejected.length?result.rejected.map((r:{reason:string})=>r.reason).join(' '):store.notice};if(persist(next)){set(next);progressed=true;}
+ const refused:Failed[]=batch.length?result.rejected.map((r:{id:string;reason:string})=>({op:batch.find(o=>o.id===r.id)??({id:r.id} as Operation),reason:r.reason,at:new Date().toISOString()})):[];
+ const next={...store,state,pending,failed:[...store.failed,...refused],notice:refused.length?refused.map(r=>r.reason).join(' '):store.notice};if(persist(next)){set(next);progressed=true;}
  }catch{set({...store,notice:''});}finally{syncing=false;}
  if(progressed&&store.pending.length>0)setTimeout(()=>void synchronize(),100);
 }

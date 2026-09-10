@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run tokens && node scripts/build-client.mjs && next dev",
-    "build": "npm run tokens && node scripts/build-client.mjs && next build && node scripts/budget.mjs",
+    "build": "npm run tokens && node scripts/build-client.mjs && next build && node scripts/budget.mjs && node scripts/chunk-check.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

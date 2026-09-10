@@ -25,6 +25,13 @@ export const operationSchema = z.discriminatedUnion('type', [
  z.object({...common, type: z.literal('plan'), workout: z.array(z.string().trim().min(1).max(60)).max(40)}),
 ]);
 export const operationsSchema = z.array(operationSchema).min(1).max(100);
+// A batch is checked one change at a time: malformed changes are rejected by id with a reason and never strand the valid ones.
+export function validateBatch(raw: unknown): {valid: z.infer<typeof operationSchema>[]; invalid: {id: string; reason: string}[]} | null {
+ if (!Array.isArray(raw) || raw.length < 1 || raw.length > 100) return null;
+ const valid: z.infer<typeof operationSchema>[] = []; const invalid: {id: string; reason: string}[] = [];
+ for (const item of raw) {const parsed = operationSchema.safeParse(item); if (parsed.success) valid.push(parsed.data); else {const id = item && typeof item === 'object' && typeof (item as {id?: unknown}).id === 'string' ? (item as {id: string}).id : ''; const issue = parsed.error.issues[0]; invalid.push({id, reason: `A change was refused: ${issue ? issue.path.join('.') + ' ' + issue.message : 'invalid'}.`});}}
+ return {valid, invalid};
+}
 const rawItem = z.object({name: z.string().max(120), grams: n(0, 5000), calories: n(0, 10000).catch(0), protein: n(0, 1000).catch(0)});
 export const estimateSchema = z.object({items: z.array(rawItem).max(12)});
 export type EstimateItem = {name: string; grams: number; calories: number; protein: number; source: 'usda' | 'estimate'; match?: string; fdcId?: number};

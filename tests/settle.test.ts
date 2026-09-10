@@ -28,3 +28,13 @@ test('focus credits each finished work block once, catches up after time away, a
  done=settle(t.startedAt!+cycle*maxFocusBlocks+1000);const ops:unknown[]=[];applySettled(done,op=>{ops.push(op);return true;});
  assert.equal(ops.length,maxFocusBlocks-4);assert.equal(getTimer('focus'),null,'the session ends itself at the cap');
 });
+test('settlement ids are stable: the same timer settled twice (two tabs) yields the same id, different blocks differ, and the id is a valid uuid',async()=>{
+ const {operationSchema}=await import('../lib/validation');
+ const t=startTimer('focus','2026-09-04',{work:15,rest:3,logged:0});const cycle=18*60*1000;
+ const snapshot=store.get('my-wellness-timers')!;
+ const a=settle(t.startedAt!+cycle*2+16*60*1000);store.set('my-wellness-timers',snapshot);const b=settle(t.startedAt!+cycle*2+16*60*1000);
+ assert.equal(a.length,3);assert.deepEqual(a.map(x=>x.id),b.map(x=>x.id));assert.equal(new Set(a.map(x=>x.id)).size,3);
+ for(const x of a)assert.ok(operationSchema.safeParse({...x.op,id:x.id,at:'2026-09-04T20:00:00.000Z',zone:'UTC'}).success,x.id);
+ const m=startTimer('meditate','2026-09-05',{minutes:3});const m1=settle(m.startedAt!+181*1000);store.set('my-wellness-timers',JSON.stringify({...JSON.parse(store.get('my-wellness-timers')!),meditate:m}));const m2=settle(m.startedAt!+181*1000);
+ assert.equal(m1.find(x=>x.op.type==='meditate')!.id,m2.find(x=>x.op.type==='meditate')!.id);
+});

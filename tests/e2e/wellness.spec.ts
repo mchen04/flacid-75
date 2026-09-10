@@ -26,7 +26,7 @@ test('the walk timer starts, pauses, survives a reload and a long sleep, finishe
  await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByText('Walk logged')).toBeVisible();await expect(page.getByText(/30:[0-2]\d on the path\./)).toBeVisible();
  expect(box.state.days[today].sessions?.walk?.seconds).toBeGreaterThanOrEqual(1800);expect(box.state.days[today].sessions?.walk?.seconds).toBeLessThan(1830);expect(box.state.days[today].checks.walk).toBe(true);
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Walked · 30 min')).toBeVisible();
- await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('button',{name:'Undo'}).click();await expect(page.getByRole('button',{name:'Start'})).toBeVisible();expect(box.state.days[today].checks.walk).toBe(false);
+ await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('button',{name:'Undo',exact:true}).click();await expect(page.getByRole('button',{name:'Start'})).toBeVisible();expect(box.state.days[today].checks.walk).toBe(false);
  await writeFile(`evidence/my-wellness/timer-walk-${test.info().project.name}.json`,JSON.stringify({ran:'10:00',pausedFor:'1:00 (no change)',reloadKept:'10:00',sleptFor:'20:00 with no ticks',onWake:'30:00',logged:1800,note:'Chromium with a virtual clock; a physical lock/reopen is not measured here'},null,2));
 });
 test('the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves',async({page})=>{
@@ -35,7 +35,7 @@ test('the workout page is a checklist with a session clock, an editable plan, an
  await page.getByRole('button',{name:'Edit plan'}).click();await page.getByLabel('One move per line').fill('Squats\nRows\nPlank');await page.getByRole('button',{name:'Save plan'}).click();await expect(page.getByRole('checkbox')).toHaveCount(3);expect(box.state.profile?.plan).toEqual(['Squats','Rows','Plank']);
  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await expect(page.getByText('2 of 3 checked')).toBeVisible();await page.clock.runFor(12*60*1000);
  await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('checkbox',{name:'Squats'})).toBeChecked();
- await page.getByRole('button',{name:'Finish workout'}).click();await expect(page.getByText('Workout logged')).toBeVisible();
+ await page.getByRole('button',{name:'Finish',exact:true}).click();await expect(page.getByText('Workout logged')).toBeVisible();
  expect(box.state.days[today].sessions?.workout?.items).toEqual(['Squats','Plank']);expect(box.state.days[today].sessions?.workout?.seconds).toBeGreaterThanOrEqual(720);expect(box.state.days[today].sessions?.workout?.seconds).toBeLessThan(760);
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Done · 2 moves')).toBeVisible();
 });
@@ -196,7 +196,7 @@ test('finished timers settle from any page: a meditation ends while the dashboar
  await expect(page.getByText('3 min today')).toBeVisible();await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);
  await page.getByRole('button',{name:'Open focus timer'}).click();await page.getByLabel('Work minutes',{exact:true}).selectOption('15');await page.getByLabel('Break minutes',{exact:true}).selectOption('3');await page.getByRole('button',{name:'Start focus'}).click();await page.getByRole('button',{name:'Home'}).click();
  await page.clock.runFor(2000);await page.clock.fastForward(10*60*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
- await expect(page.getByText(/120 min focused today/)).toBeVisible();expect(box.state.days[today].focus).toBe(8*900);
+ await expect(page.getByText(/120 min focused today/)).toBeVisible();await expect.poll(()=>box.state.days[today]?.focus,{message:JSON.stringify(box.rejected)}).toBe(8*900);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').focus)).toBeUndefined();
 });
 test('re-saving your details without touching height or weight keeps the exact stored measurements',async({page})=>{
@@ -218,8 +218,8 @@ test('the hero opens whatever comes next, and water and meals undo from the dash
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  await expect(page.getByRole('button',{name:/^Open workout\. 0 of 7/})).toBeVisible();await page.getByRole('button',{name:/^Open workout\. 0 of 7/}).click();await expect(page.getByRole('heading',{name:'Workout'})).toBeVisible();await page.getByRole('button',{name:'Home'}).click();
  await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByRole('button',{name:/^Open abs\. 1 of 7/})).toBeVisible();
- await page.getByRole('button',{name:'Add a Stanley'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('about 2 of 3 Stanleys · 60 oz')).toBeVisible();
- await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.getByText('about 1 of 3 Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
+ await page.getByRole('button',{name:'Add a Stanley'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('2 of 3 Stanleys · 60 oz')).toBeVisible();
+ await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.getByText('1 of 3 Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
  await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();await page.getByRole('button',{name:'Undo last meal'}).click();await expect(page.getByText('0 kcal · 0/105 g')).toBeVisible();expect(Object.keys(box.state.days[today].meals)).toHaveLength(0);
  await expect(page.getByRole('button',{name:'Log a meal'})).toBeVisible();
@@ -241,7 +241,7 @@ test('half a Stanley is exactly 15 oz, twice; the fill and the daily total match
  await expect.poll(()=>box.state.days[today]?.waterLog?.map(e=>Math.round(e.ml*1000)/1000)).toEqual([443.603,443.603]);expect(box.state.days[today].waterLog?.map(e=>e.label)).toEqual(['half a Stanley','half a Stanley']);
  await expect(page.getByRole('group',{name:'Today’s pours'}).getByText('15 oz')).toHaveCount(2);
  // The dashboard says the same thing.
- await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('about 1 of 3 Stanleys · 30 oz')).toBeVisible();await page.getByRole('button',{name:'Open water',exact:true}).click();
+ await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('1 of 3 Stanleys · 30 oz')).toBeVisible();await page.getByRole('button',{name:'Open water',exact:true}).click();
  // Refills, a quarter, most, the whole thing: the app multiplies; the confirmation shows the arithmetic.
  await page.getByLabel('Or say it').fill('refilled it twice');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByText('60 oz · 2 Stanleys.',{exact:false})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
  await page.getByLabel('Or say it').fill('a quarter of the Stanley');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 7.5 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
@@ -265,7 +265,100 @@ test('containers are hers to name and size, in her unit, and the default drives 
  await page.getByRole('button',{name:'Water containers'}).click();await page.getByLabel('Container',{exact:true}).fill('Bottle');await page.getByLabel('Size · oz').fill('20');await page.getByRole('button',{name:'Add container'}).click();
  await expect(page.getByText('20 oz',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Make default'}).last().click();await page.getByRole('button',{name:'Save',exact:true}).click();
  await expect.poll(()=>box.state.profile?.containers?.map(c=>c.name)).toEqual(['Stanley','Glass','Bottle']);expect(box.state.profile?.containers?.[2].ml).toBeCloseTo(20*29.5735295625,6);
- await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Add a Bottle'}).click();await expect(page.getByText('about 1 of 4 Bottles · 20 oz')).toBeVisible();
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Add a Bottle'}).click();await expect(page.getByText('1 of 4 Bottles · 20 oz')).toBeVisible();
  // Switch the display to millilitres: the stored size is untouched.
- await page.getByLabel('Settings').click();await page.getByRole('button',{name:'ml',exact:true}).click();await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('about 1 of 4 Bottles · 591 ml')).toBeVisible();expect(box.state.days[today].water).toBeCloseTo(20*29.5735295625,6);
+ await page.getByLabel('Settings').click();await page.getByRole('button',{name:'ml',exact:true}).click();await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('1 of 4 Bottles · 591 ml')).toBeVisible();expect(box.state.days[today].water).toBeCloseTo(20*29.5735295625,6);
+});
+
+// Final audit repairs.
+test('B1: a malformed change never strands the queue: the account refuses it by id, the valid change lands, the user sees it and can discard it after a reload',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{go:false});
+ // A poison change first in the queue (as an older client or a bug could leave it), then a valid one behind it.
+ const poison={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'rewards',rewards:[{id:crypto.randomUUID(),name:'Trip',cost:20000}]};
+ const valid={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check',habit:'floss',value:true};
+ // Injected once (guarded by session storage) so later reloads in this test start from what the app itself persisted.
+ await page.addInitScript(([p,v])=>{if(sessionStorage.getItem('poisoned'))return;sessionStorage.setItem('poisoned','1');const saved=JSON.parse(localStorage.getItem('flaccid75-v1')!);saved.pending=[p,v];localStorage.setItem('flaccid75-v1',JSON.stringify(saved));},[poison,valid]);
+ await page.goto('/');await page.locator('.app-shell').waitFor();
+ await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);
+ expect(box.ops.map(o=>o.id)).toEqual([valid.id]);
+ // A further change still syncs.
+ await page.getByRole('button',{name:'Log walk'}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+ // The refusal is visible with its reason, survives a reload, and can be discarded.
+ await page.reload();await page.locator('.app-shell').waitFor();await page.getByLabel('Settings').click();
+ await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();await expect(page.getByText(/A change was refused: rewards\.0\.cost/).first()).toBeVisible();
+ await page.getByRole('button',{name:/Discard it/}).click();await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ await page.reload();await page.locator('.app-shell').waitFor();await page.getByLabel('Settings').click();await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ // A batch the server cannot read at all is not retried forever: the head is set aside and the queue moves on.
+ await page.route('**/api/sync',r=>r.fulfill({status:400,json:{error:'A batch must be 1 to 100 changes.'}}),{times:1});
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log abs'}).click();
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length)).toBe(1);
+});
+test('B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{hash:'rewards'});
+ await page.getByRole('button',{name:'Edit',exact:true}).click();await page.getByLabel('Treat',{exact:true}).fill('Trip');await page.getByLabel('Points',{exact:true}).fill('20000');await page.getByRole('button',{name:'Add treat'}).click();
+ await expect(page.getByText('Points must be a whole number from 1 to 10,000.')).toBeVisible();await page.getByLabel('Points',{exact:true}).fill('10000');await page.getByRole('button',{name:'Add treat'}).click();await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect.poll(()=>box.state.profile?.rewards?.[0]?.cost).toBe(10000);expect(box.ops.every(o=>o.type!=='rewards'||o.rewards.every(r=>r.cost<=10000))).toBe(true);
+ await page.getByLabel('Settings').click();await page.getByRole('button',{name:'Workout plan'}).click();await page.getByLabel('One move per line').fill('x'.repeat(80)+'\nRows');await page.getByRole('button',{name:'Save plan'}).click();
+ await expect.poll(()=>box.state.profile?.plan?.[0]?.length).toBe(60);
+ await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'lard',grams:5000,calories:9000,protein:0,source:'estimate'},{name:'more lard',grams:5000,calories:9000,protein:0,source:'estimate'}],calories:18000,protein:0,model:'test'}}));
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a lot');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
+ await expect(page.getByText('A meal must be 0–10,000 kcal and 0–1,000 g protein.')).toBeVisible();expect(Object.keys(box.state.days[today]?.meals??{})).toHaveLength(0);
+ await page.locator('.items input').first().fill('-40');expect(await page.locator('.items input').first().inputValue()).toBe('0');
+});
+test('B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed',async({page})=>{
+ const box=await open(page,seed(),{hash:'you'});
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Age',{exact:true}).fill('31');await page.getByRole('button',{name:'Update'}).click();
+ await expect.poll(()=>box.state.profile?.age).toBe(31);expect(box.state.profile?.height).toBe(165);expect(box.state.profile?.weight).toBe(65);
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Weight · lb').fill('143.4');await page.getByRole('button',{name:'Update'}).click();
+ await expect.poll(()=>Math.round((box.state.profile?.weight??0)*10000)/10000).toBe(Math.round(143.4*0.45359237*10000)/10000);
+ await page.getByRole('button',{name:'kg',exact:true}).click();await page.getByRole('button',{name:'cm',exact:true}).click();
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Height · cm').fill('166');await page.getByRole('button',{name:'Update'}).click();
+ await expect.poll(()=>box.state.profile?.height).toBe(166);
+ // Untouched again, in metric: exact values survive another save.
+ await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Age',{exact:true}).fill('32');await page.getByRole('button',{name:'Update'}).click();
+ await expect.poll(()=>box.state.profile?.age).toBe(32);expect(box.state.profile?.height).toBe(166);expect(Math.round((box.state.profile?.weight??0)*10000)/10000).toBe(Math.round(143.4*0.45359237*10000)/10000);
+});
+test('B3: the sound switch and the sheet dialogs have accessible names',async({page})=>{
+ await open(page,seed(),{hash:'you'});
+ await expect(page.getByRole('switch',{name:'Sound cues'})).toBeVisible();
+ await page.getByRole('button',{name:'Daily targets'}).click();await expect(page.getByRole('dialog',{name:'Daily targets'})).toBeVisible();await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'Weigh in',exact:true}).click();await expect(page.getByRole('dialog',{name:'Weigh in'})).toBeVisible();await page.keyboard.press('Escape');
+ await page.evaluate(()=>{location.hash='progress';});await expect(page.getByRole('tabpanel',{name:'Week'})).toBeVisible();await page.getByRole('tab',{name:'Trends'}).click();await expect(page.getByRole('tabpanel',{name:'Trends'})).toBeVisible();
+});
+test('two tabs settling the same meditation credit it once',async({page,context})=>{
+ const today=todayIn();const box=await openAt(page,seed(),at(today,'12:00:00'),'meditate');
+ await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();
+ // A second tab on the same device shares the stored timer and the queue.
+ const other=await context.newPage();await other.clock.install({time:at(today,'12:00:05')});await other.goto('/#meditate');await other.locator('.app-shell').waitFor();
+ await page.clock.fastForward(4*60*1000);await other.clock.fastForward(4*60*1000);
+ await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await other.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
+ await page.waitForTimeout(1500);await other.waitForTimeout(1500);
+ await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);
+ await other.close();
+});
+test('optional timers cannot be started for a past day',async({page})=>{
+ const today=todayIn();const past=addDays(today,-2);await open(page,seed(5),{hash:'progress'});
+ await page.getByLabel('Open any past day').fill(past);await page.getByRole('button',{name:'Backfill this day'}).click();
+ await page.getByRole('button',{name:'Open meditate',exact:true}).click();await expect(page.getByRole('button',{name:/Start \d+ minutes/})).toHaveCount(0);await expect(page.getByText('Timers run for today only.',{exact:false})).toBeVisible();
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Open focus',exact:true}).click();await expect(page.getByRole('button',{name:'Start focus'})).toHaveCount(0);
+});
+test('H1: hero and stage copy, chips and pills never overlap, at phone and short-phone sizes',async({page})=>{
+ const today=todayIn();let s=seed(8);for(let i=1;i<=7;i++)s=complete(s,addDays(today,-i));
+ const box=await open(page,s,{go:false});void box;
+ const overlaps=(sel:string[])=>page.evaluate(sel=>{const els=sel.flatMap(q=>[...document.querySelectorAll<HTMLElement>(q)]).filter(e=>e.getBoundingClientRect().width>0);const out:string[]=[];for(let i=0;i<els.length;i++)for(let j=i+1;j<els.length;j++){const a=els[i].getBoundingClientRect(),b=els[j].getBoundingClientRect();const x=Math.min(a.right,b.right)-Math.max(a.left,b.left),y=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top);if(x>1&&y>1)out.push(`${els[i].className}×${els[j].className} ${Math.round(x)}×${Math.round(y)}`);}return out;},sel);
+ for(const [w,h] of [[390,844],[375,640],[320,568]]){await page.setViewportSize({width:w,height:h});
+  for(const hash of ['','abs','workout','floss','walk','rest']){await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();await page.waitForTimeout(300);
+   expect(await overlaps(['.hero-copy','.hero-tag','.hero-progress','.stage-copy','.stage-tag']),`${w}x${h} ${hash||'home'}`).toEqual([]);
+   // The hero's own words all sit inside the hero, fully visible.
+   expect(await page.evaluate(()=>{const hero=document.querySelector('.hero')?.getBoundingClientRect();if(!hero)return 0;return [...document.querySelectorAll<HTMLElement>('.hero-copy,.hero-tag,.hero-progress')].map(e=>e.getBoundingClientRect()).filter(r=>r.left<hero.left-1||r.right>hero.right+1||r.top<hero.top-1||r.bottom>hero.bottom+1).length;}),`${w}x${h} ${hash||'home'} inside`).toBe(0);}}
+});
+test('Floss has the same shape as the other activities: a primary Mark flossed, then a logged card with Undo',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{hash:'floss'});
+ await page.getByRole('button',{name:'Mark flossed'}).click();await expect(page.getByText('Floss logged')).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
+ await page.getByRole('button',{name:'Undo'}).click();await expect(page.getByRole('button',{name:'Mark flossed'})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(false);
+ // Past days say so, on the dashboard and on the page.
+ await page.evaluate(()=>{location.hash='progress';});await page.getByLabel('Open any past day').fill(addDays(today,-1));await page.getByRole('button',{name:'Backfill this day'}).click();
+ await expect(page.getByText('Once that day')).toBeVisible();await expect(page.getByText('0 of 7 that day')).toBeVisible();await page.getByRole('button',{name:'Open walk',exact:true}).click();await expect(page.getByText('A walk that day.')).toBeVisible();
 });

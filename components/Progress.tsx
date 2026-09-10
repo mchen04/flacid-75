@@ -23,7 +23,8 @@ export function Progress() {
    <p className="row-status">{reached.length ? `${reached.length} of ${badges.length} milestones. ${badges.find(b => !b.reached) ? `Next: ${badges.find(b => !b.reached)!.days} days.` : 'All of them.'}` : `First milestone at ${badges[0].days} days.`}</p>
   </div>
   <div className="card streak-card">
-   <div className="segmented" role="tablist">{[['week', 'Week'], ['month', 'Month'], ['trends', 'Trends']].map(([value, text]) => <button key={value} role="tab" aria-selected={mode === value} className={mode === value ? 'active' : ''} onClick={() => setMode(value)}>{text}</button>)}</div>
+   <div className="segmented" role="tablist">{[['week', 'Week'], ['month', 'Month'], ['trends', 'Trends']].map(([value, text]) => <button key={value} id={`tab-${value}`} role="tab" aria-selected={mode === value} aria-controls="tab-panel" className={mode === value ? 'active' : ''} onClick={() => setMode(value)}>{text}</button>)}</div>
+   <div id="tab-panel" role="tabpanel" aria-labelledby={`tab-${mode}`} className="tab-panel">
    {mode === 'trends' ? <Trends state={state} today={today} units={units}/> : <>
    <div className="calendar-heading"><button aria-label="Previous period" onClick={() => setAnchor(addDays(first, -1))}><Icon name="back" size={18}/></button><h2>{heading}</h2><button aria-label="Next period" disabled={entries.at(-1)! >= today} onClick={() => setAnchor(addDays(entries.at(-1)!, 1))}><Icon name="arrow" size={18}/></button></div>
    <div className="calendar-body">{mode === 'week' ? <div className="bars">{entries.map((d, i) => {const n = d > today ? 0 : Object.values(completion(state.days[d])).filter(Boolean).length; const kept = isKept(state.days[d]); return <button key={d} disabled={d > today && !state.days[d]?.rest} aria-label={label(d)} className={`bar ${d === today ? 'is-today' : ''} ${kept ? 'is-kept' : ''} ${state.days[d]?.rest ? 'is-rest' : ''} ${d > today ? 'is-future' : ''} ${detail === d ? 'selected' : ''}`} onClick={() => setDetail(d)}><span className="bar-track">{n > 0 && <span className="bar-fill" style={{height: `${Math.max(16, n / habits.length * 100)}%`}}><b>{n}</b></span>}{state.days[d]?.rest && <span className="bar-moon"><Mark name="rest"/></span>}</span><small>{weekInitials[i]}</small></button>;})}</div>
@@ -32,6 +33,7 @@ export function Progress() {
    <div className="detail-actions">{detail <= today && <button className="primary" onClick={() => {select(detail === today ? null : detail); navigate('');}}>{detail === today ? 'Open today' : 'Backfill this day'}</button>}{detail < today && !isKept(entry) && tracked && <button className="secondary" onClick={() => {select(detail); open('rescue');}}>Rescue day</button>}{detail > today && <button className="secondary" onClick={() => navigate('rest')}>Plan rest</button>}</div>
    <label className="date-pick">Open any past day<input aria-label="Open any past day" type="date" max={today} value={detail} onChange={e => {if (e.target.value) {setDetail(e.target.value); setAnchor(e.target.value);}}}/></label>
    </>}
+   </div>
   </div>
  </section>;}
 function Sparkline({values, label}: {values: {day: string; value: number}[]; label: string}) {if (!values.length) return <p className="empty-chart">Nothing yet.</p>; const min = Math.min(...values.map(v => v.value)), max = Math.max(...values.map(v => v.value)); return <><svg className="sparkline" viewBox="0 0 300 90" role="img" aria-label={label}><path d="M10 80h280" className="axis"/><polyline points={values.map(v => `${10 + dayDiff(values[0].day, v.day) / Math.max(1, dayDiff(values[0].day, values.at(-1)!.day)) * 280},${70 - (v.value - min) / Math.max(1, max - min) * 50}`).join(' ')} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>{values.length === 1 && <circle cx="10" cy="70" r="4" fill="currentColor"/>}</svg><div className="chart-dates"><span>{values[0].day}</span><span>{values.at(-1)!.day}</span></div></>;}
@@ -44,3 +46,5 @@ function Trends({state, today, units}: {state: State; today: string; units: {wei
   <article className="trend-card"><h2>Streak</h2><strong>{streak.current} day{streak.current === 1 ? '' : 's'}</strong><Sparkline values={streak.history.slice(-60)} label="Daily streak history"/></article>
  </div>;
 }
+
+export default function ProgressChunk() {return <Progress/>;}
