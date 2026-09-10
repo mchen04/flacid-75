@@ -33,8 +33,10 @@ function DoneCard({title, detail, onUndo}: {title: string; detail: string; onUnd
 }
 function WeekStrip({habit, label}: {habit: Habit | 'rest'; label: string}) {
  const {state, dayKey, today, day, done} = useApp();
+ // The strip shows the week of the day being edited. A past week is named, so the strip never says "this week" about another week.
+ const current = weekStart(dayKey) === weekStart(today); const head = current ? 'This week' : `Week of ${shortDate(weekStart(dayKey))}`;
  const week = Array.from({length: 7}, (_, i) => addDays(weekStart(dayKey), i)).map(d => ({day: d, done: d === dayKey ? (habit === 'rest' ? day.rest : done[habit]) : habit === 'rest' ? !!state.days[d]?.rest : !!completion(state.days[d])[habit], future: d > today}));
- return <div className="week-strip" role="group" aria-label={`${label} this week`}><span className="week-strip-head">This week<b>{week.filter(d => d.done).length} of 7</b></span><div className="week-dots">{week.map(d => <span key={d.day} className={`week-dot ${d.done ? 'is-done' : ''} ${d.future ? 'is-future' : ''}`} aria-label={`${shortDate(d.day)} ${d.done ? 'done' : d.future ? 'ahead' : 'not done'}`}><i/><small>{weekInitials[(dayDiff(weekStart(d.day), d.day) + 7) % 7]}</small></span>)}</div></div>;
+ return <div className="week-strip" role="group" aria-label={`${label} ${current ? 'this week' : head.toLowerCase()}`}><span className="week-strip-head">{head}<b>{week.filter(d => d.done).length} of 7</b></span><div className="week-dots">{week.map(d => <span key={d.day} className={`week-dot ${d.done ? 'is-done' : ''} ${d.future ? 'is-future' : ''}`} aria-label={`${shortDate(d.day)} ${d.done ? 'done' : d.future ? 'ahead' : 'not done'}`}><i/><small>{weekInitials[(dayDiff(weekStart(d.day), d.day) + 7) % 7]}</small></span>)}</div></div>;
 }
 export function Walk() {
  const {day, done, selected, dayKey, change, bump} = useApp();
@@ -95,7 +97,7 @@ export function Abs() {
  function finish() {if (finishTimer('abs', (seconds, creditDay) => change({type: 'session', habit: 'abs', seconds: Math.min(seconds, routineSeconds(routine)), done: true, routine: routine.name}, creditDay))) {bump('abs'); beep('done');}}
  const total = routineSeconds(routine); const intervals = intervalsOf(routine);
  return <section className={`activity ${timer ? 'is-live' : ''}`}>
-  <div className={`stage abs ${done.abs ? 'is-done' : ''} ${running ? 'is-active' : ''} ${flash}`}><Mat done={done.abs} active={running}/><span className="stage-copy"><strong>{done.abs ? 'Core done.' : timer ? phase.interval.exercise.name : selected ? 'Core that day.' : 'Core today.'}</strong><span>{done.abs ? session?.routine ?? 'Marked done' : timer ? (phase.interval.kind === 'rest' ? `Rest · next ${phase.interval.next?.name ?? 'finish'}` : `Move ${phase.interval.index + 1} of ${routine.exercises.length}`) : 'Pick a routine below'}</span></span>{timer && !stale && <span className="stage-tag">{clock(Math.ceil(phase.remaining))}</span>}</div>
+  <div className={`stage abs ${done.abs ? 'is-done' : ''} ${running ? 'is-active' : ''} ${flash}`}><Mat done={done.abs} active={running}/><span className="stage-copy"><strong>{done.abs ? 'Core done.' : timer ? phase.interval.exercise.name : selected ? 'Core that day.' : 'Core today.'}</strong><span>{done.abs ? session?.routine ?? 'Marked done' : timer ? (phase.interval.kind === 'rest' ? `Rest · next ${phase.interval.next?.name ?? 'finish'}` : `Move ${phase.interval.index + 1} of ${routine.exercises.length}`) : 'Pick a routine'}</span></span>{timer && !stale && <span className="stage-tag">{clock(Math.ceil(phase.remaining))}</span>}</div>
   {done.abs ? <DoneCard title="Abs logged" detail={session ? `${session.routine ?? 'Routine'} · ${clock(session.seconds)}.` : 'Marked done.'} onUndo={() => change({type: 'session', habit: 'abs', seconds: 0, done: false})}/>
   : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Abs" onFinish={finish}/>
   : timer ? <>

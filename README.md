@@ -12,12 +12,13 @@ The passphrase stays in the owner's private installation note, outside this repo
 - Two planned rest days per Monday–Sunday week, plannable ahead. Rest keeps the streak and is shown as rest, never as a miss. Earlier weeks keep what they had.
 - Optional meditation and focus (work/break) pages, logged but never counted toward the streak. The app does not block other apps.
 - Points and treats: ten points per required habit and thirty for a complete day; treats are whatever the user names, at the cost they choose, undoable the same day. Food is never a reward or a debt. Milestones at 3, 7, 14, 21, 30, 50, 75 and 100 days.
-- Water by container: name and size your own containers (a 30 oz Stanley is seeded as the default), log by share ("half my Stanley" logs exactly 15 oz), one tap logs a whole default container, and progress reads as "about 2 of 3 Stanleys". The app multiplies; a model may only name the container and the share; anything unclear asks once.
+- Water by container: name and size your own containers (a 30 oz Stanley is seeded as the default), log by share ("half my Stanley" logs exactly 15 oz), one tap logs a whole default container, and progress reads as "about 1½ of 2¼ Stanleys" (both numbers to the nearest quarter, so they agree with the exact volume beside them). The water target is shown and edited in your volume unit. The app multiplies; a model may only name the container and the share; anything unclear asks once.
 - Units: lb and ft-in by default, kg and cm one tap away; volumes in oz or ml; measurements are stored once in kg, cm and ml and never rounded by a switch.
 - Food estimates use free OpenRouter models only: every id must carry `:free` (or be `openrouter/free`) and every request sets a zero `max_price`. When no model answers, the numbers path still logs the meal.
 - The rules of the day (local day, required versus optional, completion, rest, rollover, points, timers, data) are written out in the app under How it works and in [evidence/my-wellness/RULES.md](evidence/my-wellness/RULES.md).
+- The device store (`lib/client-store.ts`) is safe across open tabs: every change is journaled under its own key until the account acknowledges it; the acknowledged ids are recorded so no tab re-queues or re-applies an acknowledged change; an account answer that began before a newer answer was saved is not installed; a refusal is kept until its record saves; Lock and clear writes a marker that locks every open tab and blocks late writes. Regressions: `tests/e2e/review164.spec.ts`, `tests/e2e/wellness.spec.ts` (R163-1 to R163-8).
 
-Acceptance and evidence for version 4: [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Design references viewed and the direction taken: [evidence/my-wellness/DESIGN.md](evidence/my-wellness/DESIGN.md).
+Acceptance and evidence for version 4, commit-bound, with the independent review outcomes (the latest, review 164, required changes; they are repaired and a fresh review is pending): [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Version 4 is not pushed, merged or deployed; the live link above still serves the earlier version until a passing review authorizes shipment. Design references viewed and the direction taken: [evidence/my-wellness/DESIGN.md](evidence/my-wellness/DESIGN.md).
 
 ## Version 3 · illustrated
 
@@ -43,7 +44,7 @@ Browser-driven checks live in `tests/e2e/`. In a sandbox that forbids listening 
 
 **Physical iPhone verification remains unfinished.** See the version 1 [acceptance record](evidence/ACCEPTANCE.md) and the [evidence index](evidence/README.md).
 
-## What ships
+## What shipped in versions 1 to 3 (historical; version 4 above supersedes where they differ)
 
 - Seven home-screen habits: workout, abs, walk, water, protein, calories and floss. Each is one tap.
 - Water additions of 250 ml, editable meal estimates, and daily calorie and protein totals.
@@ -72,6 +73,7 @@ There are no notifications, workout details, social features, payments, saved me
 | Photo privacy proof | Local traces find no image markers in scanned model files. Deleted-file contents, memory-mapped writes, provider retention, and the deployed host remain unobserved. |
 | Credential exposure | The initial goal read exposed the database credential in private tool output. Git and client scans are clean; rotation is not recorded. |
 | Target formulas | Calories use a published equation. Activity, goal, water, and step adjustments are planning defaults, not validated personal measurements. |
+| Version 4 shipment | Not shipped. Independent review 164 passed every automated run (119 real Chromium and WebKit tests, unit, database, offline) but required six corrections; they are repaired at the commit named in [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md) and await a fresh review. |
 
 Michael authorizes squash integration into `main`, overriding the original merge ban.
 This authorization does not complete or waive physical iPhone verification.

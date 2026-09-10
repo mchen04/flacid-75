@@ -26,7 +26,8 @@ export function useHash() {
  return hash;
 }
 export function Meter({label, value, min, max, unit, done, display}: {label: string; value: number; min?: number; max: number; unit: string; done: boolean; display?: string}) {
- const span = Math.max(max * 1.15, value); const width = Math.min(100, value / span * 100);
+ // A range band (calories) keeps headroom past its upper edge so the band is visible; a plain goal (water, protein) fills the bar exactly at the goal.
+ const span = min ? Math.max(max * 1.15, value) : Math.max(max, value); const width = Math.min(100, value / span * 100);
  return <span className={`meter ${done ? 'is-done' : ''}`}><span className="meter-head"><span>{label}</span><span>{display ?? `${format(value)}${min ? '' : ` / ${format(max)}`} ${unit}`}</span></span><span className="meter-bar">{min && <span className="meter-range" style={{left: `${min / span * 100}%`, width: `${(max - min) / span * 100}%`}}/>}<span className="meter-fill" style={{width: `${width}%`}}/></span></span>;
 }
 export function Sheet({title, onClose, children}: {title: string; onClose: () => void; children: ReactNode}) {

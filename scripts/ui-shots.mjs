@@ -48,7 +48,7 @@ const screens = [
   {name: 'workout', expect: '0 of 6 checked', hash: 'workout'},
   {name: 'workout-ticked', expect: '2 of 6 checked', hash: 'workout', steps: [tap('Squats', 'checkbox'), tap('Push-ups', 'checkbox')]},
   {name: 'workout-done', expect: 'Workout logged', hash: 'workout', fixture: 'workoutDone'},
-  {name: 'abs-library', expect: 'Pick a routine below', hash: 'abs'},
+  {name: 'abs-library', expect: 'Pick a routine', hash: 'abs'},
   {name: 'abs-guided', expect: 'Move 1 of 5', hash: 'abs', steps: [tap(/Classic five/)]},
   {name: 'abs-done', expect: 'Abs logged', hash: 'abs', fixture: 'absDone'},
   {name: 'floss', expect: 'Mark flossed', hash: 'floss'},
@@ -119,7 +119,7 @@ const extras = [
    {name: `reduced-motion-walk-running-${n}`, width, height, setup: 'reduced', hash: 'walk', tap: {role: 'button', name: 'Start', exact: true}, expect: 'Walking.'},
   ]),
   {name: 'short-home', width: 375, height: 640, setup: 'seed', expect: 'Today'},
-  {name: 'short-abs', width: 375, height: 640, setup: 'seed', hash: 'abs', expect: 'Pick a routine below'},
+  {name: 'short-abs', width: 375, height: 640, setup: 'seed', hash: 'abs', expect: 'Pick a routine'},
   {name: 'short-walk', width: 375, height: 640, setup: 'seed', hash: 'walk', expect: 'Start'},
   {name: 'short-progress', width: 375, height: 640, setup: 'seed', hash: 'progress', expect: 'Milestones'},
 ];
