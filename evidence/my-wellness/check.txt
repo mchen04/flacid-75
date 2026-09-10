@@ -1,0 +1,96 @@
+
+> my-wellness@4.0.0 check
+> npm run lint && npm run typecheck && npm test && npm run scan && npm run build
+
+
+> my-wellness@4.0.0 lint
+> eslint .
+
+
+> my-wellness@4.0.0 typecheck
+> tsc --noEmit
+
+
+> my-wellness@4.0.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ seven habits including floss are all required; a missing floss breaks the chain (12.23025ms)
+✔ a missing habit breaks the chain at midnight; today is not prematurely broken (0.999333ms)
+✔ two planned rest days per Monday-Sunday week keep the streak without adding to it; a third is refused (2.290334ms)
+✔ rest days can be planned ahead within the current week, never beyond it; other habits cannot be logged ahead (0.352167ms)
+✔ existing history with one rest per week is preserved and still valid under the two-day rule (0.381542ms)
+✔ sessions record time and detail, mark the habit, and undo cleanly (0.847459ms)
+✔ meditation and focus are logged but never touch completion, the streak or points (0.641083ms)
+✔ points: ten per habit, thirty for a whole day; treats are user-chosen, idempotent to redeem, and undoable (0.8335ms)
+✔ milestones follow the longest streak and remember the day each was first reached (2.67975ms)
+✔ units are stored as a preference; measurements stay in kilograms and centimetres (0.278875ms)
+✔ a workout plan is saved on the profile and a profile update keeps it (0.329541ms)
+✔ rescue and backfill recalculate history, retain honest markers, allow any past day (2.020208ms)
+✔ 23:59, DST spring/fall, and timezone travel do not skip or duplicate days (0.881833ms)
+✔ a session that runs past local midnight credits the day it was started on (0.2765ms)
+✔ calculation, smoothing, editable overrides and material recomputation (0.803917ms)
+✔ food corrections replace a meal and numeric goals remain estimates (0.29625ms)
+✔ the USDA table is loaded and plain names match sensible rows (12.195583ms)
+✔ a row whose head food is not in the query is rejected rather than misused (3.620875ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.38825ms)
+✔ elapsed time is computed from the clock, so time away from the app still counts (0.348292ms)
+✔ the clock face formats minutes, seconds and hours (0.067209ms)
+✔ every ab routine has instructions, timed intervals, and a phase derivable from any elapsed time (0.230292ms)
+✔ only free OpenRouter models are ever called (0.067667ms)
+✔ defaults are pounds and feet-inches (0.77025ms)
+✔ conversions round-trip without drifting the stored value (0.186083ms)
+✔ display follows the unit; input parses to kilograms and centimetres (9.801542ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.049208
+
+> my-wellness@4.0.0 scan
+> node scripts/token-scan.mjs && node scripts/mascot-scan.mjs
+
+{"scanned":18,"findings":0}
+{"scanned":80,"hits":0}
+
+> my-wellness@4.0.0 build
+> npm run tokens && node scripts/build-client.mjs && next build && node scripts/budget.mjs
+
+
+> my-wellness@4.0.0 tokens
+> node --import tsx scripts/tokens.ts
+
+wrote app/tokens.css
+Built phone renderer 9869f8c51ada 120498 bytes
+▲ Next.js 16.3.4 (Turbopack)
+✓ Running next.config.ts took 53ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 279ms
+  Running TypeScript ...
+  Finished TypeScript in 747ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/8) ...
+  Generating static pages using 9 workers (2/8) 
+  Generating static pages using 9 workers (4/8) 
+  Generating static pages using 9 workers (6/8) 
+✓ Generating static pages using 9 workers (8/8) in 229ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth
+├ ƒ /api/estimate
+├ ƒ /api/state
+├ ƒ /api/sync
+└ ○ /manifest.webmanifest
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+{"gzipJavaScriptBytes":38899,"budgetBytes":40960,"pass":true}
+exit 0

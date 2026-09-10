@@ -1,0 +1,552 @@
+{
+  "base": "http://localhost:3075",
+  "today": "2026-09-10",
+  "viewports": {
+    "phone": {
+      "home": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1343,
+        "unexpectedScrollers": []
+      },
+      "walk": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "workout": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "abs": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 929,
+        "unexpectedScrollers": []
+      },
+      "abs-guided": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 985,
+        "unexpectedScrollers": []
+      },
+      "floss": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "water": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "food": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "meal-sheet": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "rest": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 871,
+        "unexpectedScrollers": []
+      },
+      "meditate": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "focus": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "rewards": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "progress": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 845,
+        "unexpectedScrollers": []
+      },
+      "progress-month": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 956,
+        "unexpectedScrollers": []
+      },
+      "trends": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 997,
+        "unexpectedScrollers": []
+      },
+      "settings": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1153,
+        "unexpectedScrollers": []
+      },
+      "rules": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1258,
+        "unexpectedScrollers": []
+      }
+    },
+    "small": {
+      "home": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1365,
+        "unexpectedScrollers": []
+      },
+      "walk": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "workout": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "abs": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 975,
+        "unexpectedScrollers": []
+      },
+      "abs-guided": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 985,
+        "unexpectedScrollers": []
+      },
+      "floss": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "water": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "food": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "meal-sheet": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "rest": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 871,
+        "unexpectedScrollers": []
+      },
+      "meditate": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "focus": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "rewards": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "progress": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 845,
+        "unexpectedScrollers": []
+      },
+      "progress-month": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 956,
+        "unexpectedScrollers": []
+      },
+      "trends": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 997,
+        "unexpectedScrollers": []
+      },
+      "settings": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1153,
+        "unexpectedScrollers": []
+      },
+      "rules": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1258,
+        "unexpectedScrollers": []
+      }
+    },
+    "desktop": {
+      "home": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1328,
+        "unexpectedScrollers": []
+      },
+      "walk": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "workout": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "abs": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 899,
+        "unexpectedScrollers": []
+      },
+      "abs-guided": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 985,
+        "unexpectedScrollers": []
+      },
+      "floss": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "water": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "food": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "meal-sheet": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "rest": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 871,
+        "unexpectedScrollers": []
+      },
+      "meditate": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "focus": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "rewards": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "progress": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 845,
+        "unexpectedScrollers": []
+      },
+      "progress-month": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 956,
+        "unexpectedScrollers": []
+      },
+      "trends": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 997,
+        "unexpectedScrollers": []
+      },
+      "settings": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1153,
+        "unexpectedScrollers": []
+      },
+      "rules": {
+        "reached": true,
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1177,
+        "unexpectedScrollers": []
+      }
+    }
+  }
+}

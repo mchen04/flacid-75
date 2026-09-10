@@ -1,0 +1,33 @@
+
+Running 26 tests using 1 worker
+
+  -   1 [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path
+  ✓   2 [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (2.1s)
+  ✓   3 [chromium] › tests/e2e/app.spec.ts:34:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (992ms)
+  ✓   4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (711ms)
+  ✓   5 [chromium] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (323ms)
+  ✓   6 [chromium] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.3s)
+  ✓   7 [chromium] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (1.0s)
+  ✓   8 [chromium] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (1.2s)
+  ✓   9 [chromium] › tests/e2e/horizontal.spec.ts:15:1 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (9.5s)
+  ✓  10 [chromium] › tests/e2e/v3.spec.ts:7:1 › water goes down by one tap with no dialog, and never below zero (359ms)
+  ✓  11 [chromium] › tests/e2e/v3.spec.ts:15:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (3.5s)
+  ✓  12 [chromium] › tests/e2e/v3.spec.ts:30:1 › the served manifest, icons and splash carry the My Wellness name and the brand art (261ms)
+  ✓  13 [chromium] › tests/e2e/wellness.spec.ts:9:1 › every page is one tap from the dashboard, has an obvious Home, and the browser back button works (1.7s)
+  ✓  14 [chromium] › tests/e2e/wellness.spec.ts:18:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes (17.1s)
+  ✓  15 [chromium] › tests/e2e/wellness.spec.ts:32:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves (18.4s)
+  ✓  16 [chromium] › tests/e2e/wellness.spec.ts:42:1 › the guided ab routine walks through timed intervals with instructions and logs itself at the end (4.8s)
+  ✓  17 [chromium] › tests/e2e/wellness.spec.ts:56:1 › meditation and focus are optional: they log minutes and never change the streak (876ms)
+  ✓  18 [chromium] › tests/e2e/wellness.spec.ts:68:1 › treats are user-chosen, cost points, refuse when short, redeem once per tap, and undo (446ms)
+  ✓  19 [chromium] › tests/e2e/wellness.spec.ts:77:1 › units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry (498ms)
+  ✓  20 [chromium] › tests/e2e/wellness.spec.ts:88:1 › local midnight rolls the day over; a timer started before midnight credits the day it began (7.9s)
+  ✓  21 [chromium] › tests/e2e/wellness.spec.ts:101:1 › a rest day yesterday keeps the streak across midnight where a miss would have broken it (403ms)
+  ✓  22 [chromium] › tests/e2e/wellness.spec.ts:106:1 › backfilling a past day from Progress opens the activity pages in backfill mode (397ms)
+  ✓  23 [chromium] › tests/e2e/wellness.spec.ts:113:1 › milestones show reached streaks and the next one (296ms)
+  ✓  24 [chromium] › tests/e2e/wellness.spec.ts:119:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (280ms)
+  ✓  25 [chromium] › tests/e2e/wellness.spec.ts:128:1 › text contrast meets WCAG AA on every page (3.2s)
+  ✓  26 [chromium] › tests/e2e/wellness.spec.ts:157:1 › a running timer is visible from the dashboard and a duplicate finish cannot log twice (4.3s)
+
+  1 skipped
+  25 passed (1.4m)
+exit 
