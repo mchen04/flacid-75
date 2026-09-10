@@ -1,19 +1,56 @@
 # My Wellness · acceptance matrix (t_7531365d)
 
-Date: 2026-09-10. Owner: Claude Fable 5.1 (sole implementation owner). Status: **ready for independent review; not accepted until Forge's review is done.**
+Date: 2026-09-10. Owner: Claude Fable 5.1 (sole implementation owner). Status: **review round 1 findings fixed; awaiting the final independent audit. Not accepted until that audit passes.**
 
 **Environment.** This session's sandbox forbids listening sockets (`listen EPERM`), outbound loopback (`connect EPERM 127.0.0.1`), shared memory for PostgreSQL (`shmget` fails in `initdb`), and WebKit (`webkit.launch` times out). Chromium runs only single-process. Every browser check here therefore runs against the production build served through request interception (`scripts/virtual-server.mjs`, `VIRTUAL_SERVER=1`), with API routes mocked by the real domain code. What that cannot cover is listed under *For Forge to run outside the sandbox* and *Limitations*.
+
+## Review round 1 (findings-1.txt) · what changed
+
+| # | Finding | Fix | Check |
+|---|---|---|---|
+| 1 | Scenes collided with or cropped out of the stage copy | The four character scenes are shown through their canvas band (viewBox `0 200 360 440`) and the stage keeps that band's aspect ratio, so nothing is cropped at any width; copy sits bottom-left and the tag bottom-right on white cards (rest keeps its copy top-left over sky); the Gym plant and Mat bottle moved out of the copy corner | `after/*/abs-*.png`, `workout*.png`, `floss*.png`, `rest*.png`; contrast audit now measures hero and stage copy |
+| 2 | Captures predated the CSS; fit reports missing | Captures are rebuilt from the final build, each state from a fresh document and fixture; `fit.json` records sideways, clipped and scroll results per state; an unreachable state fails the run | `after/fit.json`, `after/extras/` |
+| 3, 9 | Dashboard log left a timer counting; undo left the session behind | A dashboard log finishes a running timer with its elapsed time and ticks and clears it; dashboard undo removes a timed session so a later plain log carries no minutes | `wellness.spec.ts` "logging from the dashboard while a timer runs…" |
+| 4 | A paused timer from another day was silently backfilled | A paused timer from another day shows a card: "Log to <day>" or "Start fresh"; the timer card states which day it counts for; a running timer that crosses midnight keeps counting and credits its start day (documented) | `wellness.spec.ts` "a timer left from another day…" → [stale-timer-chromium.png](stale-timer-chromium.png) |
+| 5 | Hero said "Next: abs" but opened Walk | The hero opens the page for the next habit (food for protein/calories, rest on a rest day, progress when complete) | `wellness.spec.ts` "the hero opens whatever comes next…" |
+| 6 | Integration expected one rest per week | Two allowed, third rejected, rest beyond the week rejected; sessions, optional minutes, units, plan, rewards and idempotent redeems persisted under concurrent duplicate delivery; points fixture corrected to 30 | `scripts/integration.ts` (supervisor ran it against a disposable database: passed) |
+| 7 | Re-saving details rewrote measurements from rounded display values | A field left at its displayed value keeps the exact stored kg/cm | `wellness.spec.ts` "re-saving your details…" |
+| 8 | Backfill mode let the checklist start a hidden timer | Checklist inputs are disabled in backfill mode and ticking is a no-op | `wellness.spec.ts` "in backfill mode the workout checklist is read-only…" |
+| 10 | Balance could read negative after undoing habits | Displayed balance floors at 0 with a one-line explanation; nothing is owed | `wellness.spec.ts` treats test, last block |
+| 11 | Header tag and dial rounded differently | Both use the ceiling | source |
+| 12 | No one-tap undo for water or meals on the dashboard | Water row has a minus; the meal action becomes Undo for six seconds after a log | `wellness.spec.ts` "the hero opens…" |
+| 13 | Auto-finish only ran on the open page; focus never ended | `lib/settle.ts` settles finished routines, meditations and focus blocks from any page on a one-second poll and on every return; focus caps at 8 blocks | `tests/settle.test.ts`; `wellness.spec.ts` "finished timers settle from any page…" |
+| 14, 15 | Copy overstated cues and data flow | Settings and the walk page say no chime or buzz can play while locked; Food says only the described meal goes to the estimator and logs sync to the private account | source, `after/*/settings*.png`, `food.png` |
+| 16 | Comment on vision models was stale | Comment reconciled with [openrouter-models.json](openrouter-models.json): five of six accept images | source |
+| T | Contrast skipped text over art | Only the progress hero numeral (over a gradient) is excluded; hero and stage copy are measured | [contrast-audit.json](contrast-audit.json) |
+| T | Overflow only at 390×844 | Audited at 390×844, 375×640 and 1280×900 | `horizontal-audit-*.json` |
+| T | Duplicate-redeem test could not catch a double charge | A 30-point treat with a 200 balance: a double tap charges once, a later tap charges again | `wellness.spec.ts` treats test |
+| T | Free-model test was circular | The exact request body is tested: zero `max_price` and a refusal before any request for a non-free id | `tests/timer.test.ts` |
+| WebKit | Water and food rows wrapped in WebKit, shifting layout; Tab did not move focus | Shorter row status text and icon-only water actions; the keyboard test uses Option-Tab on WebKit | supervisor's frozen-build run: 67 passed on both engines ([e2e-real-supervisor.txt](e2e-real-supervisor.txt)) |
+
+The JavaScript budget stays at 40,960 gzip bytes; the bundle is 40,066. No verification threshold was changed.
+
+## Supervisor outputs (produced outside this sandbox, included as they are)
+- `evidence/pwa.json`: Chromium installability against the local production server, no errors; `physicalInstallVerified` stays false.
+- `evidence/performance.json`, `evidence/lighthouse-current.json`: throttled Lighthouse of the public gate screen on the local server; scores 1.0/1.0/1.0. This measures the gate, not the signed-in dashboard.
+- Real-server browser run on the frozen build (Chromium and WebKit, localhost, test-only auth): 67 passed, 0 failed, 0 skipped, in 6.1 minutes: [e2e-real-supervisor.txt](e2e-real-supervisor.txt).
+- Database integration against a disposable PostgreSQL, isolated schema: passed, 17 operations recorded, every check true: [integration-supervisor.txt](integration-supervisor.txt).
 
 ## Commands and results
 
 | Command | Result | Capture |
 |---|---|---|
-| `npm run check` (lint, typecheck, unit, token scan, mascot scan, build, budget) | pass; 26 unit tests; budget 38,899 of 40,960 gzip bytes | [check.txt](check.txt) |
-| `VIRTUAL_SERVER=1 npx playwright test --project=chromium` | 25 passed, 1 skipped (gate needs a real server) | [e2e-chromium.txt](e2e-chromium.txt), [e2e-results.json](e2e-results.json) |
-| `VIRTUAL_SERVER=1 node --import tsx scripts/ui-shots.mjs evidence/my-wellness/after` | 18 screens × 3 viewports, no sideways overflow, no clipped content | [after/fit.json](after/fit.json), `after/{phone,small,desktop}/*.png` (`*-full.png` = whole scrolling page) |
-| Before captures (same script, previous build) | retained | [before/fit.json](before/fit.json), `before/*/*.png`; earlier evidence untouched under `evidence/ui/`, `evidence/v3/` |
+| `npm run check` on the pre-review build | pass; 26 unit tests; budget 38,899 of 40,960 gzip bytes | [check.txt](check.txt) |
+| Lint, typecheck, unit, scans and budget on the frozen review build (no rebuild) | pass; 31 unit tests; 0 lint problems; token and mascot scans 0 findings; bundle 40,066 of 40,960 gzip bytes | [check-review1.txt](check-review1.txt) |
+| `VIRTUAL_SERVER=1 npx playwright test --project=chromium` (sandbox, virtual server) | 33 passed, 1 skipped (gate needs a real server) | [e2e-chromium.txt](e2e-chromium.txt), [e2e-results.json](e2e-results.json) |
+| Real server, both engines, frozen build (supervisor) | 67 passed, 0 failed, 0 skipped | [e2e-real-supervisor.txt](e2e-real-supervisor.txt) |
+| Real database integration (supervisor, disposable PostgreSQL) | passed | [integration-supervisor.txt](integration-supervisor.txt) |
+| `ONLY_VIEWPORT=<phone|small|desktop> VIRTUAL_SERVER=1 node --import tsx scripts/ui-shots.mjs <dir>`, three bounded runs merged | 159 states (50 per viewport plus 9 extras), every state reached and its expected text found, 0 sideways, 0 clipped, reduced motion: 0 animated elements | [after/fit.json](after/fit.json), `after/{phone,small,desktop}/*.png` (`*-full.png` = whole scrolling page), `after/extras/*.png` |
+| Before captures (previous build) | retained | [before/fit.json](before/fit.json), `before/*/*.png`; earlier evidence untouched under `evidence/ui/`, `evidence/v3/` |
 | `curl https://openrouter.ai/api/v1/models` (public, no credential) | all six configured ids listed, prompt and completion price `0`, five accept images | [openrouter-models.json](openrouter-models.json) |
 | Baseline build before any change | pass, 26,118 gzip bytes | [build-baseline.txt](build-baseline.txt) |
+
+Captured states (each from a fresh page and fixture): home (partial, complete, rest day, empty), walk (ready, running, paused, done), workout (checklist, ticked, done), abs (library, guided, done), floss (ready, done), water, food (meals, empty), meal sheet, meal estimate, meal numbers, camera sheet, rest (available, planned, none left), meditate (ready, running), focus (ready, running), treats (list, empty, redeemed, edit sheet), progress (week, month, trends, missed day, rescue sheet), backfill (home, walk, workout), settings, targets, details, weigh-in, plan, lock and about sheets, rules; extras: gate, onboarding, timezone banner, reduced motion (home, walk running), 375×640 (home, abs, walk, progress).
 
 ## Scope items 1–19
 

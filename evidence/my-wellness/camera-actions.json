@@ -6,8 +6,8 @@
     "Take photo",
     "Add"
   ],
-  "elapsedMs": 504,
+  "elapsedMs": 581,
   "source": "Chromium simulated camera; mocked model response; not physical-device timing",
-  "imageBytesSent": 13992,
+  "imageBytesSent": 14048,
   "imagePersistedInClient": false
 }

@@ -1,9 +1,9 @@
 {
   "latencies": {
-    "Log workout": 2.0999999046325684,
-    "Log abs": 1.4000000953674316,
+    "Log workout": 2.200000286102295,
+    "Log abs": 1.5,
     "Log walk": 1.299999713897705,
-    "Log floss": 1.3000001907348633,
+    "Log floss": 1.0999999046325684,
     "Add a glass of water": 1
   },
   "layoutShift": false,

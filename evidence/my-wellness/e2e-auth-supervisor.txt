@@ -1,0 +1,11 @@
+
+Running 6 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (105ms)
+  ✓  2 [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (7.8s)
+  ✓  3 [chromium] › tests/e2e/app.spec.ts:34:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (858ms)
+  ✓  4 [webkit] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (26ms)
+  ✓  5 [webkit] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (8.1s)
+  ✓  6 [webkit] › tests/e2e/app.spec.ts:34:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (874ms)
+
+  6 passed (18.8s)

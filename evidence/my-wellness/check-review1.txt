@@ -1,0 +1,59 @@
+
+> my-wellness@4.0.0 lint
+> eslint .
+
+
+> my-wellness@4.0.0 typecheck
+> tsc --noEmit
+
+
+> my-wellness@4.0.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ seven habits including floss are all required; a missing floss breaks the chain (11.850125ms)
+✔ a missing habit breaks the chain at midnight; today is not prematurely broken (1.132917ms)
+✔ two planned rest days per Monday-Sunday week keep the streak without adding to it; a third is refused (1.249167ms)
+✔ rest days can be planned ahead within the current week, never beyond it; other habits cannot be logged ahead (0.326709ms)
+✔ existing history with one rest per week is preserved and still valid under the two-day rule (0.411375ms)
+✔ sessions record time and detail, mark the habit, and undo cleanly (0.600834ms)
+✔ meditation and focus are logged but never touch completion, the streak or points (0.492417ms)
+✔ points: ten per habit, thirty for a whole day; treats are user-chosen, idempotent to redeem, and undoable (0.603333ms)
+✔ milestones follow the longest streak and remember the day each was first reached (2.282167ms)
+✔ units are stored as a preference; measurements stay in kilograms and centimetres (0.369833ms)
+✔ a workout plan is saved on the profile and a profile update keeps it (0.193875ms)
+✔ rescue and backfill recalculate history, retain honest markers, allow any past day (1.419916ms)
+✔ 23:59, DST spring/fall, and timezone travel do not skip or duplicate days (0.72275ms)
+✔ a session that runs past local midnight credits the day it was started on (0.495875ms)
+✔ calculation, smoothing, editable overrides and material recomputation (0.714ms)
+✔ food corrections replace a meal and numeric goals remain estimates (0.192042ms)
+✔ the USDA table is loaded and plain names match sensible rows (13.35075ms)
+✔ a row whose head food is not in the query is rejected rather than misused (3.569041ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.405916ms)
+✔ a finished ab routine settles once, credited to its start day, and clears itself (0.9525ms)
+✔ a paused routine never finishes on its own (0.134833ms)
+✔ meditation credits the chosen length when the countdown ends (0.100583ms)
+✔ focus credits each finished work block once, catches up after time away, and ends itself after the cap (0.158625ms)
+✔ elapsed time is computed from the clock, so time away from the app still counts (0.355875ms)
+✔ the clock face formats minutes, seconds and hours (0.065ms)
+✔ every ab routine has instructions, timed intervals, and a phase derivable from any elapsed time (0.178584ms)
+✔ only free OpenRouter models are ever called (0.177416ms)
+✔ the OpenRouter request body carries the zero max price and a non-free model never reaches the request (0.736125ms)
+✔ defaults are pounds and feet-inches (0.667167ms)
+✔ conversions round-trip without drifting the stored value (0.202625ms)
+✔ display follows the unit; input parses to kilograms and centimetres (9.197709ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 174.154417
+
+> my-wellness@4.0.0 scan
+> node scripts/token-scan.mjs && node scripts/mascot-scan.mjs
+
+{"scanned":29,"findings":0}
+{"scanned":95,"hits":0}
+{"gzipJavaScriptBytes":40066,"budgetBytes":40960,"pass":true}
+exit 0
