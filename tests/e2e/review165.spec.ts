@@ -145,12 +145,17 @@ test('R165-5: a full receipt that no longer lists an older applied change this t
 
 test('R165-6: a change that has never been sent is always shown, even when a late read arrives with a full receipt, and it survives going offline',async({page,context})=>{
  const today=todayIn();const box=await open(page,seed());
- for(let i=0;i<220;i++){const op={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check' as const,habit:'floss' as const,value:false};box.state=apply(box.state,op);box.ops.push(op);box.seen.add(op.id);}
  const other=await context.newPage();await mock(other,box);await other.route('**/api/sync',r=>r.abort('internetdisconnected'));await other.goto('/');await other.locator('.home-view').waitFor();await page.waitForTimeout(300);
+ // 220 changes land on the account from elsewhere after both tabs saved revision 0.
+ for(let i=0;i<220;i++){const op={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check' as const,habit:'floss' as const,value:false};box.state=apply(box.state,op);box.ops.push(op);box.seen.add(op.id);}
  let release!:()=>void;const gate=new Promise<void>(r=>{release=r;});let entered=false;
  await page.route('**/api/state',async r=>{entered=true;await gate;await r.fallback();});await page.route('**/api/sync',r=>r.abort('internetdisconnected'));
  await page.evaluate(()=>window.dispatchEvent(new Event('online')));await expect.poll(()=>entered).toBe(true);
  await other.getByRole('button',{name:'Add a Stanley',exact:true}).click();await expect(waterText(other)).resolves.toContain('30');
+ // B's attempt has failed at the network before A's answer lands: no sent mark is left on the device (a change still in flight is a different case, R165-5).
+ await expect.poll(()=>other.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-sent:')).length)).toBe(0);
+ // The receipt is full and the gap since A's saved revision is at least its size, so this is the never-sent branch under an incomplete receipt.
+ expect((await device(page)).revision).toBe(0);expect(box.seen.size).toBeGreaterThanOrEqual(200);
  release();await page.waitForTimeout(500);await context.setOffline(true);
  expect(box.state.days[today]?.water??0).toBe(0);
  for(const p of [page,other]){const d=await device(p);expect(d.water).toBeCloseTo(stanley,6);expect(d.pending).toBe(1);await expect(waterText(p)).resolves.toContain('1 of 2¼ Stanleys · 30 oz');}
@@ -165,4 +170,107 @@ test('R165-7: unlocking with a held change the account has already applied count
  await page.goto('/');await page.getByLabel('Passphrase').fill('local-fixture');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('.home-view').waitFor();await page.waitForTimeout(500);
  const d=await device(page);expect(d.water).toBeCloseTo(stanley,6);expect(d.pending).toBe(0);expect(d.journal).toBe(0);await expect(waterText(page)).resolves.toContain('1 of 2¼ Stanleys · 30 oz');
  expect(box.state.days[today].water).toBeCloseTo(stanley,6);
+});
+
+test('R165-8: a write refused at the door (401) leaves no sent mark, so an unlock against a full receipt still shows the pour; it stays through a temporary failure, offline and a reload, and lands once when the account takes it',async({page})=>{
+ const today=todayIn();const box=await open(page,seed(),{go:false});
+ for(let i=0;i<220;i++){const op={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check' as const,habit:'floss' as const,value:false};box.state=apply(box.state,op);box.ops.push(op);box.seen.add(op.id);}
+ await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));let attempt=0;await page.route('**/api/sync',async r=>{attempt++;if(attempt===1)return r.fulfill({status:401,json:{error:'Unlock the app to sync.'}});if(attempt===2)return r.fulfill({status:503,json:{error:'Sync is unavailable.'}});await r.fallback();});
+ await page.goto('/');await page.locator('.home-view').waitFor();await page.getByRole('button',{name:'Add a Stanley',exact:true}).click();
+ await page.getByLabel('Passphrase').waitFor();await page.getByLabel('Passphrase').fill('local-fixture');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('.home-view').waitFor();await expect.poll(()=>attempt).toBeGreaterThan(1);
+ // Offline: every account call fails at the network (the document and assets still load, as the installed worker serves them on a device).
+ await page.route('**/api/**',r=>r.abort('internetdisconnected'));
+ expect(box.state.days[today]?.water??0).toBe(0);
+ let d=await device(page);expect(d.water).toBeCloseTo(stanley,6);expect(d.pending).toBe(1);await expect(waterText(page)).resolves.toContain('1 of 2¼ Stanleys · 30 oz');
+ expect(await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-sent:')).length),'no sent mark after refused transport').toBe(0);
+ await page.reload();await page.locator('.home-view').waitFor();
+ d=await device(page);expect(d.water).toBeCloseTo(stanley,6);expect(d.pending).toBe(1);await expect(waterText(page)).resolves.toContain('1 of 2¼ Stanleys · 30 oz');
+ // The account takes it: applied once.
+ await page.unroute('**/api/**');await page.evaluate(()=>window.dispatchEvent(new Event('online')));
+ await expect.poll(()=>box.state.days[today]?.water??0,{timeout:5000}).toBeCloseTo(stanley,6);expect(box.ops.filter(o=>o.type==='water')).toHaveLength(1);
+ await expect.poll(()=>device(page).then(x=>x.pending)).toBe(0);expect((await device(page)).water).toBeCloseTo(stanley,6);
+});
+
+test('R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge its old refusal (or anything else) into the new generation; it adopts the new store',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ const op={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check',habit:'floss',value:true};
+ await page.evaluate(op=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);s.failed=[{op,reason:'Refused local test entry',at:op.at}];localStorage.setItem('flaccid75-v1',JSON.stringify(s));},op);
+ const other=await context.newPage();await other.addInitScript(()=>{const orig=window.addEventListener;window.addEventListener=function(this:Window,type:string,...rest:unknown[]){if(type==='storage')return;return (orig as unknown as (...a:unknown[])=>void).call(this,type,...rest);};});await mock(other,box);await other.goto('/');await other.locator('.home-view').waitFor();await other.waitForTimeout(300);
+ expect(await other.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length)).toBe(1);
+ await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.evaluate(()=>{location.hash='you';});await page.getByRole('button',{name:'Lock this device',exact:true}).click();await page.getByRole('button',{name:'Lock and clear',exact:true}).click();await page.getByLabel('Passphrase').waitFor();
+ await page.getByLabel('Passphrase').fill('local-fixture');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('.app-shell').waitFor();
+ const failed=(p:Page)=>p.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length);expect(await failed(page)).toBe(0);
+ await other.evaluate(()=>window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true})));await other.waitForTimeout(600);
+ expect(await failed(page)).toBe(0);expect(await failed(other)).toBe(0);
+ // B is in the new generation now: unlocked with the fresh store, no old refusal on its settings page, and a new change from B saves normally.
+ await expect(other.locator('.app-shell')).toBeVisible();await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
+ await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log walk',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);expect(await failed(page)).toBe(0);
+ await other.close();
+});
+
+test('R165-10: an account answer that started before a lock-and-clear and a new unlock is dropped when it lands, whether it is an error or a result; the tab adopts the new generation',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ const other=await context.newPage();await mock(other,box);await other.goto('/');await other.locator('.home-view').waitFor();
+ // B: a 401 answer held for 3 s (as a late error), then a held result 3 s later.
+ let answers=0;await other.route('**/api/state',async r=>{answers++;await new Promise(res=>setTimeout(res,3000));if(answers===1)return r.fulfill({status:401,json:{error:'Unlock the app to sync.'}});await r.fallback();});
+ await other.evaluate(()=>window.dispatchEvent(new Event('online')));await other.waitForTimeout(100);
+ await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.evaluate(()=>{location.hash='you';});await page.getByRole('button',{name:'Lock this device',exact:true}).click();await page.getByRole('button',{name:'Lock and clear',exact:true}).click();await page.getByLabel('Passphrase').waitFor();
+ await expect(other.getByLabel('Passphrase')).toBeVisible({timeout:3000});
+ await page.getByLabel('Passphrase').fill('local-fixture');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('.app-shell').waitFor();
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log floss',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
+ // The late 401 lands in B: B does not force the device locked; it adopts the unlocked new generation.
+ await other.waitForTimeout(3500);
+ const snap=(p:Page)=>p.evaluate(day=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {unlocked:s.unlocked,floss:s.state.days[day]?.checks.floss??false,pending:s.pending.length};},today);
+ expect(await snap(page)).toEqual({unlocked:true,floss:true,pending:0});await expect(page.locator('.app-shell')).toBeVisible();
+ await expect(other.locator('.app-shell')).toBeVisible({timeout:3000});expect(await snap(other)).toEqual({unlocked:true,floss:true,pending:0});
+ await other.close();
+});
+
+test('R165-11: an unlock that was in flight when the device was locked and cleared again is dropped and the tab stays on the gate',async({page,context})=>{
+ const box=await open(page,seed());
+ const other=await context.newPage();await mock(other,box);await other.goto('/');await other.locator('.home-view').waitFor();
+ await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await other.route('**/api/auth',async r=>{if(r.request().method()==='POST'){await new Promise(res=>setTimeout(res,2500));}await r.fulfill({json:{ok:true}});});
+ await page.evaluate(()=>{location.hash='you';});await page.getByRole('button',{name:'Lock this device',exact:true}).click();await page.getByRole('button',{name:'Lock and clear',exact:true}).click();await page.getByLabel('Passphrase').waitFor();await expect(other.getByLabel('Passphrase')).toBeVisible();
+ // B starts a slow unlock; meanwhile A unlocks and locks again.
+ await other.getByLabel('Passphrase').fill('local-fixture');await other.getByRole('button',{name:'Open',exact:true}).click();await other.waitForTimeout(200);
+ await page.getByLabel('Passphrase').fill('local-fixture');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('.app-shell').waitFor();
+ await page.evaluate(()=>{location.hash='you';});await page.getByRole('button',{name:'Lock this device',exact:true}).click();await page.getByRole('button',{name:'Lock and clear',exact:true}).click();await page.getByLabel('Passphrase').waitFor();
+ await other.waitForTimeout(3000);
+ // B followed the device meanwhile (unlocked by A, then locked again), so its gate is fresh; the dropped unlock's message is shown as the store notice.
+ await expect(other.getByLabel('Passphrase')).toBeVisible();await expect(other.getByRole('alert')).toContainText('This device was locked meanwhile');expect(await other.locator('.app-shell').count()).toBe(0);
+ for(const p of [page,other])expect(await p.evaluate(()=>({snapshot:localStorage.getItem('flaccid75-v1'),marker:localStorage.getItem('my-wellness-locked')!==null}))).toEqual({snapshot:null,marker:true});
+ await other.close();
+});
+
+test('R165-12: a large valid offline backlog drains in byte-bounded batches: every change reaches the account once, no answer is 413, nothing is dropped',async({page})=>{
+ const today=todayIn();const state=seed();
+ // 100 valid plan changes of 40 lines of 60 characters each (about 2.7 KB apiece, 267 KB in all), queued and journaled as after an offline session.
+ const line=(i:number)=>`Move ${String(i).padStart(2,'0')} ${'x'.repeat(52)}`;const ops=Array.from({length:100},(_,k)=>({id:crypto.randomUUID(),at:new Date(Date.now()-100000+k*1000).toISOString(),day:today,zone:'America/Los_Angeles',type:'plan',workout:Array.from({length:40},(_,i)=>line(i+k%10).slice(0,60))}));
+ const box=await open(page,state,{go:false,unlocked:false});let refused413=0,batches=0;page.on('response',r=>{if(r.url().includes('/api/sync')){batches++;if(r.status()===413)refused413++;}});
+ await page.addInitScript(({state,ops})=>{if(sessionStorage.getItem('seeded'))return;sessionStorage.setItem('seeded','1');localStorage.setItem('flaccid75-v1',JSON.stringify({state,pending:ops,failed:[],discarded:[],acked:[],unlocked:true}));for(const op of ops)localStorage.setItem('my-wellness-op:'+op.id,JSON.stringify(op));},{state,ops});
+ await page.goto('/');await page.locator('.app-shell').waitFor();
+ await expect.poll(()=>box.ops.length,{timeout:20000,message:'rejected: '+JSON.stringify(box.rejected.slice(0,2))}).toBe(100);expect(refused413).toBe(0);expect(batches).toBeGreaterThanOrEqual(3);
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);
+ expect(await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-op:')).length)).toBe(0);
+ expect(new Set(box.ops.map(o=>o.id)).size).toBe(100);expect(box.state.profile?.plan?.length).toBe(40);
+});
+
+test('R165-13: an answer whose write waits on the device lock while another tab locks, clears and unlocks is dropped inside the write itself; the tab adopts the new generation',async({page,context})=>{
+ const today=todayIn();const box=await open(page,seed());
+ const other=await context.newPage();await mock(other,box);await other.goto('/');await other.locator('.home-view').waitFor();
+ // The test holds the device's write lock in A, so A's next account answer must wait inside its write step.
+ await page.evaluate(()=>{const w=window as unknown as {__release:()=>void};(navigator as Navigator&{locks:{request:(n:string,cb:()=>Promise<void>)=>Promise<void>}}).locks.request('my-wellness-store',()=>new Promise<void>(res=>{w.__release=res;}));});
+ let answered=0;page.on('response',r=>{if(r.url().includes('/api/state'))answered++;});await page.evaluate(()=>window.dispatchEvent(new Event('online')));await expect.poll(()=>answered).toBe(1);await page.waitForTimeout(200);
+ // While A's write waits: B locks and clears, unlocks, and logs floss.
+ await other.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await other.evaluate(()=>{location.hash='you';});await other.getByRole('button',{name:'Lock this device',exact:true}).click();await other.getByRole('button',{name:'Lock and clear',exact:true}).click();await other.getByLabel('Passphrase').waitFor();
+ await other.getByLabel('Passphrase').fill('local-fixture');await other.getByRole('button',{name:'Open',exact:true}).click();await other.locator('.app-shell').waitFor();await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log floss',exact:true}).click();
+ const snap=(p:Page)=>p.evaluate(day=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {unlocked:s.unlocked,floss:s.state.days[day]?.checks.floss??false,generation:localStorage.getItem('my-wellness-generation')};},today);
+ // The device lock is shared by every tab, so B's own sync answer also waits; B's floss is saved as pending meanwhile.
+ await expect.poll(()=>snap(other)).toEqual({unlocked:true,floss:true,generation:'1'});
+ // Release the lock: A's waiting write runs first, sees the newer generation and writes nothing; A adopts the new store. Floss is never lost.
+ await page.evaluate(()=>(window as unknown as {__release:()=>void}).__release());
+ for(let i=0;i<8;i++){await page.waitForTimeout(100);expect(await snap(page)).toEqual({unlocked:true,floss:true,generation:'1'});}
+ await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:5000}).toBe(true);await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);
+ await expect(page.locator('.app-shell')).toBeVisible();await expect(page.getByRole('button',{name:'Undo floss',exact:true})).toHaveAttribute('aria-pressed','true');expect(await snap(page)).toEqual({unlocked:true,floss:true,generation:'1'});
+ await other.close();
 });

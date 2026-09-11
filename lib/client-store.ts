@@ -12,6 +12,13 @@ const receiptSize=200;
 // write is accepted while it stands, so a late sync result or a stale tab cannot restore cleared data. Unlock removes it before saving.
 const LOCK='my-wellness-locked';
 function locked(){try{return localStorage.getItem(LOCK)!==null;}catch{return false;}}
+// The device's lifecycle generation: a durable local counter that every lock-and-clear advances. Every tab remembers the generation it
+// loaded; a tab (or a request answer, or a merge) from an earlier generation may not write anything into the current one: its memory of
+// state, queue, refusals, discards and acknowledgements is dropped and the current saved store is adopted instead. Lock marker presence
+// alone cannot do this, because a later legitimate unlock removes the marker while the stale memory still exists.
+const GENERATION='my-wellness-generation';
+function generation(){try{return Number(localStorage.getItem(GENERATION))||0;}catch{return 0;}}
+function current(){return store.generation===generation();}
 function journalWrite(op:Operation){if(locked())return false;try{localStorage.setItem(JOURNAL+op.id,JSON.stringify(op));return true;}catch{return false;}}
 function journalRemove(id:string){try{localStorage.removeItem(JOURNAL+id);}catch{}try{localStorage.removeItem('my-wellness-sent:'+id);}catch{}}
 // A change carries a sent mark while a write holding it is in flight and after the account has answered that write. A write that fails
@@ -39,19 +46,23 @@ export type Failed={op:Operation;reason:string;at:string};
 const keepAcked=500;
 // `revision` is the account's own count of applied changes, carried on every answer; the device never installs an answer older than the
 // revision it already holds. `epoch` remains the fallback for an answer without a receipt.
-type Store={state:State;pending:Operation[];failed:Failed[];discarded:string[];acked:string[];epoch:number;revision:number;ready:boolean;unlocked:boolean;notice:string;online:boolean};
-let store:Store={state:emptyState(),pending:[],failed:[],discarded:[],acked:[],epoch:0,revision:-1,ready:false,unlocked:false,notice:'',online:true};
+type Store={state:State;pending:Operation[];failed:Failed[];discarded:string[];acked:string[];epoch:number;revision:number;generation:number;ready:boolean;unlocked:boolean;notice:string;online:boolean};
+let store:Store={state:emptyState(),pending:[],failed:[],discarded:[],acked:[],epoch:0,revision:-1,generation:0,ready:false,unlocked:false,notice:'',online:true};
 const serverStore=store;
 const listeners=new Set<()=>void>();
 let syncing=false,started=false;
 function emit(){for(const listener of listeners)listener();}
 // Every snapshot write merges the refused list and the discard record with what is saved, so no caller can drop another tab's refusal
 // or resurrect a discarded one. `next` is a fresh object at every call site and is completed in place, so the caller keeps what was written.
-function persist(next:Store){if(locked()){lockLocally();return false;}try{const saved=readSaved();next.discarded=mergeDiscarded(saved,next.discarded);next.failed=mergeFailed(saved,next.failed,next.discarded);next.acked=mergeAcked(saved,next.acked);next.epoch=Math.max(Number(saved?.epoch)||0,next.epoch);next.revision=Math.max(savedRevision(saved),next.revision);next.pending=next.pending.filter(p=>!next.acked.includes(p.id));localStorage.setItem(KEY,JSON.stringify({state:next.state,pending:next.pending,failed:next.failed,discarded:next.discarded,acked:next.acked,epoch:next.epoch,revision:next.revision,unlocked:next.unlocked}));return true;}catch{store={...store,notice:'Device storage is full. This change was not saved.'};emit();return false;}}
+// The generation is re-read here, at the write itself, so a caller that captured an older generation cannot write even if it skipped a check.
+function persist(next:Store){if(locked()){lockLocally();return false;}if(!current()){adopt();return false;}try{const saved=readSaved();next.discarded=mergeDiscarded(saved,next.discarded);next.failed=mergeFailed(saved,next.failed,next.discarded);next.acked=mergeAcked(saved,next.acked);next.epoch=Math.max(Number(saved?.epoch)||0,next.epoch);next.revision=Math.max(savedRevision(saved),next.revision);next.pending=next.pending.filter(p=>!next.acked.includes(p.id));localStorage.setItem(KEY,JSON.stringify({state:next.state,pending:next.pending,failed:next.failed,discarded:next.discarded,acked:next.acked,epoch:next.epoch,revision:next.revision,unlocked:next.unlocked}));return true;}catch{store={...store,notice:'Device storage is full. This change was not saved.'};emit();return false;}}
 const savedRevision=(saved:{revision?:unknown}|null)=>typeof saved?.revision==='number'?saved.revision:-1;
 function mergeAcked(saved:{acked?:string[]}|null,mine:string[]){return [...new Set([...(Array.isArray(saved?.acked)?saved!.acked!:[]),...mine])].slice(-keepAcked);}
 // This tab locks itself: memory cleared, nothing pending, the gate shown. Used when this or another tab locked and cleared the device.
-function lockLocally(){if(!store.unlocked&&store.pending.length===0&&!store.state.profile)return;set({...store,state:emptyState(),pending:[],failed:[],discarded:[],acked:[],epoch:0,revision:-1,unlocked:false,notice:''});}
+function lockLocally(){if(!store.unlocked&&store.pending.length===0&&!store.state.profile&&store.generation===generation())return;set({...store,state:emptyState(),pending:[],failed:[],discarded:[],acked:[],epoch:0,revision:-1,generation:generation(),unlocked:false,notice:''});}
+// This tab's memory belongs to an earlier generation: drop it and take the current saved store (locked, or legitimately unlocked again).
+function adopt(){const saved=locked()?null:readSaved();if(!saved?.state){lockLocally();return;}const acked:string[]=Array.isArray(saved.acked)?saved.acked:[];const theirs:Operation[]=(Array.isArray(saved.pending)?saved.pending:[]).filter((p:Operation)=>!acked.includes(p.id));const pending=pendingWithJournal(theirs,undefined,acked);let state:State=saved.state;for(const op of pending.filter(p=>!theirs.some(t=>t.id===p.id))){try{state=apply(state,op);}catch{}}
+ set({...store,state,pending,failed:Array.isArray(saved.failed)?saved.failed:[],discarded:Array.isArray(saved.discarded)?saved.discarded:[],acked,epoch:Number(saved.epoch)||0,revision:savedRevision(saved),generation:generation(),unlocked:!!saved.unlocked,notice:''});}
 let reloading=false,storageWaiting=false;
 // Changes saved to the device by another tab that this tab does not hold yet.
 function arrivedMeanwhile(done:Set<string>):Operation[]{ // snapshot-listed changes from another tab that this tab does not hold
@@ -65,16 +76,16 @@ function readSaved(){try{const raw=localStorage.getItem(KEY);return raw?JSON.par
 const keepDiscarded=200;
 function mergeFailed(saved:{failed?:Failed[];discarded?:string[]}|null,mine:Failed[],discarded:string[]=store.discarded){const gone=new Set<string>([...(Array.isArray(saved?.discarded)?saved!.discarded!:[]),...discarded]);const out:Failed[]=(Array.isArray(saved?.failed)?saved!.failed!:[]).filter(f=>!gone.has(f.op.id));for(const f of mine)if(!gone.has(f.op.id)&&!out.some(o=>o.op.id===f.op.id))out.push(f);return out;}
 function mergeDiscarded(saved:{discarded?:string[]}|null,mine:string[]=store.discarded){return [...new Set([...(Array.isArray(saved?.discarded)?saved!.discarded!:[]),...mine])].slice(-keepDiscarded);}
-function mergeFromStorage(){if(locked()){lockLocally();return;}const saved=readSaved();if(!saved?.state){if(store.unlocked)lockLocally();return;}
+function mergeFromStorage(){if(locked()){lockLocally();return;}if(!current()){adopt();return;}const saved=readSaved();if(!saved?.state){if(store.unlocked)lockLocally();return;}
  // What is pending on this device is the saved queue plus the journal, minus everything acknowledged. This tab's memory adds nothing:
  // any change it queued is in the journal until acknowledged, and a change it merely held for another tab may have been acknowledged since.
  const acked=mergeAcked(saved,store.acked);const theirs:Operation[]=(Array.isArray(saved.pending)?saved.pending:[]).filter((p:Operation)=>!acked.includes(p.id));const pending=pendingWithJournal(theirs,undefined,acked);let state:State=saved.state;for(const op of pending.filter(p=>!theirs.some(t=>t.id===p.id))){try{state=apply(state,op);}catch{}}const failed=mergeFailed(saved,store.failed);const next={...store,state,pending,failed,discarded:mergeDiscarded(saved),acked,epoch:Math.max(Number(saved.epoch)||0,store.epoch),revision:Math.max(savedRevision(saved),store.revision),unlocked:saved.unlocked??store.unlocked};if(pending.length!==theirs.length||failed.length!==(Array.isArray(saved.failed)?saved.failed.length:0))persist(next);set(next);}
 function set(next:Store){store=next;emit();}
 export function useStore(){return useSyncExternalStore(fn=>{listeners.add(fn);return()=>listeners.delete(fn);},()=>store,()=>serverStore);}
-export function startStore(){if(started)return;started=true;try{const raw=locked()?null:localStorage.getItem(KEY);if(raw){const saved=JSON.parse(raw);store={...store,...saved,failed:Array.isArray(saved.failed)?saved.failed:[],discarded:Array.isArray(saved.discarded)?saved.discarded:[],acked:Array.isArray(saved.acked)?saved.acked:[],epoch:Number(saved.epoch)||0,revision:savedRevision(saved)};store={...store,pending:store.pending.filter(p=>!store.acked.includes(p.id))};}const known=store.pending;const pending=pendingWithJournal(known);let state=store.state;for(const op of pending.filter(p=>!known.some(k=>k.id===p.id))){try{state=apply(state,op);}catch{}}store={...store,state,pending};if(pending.length!==known.length)persist(store);}catch{store={...store,notice:'Saved data could not load. Connect to restore it.'};}set({...store,ready:true,online:navigator.onLine});if(locked())void sendLogout();
+export function startStore(){if(started)return;started=true;store={...store,generation:generation()};try{const raw=locked()?null:localStorage.getItem(KEY);if(raw){const saved=JSON.parse(raw);store={...store,...saved,failed:Array.isArray(saved.failed)?saved.failed:[],discarded:Array.isArray(saved.discarded)?saved.discarded:[],acked:Array.isArray(saved.acked)?saved.acked:[],epoch:Number(saved.epoch)||0,revision:savedRevision(saved)};store={...store,pending:store.pending.filter(p=>!store.acked.includes(p.id))};}const known=store.pending;const pending=pendingWithJournal(known);let state=store.state;for(const op of pending.filter(p=>!known.some(k=>k.id===p.id))){try{state=apply(state,op);}catch{}}store={...store,state,pending};if(pending.length!==known.length)persist(store);}catch{store={...store,notice:'Saved data could not load. Connect to restore it.'};}set({...store,ready:true,online:navigator.onLine});if(locked())void sendLogout();
  // Coming back (page shown again, made visible, back online): a tab restored from the back-forward cache has missed storage events, so the
  // device is re-read before anything is shown or written: a lock or a cleared snapshot locks this tab; otherwise the saved store is merged.
- const resume=()=>{if(locked()||readSaved()===null){lockLocally();void sendLogout();return;}if(store.unlocked&&!syncing)mergeFromStorage();set({...store,online:navigator.onLine});void synchronize();};
+ const resume=()=>{if(locked()||readSaved()===null){lockLocally();void sendLogout();return;}if(!current())adopt();else if(store.unlocked&&!syncing)mergeFromStorage();set({...store,online:navigator.onLine});void synchronize();};
  window.addEventListener('online',resume);window.addEventListener('offline',()=>set({...store,online:false}));window.addEventListener('pageshow',resume);
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resume();});
  // Another tab wrote the device store. Take its state, re-apply this tab's own queue on top (each change guarded), keep both queues by id,
@@ -92,18 +103,22 @@ export function startStore(){if(started)return;started=true;try{const raw=locked
  setInterval(()=>void synchronize(),30000);void synchronize();
 }
 export function dispatch(op:Operation){
+ if(!current()){adopt();return false;}
  // A change outside the account's bounds is refused here, with the reason, rather than queued to be refused later.
  if(locked()){lockLocally();return false;}const reason=checkBounds(op);if(reason){set({...store,notice:reason});return false;}
  // The same change twice (a second tab settling the same timer) is queued once.
  if(store.pending.some(p=>p.id===op.id)||store.acked.includes(op.id))return true;
  try{const next={...store,state:apply(store.state,op),pending:[...store.pending,op],notice:''};if(!journalWrite(op)){set({...store,notice:'Device storage is full. This change was not saved.'});return false;}if(!persist(next)){journalRemove(op.id);return false;}set(next);void synchronize();return true;}catch(error){set({...store,notice:error instanceof Error?error.message:'Unable to save.'});return false;}}
-export async function unlock(passphrase:string){try{localStorage.removeItem(LOGOUT);}catch{}try{const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passphrase})});const result=await res.json();if(!res.ok)return result.error as string;
+export async function unlock(passphrase:string){if(!current())adopt();const startedAt=generation();try{localStorage.removeItem(LOGOUT);}catch{}try{const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passphrase})});const result=await res.json();if(!res.ok)return result.error as string;
  // Onboarding waits for the remote account, preventing a second first-run flow on a new device.
  const data=await fetch('/api/state',{cache:'no-store'});if(!data.ok)return 'Your data could not load. Try again.';
- const raw=await data.json();try{localStorage.removeItem(LOCK);}catch{}const {applied,revision,...bare}=raw as State&{applied?:string[];revision?:number};
+ const raw=await data.json();
+ // The device was locked and cleared again while this unlock was in flight: this answer belongs to an earlier generation and is dropped.
+ if(generation()!==startedAt){adopt();const message='This device was locked meanwhile. Unlock again.';if(!store.unlocked)set({...store,notice:message});return message;}
+ try{localStorage.removeItem(LOCK);}catch{}const {applied,revision,...bare}=raw as State&{applied?:string[];revision?:number};
  // The device's held changes are projected under the account's receipt, exactly as a sync answer is: a change the account already applied
  // is acknowledged, not applied again; an unsent one is shown; the sync that follows settles anything the full receipt could not classify.
- const held=pendingWithJournal(store.pending);const r=project(bare as State,held,new Set(),applied,new Set());
+ const held=pendingWithJournal(store.pending);const r=project(bare as State,held,new Set(),applied,new Set(),revision,Math.max(savedRevision(readSaved()),store.revision));
  const next={...store,state:r.state,pending:r.pending,acked:[...store.acked,...r.done],revision:typeof revision==='number'?revision:-1,unlocked:true};if(persist(next))for(const id of r.done)journalRemove(id);set(next);void synchronize();return '';
  }catch{return 'Connect to the internet to unlock this device.';}}
 // The device is cleared first and synchronously: marker, snapshot, timers and every journal key, with the marker retried after the clear
@@ -113,8 +128,8 @@ const LOGOUT='my-wellness-logout';
 function clearDevice(){try{localStorage.removeItem(KEY);}catch{}try{localStorage.removeItem('my-wellness-timers');}catch{}journalClear();}
 let loggingOut=false;
 async function sendLogout(){if(loggingOut)return;try{if(localStorage.getItem(LOGOUT)===null)return;}catch{return;}loggingOut=true;try{const res=await fetch('/api/auth',{method:'DELETE',keepalive:true});if(res.ok)localStorage.removeItem(LOGOUT);}catch{}finally{loggingOut=false;}}
-export function lock(){let marked=false;try{localStorage.setItem(LOCK,new Date().toISOString());marked=true;}catch{}clearDevice();if(!marked){try{localStorage.setItem(LOCK,new Date().toISOString());}catch{}}try{localStorage.setItem(LOGOUT,'1');}catch{}
- set({...store,state:emptyState(),pending:[],failed:[],discarded:[],acked:[],epoch:0,revision:-1,unlocked:false,notice:''});void sendLogout();}
+export function lock(){let marked=false;try{localStorage.setItem(LOCK,new Date().toISOString());marked=true;}catch{}clearDevice();if(!marked){try{localStorage.setItem(LOCK,new Date().toISOString());}catch{}}const next=generation()+1;try{localStorage.setItem(GENERATION,String(next));}catch{}try{localStorage.setItem(LOGOUT,'1');}catch{}
+ set({...store,state:emptyState(),pending:[],failed:[],discarded:[],acked:[],epoch:0,revision:-1,generation:generation(),unlocked:false,notice:''});void sendLogout();}
 export function discardFailed(){const next={...store,failed:[],discarded:[...store.discarded,...store.failed.map(f=>f.op.id)].slice(-keepDiscarded),notice:''};persist(next);set(next);}
 // Projects the device's pending changes onto an account state under its receipt. A held change the receipt lists is acknowledged, not
 // re-applied. When the receipt is full, a change that was sent but is neither listed nor answered may already be applied, so it is left
@@ -124,20 +139,28 @@ export function discardFailed(){const next={...store,failed:[],discarded:[...sto
 function project(state:State,pending:Operation[],answered:Set<string>,applied:string[]|undefined,batchIds:Set<string>,revision?:number,heldRevision=-1){const listed=new Set<string>(applied??[]);const complete=applied!==undefined&&(applied.length<receiptSize||(typeof revision==='number'&&heldRevision>=0&&revision-heldRevision<receiptSize));const done=new Set<string>(answered);let unclassified=false;let out=state;
  for(const op of pending){if(done.has(op.id))continue;if(listed.has(op.id)){done.add(op.id);continue;}if(applied!==undefined&&!complete&&!batchIds.has(op.id)&&wasSent(op.id)){unclassified=true;continue;}try{out=apply(out,op);}catch{}}
  return {state:out,done,unclassified,pending:pending.filter(p=>!done.has(p.id))};}
-export async function synchronize(){if(syncing||!store.unlocked||!navigator.onLine||locked())return;syncing=true;let progressed=false,staleRead=false,unclassifiedHeld=false;
- try{const batch=pendingWithJournal(store.pending).slice(0,100);const epochAtStart=Math.max(Number(readSaved()?.epoch)||0,store.epoch);if(batch.length)markSent(batch);let res:Response;try{res=await fetch(batch.length?'/api/sync':'/api/state',batch.length?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(batch)}:{cache:'no-store'});}catch(error){unmarkSent(batch);throw error;}
+// A batch is at most 100 changes and at most 90,000 bytes of JSON (the account refuses larger bodies); a single change is always within
+// bounds because every field is length-limited by validation.
+const batchBytes=90000;
+const bytes=(s:string)=>typeof TextEncoder==='undefined'?s.length:new TextEncoder().encode(s).length;
+function fit(ops:Operation[]){const out:Operation[]=[];let size=2;for(const op of ops){const n=bytes(JSON.stringify(op))+1;if(out.length&&size+n>batchBytes)break;out.push(op);size+=n;}return out;}
+export async function synchronize(){if(!current()){adopt();return;}if(syncing||!store.unlocked||!navigator.onLine||locked())return;syncing=true;const startedAt=generation();let progressed=false,staleRead=false,unclassifiedHeld=false;
+ try{const batch=fit(pendingWithJournal(store.pending).slice(0,100));const epochAtStart=Math.max(Number(readSaved()?.epoch)||0,store.epoch);if(batch.length)markSent(batch);let res:Response;try{res=await fetch(batch.length?'/api/sync':'/api/state',batch.length?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(batch)}:{cache:'no-store'});}catch(error){unmarkSent(batch);throw error;}
+ // Any answer that is not the account's own (a 2xx sync result) means the write did not reach the account's transaction: the marks come off.
+ if(!res.ok)unmarkSent(batch);
+ if(generation()!==startedAt){adopt();return;}
  if(!res.ok){if(res.status===401)set({...store,notice:'Unlock again to sync. Your offline changes are safe.',unlocked:false});
   // A refused batch must not stall the queue: the first change is set aside with the server's reason and the rest are retried.
-  else if(res.status===400&&batch.length){let reason='The account refused this change.';try{reason=(await res.json()).error??reason;}catch{}await withLock(()=>{const first=batch[0];const pending=pendingWithJournal(store.pending.filter(p=>p.id!==first.id)).filter(p=>p.id!==first.id);let state=store.state;for(const op of pending.filter(p=>!store.pending.some(q=>q.id===p.id))){try{state=apply(state,op);}catch{}}const next={...store,state,pending,failed:[...store.failed,{op:first,reason,at:new Date().toISOString()}],acked:[...store.acked,first.id],epoch:Math.max(epochAtStart,store.epoch)+1,notice:reason};if(persist(next)){journalRemove(first.id);set(next);progressed=true;}});
+  else if(res.status===400&&batch.length){let reason='The account refused this change.';try{reason=(await res.json()).error??reason;}catch{}if(generation()!==startedAt){adopt();return;}await withLock(()=>{if(generation()!==startedAt){adopt();return;}const first=batch[0];const pending=pendingWithJournal(store.pending.filter(p=>p.id!==first.id)).filter(p=>p.id!==first.id);let state=store.state;for(const op of pending.filter(p=>!store.pending.some(q=>q.id===p.id))){try{state=apply(state,op);}catch{}}const next={...store,state,pending,failed:[...store.failed,{op:first,reason,at:new Date().toISOString()}],acked:[...store.acked,first.id],epoch:Math.max(epochAtStart,store.epoch)+1,notice:reason};if(persist(next)){journalRemove(first.id);set(next);progressed=true;}});
    // The refused change's local effect is still on screen; a read follows at once and installs the account's state, and the rest of the queue goes with it.
    staleRead=true;}
   }else{
- const raw=await res.json();
+ const raw=await res.json();if(generation()!==startedAt){adopt();return;}
  // The receipt binds the answer's state to the changes it contains: any change this device still holds that the account lists as applied
  // is acknowledged now, before the state is used, so it is never applied a second time on top of a state that already includes it.
  const answer=batch.length?{state:raw.state as State,accepted:raw.accepted as string[],rejected:raw.rejected as {id:string;reason:string}[],applied:raw.applied as string[]|undefined,revision:raw.revision as number|undefined}:(()=>{const {applied,revision,...state}=raw as State&{applied?:string[];revision?:number};return {state:state as State,accepted:[] as string[],rejected:[] as {id:string;reason:string}[],applied,revision};})();
  const answered=new Set<string>([...answer.accepted,...answer.rejected.map(r=>r.id)]);const batchIds=new Set(batch.map(o=>o.id));let unclassified=false;
- await withLock(()=>{
+ await withLock(()=>{if(generation()!==startedAt){adopt();return;}
   // Another account answer was saved on this device while this request was in flight. The answer in hand may be older than the state
   // already saved, so it is not installed. A read is simply repeated; a write's acknowledgements are still recorded (the account holds
   // the changes), and the state they produced arrives with the read that follows at once.
