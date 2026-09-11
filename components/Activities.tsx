@@ -2,14 +2,13 @@
 import {useEffect, useRef, useState} from 'react';
 import {Hills, Gym, Mat, Tooth, NightRest, Glass, Mark} from './Scenes';
 import {Icon} from './Icon';
-import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, type Habit} from '@/lib/domain';
+import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, containersOf, type Habit} from '@/lib/domain';
 import {routines, phaseAt, routineSeconds, intervalsOf, type Routine} from '@/lib/abs';
 import {useTimer, startTimer, pauseTimer, resumeTimer, clearTimer, updateTimer, useWakeLock, clock, type Timer} from '@/lib/timer';
 import {finishTimer, maxSessionSeconds} from '@/lib/sessions';
 import {prime, beep, buzz, soundOn} from '@/lib/sound';
 import {maxFocusBlocks} from '@/lib/settle';
 import {useApp, Dial, Meter, weekInitials, longDate, shortDate} from './shared';
-import {containersOf} from '@/lib/domain';
 import {formatVolume} from '@/lib/units';
 import {parsePhrase, pourMl, describe, inContainers, type Parsed} from '@/lib/water';
 import {limits} from '@/lib/bounds';

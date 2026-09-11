@@ -1,4 +1,4 @@
-import type {Page, BrowserContext} from '@playwright/test';
+import type {Page} from '@playwright/test';
 import {emptyState,computeTargets,localDate,addDays,apply,type State,type Operation} from '../../lib/domain';
 import {validateBatch} from '../../lib/validation';
 export const zone='America/Los_Angeles';
@@ -9,7 +9,7 @@ export const op=(day:string,extra:Record<string,unknown>)=>({id:crypto.randomUUI
 export function complete(state:State,day:string){for(const habit of ['workout','abs','walk','water','protein','calories','floss'])state=apply(state,op(day,{type:'check',habit,value:true}));return state;}
 // A mocked account: the browser talks to routes that apply operations with the real domain, so what the server would hold is inspectable.
 export type Box={state:State;ops:Operation[];rejected:{id:string;reason:string}[];seen:Set<string>};
-// Attach the mocked account to another page of the same context (a second tab): same box, same real validation, no re-seeding.
+// Also attaches an existing box to a second tab of the same context: same box, same real validation, no re-seeding.
 export async function mock(page:Page,box:Box){
  // Like the account, every answer carries a receipt: the most recently applied ids and the revision (count of applied changes).
  const receipt=()=>({applied:[...box.seen].slice(-200),revision:box.seen.size});
@@ -25,4 +25,3 @@ export async function open(page:Page,state:State,{hash='',go=true,unlocked=true}
  if(go){await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();}
  return box;
 }
-export async function reduced(context:BrowserContext){return context;}

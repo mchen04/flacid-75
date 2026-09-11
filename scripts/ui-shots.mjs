@@ -98,7 +98,7 @@ const screens = [
 // Fixture variants, each derived from the base seed by applying real operations.
 const fixtures = {
   base: () => seed,
-  fresh: () => {const s = {...emptyState(), clock: seed.clock, profile: {...seed.profile, rewards: undefined, plan: undefined, startDay: today}}; return s;},
+  fresh: () => ({...emptyState(), clock: seed.clock, profile: {...seed.profile, rewards: undefined, plan: undefined, startDay: today}}),
   complete: () => {let s = seed; for (const habit of ['workout', 'abs', 'walk', 'floss']) s = apply(s, op(today, {type: 'check', habit, value: true})); s = apply(s, op(today, {type: 'water', amount: 750})); s = apply(s, op(today, {type: 'meal', mealId: crypto.randomUUID(), calories: 700, protein: 45})); return s;},
   rest: () => {let s = apply(seed, op(today, {type: 'rest', value: true})); s = apply(s, op(addDays(weekStart(today), 6), {type: 'rest', value: true})); return s;},
   restsUsed: () => {let s = seed; for (const d of [-1, -2].map(n => addDays(today, n)).filter(d => weekStart(d) === weekStart(today))) s = apply(s, op(d, {type: 'rest', value: true})); return s;},
@@ -108,9 +108,8 @@ const fixtures = {
   flossDone: () => apply(seed, op(today, {type: 'check', habit: 'floss', value: true})),
 };
 // Extra states that need their own browser context: the gate, onboarding, a changed timezone, reduced motion and a short screen.
-const sizes = [['phone', 390, 844], ['small', 375, 667], ['desktop', 1280, 900]].filter(([n]) => !process.env.ONLY_VIEWPORT || n === process.env.ONLY_VIEWPORT);
 const extras = [
-  ...sizes.flatMap(([n, width, height]) => [
+  ...viewports.flatMap(({name: n, width, height}) => [
    {name: `gate-${n}`, width, height, setup: 'none', expect: 'Passphrase'},
    {name: `gate-wrong-passphrase-${n}`, width, height, setup: 'none', auth: 401, fill: ['Passphrase', 'not-it'], tap: {role: 'button', name: 'Open', exact: true}, expect: 'That passphrase does not match.'},
    {name: `onboarding-${n}`, width, height, setup: 'empty', expect: 'Welcome to My Wellness.'},
@@ -250,7 +249,7 @@ await writeFile(`${out}/fit.json`, JSON.stringify(report, null, 2));
 const failures = Object.entries({...report.viewports, extras: report.extras}).flatMap(([vp, screens]) =>
   Object.entries(screens).filter(([, r]) => r.reached && (r.documentScrollsX || r.documentScrollsY || r.sideways.length || r.clipped.length || r.unexpectedScrollers.length || r.overlapping?.length))
     .map(([name, r]) => `${vp}/${name}: ${[r.documentScrollsX && 'document scrolls sideways', r.documentScrollsY && 'document scrolls', r.sideways.length && ('sideways: ' + r.sideways.map(s => `${s.selector} ${s.scrollWidth}>${s.clientWidth}`).join(', ')), r.clipped.length && ('clipped: ' + r.clipped.map(s => `${s.selector} ${s.scrollHeight}>${s.clientHeight}`).join(', ')), r.unexpectedScrollers.length && ('unexpected scrollers: ' + r.unexpectedScrollers.join(', ')), r.overlapping?.length && ('overlapping words: ' + r.overlapping.join(', '))].filter(Boolean).join('; ')}`));
-console.log(JSON.stringify({out, unreached: Object.entries(report.viewports).flatMap(([vp, s]) => Object.entries(s).filter(([, r]) => !r.reached).map(([n]) => `${vp}/${n}`)), failures}, null, 1));
 const unreached = Object.entries({...report.viewports, extras: report.extras}).flatMap(([vp, s]) => Object.entries(s).filter(([, r]) => !r.reached).map(([n]) => `${vp}/${n}`));
+console.log(JSON.stringify({out, unreached, failures}, null, 1));
 // A state that could not be reached is missing evidence, and missing evidence fails the run.
 process.exitCode = failures.length || unreached.length ? 1 : 0;

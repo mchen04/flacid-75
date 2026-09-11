@@ -11,6 +11,7 @@ await admin.connect();await admin.query(`CREATE SCHEMA ${schema}`);
 const uri=new URL(process.env.DATABASE_URL!);uri.hostname=uri.hostname.replace('-pooler','');uri.searchParams.set('options','-c search_path='+schema);process.env.DATABASE_URL=uri.toString();
 const {db,sync,readState,receiptSize}=await import('../lib/db');
 const {weekStart,addDays,restsLeft,pointsBalance}=await import('../lib/domain');
+const {validateBatch}=await import('../lib/validation');
 try{
  await db.query(await readFile('migrations/001_initial.sql','utf8'));
  // A fixed week keeps the rest-day arithmetic deterministic: Monday 2026-09-07 to Sunday 2026-09-13, "now" is Wednesday evening.
@@ -62,7 +63,6 @@ try{
  await Promise.all([sync([redeem]),sync([redeem])]);assert.equal(pointsBalance(await readState(),day),0,'a duplicate delivery of the same redeem charges once');
  await sync([{...base,id:randomUUID(),type:'unredeem' as const,rewardId:redeem.rewardId}]);assert.equal(pointsBalance(await readState(),day),30);
  // A batch with a malformed first change (as the sync route receives it) still applies the valid change behind it and names the bad one by id.
- const {validateBatch}=await import('../lib/validation');
  const poison={...base,id:randomUUID(),type:'rewards',rewards:[{id:randomUUID(),name:'Trip',cost:20000}]};const behind={...base,id:randomUUID(),type:'check' as const,habit:'floss' as const,value:true};
  const batch=validateBatch([poison,behind])!;assert.equal(batch.invalid[0].id,poison.id);const applied=await sync(batch.valid);assert.deepEqual(applied.accepted,[behind.id]);assert.equal((await readState()).days[day].checks.floss,true);
  // Validation still guards the schema: an unknown habit and a reversed calorie range are rejected without touching state.

@@ -20,7 +20,7 @@ const GENERATION='my-wellness-generation';
 function generation(){try{return Number(localStorage.getItem(GENERATION))||0;}catch{return 0;}}
 function current(){return store.generation===generation();}
 function journalWrite(op:Operation){if(locked())return false;try{localStorage.setItem(JOURNAL+op.id,JSON.stringify(op));return true;}catch{return false;}}
-function journalRemove(id:string){try{localStorage.removeItem(JOURNAL+id);}catch{}try{localStorage.removeItem('my-wellness-sent:'+id);}catch{}}
+function journalRemove(id:string){try{localStorage.removeItem(JOURNAL+id);}catch{}sentRemove(id);}
 // A change carries a sent mark while a write holding it is in flight and after the account has answered that write. A write that fails
 // without any answer removes the mark again: the change is then treated as unsent, shown, and presented again. Only a sent change can be
 // one the account applied without this device having recorded the answer; an unsent change is pending for certain and is always shown.
@@ -65,8 +65,7 @@ function adopt(){const saved=locked()?null:readSaved();if(!saved?.state){lockLoc
  set({...store,state,pending,failed:Array.isArray(saved.failed)?saved.failed:[],discarded:Array.isArray(saved.discarded)?saved.discarded:[],acked,epoch:Number(saved.epoch)||0,revision:savedRevision(saved),generation:generation(),unlocked:!!saved.unlocked,notice:''});}
 let reloading=false,storageWaiting=false;
 // Changes saved to the device by another tab that this tab does not hold yet.
-function arrivedMeanwhile(done:Set<string>):Operation[]{ // snapshot-listed changes from another tab that this tab does not hold
-const saved=readSaved();return Array.isArray(saved?.pending)?saved.pending.filter((p:Operation)=>!store.pending.some(q=>q.id===p.id)&&!done.has(p.id)&&!store.acked.includes(p.id)):[];}
+function arrivedMeanwhile(done:Set<string>):Operation[]{const saved=readSaved();return Array.isArray(saved?.pending)?saved.pending.filter((p:Operation)=>!store.pending.some(q=>q.id===p.id)&&!done.has(p.id)&&!store.acked.includes(p.id)):[];}
 // A device-wide lock around read-merge-save steps where the browser has Web Locks. It reduces interleaving; it is not what makes the
 // queue safe. The per-operation journal is: dispatch never rewrites another tab's change, so nothing can be lost in a window.
 async function withLock(fn:()=>void){const locks=(navigator as Navigator&{locks?:{request:(name:string,cb:()=>void)=>Promise<void>}}).locks;if(locks){await locks.request('my-wellness-store',()=>{fn();});}else fn();}

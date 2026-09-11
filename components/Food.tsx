@@ -4,9 +4,8 @@ import {Bowl} from './Scenes';
 import {Icon} from './Icon';
 import {totals} from '@/lib/domain';
 import {limits} from '@/lib/bounds';
-import {shortDate} from './shared';
 import type {Estimate, EstimateItem} from '@/lib/validation';
-import {useApp, Meter, format, names} from './shared';
+import {useApp, Meter, format, names, shortDate} from './shared';
 export function Food() {
  const {day, done, change, open, pulse} = useApp();
  const food = totals(day); const meals = Object.entries(day.meals);
