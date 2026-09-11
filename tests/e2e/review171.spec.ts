@@ -59,14 +59,39 @@ test('R171-5: "3/4 of the Stanley" proposes one three-quarter pour; "1/2 Stanley
  await page.getByLabel('Or say it').fill('1/2 Stanley');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('button',{name:'Add 15 oz'})).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();
 });
 
-test('R171-6: the water target field in oz cannot exceed what the account accepts; the largest allowed value saves, and an out-of-range override is refused on the device with a reason, not set aside later',async({page})=>{
+test('R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later',async({page})=>{
  const box=await open(page,seed(),{hash:'you'});
- await page.getByRole('button',{name:'Daily targets'}).click();const field=page.getByLabel('Water · oz',{exact:true});await expect(field).toHaveAttribute('max','202.8');
+ await page.getByRole('button',{name:'Daily targets'}).click();const field=page.getByLabel('Water · oz',{exact:true});
  await field.fill('202.8');await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.profile?.targets.water).toBeCloseTo(202.8*oz,6);expect(box.rejected).toEqual([]);
- // Past the field's cap (the browser's own check is removed for the test): the device refuses before queueing, with a reason on the sheet, and nothing is set aside by the account later.
- await page.getByRole('button',{name:'Daily targets'}).click();await page.getByLabel('Water · oz',{exact:true}).evaluate(el=>el.removeAttribute('max'));await page.getByLabel('Water · oz',{exact:true}).fill('203');await page.getByRole('button',{name:'Save',exact:true}).click();
- await expect(page.getByRole('dialog',{name:'Daily targets'})).toBeVisible();await expect(page.getByRole('status').filter({hasText:'outside the range'})).toBeVisible();expect(box.state.profile?.targets.water).toBeCloseTo(202.8*oz,6);
+ // Genuinely above the limit: refused on the sheet with the limits in her unit, before anything is queued; nothing is set aside by the account later.
+ await page.getByRole('button',{name:'Daily targets'}).click();await page.getByLabel('Water · oz',{exact:true}).fill('203');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect(page.getByRole('dialog',{name:'Daily targets'})).toBeVisible();await expect(page.getByRole('alert')).toContainText('Water must be between 16.9 oz and 202.9 oz');expect(box.state.profile?.targets.water).toBeCloseTo(202.8*oz,6);
  await page.waitForTimeout(500);expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length)).toBe(0);expect(box.rejected).toEqual([]);
+ await page.getByLabel('Water · oz',{exact:true}).fill('16');await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.getByRole('alert')).toContainText('Water must be between');expect(box.state.profile?.targets.water).toBeCloseTo(202.8*oz,6);
+ await page.keyboard.press('Escape');
+});
+
+test('R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused',async({page})=>{
+ const box=await open(page,seed(),{hash:'you'});
+ const volume=(u:'oz'|'ml')=>page.getByRole('group',{name:'Volume unit'}).getByRole('button',{name:u,exact:true}).click();
+ for(const [stored,shownOz] of [[6000,'202.9'],[500,'16.9']] as const){
+  // Set the boundary in ml.
+  await volume('ml');await expect.poll(()=>box.state.profile?.units?.volume).toBe('ml');
+  await page.getByRole('button',{name:'Daily targets'}).click();await page.getByLabel('Water · ml',{exact:true}).fill(String(stored));await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.profile?.targets.water).toBe(stored);
+  // In oz the field shows the rounded value just outside the rounded range; an unrelated protein edit still saves and the stored millilitres are untouched.
+  await volume('oz');await expect.poll(()=>box.state.profile?.units?.volume).toBe('oz');
+  await page.getByRole('button',{name:'Daily targets'}).click();await expect(page.getByLabel('Water · oz',{exact:true})).toHaveValue(shownOz);await page.getByLabel('Protein · g',{exact:true}).fill(stored===6000?'111':'112');await page.getByRole('button',{name:'Save',exact:true}).click();
+  await expect(page.getByRole('dialog',{name:'Daily targets'})).toHaveCount(0);await expect.poll(()=>box.state.profile?.targets.protein).toBe(stored===6000?111:112);expect(box.state.profile?.targets.water).toBe(stored);expect(box.rejected).toEqual([]);
+  // Back in ml, still exact after another unrelated edit.
+  await volume('ml');await expect.poll(()=>box.state.profile?.units?.volume).toBe('ml');
+  await page.getByRole('button',{name:'Daily targets'}).click();await expect(page.getByLabel('Water · ml',{exact:true})).toHaveValue(String(stored));await page.getByLabel('Steps',{exact:true}).fill('8000');await page.getByRole('button',{name:'Save',exact:true}).click();
+  await expect.poll(()=>box.state.profile?.targets.steps).toBe(8000);expect(box.state.profile?.targets.water).toBe(stored);
+ }
+ // A genuinely edited value outside the range is refused with the limits in her unit; the stored value stands.
+ await page.getByRole('button',{name:'Daily targets'}).click();await page.getByLabel('Water · ml',{exact:true}).fill('6001');await page.getByRole('button',{name:'Save',exact:true}).click();
+ await expect(page.getByRole('alert')).toContainText('Water must be between 500 ml and 6,000 ml');expect(box.state.profile?.targets.water).toBe(500);
+ await page.getByLabel('Water · ml',{exact:true}).fill('499');await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.getByRole('alert')).toContainText('Water must be between');expect(box.state.profile?.targets.water).toBe(500);
+ await page.getByLabel('Water · ml',{exact:true}).fill('6000');await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.profile?.targets.water).toBe(6000);expect(box.rejected).toEqual([]);
 });
 
 test('R171-7: a targets save queued while another device added a treat and a plan does not hide or delete them once this device catches up',async({page})=>{
