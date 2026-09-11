@@ -7,7 +7,8 @@
       "--project=chromium",
       "tests/e2e/wellness.spec.ts",
       "-g",
-      "workout page is a checklist"
+      "R-extra",
+      "--repeat-each=2"
     ],
     "configFile": "/Users/michaelchen/Projects/worktrees/t_7531365d-flacid-75/playwright.config.ts",
     "rootDir": "/Users/michaelchen/Projects/worktrees/t_7531365d-flacid-75/tests/e2e",
@@ -27,7 +28,7 @@
     "projects": [
       {
         "outputDir": "/Users/michaelchen/Projects/worktrees/t_7531365d-flacid-75/test-results",
-        "repeatEach": 1,
+        "repeatEach": 2,
         "retries": 0,
         "metadata": {
           "actualWorkers": 1
@@ -93,12 +94,12 @@
       "line": 0,
       "specs": [
         {
-          "title": "the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves",
+          "title": "R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock",
           "ok": true,
           "tags": [],
           "tests": [
             {
-              "timeout": 150000,
+              "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "chromium",
@@ -108,12 +109,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 22473,
+                  "duration": 572,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-11T02:36:20.026Z",
+                  "startTime": "2026-09-11T03:20:54.085Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -121,9 +122,43 @@
               "status": "expected"
             }
           ],
-          "id": "2a8617bd221fd957fb1f-c3a2b959ee69aef4c7d3",
+          "id": "2a8617bd221fd957fb1f-d00ea26e12c8991a2a41",
           "file": "wellness.spec.ts",
-          "line": 32,
+          "line": 439,
+          "column": 1
+        },
+        {
+          "title": "R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 580,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-11T03:20:55.050Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2a8617bd221fd957fb1f-3b73b074832b4dfa1f64",
+          "file": "wellness.spec.ts",
+          "line": 439,
           "column": 1
         }
       ]
@@ -131,9 +166,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-11T02:36:19.659Z",
-    "duration": 22941.207000000002,
-    "expected": 1,
+    "startTime": "2026-09-11T03:20:53.602Z",
+    "duration": 2146.3100000000004,
+    "expected": 2,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

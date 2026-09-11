@@ -16,6 +16,8 @@ test('every page is one tap from the dashboard, has an obvious Home, and the bro
  await expect(page.locator('nav.bottom-nav')).toHaveCount(0);
 });
 test('the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes',async({page})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const box=await openAt(page,seed(3),at(today,'10:00:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(10*60*1000);await expect(page.locator('.dial-time')).toHaveText(/^10:[0-2]\d$/);
  await page.getByRole('button',{name:'Pause'}).click();const paused=await page.locator('.dial-time').innerText();await page.clock.runFor(60*1000);await expect(page.locator('.dial-time')).toHaveText(paused);
@@ -59,6 +61,8 @@ test('the guided ab routine walks through timed intervals with instructions and 
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Done · Two-minute burst')).toBeVisible();
 });
 test('meditation and focus are optional: they log minutes and never change the streak',async({page})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();let s=seed(4);for(let i=1;i<=3;i++)s=complete(s,addDays(today,-i));const box=await openAt(page,s,at(today,'09:00:00'));
  await expect(page.getByRole('button',{name:/^3 day streak/})).toBeVisible();
  await page.getByRole('button',{name:'Open meditate timer'}).click();await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();await page.clock.runFor(2000);await page.clock.fastForward(3*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
@@ -94,6 +98,8 @@ test('units switch between lb/ft-in and kg/cm without changing the stored measur
  await page.getByRole('button',{name:'Your details'}).click();await expect(page.getByLabel('Weight · lb')).toHaveValue('143.3');await expect(page.getByLabel('Height · cm')).toHaveValue('165');
 });
 test('local midnight rolls the day over; a timer started before midnight credits the day it began',async({page})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const tomorrow=addDays(today,1);let s=seed(3);for(let i=1;i<=2;i++)s=complete(s,addDays(today,-i));
  const box=await openAt(page,s,at(today,'23:57:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(5*60*1000);
@@ -172,6 +178,8 @@ test('a running timer is visible from the dashboard and a duplicate finish canno
 });
 // Review round 1 regressions.
 test('logging from the dashboard while a timer runs finishes that session with its time and ticks; undo removes the session',async({page})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await page.clock.runFor(9*60*1000);
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText(/Running · 9:0\d/)).toBeVisible();
@@ -186,6 +194,8 @@ test('logging from the dashboard while a timer runs finishes that session with i
  await page.getByRole('button',{name:'Log walk'}).click();await expect(page.getByText('Walked · 4 min')).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeUndefined();
 });
 test('a timer left from another day is offered for that day or discarded, never silently backfilled',async({page})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const yesterday=addDays(today,-1);const s=seed(3);s.clock={zone,anchorDay:yesterday,anchorLocal:yesterday};const box=await openAt(page,s,at(yesterday,'21:00:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(6*60*1000);await page.getByRole('button',{name:'Pause'}).click();
  await page.clock.fastForward(12*60*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
@@ -375,6 +385,8 @@ test('Floss has the same shape as the other activities: a primary Mark flossed, 
 });
 // Review 162 regressions.
 test('R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay',async({page,context})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const box=await openAt(page,seed(),at(today,'09:00:00'),'focus');
  const runOne=async()=>{await page.getByLabel('Work minutes',{exact:true}).selectOption('25');await page.getByLabel('Break minutes',{exact:true}).selectOption('5');await page.getByRole('button',{name:'Start focus'}).click();await page.clock.runFor(2000);await page.clock.fastForward(26*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect(page.getByText(/1 finished this run/)).toBeVisible();await page.getByRole('button',{name:'End session'}).click();};
  await runOne();await expect.poll(()=>box.state.days[today]?.focus).toBe(1500);
@@ -424,19 +436,29 @@ test('R2: a pour from a long-named container logs with a trimmed label, and a re
  box.state={...box.state,profile:{...box.state.profile!,containers:[{id:'vat',name:'Vat',ml:9000}],defaultContainer:'vat'}};await page.reload();await page.locator('.app-shell').waitFor();await page.getByRole('button',{name:'Log a Vat'}).waitFor();
  await page.getByRole('button',{name:'Log a Vat'}).click();await expect(page.locator('.pour-card .form-error')).toContainText('Outside the range the app accepts.');expect(box.state.days[today].waterLog).toHaveLength(2);
 });
-test('R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock',async({page})=>{
+test('R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock',async({page,context})=>{
  const box=await open(page,seed(),{hash:'you'});
  await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Weight · lb').fill('150');await page.getByRole('button',{name:'kg · cm'}).click();
  await expect(page.getByLabel('Weight · kg',{exact:true})).toHaveValue('65');await page.getByRole('button',{name:'Update'}).click();await expect.poll(()=>box.state.profile?.weight).toBe(65);
- // Unlock with a queued change the account now refuses (a redeem beyond the balance): unlock still succeeds and the change is set aside.
- const today=todayIn();const bad={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'redeem',rewardId:crypto.randomUUID(),name:'Trip',cost:9000};
- await page.evaluate(b=>{const c=JSON.parse(localStorage.getItem('flaccid75-v1')!);c.unlocked=false;c.pending=[b];localStorage.setItem('flaccid75-v1',JSON.stringify(c));},bad);
- await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.reload();await page.getByLabel('Passphrase').fill('test-only');await page.getByRole('button',{name:'Open'}).click();
- await expect(page.locator('.app-shell')).toBeVisible();await expect(page.getByRole('switch',{name:'Sound cues'})).toBeVisible();await expect(page.getByText('Connect to the internet',{exact:false})).toHaveCount(0);await expect(page.getByLabel('Passphrase')).toHaveCount(0);
- await expect.poll(()=>box.rejected.length+(box.state.days[today]?.redeemed?Object.keys(box.state.days[today].redeemed!).length:0)).toBeGreaterThanOrEqual(1);
+ // The device is locked with the real control (the app clears its store and stops writing), so no live save can race the fixture below.
+ await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.getByRole('button',{name:'Lock this device',exact:true}).click();await page.getByRole('button',{name:'Lock and clear',exact:true}).click();await page.getByLabel('Passphrase').waitFor();
+ const generation=await page.evaluate(()=>localStorage.getItem('my-wellness-generation'));await page.close();
+ // With no page running, the device is given a locked snapshot that still holds a queued change the account will refuse (a redeem beyond the balance), as after an expired session.
+ const today=todayIn();const bad={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'redeem',rewardId:crypto.randomUUID(),name:'Trip',cost:9000};const state=box.state;
+ const again=await context.newPage();await mock(again,box);await again.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));
+ await again.addInitScript(({state,bad,generation})=>{if(sessionStorage.getItem('poisoned'))return;sessionStorage.setItem('poisoned','1');localStorage.removeItem('my-wellness-locked');localStorage.removeItem('my-wellness-logout');if(generation!==null)localStorage.setItem('my-wellness-generation',generation);localStorage.setItem('flaccid75-v1',JSON.stringify({state,pending:[bad],failed:[],discarded:[],acked:[],unlocked:false}));localStorage.setItem('my-wellness-op:'+bad.id,JSON.stringify(bad));},{state,bad,generation});
+ await again.goto('/');await again.getByLabel('Passphrase').fill('test-only');await again.getByRole('button',{name:'Open'}).click();
+ await expect(again.locator('.app-shell')).toBeVisible();await again.evaluate(()=>{location.hash='you';});await expect(again.getByRole('switch',{name:'Sound cues'})).toBeVisible();await expect(again.getByText('Connect to the internet',{exact:false})).toHaveCount(0);await expect(again.getByLabel('Passphrase')).toHaveCount(0);
+ // The account refuses exactly that change; nothing is redeemed; the device sets it aside and lists it, with nothing left pending.
+ await expect.poll(()=>box.rejected.map(r=>r.id)).toEqual([bad.id]);expect(box.state.days[today]?.redeemed??{}).toEqual({});expect(box.ops.filter(o=>o.type==='redeem')).toHaveLength(0);
+ await expect.poll(()=>again.evaluate(()=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {pending:s.pending.length,failed:s.failed.map((f:{op:{id:string}})=>f.op.id)};})).toEqual({pending:0,failed:[bad.id]});
+ await expect(again.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
+ await again.close();
 });
 // Review 163 regressions.
 test('R163-1: when device storage refuses the write, an automatically finishing timer and a manual finish both keep their timer and retry once storage is back',async({page})=>{
+ // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const box=await openAt(page,seed(),at(today,'12:00:00'),'meditate');
  // Storage refuses writes of the app store (as a full device would) while the flag is set; timer writes still succeed. The hook is on Storage.prototype, which both Chromium and WebKit honour (WebKit ignores an own property set on the localStorage instance).
  await page.evaluate(()=>{const w=window as unknown as {__refuse:boolean};w.__refuse=false;const orig=Storage.prototype.setItem;Storage.prototype.setItem=function(this:Storage,k:string,v:string){if(this===localStorage&&w.__refuse&&(k==='flaccid75-v1'||k.startsWith('my-wellness-op:')))throw new DOMException('quota','QuotaExceededError');orig.call(this,k,v);};});
