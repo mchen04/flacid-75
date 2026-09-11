@@ -1,6 +1,6 @@
 # Evidence index
 
-Version 4 (My Wellness, 2026-09-10; repaired after independent reviews 164, 165 and 171, fresh review pending, not shipped): start with [my-wellness/ACCEPTANCE.md](my-wellness/ACCEPTANCE.md) (scope matrix 1–19, commands, limitations), [my-wellness/RULES.md](my-wellness/RULES.md) and [my-wellness/DESIGN.md](my-wellness/DESIGN.md); captures under `my-wellness/before/` and `my-wellness/after/`. Earlier evidence below is retained unchanged.
+Version 4 (My Wellness, 2026-09-10; repaired after independent reviews 164, 165, 171 and 173, final supervisor pass pending, not shipped): start with [my-wellness/ACCEPTANCE.md](my-wellness/ACCEPTANCE.md) (scope matrix 1–19, commands, limitations), [my-wellness/RULES.md](my-wellness/RULES.md) and [my-wellness/DESIGN.md](my-wellness/DESIGN.md); captures under `my-wellness/before/` and `my-wellness/after/`. Earlier evidence below is retained unchanged.
 
 Version 3 (rebrand): start with [ACCEPTANCE-V3.md](ACCEPTANCE-V3.md), the version 3 section of [LEDGER.md](LEDGER.md), the blind rounds in [blind/v3/rounds.md](blind/v3/rounds.md), and the `v3/` folder (token scan, mascot scan, icon hashes, transient check, captures).
 
