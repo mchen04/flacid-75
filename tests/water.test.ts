@@ -68,3 +68,15 @@ test('a container whose name contains another name or a number is read whole: no
  const two=parsePhrase('two thirds of the Stanley',[stanley,glass,long],stanley);assert.equal(two.kind,'ok');if(two.kind==='ok'){assert.equal(two.count,1);assert.ok(Math.abs(two.fraction-2/3)<1e-9);}
  const both=parsePhrase('2 Stanley Quencher 40 oz',[stanley,glass,long],stanley);assert.equal(both.kind,'ok');if(both.kind==='ok'){assert.equal(both.count,2);assert.equal(both.container.id,'q');}
 });
+test('review 171: a slash fraction is a share, never a count; multiples still count',()=>{
+ const c={id:'s',name:'Stanley',ml:30*29.5735295625};
+ for(const [phrase,fraction,count] of [['3/4 of the Stanley',.75,1],['1/2 Stanley',.5,1],['2/3 of it',2/3,1],['1/4 of my Stanley',.25,1],['3/4 of the Stanley twice',.75,2],['two Stanleys',1,2],['2 x 1/2 Stanley',.5,2],['refilled it 3 times',1,3],['three quarters of a Stanley',.75,1],['half a Stanley',.5,1]] as const){
+  const p=parsePhrase(phrase,[c],c);assert.equal(p.kind,'ok',phrase);if(p.kind==='ok'){assert.ok(Math.abs(p.fraction-fraction)<1e-9,phrase);assert.equal(p.count,count,phrase);assert.ok(Math.abs(p.ml-c.ml*fraction*count)<1e-9,phrase);}
+ }
+});
+test('workout172: symbol shares parse without word boundaries; mixed numbers are one pour of that many containers; plain multiples still count',()=>{
+ const s={id:'s',name:'Stanley',ml:30*29.5735295625};const g={id:'g',name:'glass',ml:250};
+ const cases:[string,number,number,number][]=[['¾ of a Stanley',.75,1,s.ml*.75],['½ a glass',.5,1,125],['¼ Stanley',.25,1,s.ml/4],['two and a half glasses',2.5,1,625],['one and a half Stanleys',1.5,1,s.ml*1.5],['1 and a quarter Stanleys',1.25,1,s.ml*1.25],['2½ glasses',2.5,1,625],['two glasses',1,2,500],['half a glass twice',.5,2,250],['a glass and a half',1.5,1,375]];
+ for(const [phrase,fraction,count,ml] of cases){const p=parsePhrase(phrase,[s,g],s);assert.equal(p.kind,'ok',phrase);if(p.kind==='ok'){assert.ok(Math.abs(p.fraction-fraction)<1e-9,phrase+' fraction '+p.fraction);assert.equal(p.count,count,phrase);assert.ok(Math.abs(p.ml-ml)<1e-9,phrase+' ml '+p.ml);}}
+ assert.equal(describe(g,2.5,1),'2½ glasses');assert.equal(describe(s,1.25,1),'1¼ Stanleys');
+});

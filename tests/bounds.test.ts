@@ -2,7 +2,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {checkBounds} from '../lib/bounds';
+import {checkBounds, clip} from '../lib/bounds';
 import {operationSchema, validateBatch} from '../lib/validation';
 import type {Operation} from '../lib/domain';
 const base=()=>({id:randomUUID(),at:'2026-09-10T20:00:00.000Z',day:'2026-09-10',zone:'UTC'});
@@ -45,4 +45,39 @@ test('a batch with an invalid first change still applies the valid ones and name
  assert.equal(validateBatch([]),null);assert.equal(validateBatch('nope'),null);assert.equal(validateBatch(Array.from({length:101},()=>ok)),null);
  // A change without any id is still reported, with an empty id, so the device can set aside the head of its queue.
  assert.equal(validateBatch([{type:'water'}])!.invalid[0].id,'');
+});
+test('review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character',()=>{
+ const HIGH=String.fromCharCode(0xD83D);const NUL=String.fromCharCode(0);
+ const plan=(line:string):Operation=>({...base(),type:'plan',workout:[line]});
+ const both=(op:Operation)=>({client:checkBounds(op)===null,server:validateBatch([op])!.invalid.length===0});
+ assert.deepEqual(both(plan('x'.repeat(59)+'😀')),{client:true,server:true},'59 ascii and an emoji is 60 characters');
+ assert.deepEqual(both(plan('😀'.repeat(60))),{client:true,server:true},'60 emoji');
+ assert.deepEqual(both(plan('😀'.repeat(61))),{client:false,server:false},'61 emoji');
+ assert.deepEqual(both(plan('x'.repeat(59)+HIGH)),{client:false,server:false},'lone high surrogate');
+ assert.deepEqual(both(plan('a'+NUL+'b')),{client:false,server:false},'NUL');
+ assert.deepEqual(both({...base(),type:'rewards',rewards:[{id:randomUUID(),name:'Tea '+HIGH,cost:5}]}),{client:false,server:false});
+ assert.deepEqual(both({...base(),type:'water',amount:250,label:'sip'+NUL}),{client:false,server:false});
+ assert.deepEqual(both({...base(),type:'session',habit:'workout',seconds:60,done:true,items:['ok',HIGH]}),{client:false,server:false});
+ assert.deepEqual(both({...base(),type:'containers',containers:[{id:'c',name:'Bottle '+HIGH,ml:500}]}),{client:false,server:false});
+ assert.deepEqual(both({...base(),type:'redeem',rewardId:randomUUID(),name:'Film'+NUL,cost:5}),{client:false,server:false});
+ assert.equal(clip('x'.repeat(59)+'😀',60),'x'.repeat(59)+'😀');assert.equal(clip('x'.repeat(60)+'😀',60),'x'.repeat(60));assert.equal(clip('x'.repeat(59)+HIGH,60),'x'.repeat(59));assert.equal(clip('a'+NUL+'b',60),'ab');
+ // A mixed batch: the malformed changes are refused by id and the valid ones (including emoji) stay valid.
+ const bad1=plan('x'.repeat(59)+HIGH),bad2={...base(),type:'rewards',rewards:[{id:randomUUID(),name:'a'+NUL,cost:5}]} as Operation,good1=plan('Press-ups 💪'),good2={...base(),type:'water',amount:250} as Operation;
+ const r=validateBatch([bad1,bad2,good1,good2])!;assert.deepEqual(r.invalid.map(i=>i.id).sort(),[bad1.id,bad2.id].sort());assert.deepEqual(r.valid.map(o=>o.id),[good1.id,good2.id]);
+});
+test('review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml',()=>{
+ const oz=29.5735295625;const prof=(overrides:Record<string,number>):Operation=>({...base(),type:'profile',stats,overrides});
+ assert.equal(checkBounds(prof({water:203*oz})),'A target is outside the range the app accepts.');assert.equal(validateBatch([prof({water:203*oz})])!.invalid.length,1);
+ assert.equal(checkBounds(prof({water:202.8*oz})),null);assert.equal(validateBatch([prof({water:202.8*oz})])!.invalid.length,0);
+ for(const [k,v] of [['calorieMin',1100],['calorieMax',6600],['protein',10],['steps',100],['walkMinutes',400]] as const){assert.notEqual(checkBounds(prof({[k]:v})),null,k);assert.equal(validateBatch([prof({[k]:v})])!.invalid.length,1,k);}
+});
+test('review 171 follow-up: container ids and the default container id are held to the same text rule on both sides',()=>{
+ const HIGH=String.fromCharCode(0xD83D);const NUL=String.fromCharCode(0);
+ const both=(op:Operation)=>({client:checkBounds(op)===null,server:validateBatch([op])!.invalid.length===0});
+ const c=(id:string,defaultContainer?:string):Operation=>({...base(),type:'containers',containers:[{id,name:'Bottle',ml:500}],...(defaultContainer===undefined?{}:{defaultContainer})});
+ assert.deepEqual(both(c(randomUUID(),randomUUID())),{client:true,server:true});
+ assert.deepEqual(both(c('stanley','stanley')),{client:true,server:true});
+ assert.deepEqual(both(c('id'+HIGH)),{client:false,server:false});assert.deepEqual(both(c('id'+NUL)),{client:false,server:false});
+ assert.deepEqual(both(c('ok','d'+HIGH)),{client:false,server:false});assert.deepEqual(both(c('ok','d'+NUL)),{client:false,server:false});
+ assert.deepEqual(both(c('x'.repeat(41))),{client:false,server:false});assert.deepEqual(both(c('ok','x'.repeat(41))),{client:false,server:false});
 });

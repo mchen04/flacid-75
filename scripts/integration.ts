@@ -79,6 +79,21 @@ try{
  const late=await readState();assert.equal(late.applied.length,receiptSize);assert.ok(!late.applied.includes(old.id),'the old change has left the bounded receipt');
  const again=await sync([old]);assert.deepEqual(again.accepted,[old.id]);assert.equal(again.state.days[day].water,late.days[day].water,'re-presenting the old change applies nothing');
  assert.equal((await db.query('SELECT count(*)::int AS n FROM flaccid75_operations WHERE id=$1',[old.id])).rows[0].n,1);
+ // Review 171: text the database refuses inside JSON (a lone surrogate half, NUL) is rejected by id at validation and again at the database
+ // layer, so a mixed batch never rolls back; valid emoji is stored and read back intact.
+ const HIGH=String.fromCharCode(0xD83D);const NUL=String.fromCharCode(0);
+ const splitPlan={...base,id:randomUUID(),type:'plan' as const,workout:['x'.repeat(59)+HIGH]};const nulTreat={...base,id:randomUUID(),type:'rewards' as const,rewards:[{id:randomUUID(),name:'Tea'+NUL,cost:5}]};
+ const emojiPlan={...base,id:randomUUID(),type:'plan' as const,workout:['x'.repeat(59)+'😀','Press-ups 💪']};const emojiPour={...base,id:randomUUID(),type:'water' as const,amount:250,label:'💧 sip'};
+ const mixed=validateBatch([splitPlan,nulTreat,emojiPlan,emojiPour])!;assert.deepEqual(mixed.invalid.map(i=>i.id).sort(),[splitPlan.id,nulTreat.id].sort());assert.equal(mixed.valid.length,2);
+ const mixedResult=await sync(mixed.valid);assert.deepEqual(mixedResult.accepted.sort(),[emojiPlan.id,emojiPour.id].sort());assert.deepEqual(mixedResult.rejected,[]);
+ const withEmoji=await readState();assert.deepEqual(withEmoji.profile!.plan,['x'.repeat(59)+'😀','Press-ups 💪']);assert.equal(withEmoji.days[day].waterLog!.at(-1)!.label,'💧 sip');
+ // Straight to the database layer, bypassing validation: the malformed changes are still rejected by id and the valid one in the same batch is applied.
+ const direct=await sync([splitPlan as never,nulTreat as never,{...base,id:randomUUID(),type:'water' as const,amount:100}]);
+ assert.deepEqual(direct.rejected.map(r=>r.id).sort(),[splitPlan.id,nulTreat.id].sort());assert.equal(direct.accepted.length,1);assert.equal(direct.state.days[day].water,withEmoji.days[day].water+100);
+ assert.equal((await db.query('SELECT count(*)::int AS n FROM flaccid75_operations WHERE id=ANY($1)',[[splitPlan.id,nulTreat.id]])).rows[0].n,0);
+ // A literal backslash sequence in text is ordinary text and persists; only an actual NUL or lone surrogate half is refused.
+ const literal={...base,id:randomUUID(),type:'water' as const,amount:50,label:'C:\\u0000 path'};assert.equal(validateBatch([literal])!.invalid.length,0);const lit=await sync([literal]);assert.deepEqual(lit.accepted,[literal.id]);assert.deepEqual(lit.rejected,[]);
+ assert.equal((await readState()).days[day].waterLog!.at(-1)!.label,'C:\\u0000 path');
  const opCount=(await db.query('SELECT count(*)::int AS n FROM flaccid75_operations')).rows[0].n;
- console.log(JSON.stringify({isolatedSchema:true,receiptSnapshotConsistent:true,oldPendingWindowExact:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
+ console.log(JSON.stringify({isolatedSchema:true,malformedTextRejectedById:true,emojiStoredIntact:true,literalBackslashStored:true,receiptSnapshotConsistent:true,oldPendingWindowExact:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
 }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}

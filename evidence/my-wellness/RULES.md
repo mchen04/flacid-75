@@ -45,7 +45,7 @@ These are the defaults the app ships with. Each one is deliberate, visible in th
 - Measurements are stored in kilograms and centimetres. The display unit defaults to lb and ft-in; kg and cm are one tap away in Settings. Conversion never rounds the stored value (`tests/units.test.ts`).
 
 ## Data
-- Logs live in local storage under the existing key and in the private account. Only a described or photographed meal (and, when the local parser cannot read it, a water note with the container names) is sent, to free OpenRouter models only, with a per-request `max_price` of zero and an id check that refuses any non-free model. No other log leaves the device.
+- Logs live in local storage under the existing key and sync to the private account. Two things are also sent to a third-party model, and only to free OpenRouter models (per-request `max_price` of zero and an id check that refuses any non-free model): a described or photographed meal, for a food estimate; and a typed water note with the container names, only when the local parser cannot read it. No other log is sent to a third party. What the provider retains is not promised by the app.
 
 ## Bounds and refusals
 - Every change is checked against the account's bounds on the device before it is queued (`lib/bounds.ts`, held to the server schema by `tests/bounds.test.ts`), and forms cannot produce a change outside them.

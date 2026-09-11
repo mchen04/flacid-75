@@ -62,7 +62,10 @@ export function computeTargets(s: Stats): Targets {
 export function weightTrend(weights: Record<string, number>) {let smooth = 0, last = ''; return Object.entries(weights).sort(([a], [b]) => a.localeCompare(b)).map(([day, value]) => {const alpha = last ? 1 - Math.exp(-Math.max(1, dayDiff(last, day)) / 7) : 1; smooth = last ? smooth + alpha * (value - smooth) : value; last = day; return {day, value: Math.round(smooth * 10) / 10};});}
 export function newDay(targets: Targets): Day {return {checks: {}, water: 0, meals: {}, targets: {...targets}, rest: false, rescued: false, backfilled: false};}
 export function totals(day: Day) {return Object.values(day.meals).reduce((a, b) => ({calories: a.calories + b.calories, protein: a.protein + b.protein}), {calories: 0, protein: 0});}
-export function completion(day?: Day): Record<Habit, boolean> {const t = day ? totals(day) : {protein: 0, calories: 0}; return Object.fromEntries(habits.map(h => [h, day?.checks[h] ?? (!day ? false : h === 'water' ? day.water >= day.targets.water : h === 'protein' ? t.protein >= day.targets.protein : h === 'calories' ? t.calories >= day.targets.calorieMin && t.calories <= day.targets.calorieMax : false)])) as Record<Habit, boolean>;}
+// Water is summed from pours stored at full precision (an ounce is 29.5735295625 ml), so a target met exactly can fall short by a
+// billionth of a millilitre. A hundredth of a millilitre of tolerance covers that and grants nothing a person could pour.
+export const waterTolerance = 0.01;
+export function completion(day?: Day): Record<Habit, boolean> {const t = day ? totals(day) : {protein: 0, calories: 0}; return Object.fromEntries(habits.map(h => [h, day?.checks[h] ?? (!day ? false : h === 'water' ? day.water >= day.targets.water - waterTolerance : h === 'protein' ? t.protein >= day.targets.protein : h === 'calories' ? t.calories >= day.targets.calorieMin && t.calories <= day.targets.calorieMax : false)])) as Record<Habit, boolean>;}
 export function isComplete(d?: Day) {return !!d && Object.values(completion(d)).every(Boolean);}
 export function isKept(d?: Day) {return !!d && (isComplete(d) || d.rest || d.rescued);}
 export function missing(d?: Day) {const c = completion(d); return habits.filter(h => !c[h]);}
@@ -83,7 +86,9 @@ export function apply(state: State, op: Operation): State {
   const sameWeight = !!state.profile && state.profile.weight === op.stats.weight;
   const baselineWeight = sameWeight ? state.profile!.baselineWeight : op.stats.weight;
   const targets = {...computeTargets({...op.stats, weight: baselineWeight}), ...op.overrides};
-  next.profile = {...next.profile, ...op.stats, targets, overrides: op.overrides, baselineWeight, startDay: state.profile?.startDay ?? op.day};
+  // Only the five measurements come from the change; treats, plan, containers and units on the profile are never touched by a targets or details save.
+  const {height, weight, age, activity, goal} = op.stats;
+  next.profile = {...next.profile, height, weight, age, activity, goal, targets, overrides: op.overrides, baselineWeight, startDay: state.profile?.startDay ?? op.day};
   next.clock ??= {zone: op.zone, anchorDay: op.day, anchorLocal: localDate(op.at, op.zone)};
   if (next.days[op.day]) next.days[op.day].targets = {...targets};
   return next;

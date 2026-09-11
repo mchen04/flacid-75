@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {apply,emptyState,habits,streaks,dayAt,changeZone,localDate,computeTargets,weightTrend,restsLeft,isComplete,isKept,pointsBalance,pointsEarned,milestones,restDaysPerWeek,type Operation,type State} from '../lib/domain';
+import {apply,emptyState,completion,newDay,habits,streaks,dayAt,changeZone,localDate,computeTargets,weightTrend,restsLeft,isComplete,isKept,pointsBalance,pointsEarned,milestones,restDaysPerWeek,type Operation,type State} from '../lib/domain';
 const stats={height:165,weight:65,age:30,activity:1 as const,goal:'maintain' as const};
 const common=(day='2026-09-01',at=day+'T20:00:00.000Z')=>({id:randomUUID(),day,at,zone:'America/Los_Angeles'});
 const initial=()=>apply(emptyState(),{...common(),type:'profile',stats,overrides:{}});
@@ -99,4 +99,21 @@ test('saving targets or details without editing the weight keeps the trend basel
  s=apply(s,{...common('2026-09-10'),type:'profile',stats,overrides:{protein:120}});
  assert.equal(s.profile!.baselineWeight,trend,'an unedited weight keeps the trend baseline');assert.equal(s.profile!.targets.calorieMin,targets.calorieMin);assert.equal(s.profile!.targets.protein,120);
  s=apply(s,{...common('2026-09-10'),type:'profile',stats:{...stats,weight:80},overrides:{}});assert.equal(s.profile!.baselineWeight,80);
+});
+test('review 171: water completion tolerates float summation at an exactly met target in either unit, never a genuine shortfall, and is recomputed for past days',()=>{
+ const oz=29.5735295625;
+ for(const [target,pour,pours] of [[120*oz,30*oz/4,16],[2000,250,8],[64*oz,8*oz,8],[100*oz,10*oz,10],[3*oz,oz/4,12]] as const){
+  const d=newDay({...computeTargets(stats),water:target});for(let n=0;n<pours;n++)d.water+=pour;
+  assert.equal(completion(d).water,true,`target ${target}`);assert.equal(completion({...d,water:d.water-0.02}).water,false,`short ${target}`);assert.equal(completion({...d,water:d.water-pour}).water,false,`one pour short ${target}`);
+ }
+ // A past day is scored from its stored total: the same tolerance applies when the day is read back.
+ let s=initial();s=apply(s,{...common(),type:'profile',stats,overrides:{water:Math.round(120*oz)}});
+ for(let n=0;n<16;n++)s=apply(s,{...common(),type:'water',amount:30*oz/4});
+ assert.equal(completion(s.days['2026-09-01']).water,s.days['2026-09-01'].water>=s.days['2026-09-01'].targets.water-0.01);
+});
+test('review 171: a targets or details save carries only the five measurements; treats, plan, containers and units on the profile are untouched by it',()=>{
+ let s=initial();s=apply(s,{...common(),type:'rewards',rewards:[{id:randomUUID(),name:'Film night',cost:50}]});s=apply(s,{...common(),type:'plan',workout:['Squats']});s=apply(s,{...common(),type:'units',units:{weight:'kg',height:'cm',volume:'ml'}});
+ const stale={...stats,rewards:[],plan:['Old'],units:{weight:'lb',height:'ftin'},containers:[]} as unknown as typeof stats;
+ const after=apply(s,{...common(),type:'profile',stats:stale,overrides:{protein:110}});
+ assert.equal(after.profile!.rewards!.length,1);assert.deepEqual(after.profile!.plan,['Squats']);assert.deepEqual(after.profile!.units,{weight:'kg',height:'cm',volume:'ml'});assert.equal(after.profile!.containers,undefined);assert.equal(after.profile!.targets.protein,110);
 });

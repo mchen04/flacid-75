@@ -12,6 +12,9 @@ const READ=`SELECT s.data, (SELECT count(*)::int FROM flaccid75_operations) AS n
 type Row={data:State;n:number;applied:string[]};
 async function readAll(q:{query:(text:string,values?:unknown[])=>Promise<{rows:Row[]}>}):Promise<{state:State}&Receipt>{const row=(await q.query(READ,[receiptSize])).rows[0];return {state:row.data,applied:(row.applied??[]).map(String),revision:Number(row.n)||0};}
 export async function readState():Promise<State&Receipt>{const {state,applied,revision}=await readAll(db);return {...state,applied,revision};}
+// Every string value in the change, wherever it sits, must be well-formed and free of an actual NUL; escapes in the text itself (a literal backslash-u) are ordinary characters.
+const cleanText=(v:unknown):boolean=>typeof v==='string'?v.isWellFormed()&&!v.includes(String.fromCharCode(0)):Array.isArray(v)?v.every(cleanText):v!==null&&typeof v==='object'?Object.values(v as Record<string,unknown>).every(cleanText):true;
+const storable=(op:Operation)=>cleanText(op);
 export async function sync(ops:Operation[]){
  const client=await db.connect();
  try{
@@ -19,6 +22,8 @@ export async function sync(ops:Operation[]){
   let state:State=(await client.query('SELECT data FROM flaccid75_state WHERE id=1 FOR UPDATE')).rows[0].data;
   const accepted:string[]=[],rejected:{id:string;reason:string}[]=[];
   for(const op of ops){
+   // Defence at the last step before storage: text PostgreSQL refuses inside JSON (a lone surrogate half or NUL) rejects this change by id, so it can never roll back the batch.
+   if(!storable(op)){rejected.push({id:op.id,reason:'A change was refused: text must be well-formed without NUL.'});continue;}
    if((await client.query('SELECT id FROM flaccid75_operations WHERE id=$1',[op.id])).rowCount){accepted.push(op.id);continue;}
    try{
     if(Date.parse(op.at)>Date.now()+300000)throw new Error('Your device clock is ahead.');

@@ -11,7 +11,7 @@ import {maxFocusBlocks} from '@/lib/settle';
 import {useApp, Dial, Meter, weekInitials, longDate, shortDate} from './shared';
 import {formatVolume} from '@/lib/units';
 import {parsePhrase, pourMl, describe, inContainers, type Parsed} from '@/lib/water';
-import {limits} from '@/lib/bounds';
+import {limits, clip} from '@/lib/bounds';
 // Shared timer controls. Start primes audio inside the tap, so later cues can sound; the timer itself is wall-clock based (lib/timer.ts).
 function Controls({timerKey, running, hasTimer, onFinish, finishLabel = 'Finish', disabled = false}: {timerKey: string; running: boolean; hasTimer: boolean; onFinish: () => void; finishLabel?: string; disabled?: boolean}) {
  const {dayKey} = useApp();
@@ -132,7 +132,7 @@ export function Water() {
  const [text, setText] = useState(''); const [pending, setPending] = useState<Parsed | null>(null); const [busy, setBusy] = useState(false); const [note, setNote] = useState('');
  const log = day.waterLog ?? [];
  // The label is trimmed to the account's bound (a long container name plus "three quarters of a" can exceed it); a refusal shows right here.
- function pour(ml: number, label: string) {if (change({type: 'water', amount: ml, label: label.slice(0, limits.waterLabel)})) {bump('water', 900); setPending(null); setText(''); setNote('');} else setNote('refused');}
+ function pour(ml: number, label: string) {if (change({type: 'water', amount: ml, label: clip(label, limits.waterLabel)})) {bump('water', 900); setPending(null); setText(''); setNote('');} else setNote('refused');}
  function undoLast() {const last = log.at(-1); if (!last) return; change({type: 'water', amount: -last.ml});}
  // Typed phrases: the local parser first. If it cannot read the note, the model may name the container and the share; the app does the arithmetic.
  async function read() {
@@ -158,6 +158,7 @@ export function Water() {
    <div className="card-head"><h2>Log a pour</h2><button className="text-button" onClick={() => open('containers')}><Icon name="edit" size={16}/>Containers</button></div>
    <div className="chips left" role="group" aria-label="Container">{list.map(c => <button key={c.id} className={`chip ${c.id === container.id ? 'active' : ''}`} aria-pressed={c.id === container.id} onClick={() => setPick(c.id)}>{c.name} · {formatVolume(c.ml, units)}</button>)}</div>
    <div className="fractions" role="group" aria-label={`Share of the ${container.name}`}>{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'Full']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`Log ${describe(container, f, 1)}`} onClick={() => pour(pourMl(container, f, 1), describe(container, f, 1))}><b>{l}</b><small>{formatVolume(container.ml * f, units)}</small></button>)}</div>
+   <p className="fine-print">The app reads notes like “half my Stanley” itself. A note it cannot read is sent, with your container names, to a free third-party model to name the container and the share; the app does the arithmetic.</p>
    <form className="phrase" onSubmit={e => {e.preventDefault(); if (text.trim()) void read();}}><label>Or say it<input value={text} onChange={e => {setText(e.target.value); setPending(null);}} maxLength={200} placeholder="half my Stanley" aria-label="Or say it"/></label><button className="secondary" disabled={busy || !text.trim()}>{busy ? 'Reading…' : 'Read it'}</button></form>
    {pending?.kind === 'ok' && <div className="confirm"><p><strong>{formatVolume(pending.ml, units)}</strong> · {pending.label}. {pending.count > 1 || pending.fraction !== 1 ? `${formatVolume(pending.container.ml, units)} × ${pending.fraction === 1 ? '' : pending.fraction === .5 ? '½' : pending.fraction === .25 ? '¼' : pending.fraction === .75 ? '¾' : Math.round(pending.fraction * 100) + '%'}${pending.count > 1 ? ` × ${pending.count}` : ''}` : ''}</p><div className="controls"><button className="secondary" onClick={() => setPending(null)}>Not this</button><button className="primary" onClick={() => pending.kind === 'ok' && pour(pending.ml, pending.label)}>Add {formatVolume(pending.ml, units)}</button></div></div>}
    {pending?.kind === 'ask' && <div className="confirm" role="group" aria-label={pending.question}><p><strong>{pending.question}</strong> Pick a share; nothing is guessed.</p><div className="fractions">{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'All']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`${l} of the ${pending.container!.name}`} onClick={() => pour(pourMl(pending.container!, f, 1), describe(pending.container!, f, 1))}><b>{l}</b><small>{formatVolume(pending.container!.ml * f, units)}</small></button>)}</div></div>}

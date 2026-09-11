@@ -5,7 +5,7 @@ import {Icon} from './Icon';
 import {defaultUnits, defaultPlan, restDaysPerWeek, pointsPerHabit, pointsPerDay, type Stats, type Targets, type Units, type Container} from '@/lib/domain';
 import {feetInches, formatHeight, formatWeight, parseHeight, parseWeight, toLb, volumeUnit, formatVolume, parseVolume, toOz} from '@/lib/units';
 import {soundOn, setSound} from '@/lib/sound';
-import {limits} from '@/lib/bounds';
+import {limits, clip} from '@/lib/bounds';
 import {discardFailed, type Failed} from '@/lib/client-store';
 import {useApp} from './shared';
 export function You({notice, failed}: {notice: string; failed: Failed[]}) {
@@ -47,7 +47,7 @@ export function Setup({initial, onSave}: {initial?: Stats & {overrides?: Partial
   const keptWeight = untouchedWeight ? initial!.weight : weight;
   onSave({height: keptHeight, weight: keptWeight, age: Number(f.get('age')), activity: activity as Stats['activity'], goal}, initial?.overrides ?? {}, units);}}>
  {!initial && <h1>Welcome to My Wellness.</h1>}
- <div className="segmented" role="group" aria-label="Units">{([['lb', 'ftin', 'lb · ft in'], ['kg', 'cm', 'kg · cm']] as const).map(([w, h, l]) => <button type="button" key={w} className={units.weight === w ? 'active' : ''} aria-pressed={units.weight === w} onClick={() => setUnits({weight: w, height: h})}>{l}</button>)}</div>
+ <div className="segmented" role="group" aria-label="Units">{([['lb', 'ftin', 'lb · ft in'], ['kg', 'cm', 'kg · cm']] as const).map(([w, h, l]) => <button type="button" key={w} className={units.weight === w ? 'active' : ''} aria-pressed={units.weight === w} onClick={() => setUnits(u => ({...u, weight: w, height: h}))}>{l}</button>)}</div>
  <div className="form-grid">
   {units.height === 'cm' ? <label>Height · cm<input key="cm" name="cm" type="number" inputMode="decimal" min="120" max="230" step="0.1" defaultValue={shown?.cm} placeholder="165" required/></label>
   : <div className="ftin"><label>Height · ft<input name="feet" type="number" inputMode="numeric" min="3" max="7" defaultValue={shown?.feet} placeholder="5" required/></label><label>in<input name="inches" type="number" inputMode="numeric" min="0" max="11" defaultValue={shown?.inches} placeholder="5" required/></label></div>}
@@ -61,7 +61,7 @@ export function TargetForm({targets, onSave}: {targets: Targets; onSave: (t: Par
  const {units} = useApp(); const [error, setError] = useState(''); const oz = volumeUnit(units) === 'oz';
  // Water is shown and typed in her volume unit; the field left at its pre-filled string keeps the exact stored millilitres.
  const waterShown = oz ? String(Math.round(toOz(targets.water) * 10) / 10) : String(Math.round(targets.water));
- const fields: [keyof Targets, string, number, number, string][] = [['calorieMin', 'Calories · lower', 1200, 6000, String(targets.calorieMin)], ['calorieMax', 'Calories · upper', 1200, 6500, String(targets.calorieMax)], ['protein', 'Protein · g', 20, 400, String(targets.protein)], ['water', `Water · ${oz ? 'oz' : 'ml'}`, oz ? 17 : 500, oz ? 203 : 6000, waterShown], ['steps', 'Steps', 500, 40000, String(targets.steps)], ['walkMinutes', 'Walk · minutes', 5, 300, String(targets.walkMinutes ?? 30)]];
+ const fields: [keyof Targets, string, number, number, string][] = [['calorieMin', 'Calories · lower', 1200, 6000, String(targets.calorieMin)], ['calorieMax', 'Calories · upper', 1200, 6500, String(targets.calorieMax)], ['protein', 'Protein · g', 20, 400, String(targets.protein)], ['water', `Water · ${oz ? 'oz' : 'ml'}`, oz ? 17 : 500, oz ? 202.8 : 6000, waterShown], ['steps', 'Steps', 500, 40000, String(targets.steps)], ['walkMinutes', 'Walk · minutes', 5, 300, String(targets.walkMinutes ?? 30)]];
  return <form onSubmit={e => {e.preventDefault(); const f = new FormData(e.currentTarget); const t = Object.fromEntries(fields.map(([k]) => [k, Number(f.get(k))])) as Targets; const typed = String(f.get('water')); t.water = typed === waterShown ? targets.water : (parseVolume(typed, units) ?? targets.water); if (t.calorieMin > t.calorieMax) {setError('The lower number must be below the upper number.'); return;} onSave(t);}}><div className="form-grid">{fields.map(([key, label, min, max, shown]) => <label key={key}>{label}<input name={key} type="number" inputMode="decimal" step={key === 'water' && oz ? '0.1' : '1'} min={min} max={max} defaultValue={shown} required/></label>)}</div><button className="primary">Save</button><button className="text-button" type="button" onClick={() => onSave({})}>Use calculated targets</button>{error && <p role="alert">{error}</p>}</form>;}
 export function Weight({onSave}: {onSave: (kg: number) => void}) {
  const {units} = useApp(); const [error, setError] = useState('');
@@ -69,11 +69,11 @@ export function Weight({onSave}: {onSave: (kg: number) => void}) {
 }
 export function PlanForm({plan, onSave}: {plan?: string[]; onSave: (items: string[]) => void}) {
  const [text, setText] = useState((plan?.length ? plan : defaultPlan).join('\n'));
- return <div><label>One move per line<textarea value={text} onChange={e => setText(e.target.value)} rows={8} maxLength={2000}/></label><p className="fine-print">Your checklist for every workout, up to {limits.planLines} moves of {limits.planLine} characters. Tick moves as you go; the session clock starts on the first tick.</p><button className="primary" onClick={() => onSave(text.split('\n').map(s => s.trim().slice(0, limits.planLine)).filter(Boolean).slice(0, limits.planLines))}>Save plan</button></div>;
+ return <div><label>One move per line<textarea value={text} onChange={e => setText(e.target.value)} rows={8} maxLength={2000}/></label><p className="fine-print">Your checklist for every workout, up to {limits.planLines} moves of {limits.planLine} characters. Tick moves as you go; the session clock starts on the first tick.</p><button className="primary" onClick={() => onSave(text.split('\n').map(s => clip(s.trim(), limits.planLine)).filter(Boolean).slice(0, limits.planLines))}>Save plan</button></div>;
 }
 export function ContainersForm({containers, defaultId, onSave}: {containers: Container[]; defaultId: string; onSave: (c: Container[], d: string) => void}) {
  const {units} = useApp(); const [list, setList] = useState(containers); const [def, setDef] = useState(defaultId); const [name, setName] = useState(''); const [size, setSize] = useState(''); const [error, setError] = useState('');
- function add() {const n = name.trim(); const ml = parseVolume(size, units); if (!n || ml === null || ml < 30 || ml > 6000) {setError('Give it a name and a size between 1 and 200 oz.'); return;} setList([...list, {id: crypto.randomUUID(), name: n, ml}]); setName(''); setSize(''); setError('');}
+ function add() {const n = clip(name.trim(), limits.containerName); const ml = parseVolume(size, units); if (!n || ml === null || ml < 30 || ml > 6000) {setError('Give it a name and a size between 1 and 200 oz.'); return;} setList([...list, {id: crypto.randomUUID(), name: n, ml}]); setName(''); setSize(''); setError('');}
  return <div className="treats-form">
   {list.map(c => <div key={c.id} className="meal-row"><div><strong>{c.name}</strong><p>{formatVolume(c.ml, units)}{c.id === def ? ' · one-tap default' : ''}</p></div>{c.id !== def && <button onClick={() => setDef(c.id)}>Make default</button>}<button aria-label={`Remove ${c.name}`} disabled={list.length === 1} onClick={() => {const next = list.filter(x => x.id !== c.id); setList(next); if (def === c.id) setDef(next[0].id);}}><Icon name="close" size={16}/></button></div>)}
   <div className="form-grid treat-add"><label>Container<input value={name} onChange={e => setName(e.target.value)} maxLength={30} placeholder="Bottle"/></label><label>Size · {volumeUnit(units)}<input value={size} onChange={e => setSize(e.target.value)} type="number" inputMode="decimal" min="1" step="0.1" placeholder={volumeUnit(units) === 'oz' ? '30' : '887'}/></label></div>
@@ -93,7 +93,7 @@ export function Rules() {return <section className="activity rules"><div classNa
  <h2>Rollover</h2><p>At midnight an unfinished day becomes a missed day and the streak returns to zero, unless it was a rest day or you rescue it later from Progress. During the day the streak shows yesterday’s count until you finish. A timer that runs past midnight credits the day it was started on.</p>
  <h2>Points and treats</h2><p>Each required habit is {pointsPerHabit} points and a complete day adds {pointsPerDay}. Treats are anything you choose and cost what you decide. Redeeming can be undone from the day it was logged on. Food is never a reward and never has to be earned.</p>
  <h2>Timers</h2><p>Timers count from the clock, not from ticks, so a locked phone or a backgrounded app keeps the right time. A closed tab keeps its timer too; reopen and it resumes. Cues are visual by default; sound is optional in Settings.</p>
- <h2>Your data</h2><p>Logs live on this device and in your private account. Only the meal you describe or photograph is sent for a food estimate, to free models only. No other log leaves the device.</p>
+ <h2>Your data</h2><p>Logs live on this device and sync to your private account. Two things are also sent to a third-party model, and only to free models: the meal you describe or photograph, for a food estimate; and a typed water note with your container names, only when the app cannot read the note itself. No other log is sent to a third party. What a third party keeps is theirs to say, not ours.</p>
 </div></section>;}
 
 // The lazily loaded entry for everything on this file: one component, one `kind`, so App loads this chunk only when it is needed.

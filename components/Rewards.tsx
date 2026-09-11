@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Mark} from './Scenes';
 import {Icon} from './Icon';
 import {pointsBalance, pointsEarned, pointsSpent, pointsPerHabit, pointsPerDay, habits, type Reward} from '@/lib/domain';
-import {limits} from '@/lib/bounds';
+import {limits, clip} from '@/lib/bounds';
 import {useApp, format, longDate} from './shared';
 export function Rewards() {
  const {state, today, dayKey, day, change, open, bump, pulse} = useApp();
@@ -24,7 +24,7 @@ export function RewardsForm({rewards, onSave}: {rewards: Reward[]; onSave: (r: R
  const [list, setList] = useState<Reward[]>(rewards.length ? rewards : []); const [name, setName] = useState(''); const [cost, setCost] = useState('100');
  const [error, setError] = useState('');
  // Bounded to what the account accepts (lib/bounds.ts), so a treat can never be queued and refused later.
- function add() {const n = name.trim().slice(0, limits.rewardName); const c = Math.round(Number(cost)); if (!n || !Number.isFinite(c) || c < limits.rewardCost[0] || c > limits.rewardCost[1]) {setError(`Points must be a whole number from 1 to ${limits.rewardCost[1].toLocaleString()}.`); return;} if (list.length >= limits.rewards) {setError(`Up to ${limits.rewards} treats.`); return;} setList([...list, {id: crypto.randomUUID(), name: n, cost: c}]); setName(''); setCost('100'); setError('');}
+ function add() {const n = clip(name.trim(), limits.rewardName); const c = Math.round(Number(cost)); if (!n || !Number.isFinite(c) || c < limits.rewardCost[0] || c > limits.rewardCost[1]) {setError(`Points must be a whole number from 1 to ${limits.rewardCost[1].toLocaleString()}.`); return;} if (list.length >= limits.rewards) {setError(`Up to ${limits.rewards} treats.`); return;} setList([...list, {id: crypto.randomUUID(), name: n, cost: c}]); setName(''); setCost('100'); setError('');}
  return <div className="treats-form">
   {list.map(r => <div key={r.id} className="meal-row"><div><strong>{r.name}</strong><p>{r.cost} points</p></div><button aria-label={`Remove ${r.name}`} onClick={() => setList(list.filter(x => x.id !== r.id))}><Icon name="close" size={16}/></button></div>)}
   <div className="form-grid treat-add"><label>Treat<input value={name} onChange={e => setName(e.target.value)} maxLength={limits.rewardName} placeholder="Film night"/></label><label>Points<input value={cost} onChange={e => setCost(e.target.value)} type="number" inputMode="numeric" min={limits.rewardCost[0]} max={limits.rewardCost[1]} step="1"/></label></div>

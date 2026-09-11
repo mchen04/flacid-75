@@ -143,12 +143,16 @@ function project(state:State,pending:Operation[],answered:Set<string>,applied:st
 const batchBytes=90000;
 const bytes=(s:string)=>typeof TextEncoder==='undefined'?s.length:new TextEncoder().encode(s).length;
 function fit(ops:Operation[]){const out:Operation[]=[];let size=2;for(const op of ops){const n=bytes(JSON.stringify(op))+1;if(out.length&&size+n>batchBytes)break;out.push(op);size+=n;}return out;}
-export async function synchronize(){if(!current()){adopt();return;}if(syncing||!store.unlocked||!navigator.onLine||locked())return;syncing=true;const startedAt=generation();let progressed=false,staleRead=false,unclassifiedHeld=false;
+// A request to sync that arrives while one is in flight (coming back online, the page shown again, a new change) is not dropped: it runs
+// once the current one settles, so a recovery event during a failing attempt still leads to a retry.
+let syncAgain=false;
+export async function synchronize(){if(!current()){adopt();return;}if(syncing){syncAgain=true;return;}if(!store.unlocked||!navigator.onLine||locked())return;syncing=true;const startedAt=generation();let progressed=false,staleRead=false,unclassifiedHeld=false;
  try{const batch=fit(pendingWithJournal(store.pending).slice(0,100));const epochAtStart=Math.max(Number(readSaved()?.epoch)||0,store.epoch);if(batch.length)markSent(batch);let res:Response;try{res=await fetch(batch.length?'/api/sync':'/api/state',batch.length?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(batch)}:{cache:'no-store'});}catch(error){unmarkSent(batch);throw error;}
  // Any answer that is not the account's own (a 2xx sync result) means the write did not reach the account's transaction: the marks come off.
  if(!res.ok)unmarkSent(batch);
  if(generation()!==startedAt){adopt();return;}
  if(!res.ok){if(res.status===401)set({...store,notice:'Unlock again to sync. Your offline changes are safe.',unlocked:false});
+  else if(res.status!==400)set({...store,notice:'The account could not save right now. Your changes are kept on this device and will be retried.'});
   // A refused batch must not stall the queue: the first change is set aside with the server's reason and the rest are retried.
   else if(res.status===400&&batch.length){let reason='The account refused this change.';try{reason=(await res.json()).error??reason;}catch{}if(generation()!==startedAt){adopt();return;}await withLock(()=>{if(generation()!==startedAt){adopt();return;}const first=batch[0];const pending=pendingWithJournal(store.pending.filter(p=>p.id!==first.id)).filter(p=>p.id!==first.id);let state=store.state;for(const op of pending.filter(p=>!store.pending.some(q=>q.id===p.id))){try{state=apply(state,op);}catch{}}const next={...store,state,pending,failed:[...store.failed,{op:first,reason,at:new Date().toISOString()}],acked:[...store.acked,first.id],epoch:Math.max(epochAtStart,store.epoch)+1,notice:reason};if(persist(next)){journalRemove(first.id);set(next);progressed=true;}});
    // The refused change's local effect is still on screen; a read follows at once and installs the account's state, and the rest of the queue goes with it.
@@ -176,6 +180,6 @@ export async function synchronize(){if(!current()){adopt();return;}if(syncing||!
   // The acknowledgements are saved first; only then do the acknowledged changes leave the journal. If the save fails they stay journaled,
   // are presented again, and the account answers the same way (accepted ids are already recorded there; refused ones are refused again).
   const next={...store,state,pending,failed:[...store.failed,...refused],acked:[...store.acked,...done],epoch:Math.max(epochNow,epochAtStart)+1,revision:stale?heldRevision:typeof answer.revision==='number'?answer.revision:store.revision,notice:refused.length?refused.map(r=>r.reason).join(' '):store.notice};if(persist(next)){for(const id of done)journalRemove(id);set(next);progressed=true;unclassifiedHeld=unclassified;}});}
- }catch{set({...store,notice:''});}finally{syncing=false;if(storageWaiting){storageWaiting=false;mergeFromStorage();}}
+ }catch{set({...store,notice:''});}finally{syncing=false;if(storageWaiting){storageWaiting=false;mergeFromStorage();}if(syncAgain){syncAgain=false;setTimeout(()=>void synchronize(),0);}}
  if(progressed&&(pendingWithJournal(store.pending).length>0||staleRead||unclassifiedHeld))setTimeout(()=>void synchronize(),100);
 }

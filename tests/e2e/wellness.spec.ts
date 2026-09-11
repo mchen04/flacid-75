@@ -30,13 +30,18 @@ test('the walk timer starts, pauses, survives a reload and a long sleep, finishe
  await writeFile(`evidence/my-wellness/timer-walk-${test.info().project.name}.json`,JSON.stringify({ran:'10:00',pausedFor:'1:00 (no change)',reloadKept:'10:00',sleptFor:'20:00 with no ticks',onWake:'30:00',logged:1800,note:'Chromium with a virtual clock; a physical lock/reopen is not measured here'},null,2));
 });
 test('the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves',async({page})=>{
+ // Twelve simulated minutes are advanced tick by tick (every interval fires), which takes tens of seconds on a slow machine: this test carries its own runtime budget.
+ test.setTimeout(150000);
  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
  await expect(page.getByRole('group',{name:'Workout checklist'})).toBeVisible();await expect(page.getByRole('checkbox')).toHaveCount(6);
  await page.getByRole('button',{name:'Edit plan'}).click();await page.getByLabel('One move per line').fill('Squats\nRows\nPlank');await page.getByRole('button',{name:'Save plan'}).click();await expect(page.getByRole('checkbox')).toHaveCount(3);expect(box.state.profile?.plan).toEqual(['Squats','Rows','Plank']);
  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await expect(page.getByText('2 of 3 checked')).toBeVisible();await page.clock.runFor(12*60*1000);
  await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('checkbox',{name:'Squats'})).toBeChecked();
- await page.getByRole('button',{name:'Finish',exact:true}).click();await expect(page.getByText('Workout logged')).toBeVisible();
- expect(box.state.days[today].sessions?.workout?.items).toEqual(['Squats','Plank']);expect(box.state.days[today].sessions?.workout?.seconds).toBeGreaterThanOrEqual(720);expect(box.state.days[today].sessions?.workout?.seconds).toBeLessThan(760);
+ // The recorded session is the clock's own reading: the interval from the first tick (the stored start) to the finish, bracketed by clock readings taken just before and just after the tap. The virtual clock also runs with wall time, so the interval is at least the 12 minutes advanced.
+ const startedAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')!).workout.startedAt as number);const before=await page.evaluate(()=>Date.now());
+ await page.getByRole('button',{name:'Finish',exact:true}).click();await expect(page.getByText('Workout logged')).toBeVisible();const after=await page.evaluate(()=>Date.now());
+ const seconds=box.state.days[today].sessions?.workout?.seconds??-1;expect(box.state.days[today].sessions?.workout?.items).toEqual(['Squats','Plank']);
+ expect(seconds).toBeGreaterThanOrEqual(720);expect(seconds).toBeGreaterThanOrEqual(Math.floor((before-startedAt)/1000));expect(seconds).toBeLessThanOrEqual(Math.ceil((after-startedAt)/1000));
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Done · 2 moves')).toBeVisible();
 });
 test('the guided ab routine walks through timed intervals with instructions and logs itself at the end',async({page})=>{
@@ -471,8 +476,10 @@ test('R163-3: an in-form unit toggle keeps untouched measurements exact',async({
  const box=await open(page,seed(),{hash:'you'});
  await page.getByRole('button',{name:'Your details'}).click();await page.getByLabel('Weight · lb').fill('143.4');await page.getByRole('button',{name:'Update'}).click();
  const exact=143.4*0.45359237;await expect.poll(()=>box.state.profile?.weight).toBeCloseTo(exact,10);
+ // The volume preference set on the settings page survives a measurement-unit toggle inside the details form.
+ await page.getByRole('group',{name:'Volume unit'}).getByRole('button',{name:'ml'}).click();await expect.poll(()=>box.state.profile?.units?.volume).toBe('ml');
  await page.getByRole('button',{name:'Your details'}).click();await page.getByRole('button',{name:'kg · cm'}).click();await page.getByRole('button',{name:'Update'}).click();
- await expect.poll(()=>box.state.profile?.units?.weight).toBe('kg');expect(box.state.profile?.weight).toBe(exact);expect(box.state.profile?.height).toBe(165);
+ await expect.poll(()=>box.state.profile?.units?.weight).toBe('kg');expect(box.state.profile?.weight).toBe(exact);expect(box.state.profile?.height).toBe(165);expect(box.state.profile?.units).toEqual({weight:'kg',height:'cm',volume:'ml'});
 });
 
 test('R163-4: a change written by another tab exactly between this tab\'s read and its save survives, because every change has its own durable key',async({page})=>{
