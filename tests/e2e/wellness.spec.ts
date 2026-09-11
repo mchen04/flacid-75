@@ -5,6 +5,8 @@ import {writeFile} from 'node:fs/promises';
 import {addDays,apply} from '../../lib/domain';
 import {open,mock,seed,todayIn,op,complete,zone} from './helpers';
 const at=(day:string,time:string)=>new Date(`${day}T${time}`);
+// Simulated minutes advance tick by tick (every interval fires), which is slow on an old machine, so these tests carry a longer budget.
+const slowClock=()=>test.setTimeout(150000);
 async function openAt(page:Page,state:ReturnType<typeof seed>,time:Date,hash=''){const box=await open(page,state,{go:false});await page.clock.install({time});await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();return box;}
 test('every page is one tap from the dashboard, has an obvious Home, and the browser back button works',async({page})=>{
  await open(page,seed());
@@ -16,8 +18,7 @@ test('every page is one tap from the dashboard, has an obvious Home, and the bro
  await expect(page.locator('nav.bottom-nav')).toHaveCount(0);
 });
 test('the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes',async({page})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const box=await openAt(page,seed(3),at(today,'10:00:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(10*60*1000);await expect(page.locator('.dial-time')).toHaveText(/^10:[0-2]\d$/);
  await page.getByRole('button',{name:'Pause'}).click();const paused=await page.locator('.dial-time').innerText();await page.clock.runFor(60*1000);await expect(page.locator('.dial-time')).toHaveText(paused);
@@ -32,8 +33,7 @@ test('the walk timer starts, pauses, survives a reload and a long sleep, finishe
  await writeFile(`evidence/my-wellness/timer-walk-${test.info().project.name}.json`,JSON.stringify({ran:'10:00',pausedFor:'1:00 (no change)',reloadKept:'10:00',sleptFor:'20:00 with no ticks',onWake:'30:00',logged:1800,note:'Chromium with a virtual clock; a physical lock/reopen is not measured here'},null,2));
 });
 test('the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves',async({page})=>{
- // Twelve simulated minutes are advanced tick by tick (every interval fires), which takes tens of seconds on a slow machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
  await expect(page.getByRole('group',{name:'Workout checklist'})).toBeVisible();await expect(page.getByRole('checkbox')).toHaveCount(6);
  await page.getByRole('button',{name:'Edit plan'}).click();await page.getByLabel('One move per line').fill('Squats\nRows\nPlank');await page.getByRole('button',{name:'Save plan'}).click();await expect(page.getByRole('checkbox')).toHaveCount(3);expect(box.state.profile?.plan).toEqual(['Squats','Rows','Plank']);
@@ -61,8 +61,7 @@ test('the guided ab routine walks through timed intervals with instructions and 
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Done · Two-minute burst')).toBeVisible();
 });
 test('meditation and focus are optional: they log minutes and never change the streak',async({page})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();let s=seed(4);for(let i=1;i<=3;i++)s=complete(s,addDays(today,-i));const box=await openAt(page,s,at(today,'09:00:00'));
  await expect(page.getByRole('button',{name:/^3 day streak/})).toBeVisible();
  await page.getByRole('button',{name:'Open meditate timer'}).click();await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();await page.clock.runFor(2000);await page.clock.fastForward(3*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
@@ -98,8 +97,7 @@ test('units switch between lb/ft-in and kg/cm without changing the stored measur
  await page.getByRole('button',{name:'Your details'}).click();await expect(page.getByLabel('Weight · lb')).toHaveValue('143.3');await expect(page.getByLabel('Height · cm')).toHaveValue('165');
 });
 test('local midnight rolls the day over; a timer started before midnight credits the day it began',async({page})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const tomorrow=addDays(today,1);let s=seed(3);for(let i=1;i<=2;i++)s=complete(s,addDays(today,-i));
  const box=await openAt(page,s,at(today,'23:57:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(5*60*1000);
@@ -178,8 +176,7 @@ test('a running timer is visible from the dashboard and a duplicate finish canno
 });
 // Review round 1 regressions.
 test('logging from the dashboard while a timer runs finishes that session with its time and ticks; undo removes the session',async({page})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await page.clock.runFor(9*60*1000);
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText(/Running · 9:0\d/)).toBeVisible();
@@ -194,8 +191,7 @@ test('logging from the dashboard while a timer runs finishes that session with i
  await page.getByRole('button',{name:'Log walk'}).click();await expect(page.getByText('Walked · 4 min')).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeUndefined();
 });
 test('a timer left from another day is offered for that day or discarded, never silently backfilled',async({page})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const yesterday=addDays(today,-1);const s=seed(3);s.clock={zone,anchorDay:yesterday,anchorLocal:yesterday};const box=await openAt(page,s,at(yesterday,'21:00:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(6*60*1000);await page.getByRole('button',{name:'Pause'}).click();
  await page.clock.fastForward(12*60*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
@@ -385,8 +381,7 @@ test('Floss has the same shape as the other activities: a primary Mark flossed, 
 });
 // Review 162 regressions.
 test('R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay',async({page,context})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const box=await openAt(page,seed(),at(today,'09:00:00'),'focus');
  const runOne=async()=>{await page.getByLabel('Work minutes',{exact:true}).selectOption('25');await page.getByLabel('Break minutes',{exact:true}).selectOption('5');await page.getByRole('button',{name:'Start focus'}).click();await page.clock.runFor(2000);await page.clock.fastForward(26*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect(page.getByText(/1 finished this run/)).toBeVisible();await page.getByRole('button',{name:'End session'}).click();};
  await runOne();await expect.poll(()=>box.state.days[today]?.focus).toBe(1500);
@@ -457,8 +452,7 @@ test('R-extra: switching the weight unit after typing does not reinterpret the n
 });
 // Review 163 regressions.
 test('R163-1: when device storage refuses the write, an automatically finishing timer and a manual finish both keep their timer and retry once storage is back',async({page})=>{
- // Simulated minutes are advanced tick by tick (every interval fires), which is slow on an old machine: this test carries its own runtime budget.
- test.setTimeout(150000);
+ slowClock();
  const today=todayIn();const box=await openAt(page,seed(),at(today,'12:00:00'),'meditate');
  // Storage refuses writes of the app store (as a full device would) while the flag is set; timer writes still succeed. The hook is on Storage.prototype, which both Chromium and WebKit honour (WebKit ignores an own property set on the localStorage instance).
  await page.evaluate(()=>{const w=window as unknown as {__refuse:boolean};w.__refuse=false;const orig=Storage.prototype.setItem;Storage.prototype.setItem=function(this:Storage,k:string,v:string){if(this===localStorage&&w.__refuse&&(k==='flaccid75-v1'||k.startsWith('my-wellness-op:')))throw new DOMException('quota','QuotaExceededError');orig.call(this,k,v);};});
