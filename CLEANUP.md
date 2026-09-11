@@ -1,49 +1,40 @@
 # CLEANUP
 
 ## Passes
-2. Pass 1 changed code. Pass 2 was a no-op, so the loop stopped.
+2. Pass 1 changed one test. Pass 2 was a no-op, so the loop stopped.
 
 ## Rebase
-Not needed. HEAD at start was 7503c72. After `git fetch origin`, the branch is 27 commits ahead of `refs/heads/main` (de2ee46) and 0 behind.
+Not needed. HEAD at start was 4069f43. After `git fetch origin`, `refs/heads/main` (de2ee46) is the merge base, so the branch is 0 behind.
 
 ## Removed
-- `tests/e2e/review171.spec.ts`: the unused `mock` import (the one lint warning), a bad indent, and a stray trailing comma.
-- `lib/db.ts`: the `storable` wrapper, which only called `cleanText`. `cleanText` now reuses `wellFormed` from `lib/bounds.ts` instead of its own copy of the rule.
-- `lib/validation.ts`: `str` and `strOptional` each repeated the same two checks. They now share one helper, `fits`.
-- `lib/bounds.ts`: the `clip` filter indexed back into its array instead of using its own argument.
-- `components/Settings.tsx`: the target form typed its ranges out by hand. It now reads them from `limits.overrides`. The container form uses `limits.containerName` and `limits.containerMl` instead of 30 and 30–6000.
+- `tests/domain.test.ts`: one duplicate assertion (see below).
+- Nothing else. An earlier cleanup (57a8240) already covered the source diff. Since then, only `README.md`, `scripts/ui-shots.mjs` and this test changed. The README line and the `ONLY_STATES` filter are clear and needed.
 
 ## Tests deleted
-- In `tests/domain.test.ts`, test "review 171: water completion tolerates float summation…": I deleted its last assertion, the past-day block. It compared `completion()` to a copy of the formula inside `completion()`, so it could never fail. The rest of the test still covers the tolerance.
+- In "review 171: water completion tolerates float summation…", the last line "read back later, the stored day still scores complete". It repeated the assertion two lines above on the same unchanged object, so it could never fail on its own. The rest of the past-day block stays, as the Keep note below asks.
 
 ## Docs updated
-- None. The README already describes the text rule, the water tolerance and slash fractions. The pass changed no behavior. The repo has no docs/ folder and no CHANGELOG.
+- None. The change removed a redundant line and changed no behavior. The repo has no docs/ folder and no CHANGELOG.
 
 ## Verified
-- `clip`, called directly: "Press-ups 💪" came back unchanged. A lone surrogate half was dropped. 60 letters plus an emoji clipped to 60 characters.
-- `validateBatch`, called directly: a good emoji plan and an empty session item passed. A plan line with a lone surrogate half was refused by id with "must be well-formed text without NUL".
-- `checkBounds`, called directly: a steps override of 500 passed. An override of 499 was refused.
-- The settings screens, in Chromium, served from this checkout's own build: 13 of 13 browser tests passed. They cover the plan sheet with emoji, the daily targets sheet (oz cap of 202.8, refusal at 203), the containers sheet, long container labels, the details unit toggle, the workout page, water phrases and the privacy copy.
-- An app from another checkout was running on port 3075. The first browser run hit that app and failed on the old code. The run against this build passed.
-- I could not run `lib/db.ts` against a database, because this checkout has no `.env.local`. Typecheck, the unit tests and the mock account cover it.
-- The build refreshed the service-worker version in `public/sw.js`. I committed that. I restored the evidence files that the scans and browser runs overwrote.
+- The kept past-day block, by mutation: I set `waterTolerance` in `lib/domain.ts` to 0 and ran `tests/domain.test.ts`. One test failed, as it should. I restored the file, and all 19 tests in the file passed.
+- No UI, command or API code changed, so I ran no browser, command or API checks.
+- The scan rewrote `evidence/v3/mascot-scan.json`. I restored it.
 
 ## Checks
-- `npm run lint`: pass. Baseline had 1 warning (the unused `mock`). The end has 0.
-- `npm run typecheck`: pass, at baseline and at the end.
+- `npm run lint`: pass at baseline and at the end.
+- `npm run typecheck`: pass at baseline and at the end.
 - `npm test`: pass, 56 of 56, at baseline and at the end.
 - `npm run scan`: pass, 0 findings, at baseline and at the end.
-- `npm run build`, including the budget and chunk checks: pass. The first script is 35,214 of 40,960 gzip bytes.
+- `npm run build`: not run. Only a test file changed, and tests are not part of the build.
 - There is no Makefile or pyproject.
 
 ## Commits
-- 57a8240: pass 1
+- 83be93a: pass 1
 - The CLEANUP.md commit comes after this one.
 
 ## Reverted
 - None.
 
-
 ## Keep
-
-- `tests/domain.test.ts`, "review 171: water completion tolerates float summation…", the past-day block: it applies an exact 120 oz override and sixteen quarter pours through the real change log and asserts fixed booleans against production `completion` on the stored day. It can fail under a completion regression (an exact comparison, or a tolerance that grants a pour). Restored after pass 57a8240 removed it; do not prune it again.
+- `tests/domain.test.ts`, "review 171: water completion tolerates float summation…", the past-day block. It applies an exact 120 oz override and sixteen quarter pours through the real change log. Then it asserts fixed booleans against the production `completion`. It fails when the tolerance is 0 (checked above). Do not prune it.
