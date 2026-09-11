@@ -115,7 +115,6 @@ test('review 171: water completion tolerates float summation at an exactly met t
  assert.equal(completion(s.days['2026-09-01']).water,false,'fifteen quarters of 120 oz are not complete');
  s=apply(s,{...common(),type:'water',amount:30*oz/4});
  assert.equal(completion(s.days['2026-09-01']).water,true,'the sixteenth quarter meets the 120 oz target exactly');assert.equal(s.days['2026-09-01'].targets.water,120*oz);
- assert.equal(completion(s.days['2026-09-01']).water,true,'read back later, the stored day still scores complete');
 });
 test('review 171: a targets or details save carries only the five measurements; treats, plan, containers and units on the profile are untouched by it',()=>{
  let s=initial();s=apply(s,{...common(),type:'rewards',rewards:[{id:randomUUID(),name:'Film night',cost:50}]});s=apply(s,{...common(),type:'plan',workout:['Squats']});s=apply(s,{...common(),type:'units',units:{weight:'kg',height:'cm',volume:'ml'}});
