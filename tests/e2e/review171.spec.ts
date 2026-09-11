@@ -2,7 +2,7 @@
 // exact water targets, slash fractions, the oz target cap, stats-only target saves, and the privacy copy.
 import {test,expect} from './fixtures';
 import type {Page} from '@playwright/test';
-import {open,mock,seed,todayIn,op} from './helpers';
+import {open,seed,todayIn,op} from './helpers';
 const oz=29.5735295625;
 const HIGH=String.fromCharCode(0xD83D);
 const local=(p:Page)=>p.evaluate(()=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {pending:s.pending.length,failed:s.failed.map((f:{op:{type:string}})=>f.op.type),journal:Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-op:')).length,plan:s.state.profile?.plan as string[]|undefined};});
@@ -43,7 +43,7 @@ test('R171-4: sixteen quarter-Stanley pours meet a 120 oz target exactly on scre
  const today=todayIn();const box=await open(page,seed(),{hash:'you'});
  await page.getByRole('button',{name:'Daily targets'}).click();await page.getByLabel('Water · oz',{exact:true}).fill('120');await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.profile?.targets.water).toBeCloseTo(120*oz,9);
  await page.evaluate(()=>{location.hash='water';});
-const quarter=page.getByRole('button',{name:'Log a quarter of a Stanley',exact:true});
+ const quarter=page.getByRole('button',{name:'Log a quarter of a Stanley',exact:true});
  for(let i=0;i<15;i++){await quarter.click();await expect.poll(()=>box.state.days[today]?.waterLog?.length).toBe(i+1);}
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByRole('button',{name:'Open water',exact:true})).toContainText('112.5 oz');expect(box.state.days[today].water).toBeLessThan(120*oz);
  await page.getByRole('button',{name:'Open water',exact:true}).click();await quarter.click();await expect.poll(()=>box.state.days[today]?.waterLog?.length).toBe(16);
@@ -80,7 +80,7 @@ test('R171-7: a targets save queued while another device added a treat and a pla
  // The offline attempt has failed at the network (no sent mark remains) before the account is reachable again.
  await expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-sent:')).length)).toBe(0);
  // Back online: the queued save syncs, and the other device's treat and plan are on screen and on the account.
- await page.unroute('**/api/**');await page.evaluate(()=>window.dispatchEvent(new Event('online')));await expect.poll(()=>box.state.profile?.targets.protein,).toBe(110);
+ await page.unroute('**/api/**');await page.evaluate(()=>window.dispatchEvent(new Event('online')));await expect.poll(()=>box.state.profile?.targets.protein).toBe(110);
  await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);
  expect(box.state.profile?.rewards?.map(r=>r.name)).toEqual(['Film night']);expect(box.state.profile?.plan).toEqual(['Squats','Rows']);
  const shown=await page.evaluate(()=>{const p=JSON.parse(localStorage.getItem('flaccid75-v1')!).state.profile;return {rewards:p.rewards?.map((r:{name:string})=>r.name),plan:p.plan};});expect(shown).toEqual({rewards:['Film night'],plan:['Squats','Rows']});

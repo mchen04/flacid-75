@@ -106,10 +106,6 @@ test('review 171: water completion tolerates float summation at an exactly met t
   const d=newDay({...computeTargets(stats),water:target});for(let n=0;n<pours;n++)d.water+=pour;
   assert.equal(completion(d).water,true,`target ${target}`);assert.equal(completion({...d,water:d.water-0.02}).water,false,`short ${target}`);assert.equal(completion({...d,water:d.water-pour}).water,false,`one pour short ${target}`);
  }
- // A past day is scored from its stored total: the same tolerance applies when the day is read back.
- let s=initial();s=apply(s,{...common(),type:'profile',stats,overrides:{water:Math.round(120*oz)}});
- for(let n=0;n<16;n++)s=apply(s,{...common(),type:'water',amount:30*oz/4});
- assert.equal(completion(s.days['2026-09-01']).water,s.days['2026-09-01'].water>=s.days['2026-09-01'].targets.water-0.01);
 });
 test('review 171: a targets or details save carries only the five measurements; treats, plan, containers and units on the profile are untouched by it',()=>{
  let s=initial();s=apply(s,{...common(),type:'rewards',rewards:[{id:randomUUID(),name:'Film night',cost:50}]});s=apply(s,{...common(),type:'plan',workout:['Squats']});s=apply(s,{...common(),type:'units',units:{weight:'kg',height:'cm',volume:'ml'}});

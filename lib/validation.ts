@@ -1,8 +1,9 @@
 import {z} from 'zod';
 import {wellFormed, chars} from './bounds';
-// Free text: well-formed, no NUL, at most `max` characters (code points), trimmed and non-empty unless `optional`.
-const str = (max: number) => z.string().trim().min(1).refine(wellFormed, 'must be well-formed text without NUL').refine(v => chars(v) <= max, `must be at most ${max} characters`);
-const strOptional = (max: number) => z.string().refine(wellFormed, 'must be well-formed text without NUL').refine(v => chars(v) <= max, `must be at most ${max} characters`);
+// Free text: well-formed, no NUL, at most `max` characters (code points); `str` is also trimmed and non-empty.
+const fits = (s: z.ZodString, max: number) => s.refine(wellFormed, 'must be well-formed text without NUL').refine(v => chars(v) <= max, `must be at most ${max} characters`);
+const str = (max: number) => fits(z.string().trim().min(1), max);
+const strOptional = (max: number) => fits(z.string(), max);
 const day = z.iso.date();
 const zone = z.string().max(80).refine(v => {try {new Intl.DateTimeFormat('en', {timeZone: v}); return true;} catch {return false;}});
 const n = (min: number, max: number) => z.number().finite().min(min).max(max);

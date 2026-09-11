@@ -10,7 +10,7 @@ const inRange = (v: unknown, [lo, hi]: readonly [number, number]) => typeof v ==
 export const wellFormed = (v: string) => (typeof v.isWellFormed === 'function' ? v.isWellFormed() : !/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/.test(v)) && !v.includes('\u0000');
 export const chars = (v: string) => [...v].length;
 // Cuts free text to `max` characters without splitting a character, and drops what cannot be stored.
-export function clip(v: string, max: number) {return [...v.replaceAll('\u0000', '')].filter((_, i, all) => !(all[i].length === 1 && /[\uD800-\uDFFF]/.test(all[i]))).slice(0, max).join('');}
+export function clip(v: string, max: number) {return [...v.replaceAll('\u0000', '')].filter(c => !(c.length === 1 && /[\uD800-\uDFFF]/.test(c))).slice(0, max).join('');}
 const text = (v: unknown, max: number) => typeof v === 'string' && wellFormed(v) && chars(v.trim()) >= 1 && chars(v.trim()) <= max;
 const textOptional = (v: unknown, max: number) => typeof v === 'string' && wellFormed(v) && chars(v) <= max;
 const isUuid = (v: unknown) => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
