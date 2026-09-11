@@ -1,10 +1,10 @@
 {
   "latencies": {
-    "Log workout": 2.799999713897705,
-    "Log abs": 1.799999713897705,
-    "Log walk": 1.5999999046325684,
-    "Log floss": 1.3999996185302734,
-    "Add a Stanley": 1.299999713897705
+    "Log workout": 2.5,
+    "Log abs": 1.5,
+    "Log walk": 1.299999713897705,
+    "Log floss": 1.5,
+    "Add a Stanley": 1.5
   },
   "layoutShift": false,
   "viewport": "390x844",
