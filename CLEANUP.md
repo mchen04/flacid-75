@@ -1,31 +1,38 @@
 # CLEANUP
 
 ## Passes
-1. Pass 1 was a no-op, so the loop stopped. Since the last cleanup (9ec4b99), only one e2e test line changed. It already reads cleanly.
+1. Pass 1 was a no-op, so the loop stopped. Since the last cleanup (be8da98), the source changes are the water target fix in `components/Settings.tsx` and its tests in `tests/e2e/review171.spec.ts`. Both already read cleanly.
 
 ## Rebase
-Not needed. HEAD at start was 69fe622. After `git fetch origin`, `refs/heads/main` (de2ee46) is an ancestor of HEAD, so the branch is 0 behind.
+Not needed. HEAD at start was fd036b1. After `git fetch origin`, `refs/heads/main` (de2ee46) is an ancestor of HEAD, so the branch is 0 behind.
 
 ## Removed
-- Nothing. Earlier cleanups covered the source diff. The new line in `tests/e2e/wellness.spec.ts` swaps a single read for `expect.poll`. Its comment gives the reason (the screen is optimistic), so it stays.
+- Nothing. The three-line comment in `TargetForm` explains why the water field has no native bounds. It does not restate code, so it stays.
+- The new limit check reuses `parseVolume`, `formatVolume` and `limits.overrides`. It adds no parallel helper.
 
 ## Tests deleted
-- None. The changed test pins the exact 180-second meditation credit.
+- None. R171-6 and R173-1 pin the water limits and the exact stored boundary values. Both can fail.
 
 ## Docs updated
-- None. The change is a test wait, and no doc describes it.
+- None. The branch already updated `README.md` and `evidence/my-wellness/ACCEPTANCE.md` for review 173.
 
 ## Verified
-- I served this worktree's build on spare port 3091, not 3075, because another checkout owns 3075.
-- I ran "meditation and focus are optional…" in Chromium against that build: 1 of 1 passed.
-- The run rewrote `evidence/my-wellness/e2e-results.json`. I restored it.
+- I built this worktree and served it on spare port 3091, because another checkout owns 3075.
+- I ran R171-6 and R173-1 against that build in Chromium and WebKit: 4 of 4 passed. They cover these cases:
+  - An oz edit above the limit gets a reason on the sheet.
+  - 16 oz is refused.
+  - Stored 6000 ml and 500 ml stay exact across unit toggles and unrelated edits.
+  - 6001 ml and 499 ml are refused.
+- The runs rewrote `evidence/my-wellness/e2e-results.json` and `evidence/v3/mascot-scan.json`. I restored both.
 
 ## Checks
-- `npm run lint`: pass at baseline.
-- `npm run typecheck`: pass at baseline.
-- `npm test`: pass, 56 of 56, at baseline.
-- `npm run test:e2e` (Chromium, the changed test only): pass, 1 of 1.
-- `npm run scan` and `npm run build`: not run. No product code changed.
+- `npm run lint`: pass.
+- `npm run typecheck`: pass.
+- `npm test`: pass, 56 of 56.
+- `npm run scan`: pass, 0 findings.
+- `npm run build`: pass. The JS budget is 35,213 of 40,960 gzip bytes.
+- `npm run test:e2e` (the two changed tests, both engines): pass, 4 of 4.
+- `npm run test:integration`: not run. It needs the private database credential.
 - There is no Makefile or pyproject.
 
 ## Commits
