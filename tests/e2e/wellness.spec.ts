@@ -65,7 +65,7 @@ test('meditation and focus are optional: they log minutes and never change the s
  const today=todayIn();let s=seed(4);for(let i=1;i<=3;i++)s=complete(s,addDays(today,-i));const box=await openAt(page,s,at(today,'09:00:00'));
  await expect(page.getByRole('button',{name:/^3 day streak/})).toBeVisible();
  await page.getByRole('button',{name:'Open meditate timer'}).click();await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();await page.clock.runFor(2000);await page.clock.fastForward(3*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
- await expect(page.getByText('3 min logged today.')).toBeVisible();expect(box.state.days[today].meditate).toBe(180);// the full chosen length is credited when the countdown completes
+ await expect(page.getByText('3 min logged today.')).toBeVisible();await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);// the full chosen length is credited when the countdown completes; the screen is optimistic, so the account is read once its answer lands
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('3 min today')).toBeVisible();
  await page.getByRole('button',{name:'Open focus timer'}).click();await page.getByLabel('Work minutes',{exact:true}).selectOption('15');await page.getByLabel('Break minutes',{exact:true}).selectOption('3');await page.getByRole('button',{name:'Start focus'}).click();
  await page.clock.runFor(2000);await page.clock.fastForward(15*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect(page.getByText(/15 min focused today/)).toBeVisible();await expect.poll(()=>box.state.days[today]?.focus).toBe(900);
