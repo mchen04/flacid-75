@@ -42,3 +42,8 @@ Not needed. HEAD at start was 7503c72. After `git fetch origin`, the branch is 2
 
 ## Reverted
 - None.
+
+
+## Keep
+
+- `tests/domain.test.ts`, "review 171: water completion tolerates float summation…", the past-day block: it applies an exact 120 oz override and sixteen quarter pours through the real change log and asserts fixed booleans against production `completion` on the stored day. It can fail under a completion regression (an exact comparison, or a tolerance that grants a pour). Restored after pass 57a8240 removed it; do not prune it again.

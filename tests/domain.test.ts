@@ -106,6 +106,16 @@ test('review 171: water completion tolerates float summation at an exactly met t
   const d=newDay({...computeTargets(stats),water:target});for(let n=0;n<pours;n++)d.water+=pour;
   assert.equal(completion(d).water,true,`target ${target}`);assert.equal(completion({...d,water:d.water-0.02}).water,false,`short ${target}`);assert.equal(completion({...d,water:d.water-pour}).water,false,`one pour short ${target}`);
  }
+ // Historical behaviour, through the real change log: an exact 120 oz target set as an override, sixteen quarter-Stanley pours applied one
+ // by one, and the day read back from state. The expected values are fixed booleans, not a copy of the formula, so a completion
+ // regression (an exact comparison, or a tolerance that grants a pour) fails here. Keep this assertion; it is the only one that scores a
+ // stored past day rather than a hand-built one.
+ let s=initial();s=apply(s,{...common(),type:'profile',stats,overrides:{water:120*oz}});
+ for(let n=0;n<15;n++)s=apply(s,{...common(),type:'water',amount:30*oz/4});
+ assert.equal(completion(s.days['2026-09-01']).water,false,'fifteen quarters of 120 oz are not complete');
+ s=apply(s,{...common(),type:'water',amount:30*oz/4});
+ assert.equal(completion(s.days['2026-09-01']).water,true,'the sixteenth quarter meets the 120 oz target exactly');assert.equal(s.days['2026-09-01'].targets.water,120*oz);
+ assert.equal(completion(s.days['2026-09-01']).water,true,'read back later, the stored day still scores complete');
 });
 test('review 171: a targets or details save carries only the five measurements; treats, plan, containers and units on the profile are untouched by it',()=>{
  let s=initial();s=apply(s,{...common(),type:'rewards',rewards:[{id:randomUUID(),name:'Film night',cost:50}]});s=apply(s,{...common(),type:'plan',workout:['Squats']});s=apply(s,{...common(),type:'units',units:{weight:'kg',height:'cm',volume:'ml'}});

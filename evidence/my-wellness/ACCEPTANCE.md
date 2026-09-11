@@ -2,18 +2,18 @@
 
 Owner: Claude Fable 5.1 (sole implementation owner). Status: **review 171 (round 3, verdict CHANGES REQUIRED on ce15e89) corrections 1–5 and pre-merge asks 4 and 6 repaired at commit 23ac33b; awaiting a fresh independent review and the supervisor's real-server Chromium and WebKit run on this commit. Not accepted, not published, until those pass. No exhaustive visual approval is claimed.**
 
-## Current summary · commit 23ac33b (2026-09-10)
+## Current summary · commit 23ac33b, evidence reconciled at fc0ea81 after the cleanup pass a89ea20 (2026-09-10)
 
 Everything in this section was produced from this commit's build in this session, except the rows marked supervisor, which name their own artifact.
 
 | Check | Result | Artifact |
 |---|---|---|
-| Unit (`npm test`) | 56 passed | [check.txt](check.txt) |
+| Unit (`npm test`) | 56 passed (the past-day water assertion restored after the cleanup pass, with fixed expected booleans: fifteen quarter pours of an exact 120 oz target are not complete, the sixteenth is, and the stored day scores complete when read back; it exercises production `completion` against a stored day and must be kept) | [check.txt](check.txt) |
 | Typecheck, lint, token scan, mascot scan | clean | [check.txt](check.txt) |
 | Bundle: critical path (entry plus every transitively static-imported chunk) | 35,225 of 40,960 gzip bytes (limit unchanged) | [check.txt](check.txt) |
 | Bundle: total JavaScript including lazy page chunks | 55,739 of 65,536 gzip bytes (explicit ceiling); every chunk in the shell prefetch list and the worker's install scan | [check.txt](check.txt) |
 | Chromium via virtual server (sandbox; mock account runs the real schema and dedupes by id) | 90 passed, 1 skipped (gate needs a real server) | [e2e-chromium.txt](e2e-chromium.txt), [e2e-results.json](e2e-results.json) |
-| Captures (fresh page and fixture per state, expected text per state, overlap probe) | 193 states, all reached: 273 PNG frames (a scrolling state also gets a `-full` frame, so frames exceed states). Recaptured on this commit's build (the water page gained a disclosure line and the rules and food copy changed); no overlap, clipping or sideways scroll flagged. Seen by the owner: water, rules and food frames; no exhaustive visual acceptance is claimed | [after/fit.json](after/fit.json), `after/{phone,small,desktop}/`, `after/extras/` |
+| Captures (fresh page and fixture per state, expected text per state, overlap probe) | **Historical baseline**: `after/` holds 193 states, 273 PNG frames, captured on the build before the final wording change to the Rules privacy paragraph (its `rules-full.png` still reads "No other log leaves the device"); it is not a capture of this commit. **Changed surfaces on the final source**: `changed-172/` holds water, water-confirm, water-ask, food, food-empty and rules at phone, small and desktop (30 frames, 18 states, none flagged), built from the source at a89ea20, which differs from 23ac33b only by the cleanup pass; the owner opened `changed-172/phone/rules-full.png` and read the corrected paragraph. No new exhaustive visual audit is claimed; the reviewer's exhaustive coverage of the earlier frames remains historical | [after/fit.json](after/fit.json), `after/{phone,small,desktop}/`, `after/extras/` |
 | Supervisor, snapshot v163 (predates the R-extra readiness fix and the parser fix): unit 47, typecheck, lint, build; disposable database integration 18 operations; real offline integration Chromium and WebKit (3 queued, 3 replayed, 5 rows, lazy pages offline) | passed, as reported by the supervisor | supervisor's log (not in this folder) |
 | Supervisor, real server, Chromium and WebKit, on this commit | pending | to be supplied |
 | Independent review 171 on ce15e89 (b7fac82 plus four cleanup commits): 163 of 163 real Chromium and WebKit tests, 49 unit, typecheck, lint, build, disposable PostgreSQL integration (249 operations), real service-worker offline on both engines, agent-browser walk of gate, onboarding, water, undo, settings and lock; verdict CHANGES REQUIRED on five corrections and two pre-merge asks | historical; every item is repaired below (Review 171 · finding to proof) | reviewer's folder outside this repository (`review171-verdict.md`, `review171-findings.ts` and its log, `REVIEW171-preserved.md`) |

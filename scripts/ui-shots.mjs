@@ -170,7 +170,9 @@ try {
     if (virtual) await install(context);
     const estimate = {items: [{name: 'egg, whole, cooked, scrambled', grams: 100, calories: 149, protein: 10, source: 'usda', match: 'Egg, whole, cooked, scrambled', fdcId: 172187}, {name: 'bread, white, toasted', grams: 50, calories: 145, protein: 4.5, source: 'usda', match: 'Bread, white, commercially prepared, toasted', fdcId: 174925}], calories: 294, protein: 14.5, model: 'capture'};
     const results = {};
-    for (const screen of screens) {
+    // ONLY_STATES=a,b,c limits a run to the named states (a changed-surface recapture); the report then covers those states only.
+    const only = process.env.ONLY_STATES ? new Set(process.env.ONLY_STATES.split(',')) : null;
+    for (const screen of screens.filter(sc => !only || only.has(sc.name))) {
      // A fresh page and a fresh fixture for every state: nothing (dialogs, backfill, timers, injected styles) carries over.
      const page = await context.newPage();
      try {
