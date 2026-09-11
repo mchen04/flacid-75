@@ -1,9 +1,6 @@
 // The rules of the day. Every field added for My Wellness is optional on read so state saved by earlier versions loads unchanged.
 export const habits = ['workout', 'abs', 'walk', 'water', 'protein', 'calories', 'floss'] as const;
 export type Habit = typeof habits[number];
-// Optional practices never count toward the required streak.
-export const optionalHabits = ['meditate', 'focus'] as const;
-export type OptionalHabit = typeof optionalHabits[number];
 export type Targets = {calorieMin: number; calorieMax: number; protein: number; water: number; steps: number; walkMinutes?: number};
 export type Stats = {height: number; weight: number; age: number; activity: 0 | 1 | 2 | 3; goal: 'maintain' | 'lose' | 'gain'};
 export type Units = {weight: 'lb' | 'kg'; height: 'ftin' | 'cm'; volume?: 'oz' | 'ml'};

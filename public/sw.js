@@ -1,4 +1,4 @@
-const VERSION='flaccid75-shell-737f4d416194';
+const VERSION='flaccid75-shell-50204b434aa2';
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(VERSION).then(async cache=>{await cache.addAll(['/','/manifest.webmanifest','/icon-192.png','/icon-512.png','/apple-touch-icon.png','/icon.svg','/icon-maskable.png','/splash-1170x2532.png']);const response=await cache.match('/');const html=await response.text();const assets=[...new Set([...html.matchAll(/(?:src|href)="([^" ]+\.(?:js|css)(?:\?[^" ]*)?)"/g)].map(m=>m[1]))].filter(x=>x.startsWith('/assets/'));await cache.addAll(assets);}));});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('flaccid75-')&&key!==VERSION)await caches.delete(key);await self.clients.claim();})());});
 self.addEventListener('fetch',event=>{const request=event.request;const url=new URL(request.url);if(request.method!=='GET'||url.origin!==self.location.origin||url.pathname.startsWith('/api/'))return;

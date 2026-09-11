@@ -24,7 +24,6 @@ export const operationSchema = z.discriminatedUnion('type', [
  z.object({...common, type: z.literal('containers'), containers: z.array(z.object({id: z.string().min(1).max(40), name: z.string().trim().min(1).max(30), ml: n(30, 6000)})).min(1).max(12), defaultContainer: z.string().max(40).optional()}),
  z.object({...common, type: z.literal('plan'), workout: z.array(z.string().trim().min(1).max(60)).max(40)}),
 ]);
-export const operationsSchema = z.array(operationSchema).min(1).max(100);
 // A batch is checked one change at a time: malformed changes are rejected by id with a reason and never strand the valid ones.
 export function validateBatch(raw: unknown): {valid: z.infer<typeof operationSchema>[]; invalid: {id: string; reason: string}[]} | null {
  if (!Array.isArray(raw) || raw.length < 1 || raw.length > 100) return null;
