@@ -44,7 +44,7 @@
     "documentScrollWidth": 1280,
     "viewport": 1280,
     "offenders": [],
-    "pageScrolls": false,
+    "pageScrolls": true,
     "dragDeltaX": 0
   },
   {
