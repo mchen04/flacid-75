@@ -20,7 +20,7 @@ The passphrase stays in the owner's private installation note, outside this repo
 - Every account answer carries a receipt (recently applied ids and a revision, from one database snapshot), so a change another tab made during this tab's request is counted once whatever order the answers arrive in.
 - The device store (`lib/client-store.ts`) is safe across open tabs: every change is journaled under its own key until the account acknowledges it; the acknowledged ids are recorded so no tab re-queues or re-applies an acknowledged change; an account answer that began before a newer answer was saved is not installed; a refusal is kept until its record saves; Lock and clear clears the device first (before any network), writes a marker that locks every open tab, including one restored from the back-forward cache, and advances a local generation so a stale tab or a late answer from before the clear can never write into the store after a new unlock. Outgoing batches are bounded by count and by bytes. Regressions: `tests/e2e/review165.spec.ts`, `tests/e2e/review164.spec.ts`, `tests/e2e/wellness.spec.ts` (R163-1 to R163-8).
 
-Capture provenance: `evidence/my-wellness/after/` is the historical full baseline (pre-dating the final privacy wording); `evidence/my-wellness/changed-172/` holds the changed water, food and rules surfaces captured from the final source. Acceptance and evidence for version 4, commit-bound, with the independent review outcomes (the latest, review 175, approved application commit b370965 as delivered at 38b978f with physical-device and minor limitations recorded): [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Whether version 4 is pushed, merged and deployed is verified from the GitHub pull request and deployment state; the live link above serves whatever `main` last deployed. Design references viewed and the direction taken: [evidence/my-wellness/DESIGN.md](evidence/my-wellness/DESIGN.md).
+Capture provenance: `evidence/my-wellness/after/` is the historical full baseline (pre-dating the final privacy wording); `evidence/my-wellness/changed-172/` holds the changed water, food and rules surfaces captured from the final source. Acceptance and evidence for version 4, commit-bound, with the independent review outcomes (the latest, review 175, approved application commit b370965 as delivered at 38b978f with physical-device and minor limitations recorded): [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Version 4 was merged into `main` by Michael through [pull request #1](https://github.com/mchen04/flacid-75/pull/1) on 2026-09-11 (merge commit f96cc4b, tree identical to the reviewed 5198e39); GitHub deployment 6386909969 to Production succeeded on the same day, and the live link at the top serves it. Design references viewed and the direction taken: [evidence/my-wellness/DESIGN.md](evidence/my-wellness/DESIGN.md).
 
 ## Version 3 · illustrated
 
@@ -62,7 +62,7 @@ Rest and rescue preserve a chain but do not add completed days.
 A missed closed day resets the chain; today's unfinished day preserves yesterday's count until midnight.
 Manual habit checks record an attestation without inventing food or water totals.
 
-There are no notifications, workout details, social features, payments, saved meals, photo galleries, or wearable integrations.
+There are no notifications, social features, payments, saved meals, photo galleries, or wearable integrations. Versions 1 to 3 had no workout details; version 4 added the workout checklist with an editable plan and the guided ab routines described above.
 
 ## Known gaps
 
@@ -75,7 +75,7 @@ There are no notifications, workout details, social features, payments, saved me
 | Photo privacy proof | Local traces find no image markers in scanned model files. Deleted-file contents, memory-mapped writes, provider retention, and the deployed host remain unobserved. |
 | Credential exposure | The initial goal read exposed the database credential in private tool output. Git and client scans are clean; rotation is not recorded. |
 | Target formulas | Calories use a published equation. Activity, goal, water, and step adjustments are planning defaults, not validated personal measurements. |
-| Version 4 release state | Independent review 175 approved application commit b370965 (183 of 183 real-server tests on both Chromium and WebKit, unit, typecheck, lint, build, a 253-operation disposable database run, both-engine offline, live water endpoint guard checks, clean secret scan; judge APPROVE with 0 gating findings). Physical iPhone verification is still unfinished; the judge's minor findings are tracked in [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Publication is the supervisor's step and is read from the GitHub pull request and deployment state. |
+| Version 4 release state | Independent review 175 approved application commit b370965 (183 of 183 real-server tests on both Chromium and WebKit, unit, typecheck, lint, build, a 253-operation disposable database run, both-engine offline, live water endpoint guard checks, clean secret scan; judge APPROVE with 0 gating findings). Physical iPhone verification is still unfinished; the judge's minor findings are tracked in [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Merged and deployed: Version 4 was merged into `main` by Michael through [pull request #1](https://github.com/mchen04/flacid-75/pull/1) on 2026-09-11 (merge commit f96cc4b, tree identical to the reviewed 5198e39); GitHub deployment 6386909969 to Production succeeded on the same day, and the live link at the top serves it. |
 
 Michael authorizes squash integration into `main`, overriding the original merge ban.
 This authorization does not complete or waive physical iPhone verification.
@@ -171,7 +171,7 @@ The service worker caches the shell, phone script, manifest, icons, and startup 
 Its version hashes the client code, styles, and worker template.
 API responses stay outside its cache.
 Authenticated account data and queued operations stay in local storage for offline use.
-Locking clears that device only after pending changes sync while online.
+Lock and clear empties that device first (lock marker, snapshot, timers and every journaled change), then ends the account session in the background and retries that request until it answers; the control is offered only while nothing is waiting to sync and the device is online, so synced history stays in the account.
 
 The public shell contains no account data.
 Account reads require the signed HttpOnly cookie; writes and estimates also check the request origin.
