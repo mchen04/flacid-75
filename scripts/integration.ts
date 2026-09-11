@@ -9,7 +9,7 @@ const admin=new pg.Client({connectionString:process.env.DATABASE_URL});
 const schema='flaccid75_test_'+randomUUID().replaceAll('-','');
 await admin.connect();await admin.query(`CREATE SCHEMA ${schema}`);
 const uri=new URL(process.env.DATABASE_URL!);uri.hostname=uri.hostname.replace('-pooler','');uri.searchParams.set('options','-c search_path='+schema);process.env.DATABASE_URL=uri.toString();
-const {db,sync,readState}=await import('../lib/db');
+const {db,sync,readState,receiptSize}=await import('../lib/db');
 const {weekStart,addDays,restsLeft,pointsBalance}=await import('../lib/domain');
 try{
  await db.query(await readFile('migrations/001_initial.sql','utf8'));
@@ -68,6 +68,17 @@ try{
  // Validation still guards the schema: an unknown habit and a reversed calorie range are rejected without touching state.
  const invalid={...base,id:randomUUID(),type:'profile' as const,stats:setup.stats,overrides:{calorieMin:2500,calorieMax:1800}};
  assert.equal((await sync([invalid])).rejected.length,1);
+ // Receipt coherence: state, recent ids and revision come from one database snapshot. Reads racing writes must never return a receipt
+ // that lists a change whose effect is missing from the state, or a state ahead of its receipt.
+ const receiptBase=(await readState()).revision;let torn=0;
+ for(let i=0;i<30;i++){const pour={...base,id:randomUUID(),type:'water' as const,amount:10};const [read]=await Promise.all([readState(),sync([pour])]);const listed=read.applied.includes(pour.id);const inState=(read.days[day].water-250)>=10*(i+1);if(listed!==inState)torn++;assert.equal(read.revision-receiptBase,Math.round((read.days[day].water-250)/10),'revision matches the pours the state contains');}
+ assert.equal(torn,0,'no read returned a receipt and a state from different snapshots');
+ // Old-pending window: a change applied before 200 later changes leaves the receipt, yet re-presenting it is answered exactly (accepted again, applied once).
+ const old={...base,id:randomUUID(),type:'water' as const,amount:5};assert.deepEqual((await sync([old])).accepted,[old.id]);
+ for(let i=0;i<receiptSize;i++)await sync([{...base,id:randomUUID(),type:'check' as const,habit:'floss' as const,value:true}]);
+ const late=await readState();assert.equal(late.applied.length,receiptSize);assert.ok(!late.applied.includes(old.id),'the old change has left the bounded receipt');
+ const again=await sync([old]);assert.deepEqual(again.accepted,[old.id]);assert.equal(again.state.days[day].water,late.days[day].water,'re-presenting the old change applies nothing');
+ assert.equal((await db.query('SELECT count(*)::int AS n FROM flaccid75_operations WHERE id=$1',[old.id])).rows[0].n,1);
  const opCount=(await db.query('SELECT count(*)::int AS n FROM flaccid75_operations')).rows[0].n;
- console.log(JSON.stringify({isolatedSchema:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
+ console.log(JSON.stringify({isolatedSchema:true,receiptSnapshotConsistent:true,oldPendingWindowExact:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
 }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}
