@@ -1,0 +1,10 @@
+{"engine":"chromium","boundary":500,"bounds":{"value":"16.9","min":"","max":"","valid":true},"water":500,"protein":111}
+{"engine":"chromium","boundary":6000,"bounds":{"value":"202.9","min":"","max":"","valid":true},"water":6000,"protein":112}
+{"engine":"chromium","invalid":"16","rejected":true}
+{"engine":"chromium","invalid":"203","rejected":true}
+{"engine":"chromium","validEditedOz":100,"water":2957.35295625}
+{"engine":"webkit","boundary":500,"bounds":{"value":"16.9","min":"","max":"","valid":true},"water":500,"protein":111}
+{"engine":"webkit","boundary":6000,"bounds":{"value":"202.9","min":"","max":"","valid":true},"water":6000,"protein":112}
+{"engine":"webkit","invalid":"16","rejected":true}
+{"engine":"webkit","invalid":"203","rejected":true}
+{"engine":"webkit","validEditedOz":100,"water":2957.35295625}

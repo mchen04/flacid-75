@@ -1,0 +1,158 @@
+{
+  "phone": {
+    "walkRun": {
+      "Pause": {
+        "top": 454,
+        "bottom": 510
+      },
+      "Finish": {
+        "top": 454,
+        "bottom": 510
+      }
+    },
+    "walkPause": {
+      "Resume": {
+        "top": 454,
+        "bottom": 510
+      },
+      "Finish": {
+        "top": 454,
+        "bottom": 510
+      }
+    },
+    "workout": {
+      "Pause": {
+        "top": 201,
+        "bottom": 257
+      },
+      "Finish": {
+        "top": 201,
+        "bottom": 257
+      }
+    },
+    "absRun": {
+      "Pause": {
+        "top": 498,
+        "bottom": 554
+      },
+      "Finish early": {
+        "top": 498,
+        "bottom": 554
+      }
+    },
+    "absPause": {
+      "Resume": {
+        "top": 498,
+        "bottom": 554
+      },
+      "Finish early": {
+        "top": 498,
+        "bottom": 554
+      }
+    }
+  },
+  "small": {
+    "walkRun": {
+      "Pause": {
+        "top": 454,
+        "bottom": 510
+      },
+      "Finish": {
+        "top": 454,
+        "bottom": 510
+      }
+    },
+    "walkPause": {
+      "Resume": {
+        "top": 454,
+        "bottom": 510
+      },
+      "Finish": {
+        "top": 454,
+        "bottom": 510
+      }
+    },
+    "workout": {
+      "Pause": {
+        "top": 462,
+        "bottom": 518
+      },
+      "Finish": {
+        "top": 462,
+        "bottom": 518
+      }
+    },
+    "absRun": {
+      "Pause": {
+        "top": 498,
+        "bottom": 554
+      },
+      "Finish early": {
+        "top": 498,
+        "bottom": 554
+      }
+    },
+    "absPause": {
+      "Resume": {
+        "top": 498,
+        "bottom": 554
+      },
+      "Finish early": {
+        "top": 498,
+        "bottom": 554
+      }
+    }
+  },
+  "desktop": {
+    "walkRun": {
+      "Pause": {
+        "top": 474,
+        "bottom": 530
+      },
+      "Finish": {
+        "top": 474,
+        "bottom": 530
+      }
+    },
+    "walkPause": {
+      "Resume": {
+        "top": 474,
+        "bottom": 530
+      },
+      "Finish": {
+        "top": 474,
+        "bottom": 530
+      }
+    },
+    "workout": {
+      "Pause": {
+        "top": 176,
+        "bottom": 232
+      },
+      "Finish": {
+        "top": 176,
+        "bottom": 232
+      }
+    },
+    "absRun": {
+      "Pause": {
+        "top": 518,
+        "bottom": 574
+      },
+      "Finish early": {
+        "top": 518,
+        "bottom": 574
+      }
+    },
+    "absPause": {
+      "Resume": {
+        "top": 518,
+        "bottom": 574
+      },
+      "Finish early": {
+        "top": 518,
+        "bottom": 574
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+{"engine":"chromium","volumeAfterDetailsToggle":"ml"}
+{"engine":"webkit","volumeAfterDetailsToggle":"ml"}
+{"numericAndFractionChecks":true,"browsers":[{"engine":"chromium","emojiPlanSaved":true,"planWellFormed":true,"invalidUnicodeRejectedPerId":true,"validMixedBatchApplied":true,"oldPoisonedJournalRecovered":true,"refusalsDurableAcrossReload":true,"laterWaterSynced":true,"lockClearSucceeded":true},{"engine":"webkit","emojiPlanSaved":true,"planWellFormed":true,"invalidUnicodeRejectedPerId":true,"validMixedBatchApplied":true,"oldPoisonedJournalRecovered":true,"refusalsDurableAcrossReload":true,"laterWaterSynced":true,"lockClearSucceeded":true}]}

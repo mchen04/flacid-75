@@ -2,14 +2,14 @@
   "installabilityErrors": [],
   "manifest": {
     "id": "/",
-    "name": "Flaccid75",
-    "short_name": "Flaccid75",
-    "description": "Your own little routine with Pip.",
+    "name": "My Wellness",
+    "short_name": "My Wellness",
+    "description": "Your daily wellness companion.",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
-    "background_color": "#fffaf3",
-    "theme_color": "#fffaf3",
+    "background_color": "#f4eee6",
+    "theme_color": "#f4eee6",
     "orientation": "portrait",
     "icons": [
       {

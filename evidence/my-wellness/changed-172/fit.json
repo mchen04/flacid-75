@@ -1,0 +1,220 @@
+{
+  "runner": "scripts/ui-shots.mjs",
+  "source": "app source at a89ea20 (built for this run); no source change since 23ac33b other than the cleanup pass",
+  "states": [
+    "water",
+    "water-confirm",
+    "water-ask",
+    "food",
+    "food-empty",
+    "rules"
+  ],
+  "viewports": {
+    "phone": {
+      "water": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 982,
+        "unexpectedScrollers": []
+      },
+      "water-confirm": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1102,
+        "unexpectedScrollers": []
+      },
+      "water-ask": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1133,
+        "unexpectedScrollers": []
+      },
+      "food": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "food-empty": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 773,
+        "unexpectedScrollers": []
+      },
+      "rules": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1338,
+        "unexpectedScrollers": []
+      }
+    },
+    "small": {
+      "water": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 982,
+        "unexpectedScrollers": []
+      },
+      "water-confirm": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1102,
+        "unexpectedScrollers": []
+      },
+      "water-ask": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1133,
+        "unexpectedScrollers": []
+      },
+      "food": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "food-empty": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 596,
+        "unexpectedScrollers": []
+      },
+      "rules": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1338,
+        "unexpectedScrollers": []
+      }
+    },
+    "desktop": {
+      "water": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 962,
+        "unexpectedScrollers": []
+      },
+      "water-confirm": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1082,
+        "unexpectedScrollers": []
+      },
+      "water-ask": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1112,
+        "unexpectedScrollers": []
+      },
+      "food": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "food-empty": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": false,
+        "pageScrollHeight": 789,
+        "unexpectedScrollers": []
+      },
+      "rules": {
+        "reached": true,
+        "overlapping": [],
+        "sideways": [],
+        "clipped": [],
+        "documentScrollsX": false,
+        "documentScrollsY": false,
+        "pageScrollsY": true,
+        "pageScrollHeight": 1258,
+        "unexpectedScrollers": []
+      }
+    }
+  },
+  "base": "http://localhost:3075",
+  "today": "2026-09-10"
+}

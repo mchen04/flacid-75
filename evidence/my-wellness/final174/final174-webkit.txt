@@ -1,0 +1,7 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 [webkit] › tests/e2e/review171.spec.ts:62:1 › R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later (1.5s)
+  ✓  2 [webkit] › tests/e2e/review171.spec.ts:74:1 › R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused (1.2s)
+
+  2 passed (3.4s)

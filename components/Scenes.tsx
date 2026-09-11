@@ -28,7 +28,7 @@ export function Hills({phase='morning',walked=false,celebrate=false,quiet=false,
   <path d="M0 252C60 220 120 218 180 234S300 230 360 208V400H0z" fill={far[phase]}/>
   <path d="M0 292C70 264 140 258 210 272S330 268 360 252V400H0z" fill={night?c.nightSoft:c.sage} opacity={night?.55:1}/>
   <path d="M0 348C60 320 130 308 200 308S320 298 360 286V400H0z" fill={night?c.night:c.sageDeep}/>
-  <Tree x={96} y={290} s={1.05} tone={night?c.nightSoft:c.sageDeep}/><Tree x={342} y={272} s={.9} tone={night?c.nightSoft:c.sageDeep}/><Tree x={294} y={282} s={.7} tone={night?c.nightSoft:c.sage}/>
+  <Tree x={96} y={290} s={1.05} tone={night?c.lilac:c.sageDeep}/><Tree x={342} y={272} s={.9} tone={night?c.lilac:c.sageDeep}/><Tree x={294} y={282} s={.7} tone={night?c.lilac:c.sage}/>
   <path d={walkPath} fill="none" stroke={c.card} strokeWidth="3" strokeLinecap="round" strokeDasharray="1 9" opacity=".9"/>
   <g className="flag" transform="translate(320 284)"><rect x="-1.5" y="-30" width="3" height="32" rx="1.5" fill={c.card}/><path d="M1 -30h20l-6 7 6 7H1z" fill={c.accent}/></g>
   <g className={`walker ${walked?'is-done':''}`} style={{transform:`translate(${wx}px,${wy}px)`}}><circle r="11" fill={c.accent}/><circle r="11" fill={c.accent} className="pulse" opacity=".35"/><circle r="4.5" fill={c.card}/></g>
@@ -69,7 +69,7 @@ export function Bowl({full=false,eating=false,level=0}:{full?:boolean;eating?:bo
  </svg>;
 }
 // Flat two-tone habit marks, used inside the round chips.
-export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|'rest'|'rescue'|'scale'}){
+export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|'rest'|'rescue'|'scale'|'meditate'|'focus'|'reward'|'progress'|'star'}){
  const marks={
   workout:<><rect x="8" y="20" width="32" height="8" rx="4" fill={c.accentDeep}/><rect x="4" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="36" y="14" width="8" height="20" rx="3" fill={c.ink2}/><rect x="0" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/><rect x="43" y="18" width="5" height="12" rx="2.5" fill={c.ink2}/></>,
   abs:<><rect x="11" y="5" width="26" height="38" rx="12" fill={c.accentSoft} stroke={c.ink2} strokeWidth="2.5"/><path d="M24 7v34M13 19h22M13 29h22" stroke={c.ink2} strokeWidth="2.5" strokeLinecap="round"/></>,
@@ -80,6 +80,11 @@ export function Mark({name}:{name:'workout'|'abs'|'floss'|'walk'|'water'|'food'|
   rest:<><path d="M30 6a16 16 0 1 0 12 26A14 14 0 0 1 30 6z" fill={c.accent}/><circle cx="12" cy="10" r="2" fill={c.accentSoft}/><circle cx="8" cy="20" r="1.5" fill={c.accentSoft}/></>,
   rescue:<path d="M24 42S6 30 6 18a9 9 0 0 1 18-4 9 9 0 0 1 18 4c0 12-18 24-18 24z" fill={c.rose}/>,
   scale:<><rect x="8" y="14" width="32" height="28" rx="6" fill={c.lilacSoft}/><path d="M16 26q8-8 16 0" stroke={c.lilac} strokeWidth="3" strokeLinecap="round" fill="none"/><path d="M24 26l3-5" stroke={c.ink2} strokeWidth="2.5" strokeLinecap="round"/></>,
+  meditate:<><circle cx="24" cy="14" r="7" fill={c.cocoa}/><path d="M12 40q0-16 12-16t12 16z" fill={c.lilac}/><path d="M6 40q10-8 18-4 8-4 18 4" stroke={c.lilacSoft} strokeWidth="5" strokeLinecap="round" fill="none"/><circle cx="24" cy="44" r="2.5" fill={c.card}/></>,
+  focus:<><circle cx="24" cy="27" r="17" fill={c.rose}/><path d="M24 10q-2-6 4-8m-4 8q-8-4-12 2 6 4 12-2 8-4 12 2-6 4-12-2" fill={c.sage} stroke={c.sageDeep} strokeWidth="1.5" strokeLinejoin="round"/><path d="M24 18v9l6 4" stroke={c.card} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></>,
+  reward:<><rect x="6" y="20" width="36" height="22" rx="5" fill={c.butter}/><rect x="4" y="12" width="40" height="10" rx="4" fill={c.butterSoft}/><rect x="21" y="12" width="6" height="30" fill={c.rose}/><path d="M24 12q-10-2-8-8 6-2 8 8 2-10 8-8 2 6-8 8z" fill={c.rose}/></>,
+  progress:<><rect x="6" y="26" width="8" height="16" rx="3" fill={c.sage}/><rect x="20" y="16" width="8" height="26" rx="3" fill={c.sageDeep}/><rect x="34" y="6" width="8" height="36" rx="3" fill={c.accent}/></>,
+  star:<path d="M24 4l6 13 14 1-11 9 4 14-13-8-13 8 4-14L4 18l14-1z" fill={c.butter}/>,
  };
  return <svg className="mark" viewBox="0 0 48 48" aria-hidden="true">{marks[name]}</svg>;
 }
@@ -95,17 +100,18 @@ export function Brand({size=512,padded=true}:{size?:number;padded?:boolean}){
  </svg>;
 }
 
-// One scene per habit tab, drawn on a tall canvas so a phone-shaped stage crops almost
-// nothing. Copy sits over the top left, so nothing important goes above y=180 on the left.
+// One scene per activity page. Each is drawn on a 360×640 canvas but shown through the band y=200…640, and the stage keeps that
+// band's aspect ratio (360:440) so nothing is cropped at any width. Copy sits bottom-left and the tag bottom-right, over floor or ground;
+// the rest scene puts its copy top-left, over sky. Nothing important sits in those corners.
 // `active` runs the tap animation; `done` holds the finished pose after it ends.
 const Window=({x,y}:{x:number;y:number})=><g transform={`translate(${x} ${y})`}><rect width="104" height="120" rx="16" fill={c.skySoft}/><circle cx="70" cy="36" r="18" fill={c.butter}/><path d="M0 84c22-16 40-16 52-6s30 8 52-10v36q0 16-16 16H16Q0 120 0 104z" fill={c.sageSoft}/><rect x="48" y="0" width="8" height="120" fill={c.card} opacity=".7"/><rect x="0" y="56" width="104" height="8" fill={c.card} opacity=".7"/><rect width="104" height="120" rx="16" fill="none" stroke={c.card} strokeWidth="7"/></g>;
 const Plant=({x,y,s=1}:{x:number;y:number;s?:number})=><g transform={`translate(${x} ${y}) scale(${s})`}><path d="M0 0q-30-18-24-52 26 4 26 34" fill={c.sage}/><path d="M2 0q28-22 22-56-28 8-26 38" fill={c.sageDeep}/><path d="M-22 0h46l-6 40q-1 8-9 8h-16q-8 0-9-8z" fill={c.cocoaSoft}/></g>;
 export function Gym({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene gym ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene gym ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.butterSoft}/>
   <g className="gym-clock"><circle cx="180" cy="150" r="38" fill={c.card}/><circle cx="180" cy="150" r="38" fill="none" stroke={c.cocoaSoft} strokeWidth="7"/><path d="M180 128v24l16 10" stroke={c.ink2} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
   <rect x="0" y="556" width="360" height="84" fill={c.cocoaSoft}/><rect x="0" y="556" width="360" height="8" fill={c.cocoa} opacity=".2"/>
-  <Plant x={44} y={556} s={1.05}/>
+  <Plant x={250} y={556} s={.9}/>
   <g opacity=".9"><rect x="288" y="524" width="54" height="12" rx="6" fill={c.cocoa} opacity=".5"/><circle cx="292" cy="530" r="14" fill={c.ink2}/><circle cx="338" cy="530" r="14" fill={c.ink2}/></g>
   <ellipse cx="180" cy="558" rx="78" ry="11" fill={c.cocoa} opacity=".2"/>
   <g className="lifter">
@@ -122,12 +128,12 @@ export function Gym({done=false,active=false}:{done?:boolean;active?:boolean}){
  </svg>;
 }
 export function Mat({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene mat ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene mat ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.lilacSoft}/>
   <Window x={238} y={168}/>
   <rect x="0" y="486" width="360" height="154" fill={c.cardTint}/>
   <Plant x={318} y={620} s={1.15}/>
-  <g><rect x="42" y="546" width="30" height="62" rx="14" fill={c.sky}/><rect x="49" y="532" width="16" height="18" rx="7" fill={c.skyDeep}/></g>
+  <g><rect x="196" y="536" width="30" height="62" rx="14" fill={c.sky}/><rect x="203" y="522" width="16" height="18" rx="7" fill={c.skyDeep}/></g>
   <ellipse cx="180" cy="492" rx="152" ry="15" fill={c.lilac} opacity=".35"/>
   <rect x="28" y="446" width="304" height="48" rx="24" fill={c.lilac}/>
   <rect x="28" y="446" width="304" height="15" rx="8" fill={c.card} opacity=".4"/>
@@ -141,7 +147,7 @@ export function Mat({done=false,active=false}:{done?:boolean;active?:boolean}){
     <path d="M70 454q12 9 24 0" stroke={c.card} strokeWidth="4.6" strokeLinecap="round" fill="none"/>
     <path d="M150 424q-26 8-34 26" stroke={c.accentDeep} strokeWidth="22" strokeLinecap="round" fill="none"/>
    </g></g>
-   <g className="pose pose-up" transform="rotate(-36 244 458)"><g>
+   <g className="pose pose-up" transform="rotate(36 244 458)"><g>
     <rect x="92" y="430" width="152" height="56" rx="28" fill={c.accent}/>
     <circle cx="82" cy="442" r="36" fill={c.cocoa}/>
     <circle cx="70" cy="434" r="4.6" fill={c.card}/><circle cx="94" cy="434" r="4.6" fill={c.card}/>
@@ -153,7 +159,7 @@ export function Mat({done=false,active=false}:{done?:boolean;active?:boolean}){
  </svg>;
 }
 export function Tooth({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene tooth ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene tooth ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.skySoft}/>
   <circle cx="180" cy="430" r="168" fill={c.card} opacity=".45"/>
   <ellipse cx="180" cy="588" rx="104" ry="15" fill={c.skyDeep} opacity=".18"/>
@@ -168,7 +174,7 @@ export function Tooth({done=false,active=false}:{done?:boolean;active?:boolean})
  </svg>;
 }
 export function NightRest({done=false,active=false}:{done?:boolean;active?:boolean}){
- return <svg className={`scene night ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ return <svg className={`scene night ${done?'is-done':''} ${active?'is-active':''}`} viewBox="0 200 360 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <rect width="360" height="640" fill={c.night}/>
   {[[54,214],[104,184],[158,230],[228,194],[292,240],[322,190],[196,270],[76,294],[268,308],[130,330],[40,352]].map(([x,y],i)=><circle key={i} className={`star st${i%4}`} cx={x} cy={y} r={i%3?2.4:3.4} fill={c.card} opacity=".85"/>)}
   <g className="moon"><circle cx="250" cy="226" r="56" fill={c.butter} opacity=".14"/><circle cx="250" cy="226" r="36" fill={c.butterSoft}/><circle cx="265" cy="213" r="30" fill={c.night}/></g>

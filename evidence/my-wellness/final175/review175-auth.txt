@@ -1,0 +1,4 @@
+{"path":"/api/water","anonymous":401}
+{"path":"/api/sync","anonymous":401}
+{"path":"/api/estimate","anonymous":401}
+{"authenticatedCrossOrigin":403,"authenticatedMalformedControl":400,"credentialsLogged":false}

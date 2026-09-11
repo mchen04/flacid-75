@@ -1,0 +1,9 @@
+{
+  "ran": "10:00",
+  "pausedFor": "1:00 (no change)",
+  "reloadKept": "10:00",
+  "sleptFor": "20:00 with no ticks",
+  "onWake": "30:00",
+  "logged": 1800,
+  "note": "Chromium with a virtual clock; a physical lock/reopen is not measured here"
+}

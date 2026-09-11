@@ -1,0 +1,68 @@
+
+> my-wellness@4.0.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ every change the server would refuse is refused by the browser bounds first, with a reason (54.225542ms)
+✔ every change the server accepts passes the browser bounds (0.592083ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.342625ms)
+✔ review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character (2.116ms)
+✔ review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml (0.6155ms)
+✔ review 171 follow-up: container ids and the default container id are held to the same text rule on both sides (1.349916ms)
+✔ seven habits including floss are all required; a missing floss breaks the chain (30.212375ms)
+✔ a missing habit breaks the chain at midnight; today is not prematurely broken (1.070291ms)
+✔ two planned rest days per Monday-Sunday week keep the streak without adding to it; a third is refused (0.99075ms)
+✔ rest days can be planned ahead within the current week, never beyond it; other habits cannot be logged ahead (0.305542ms)
+✔ existing history with one rest per week is preserved and still valid under the two-day rule (0.582333ms)
+✔ sessions record time and detail, mark the habit, and undo cleanly (1.138083ms)
+✔ meditation and focus are logged but never touch completion, the streak or points (0.645167ms)
+✔ points: ten per habit, thirty for a whole day; treats are user-chosen, idempotent to redeem, and undoable (0.788333ms)
+✔ milestones follow the longest streak and remember the day each was first reached (2.734667ms)
+✔ units are stored as a preference; measurements stay in kilograms and centimetres (0.175ms)
+✔ a workout plan is saved on the profile and a profile update keeps it (0.176125ms)
+✔ rescue and backfill recalculate history, retain honest markers, allow any past day (1.20275ms)
+✔ 23:59, DST spring/fall, and timezone travel do not skip or duplicate days (0.580334ms)
+✔ a session that runs past local midnight credits the day it was started on (0.126208ms)
+✔ calculation, smoothing, editable overrides and material recomputation (0.736458ms)
+✔ food corrections replace a meal and numeric goals remain estimates (0.211792ms)
+✔ saving targets or details without editing the weight keeps the trend baseline; editing the weight resets it (0.342292ms)
+✔ review 171: water completion tolerates float summation at an exactly met target in either unit, never a genuine shortfall, and is recomputed for past days (3.194417ms)
+✔ review 171: a targets or details save carries only the five measurements; treats, plan, containers and units on the profile are untouched by it (0.450541ms)
+✔ the USDA table is loaded and plain names match sensible rows (20.170291ms)
+✔ a row whose head food is not in the query is rejected rather than misused (4.55175ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.572792ms)
+✔ a session that ran for 26 hours is logged as 24 hours, which the account accepts, and only then is the timer cleared (10.506292ms)
+✔ a refused change keeps the timer so the session can be finished again; nothing is lost silently (0.403458ms)
+✔ two focus sessions on the same day credit separately; the same session settled twice (two tabs) shares its ids (1.261667ms)
+✔ a finished ab routine settles once, credited to its start day, and clears itself (10.07025ms)
+✔ a paused routine never finishes on its own (0.513583ms)
+✔ meditation credits the chosen length when the countdown ends (0.690708ms)
+✔ focus credits each finished work block once, catches up after time away, and ends itself after the cap (0.812833ms)
+✔ settlement ids are stable: the same timer settled twice (two tabs) yields the same id, different blocks differ, and the id is a valid uuid (103.415459ms)
+✔ automatic settlement dispatches first: a refused change leaves the timer and the focus block for a stable retry; an accepted one clears it (0.559083ms)
+✔ elapsed time is computed from the clock, so time away from the app still counts (0.624583ms)
+✔ the clock face formats minutes, seconds and hours (0.081541ms)
+✔ every ab routine has instructions, timed intervals, and a phase derivable from any elapsed time (0.233875ms)
+✔ only free OpenRouter models are ever called (0.059625ms)
+✔ the OpenRouter request body carries the zero max price and a non-free model never reaches the request (1.066125ms)
+✔ defaults are pounds and feet-inches (22.796208ms)
+✔ conversions round-trip without drifting the stored value (0.794125ms)
+✔ display follows the unit; input parses to kilograms and centimetres (25.0845ms)
+✔ the seeded Stanley is 30 oz stored in millilitres and shown in her unit (11.616208ms)
+✔ half a Stanley is exactly 15 oz: container size times share, computed by the app (0.937333ms)
+✔ a quarter, most of it, the whole thing and refilled twice all resolve to the right share and count (0.540167ms)
+✔ an ambiguous phrase asks once and never guesses a number (0.141542ms)
+✔ progress reads in her terms (0.122208ms)
+✔ volumes round-trip through the unit setting without changing the stored millilitres (0.072792ms)
+✔ pours append to the day log, undo removes the last matching pour, and the schema accepts container sizes (6.67025ms)
+✔ a long container name with three quarters yields a label the account accepts once trimmed to the bound; refilled my Stanley twice is two (0.303959ms)
+✔ a container whose name contains another name or a number is read whole: no phantom counts (0.151292ms)
+✔ review 171: a slash fraction is a share, never a count; multiples still count (0.238125ms)
+✔ workout172: symbol shares parse without word boundaries; mixed numbers are one pour of that many containers; plain multiples still count (0.21ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 950.442333

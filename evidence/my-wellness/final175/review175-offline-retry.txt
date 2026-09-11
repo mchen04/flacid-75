@@ -1,0 +1,44 @@
+[
+  {
+    engine: 'chromium',
+    offlineColdOpenMs: 113,
+    habitMutationMs: 2.8000001907348633,
+    queuedOperations: 3,
+    replayedOperations: 3,
+    waterMl: 887.205886875,
+    storedOperationRows: 5,
+    pageSize: {
+      width: 390,
+      height: 844,
+      scrollHeight: 844,
+      bodyScroll: 844,
+      pageScrollsInside: true,
+      sideways: false
+    },
+    lazyPagesOffline: [ 'you', 'rules', 'walk' ],
+    realPostgres: true,
+    realServiceWorker: true,
+    networkBlock: 'browser offline'
+  },
+  {
+    engine: 'webkit',
+    offlineColdOpenMs: 39,
+    habitMutationMs: 3,
+    queuedOperations: 3,
+    replayedOperations: 3,
+    waterMl: 887.205886875,
+    storedOperationRows: 5,
+    pageSize: {
+      width: 390,
+      height: 844,
+      scrollHeight: 844,
+      bodyScroll: 844,
+      pageScrollsInside: true,
+      sideways: false
+    },
+    lazyPagesOffline: [ 'you', 'rules', 'walk' ],
+    realPostgres: true,
+    realServiceWorker: true,
+    networkBlock: 'origin server suspended'
+  }
+]

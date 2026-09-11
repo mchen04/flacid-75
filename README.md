@@ -1,8 +1,26 @@
-# Flaccid75
+# My Wellness
 
-A private fitness PWA for one person.
+A private wellness companion for one person, as a PWA. Formerly Flaccid75; the account, history, streaks and storage key are unchanged.
 Open the [live app](https://flaccid75-preview.vercel.app) in Safari.
 The passphrase stays in the owner's private installation note, outside this repository.
+
+## Version 4 · My Wellness
+
+- One dashboard. Every activity is a row with its art, one line of status, a chevron that opens its page and a separate one-tap action (Log/Undo, +Glass, +Meal, Rest). No bottom navigation: Home, the streak badge (Progress) and Settings sit in the top bar on every page, and the browser's back button works because pages are hash routes (`#walk`, `#workout`, `#abs`, `#floss`, `#water`, `#food`, `#rest`, `#meditate`, `#focus`, `#rewards`, `#progress`, `#you`, `#rules`).
+- Dedicated activity pages: a walk timer with start, pause and finish; a workout checklist with an editable plan and a session clock; a guided ab library with instructions, timed work and rest intervals, visual cues and optional sound; a floss scene; a water page; a food page with in-place edit and remove.
+- Timers count from the clock, not from ticks (`lib/timer.ts`), so a locked phone, a backgrounded tab or a reopened app shows the right time. Interval phases are derived from elapsed time, so a routine or a focus block that ends while the app is away is credited on return.
+- Two planned rest days per Monday–Sunday week, plannable ahead. Rest keeps the streak and is shown as rest, never as a miss. Earlier weeks keep what they had.
+- Optional meditation and focus (work/break) pages, logged but never counted toward the streak. The app does not block other apps.
+- Points and treats: ten points per required habit and thirty for a complete day; treats are whatever the user names, at the cost they choose, undoable the same day. Food is never a reward or a debt. Milestones at 3, 7, 14, 21, 30, 50, 75 and 100 days.
+- Water by container: name and size your own containers (a 30 oz Stanley is seeded as the default), log by share ("half my Stanley" logs exactly 15 oz), one tap logs a whole default container, and progress reads as "about 1½ of 2¼ Stanleys" (both numbers to the nearest quarter, so they agree with the exact volume beside them). The water target is shown and edited in your volume unit. The app multiplies; a model may only name the container and the share; anything unclear asks once.
+- Units: lb and ft-in by default, kg and cm one tap away; volumes in oz or ml; measurements are stored once in kg, cm and ml and never rounded by a switch.
+- Food estimates use free OpenRouter models only: every id must carry `:free` (or be `openrouter/free`) and every request sets a zero `max_price`. When no model answers, the numbers path still logs the meal.
+- The rules of the day (local day, required versus optional, completion, rest, rollover, points, timers, data) are written out in the app under How it works and in [evidence/my-wellness/RULES.md](evidence/my-wellness/RULES.md).
+- Free text (plan moves, treat names, water labels, container names) is measured in characters, may not contain NUL or a split emoji, and is clipped by character on entry; the account refuses such a change by id rather than rolling back a batch. Water completion allows a hundredth of a millilitre so an exactly met target counts. "3/4 of the Stanley" is three quarters of one container.
+- Every account answer carries a receipt (recently applied ids and a revision, from one database snapshot), so a change another tab made during this tab's request is counted once whatever order the answers arrive in.
+- The device store (`lib/client-store.ts`) is safe across open tabs: every change is journaled under its own key until the account acknowledges it; the acknowledged ids are recorded so no tab re-queues or re-applies an acknowledged change; an account answer that began before a newer answer was saved is not installed; a refusal is kept until its record saves; Lock and clear clears the device first (before any network), writes a marker that locks every open tab, including one restored from the back-forward cache, and advances a local generation so a stale tab or a late answer from before the clear can never write into the store after a new unlock. Outgoing batches are bounded by count and by bytes. Regressions: `tests/e2e/review165.spec.ts`, `tests/e2e/review164.spec.ts`, `tests/e2e/wellness.spec.ts` (R163-1 to R163-8).
+
+Capture provenance: `evidence/my-wellness/after/` is the historical full baseline (pre-dating the final privacy wording); `evidence/my-wellness/changed-172/` holds the changed water, food and rules surfaces captured from the final source. Acceptance and evidence for version 4, commit-bound, with the independent review outcomes (the latest, review 175, approved application commit b370965 as delivered at 38b978f with physical-device and minor limitations recorded): [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Whether version 4 is pushed, merged and deployed is verified from the GitHub pull request and deployment state; the live link above serves whatever `main` last deployed. Design references viewed and the direction taken: [evidence/my-wellness/DESIGN.md](evidence/my-wellness/DESIGN.md).
 
 ## Version 3 · illustrated
 
@@ -24,17 +42,17 @@ Acceptance for version 3: [evidence/ACCEPTANCE-V3.md](evidence/ACCEPTANCE-V3.md)
 - Every animation is decoration: the tap registers first, motion follows, and reduced-motion turns it all off.
 
 Acceptance for version 2: [evidence/ACCEPTANCE-V2.md](evidence/ACCEPTANCE-V2.md). Decisions and measurements: [evidence/LEDGER.md](evidence/LEDGER.md).
-Browser-driven checks are written in `tests/e2e/` and were not executed in the delivery session (its sandbox forbids local ports and browser launches); run them with `npm run build && npx next start -p 3075` and `npm run test:e2e`.
+Browser-driven checks live in `tests/e2e/`. In a sandbox that forbids listening sockets they run against the production build through request interception: `npm run build && VIRTUAL_SERVER=1 npm run test:e2e -- --project=chromium`. Against a real server: `npm run build && npx next start -p 3075` then `npm run test:e2e`.
 
 **Physical iPhone verification remains unfinished.** See the version 1 [acceptance record](evidence/ACCEPTANCE.md) and the [evidence index](evidence/README.md).
 
-## What ships
+## What shipped in versions 1 to 3 (historical; version 4 above supersedes where they differ)
 
 - Seven home-screen habits: workout, abs, walk, water, protein, calories and floss. Each is one tap.
 - Water additions of 250 ml, editable meal estimates, and daily calorie and protein totals.
 - An in-app camera, photo upload fallback, text estimates, and manual entry when the model fails.
 - A weekly progress view by default, plus a month calendar with missing habits and backfill markers.
-- One deliberate rest day per Monday–Sunday week and unlimited deliberate streak rescues.
+- Two planned rest days per Monday–Sunday week (one in versions 1 to 3) and unlimited deliberate streak rescues.
 - One-time onboarding, editable targets, optional morning weight entry, and smoothed trends.
 - Offline viewing and habit changes, with queued writes and duplicate-safe replay after reconnecting.
 - Original hand-authored SVG art, app icons, a manifest, and an iPhone 13-sized startup image.
@@ -57,10 +75,11 @@ There are no notifications, workout details, social features, payments, saved me
 | Photo privacy proof | Local traces find no image markers in scanned model files. Deleted-file contents, memory-mapped writes, provider retention, and the deployed host remain unobserved. |
 | Credential exposure | The initial goal read exposed the database credential in private tool output. Git and client scans are clean; rotation is not recorded. |
 | Target formulas | Calories use a published equation. Activity, goal, water, and step adjustments are planning defaults, not validated personal measurements. |
+| Version 4 release state | Independent review 175 approved application commit b370965 (183 of 183 real-server tests on both Chromium and WebKit, unit, typecheck, lint, build, a 253-operation disposable database run, both-engine offline, live water endpoint guard checks, clean secret scan; judge APPROVE with 0 gating findings). Physical iPhone verification is still unfinished; the judge's minor findings are tracked in [evidence/my-wellness/ACCEPTANCE.md](evidence/my-wellness/ACCEPTANCE.md). Publication is the supervisor's step and is read from the GitHub pull request and deployment state. |
 
 Michael authorizes squash integration into `main`, overriding the original merge ban.
 This authorization does not complete or waive physical iPhone verification.
-The installed endpoint remains a Vercel preview; Git deployment is disabled in [vercel.json](vercel.json).
+Git deployment is enabled in [vercel.json](vercel.json) (`deploymentEnabled: true`); the latest GitHub deployment of `main` is a successful Production deployment, and the live link at the top serves it.
 
 ## Local setup
 
@@ -71,7 +90,8 @@ Copy [.env.example](.env.example) to `.env.local` and supply these values throug
 |---|---|
 | `DATABASE_URL` | Neon PostgreSQL connection used by migrations and server data access. |
 | `APP_PASSPHRASE` | Private single-account gate. |
-| `SESSION_SECRET` | Random 32-byte secret for signed sessions and encrypted model credentials. |
+| `SESSION_SECRET` | Random 32-byte secret for signed sessions. |
+| `OPENROUTER_API_KEY` | Key for the free OpenRouter models used for food and water phrases. Absent: the app still tracks; estimates fall back to manual entry. |
 
 Never commit `.env.local` or print its values.
 The owner's local environment and preview environment are already configured.
@@ -133,7 +153,7 @@ With Docker running, the real model process audit is:
 scripts/privacy/run.sh
 ```
 
-It uses the configured Claude subscription and database, and checks that account data stays unchanged.
+It uses the configured model key and database, and checks that account data stays unchanged.
 Its temporary container records file and write-family calls while suppressing data buffers.
 Synthetic controls prove that file writes and content matches are detected.
 See [the evidence limits](evidence/ACCEPTANCE.md#privacy-and-credential-limits) before interpreting its result.
@@ -142,8 +162,10 @@ See [the evidence limits](evidence/ACCEPTANCE.md#privacy-and-credential-limits) 
 
 Next.js serves the static entry route, manifest, and private API endpoints.
 An esbuild bundle renders the phone interface through Preact's React compatibility layer.
-The measured bundle is 21,411 gzip bytes; the build enforces a 40,960-byte limit.
+The first script (the dashboard and everything it imports, followed transitively through static imports) is held to the original 40,960 gzip-byte budget; every other page and sheet is a lazily loaded chunk, prefetched after the first paint and cached by the service worker, and total JavaScript has its own 65,536-byte ceiling. `node scripts/budget.mjs` prints both; `node scripts/chunk-check.mjs` proves every chunk is in the shell and the worker's install scan.
 Critical styles are inline, typography uses system faces, and all shipped illustrations are local assets.
+
+The local storage key (`flaccid75-v1`), the session cookie name, the service-worker cache prefix and the database tables keep their original names so an installed app updates in place without losing data.
 
 The service worker caches the shell, phone script, manifest, icons, and startup image.
 Its version hashes the client code, styles, and worker template.
@@ -158,27 +180,13 @@ A row lock applies each operation batch, and operation IDs prevent duplicate del
 UTC timestamps accompany civil day labels; a timezone change re-anchors today without relabeling existing history.
 Existing past-day targets stay fixed; a newly backfilled day starts with the current targets.
 
-## Claude and photos
+## Food estimates and photos
 
-The server uses the official Claude Agent SDK with the owner's existing subscription.
-The app configures no tools, project settings, transcript persistence, telemetry, or error reporting for estimates.
-Photo bytes travel through memory to the model. The app drops its image reference after estimation or cancellation.
-Only calorie and protein numbers, with their meal ID and day, enter meal state.
-The application has no photo storage path or object-store integration.
-These implementation choices do not prove zero retention by the provider or every underlying runtime component.
+Food estimates use free OpenRouter models only (`lib/estimate.ts`): every model id must carry `:free` (or be `openrouter/free`), the request refuses any other id before it is built, and every request sets a zero `max_price` so no provider can charge. There is no paid fallback. When no free model answers, the app shows a message and the numbers path still logs the meal, so tracking never depends on the model.
 
-The preview stores the model credential encrypted with `SESSION_SECRET` in `flaccid75_model_auth`.
-The SDK uses a private temporary credential/configuration directory.
-A row lock serializes calls and saves refreshed credentials encrypted after each call.
-Changing `SESSION_SECRET` invalidates existing gate cookies and requires model credential reconfiguration.
+Photo bytes travel through memory to the model and the app drops its image reference after estimation or cancellation. Only calorie and protein numbers, with their meal id and day, enter meal state. Water phrases send the note and the container names; the model may only name the container and the share, and the app multiplies. The application has no photo storage path or object-store integration. These implementation choices do not prove zero retention by the provider.
 
-After restoring the local Claude sign-in, configure the preview credential with:
-
-```sh
-node --env-file=.env.local --import tsx scripts/configure-model.ts
-```
-
-Model errors leave manual meal entry available. No alternate model provider is configured.
+The earlier Claude Agent SDK integration and its encrypted credential table are gone (version 2). `OPENROUTER_API_KEY` is the only model credential.
 
 ## Targets and art
 

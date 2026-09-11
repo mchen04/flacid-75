@@ -1,0 +1,56 @@
+{
+  "checkedAt": "2026-09-10T17:57:03.672Z",
+  "endpoint": "GET https://openrouter.ai/api/v1/models via curl, no credential sent",
+  "configured": [
+    {
+      "id": "google/gemma-4-26b-a4b-it:free",
+      "listed": true,
+      "promptPrice": "0",
+      "completionPrice": "0",
+      "free": true,
+      "vision": true
+    },
+    {
+      "id": "nex-agi/nex-n2.5-mini:free",
+      "listed": true,
+      "promptPrice": "0",
+      "completionPrice": "0",
+      "free": true,
+      "vision": true
+    },
+    {
+      "id": "google/gemma-4-31b-it:free",
+      "listed": true,
+      "promptPrice": "0",
+      "completionPrice": "0",
+      "free": true,
+      "vision": true
+    },
+    {
+      "id": "nex-agi/nex-n2.5-pro:free",
+      "listed": true,
+      "promptPrice": "0",
+      "completionPrice": "0",
+      "free": true,
+      "vision": true
+    },
+    {
+      "id": "nvidia/nemotron-3-super-120b-a12b:free",
+      "listed": true,
+      "promptPrice": "0",
+      "completionPrice": "0",
+      "free": true,
+      "vision": false
+    },
+    {
+      "id": "openrouter/free",
+      "listed": true,
+      "promptPrice": "0",
+      "completionPrice": "0",
+      "free": true,
+      "vision": true
+    }
+  ],
+  "freeModelCount": 19,
+  "totalModels": 437
+}

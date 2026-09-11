@@ -22,6 +22,16 @@ export function Icon({name,size=22}:{name:string;size?:number}){
  rest:<><path d="M20 15A8 8 0 0 1 9 4a8 8 0 1 0 11 11Z"/><path d="M15 4h4l-4 4h4"/></>,
  plus:<path d="M12 5v14M5 12h14"/>,
  back:<path d="m15 5-7 7 7 7"/>,
+ play:<path d="M8 5v14l11-7z"/>,
+ pause:<path d="M8 5v14M16 5v14"/>,
+ stop:<rect x="6" y="6" width="12" height="12" rx="2"/>,
+ star:<path d="m12 3 2.8 6 6.2.6-4.7 4.3 1.4 6.1L12 16.8 6.3 20l1.4-6.1L3 9.6 9.2 9z"/>,
+ sound:<><path d="M4 10v4h4l5 4V6L8 10z"/><path d="M16 9q3 3 0 6m3-9q5 6 0 12"/></>,
+ timer:<><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></>,
+ gift:<><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 13h18M12 9v12M12 9q-5 0-5-3t5 3q5 0 5-3t-5 3"/></>,
+ list:<path d="M8 6h13M8 12h13M8 18h13M4 6h.01M4 12h.01M4 18h.01"/>,
+ info:<><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></>,
+ undo:<path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/>,
  };
  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]??paths.leaf}</svg>;
 }
