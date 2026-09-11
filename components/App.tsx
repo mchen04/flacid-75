@@ -5,7 +5,7 @@ import {Camera} from './Camera';
 import {Icon} from './Icon';
 import {startStore, useStore, dispatch, unlock, lock} from '@/lib/client-store';
 import {habits, dayAt, addDays, completion, isKept, newDay, streaks, computeTargets, containersOf, type Operation} from '@/lib/domain';
-import {AppContext, useHash, Sheet, names, todayZone, longDate, type Change, type Pulse, unitsOf} from './shared';
+import {AppContext, useHash, Sheet, todayZone, longDate, type Change, type Pulse, unitsOf} from './shared';
 import {useSettle} from '@/lib/settle';
 import {Home} from './Home';
 // Only the dashboard is in the first script. Every other page and sheet is a chunk: prefetched after the first paint and cached by the service worker.
@@ -81,4 +81,3 @@ export default function App() {
  </main></AppContext.Provider>;
 }
 function Gate({notice}: {notice: string}) {const [error, setError] = useState(''); const [busy, setBusy] = useState(false); return <main className="gate"><Hills className="gate-scene"/><form onSubmit={async e => {e.preventDefault(); setBusy(true); setError(await unlock(String(new FormData(e.currentTarget).get('passphrase')))); setBusy(false);}}><h1 className="gate-title">My Wellness</h1><label>Passphrase<input name="passphrase" type="password" autoComplete="current-password" required/></label><button className="primary" disabled={busy}>{busy ? 'Opening…' : 'Open'}</button>{(error || notice) && <p role="alert">{error || notice}</p>}</form></main>;}
-export {names};

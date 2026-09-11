@@ -2,7 +2,7 @@
 import {useState} from 'react';
 import {Brand} from './Scenes';
 import {Icon} from './Icon';
-import {habits, defaultUnits, defaultPlan, restDaysPerWeek, pointsPerHabit, pointsPerDay, type Stats, type Targets, type Units, type Container} from '@/lib/domain';
+import {defaultUnits, defaultPlan, restDaysPerWeek, pointsPerHabit, pointsPerDay, type Stats, type Targets, type Units, type Container} from '@/lib/domain';
 import {feetInches, formatHeight, formatWeight, parseHeight, parseWeight, toLb, volumeUnit, formatVolume, parseVolume, toOz} from '@/lib/units';
 import {soundOn, setSound} from '@/lib/sound';
 import {limits} from '@/lib/bounds';
@@ -95,7 +95,6 @@ export function Rules() {return <section className="activity rules"><div classNa
  <h2>Timers</h2><p>Timers count from the clock, not from ticks, so a locked phone or a backgrounded app keeps the right time. A closed tab keeps its timer too; reopen and it resumes. Cues are visual by default; sound is optional in Settings.</p>
  <h2>Your data</h2><p>Logs live on this device and in your private account. Only the meal you describe or photograph is sent for a food estimate, to free models only. No other log leaves the device.</p>
 </div></section>;}
-export {habits};
 
 // The lazily loaded entry for everything on this file: one component, one `kind`, so App loads this chunk only when it is needed.
 type ChunkProps = {kind: 'you'; notice: string; failed: Failed[]} | {kind: 'rules'} | {kind: 'about'} | {kind: 'setup'; initial?: Parameters<typeof Setup>[0]['initial']; onSetup: Parameters<typeof Setup>[0]['onSave']} | {kind: 'targets'; targets: Targets; onTargets: (t: Partial<Targets>) => void} | {kind: 'weight'; onWeight: (kg: number) => void} | {kind: 'plan'; plan?: string[]; onPlan: (items: string[]) => void} | {kind: 'containers'; containers: Container[]; defaultId: string; onContainers: (c: Container[], d: string) => void};

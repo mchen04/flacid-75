@@ -1,6 +1,6 @@
 'use client';
 import {useEffect, useRef, useState} from 'react';
-import {Hills, Gym, Mat, Tooth, NightRest, Glass, Mark} from './Scenes';
+import {Hills, Gym, Mat, Tooth, NightRest, Glass} from './Scenes';
 import {Icon} from './Icon';
 import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, containersOf, type Habit} from '@/lib/domain';
 import {routines, phaseAt, routineSeconds, intervalsOf, type Routine} from '@/lib/abs';
@@ -226,7 +226,6 @@ export function Focus() {
   : <Controls timerKey="focus" running={running} hasTimer onFinish={() => clearTimer('focus')} finishLabel="End session"/>}
  </section>;
 }
-export {Mark};
 
 // Lazy entry: one component, one `kind`, so App loads this chunk only when an activity page is opened.
 export default function ActivitiesChunk({kind}: {kind: 'walk' | 'workout' | 'abs' | 'floss' | 'water' | 'rest' | 'meditate' | 'focus'}) {
