@@ -1,7 +1,7 @@
 // Timers are wall-clock timers. Only the start instant and the time banked before the last pause are stored, so a lock, a backgrounded
 // tab or a reopened app all resume at the right count: elapsed is recomputed from the clock, never from ticks.
 import {useEffect, useState} from 'react';
-export type Timer = {key: string; startedAt: number | null; banked: number; day: string; meta?: Record<string, string | number>};
+export type Timer = {key: string; run?: string; startedAt: number | null; banked: number; day: string; meta?: Record<string, string | number>};
 const KEY = 'my-wellness-timers';
 type Stored = Record<string, Timer>;
 const listeners = new Set<() => void>();
@@ -10,7 +10,7 @@ function write(all: Stored) {try {localStorage.setItem(KEY, JSON.stringify(all))
 export function getTimer(key: string): Timer | null {return read()[key] ?? null;}
 export function elapsedSeconds(timer: Timer | null, now = Date.now()) {if (!timer) return 0; return (timer.banked + (timer.startedAt ? Math.max(0, now - timer.startedAt) : 0)) / 1000;}
 export const isRunning = (timer: Timer | null) => !!timer?.startedAt;
-export function startTimer(key: string, day: string, meta?: Timer['meta']) {const all = read(); const existing = all[key]; all[key] = existing && existing.day === day ? {...existing, startedAt: existing.startedAt ?? Date.now(), meta: meta ?? existing.meta} : {key, startedAt: Date.now(), banked: 0, day, meta}; write(all); return all[key];}
+export function startTimer(key: string, day: string, meta?: Timer['meta']) {const all = read(); const existing = all[key]; all[key] = existing && existing.day === day ? {...existing, startedAt: existing.startedAt ?? Date.now(), meta: meta ?? existing.meta} : {key, run: crypto.randomUUID(), startedAt: Date.now(), banked: 0, day, meta}; write(all); return all[key];}
 export function resumeTimer(key: string) {const all = read(); const t = all[key]; if (!t) return null; if (!t.startedAt) {all[key] = {...t, startedAt: Date.now()}; write(all);} return all[key];}
 export function pauseTimer(key: string) {const all = read(); const t = all[key]; if (!t || !t.startedAt) return t ?? null; all[key] = {...t, banked: t.banked + Math.max(0, Date.now() - t.startedAt), startedAt: null}; write(all); return all[key];}
 export function updateTimer(key: string, meta: Timer['meta']) {const all = read(); const t = all[key]; if (!t) return null; all[key] = {...t, meta: {...t.meta, ...meta}}; write(all); return all[key];}

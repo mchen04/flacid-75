@@ -1,0 +1,9 @@
+
+> my-wellness@4.0.0 start
+> next start --port 3096
+
+▲ Next.js 16.3.4
+- Local:         http://localhost:3096
+- Network:       http://192.168.1.203:3096
+✓ Ready in 50ms
+✓ Running next.config.ts took 12ms

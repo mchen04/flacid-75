@@ -1,0 +1,11 @@
+
+Running 2 tests using 1 worker
+
+(node:88429) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/wellness.spec.ts:131:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (191ms)
+(node:88447) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [webkit] › tests/e2e/wellness.spec.ts:131:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (505ms)
+
+  2 passed (1.5s)

@@ -31,7 +31,6 @@ export function Icon({name,size=22}:{name:string;size?:number}){
  gift:<><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 13h18M12 9v12M12 9q-5 0-5-3t5 3q5 0 5-3t-5 3"/></>,
  list:<path d="M8 6h13M8 12h13M8 18h13M4 6h.01M4 12h.01M4 18h.01"/>,
  info:<><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></>,
- undo:<path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/>,
  };
  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]??paths.leaf}</svg>;
 }

@@ -13,8 +13,8 @@ export const longDate = (day: string) => new Intl.DateTimeFormat('en', {weekday:
 export const shortDate = (day: string) => new Intl.DateTimeFormat('en', {weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC'}).format(new Date(day + 'T12:00:00Z'));
 export type Pulse = Partial<Record<Habit | 'meal' | 'rest' | 'reward' | 'meditate' | 'focus', boolean>>;
 export type Ctx = {
- state: State; today: string; dayKey: string; selected: string | null; day: Day; done: Record<Habit, boolean>; units: Units; pulse: Pulse; lastMeal: {id: string; day: string} | null; notice: string;
- change: (payload: Change, date?: string) => boolean; navigate: (page: string) => void; open: (sheet: string) => void; select: (day: string | null) => void; bump: (key: keyof Pulse, ms?: number) => void;
+ state: State; today: string; dayKey: string; selected: string | null; day: Day; done: Record<Habit, boolean>; units: Units; pulse: Pulse; notice: string;
+ change: (payload: Change, date?: string, id?: string) => boolean; navigate: (page: string) => void; open: (sheet: string) => void; select: (day: string | null) => void; bump: (key: keyof Pulse, ms?: number) => void;
 };
 export const AppContext = createContext<Ctx | null>(null);
 export function useApp() {const ctx = useContext(AppContext); if (!ctx) throw new Error('outside app'); return ctx;}
@@ -40,10 +40,13 @@ export function Dial({share, children, small = false, tone = ''}: {share: number
  const r = 54; const c = 2 * Math.PI * r; const s = Math.max(0, Math.min(1, share));
  return <div className={`dial ${small ? 'is-small' : ''} ${tone}`}><svg viewBox="0 0 120 120" aria-hidden="true"><circle className="dial-track" cx="60" cy="60" r={r}/><circle className="dial-fill" cx="60" cy="60" r={r} strokeDasharray={c} strokeDashoffset={c * (1 - s)} transform="rotate(-90 60 60)"/></svg><div className="dial-copy">{children}</div></div>;
 }
+export function CompletionToggle({label, labelledBy, id, checked, onChange, disabled = false}: {label: string; labelledBy?: string; id?: string; checked: boolean; onChange: () => void; disabled?: boolean}) {
+ return <button type="button" id={id} role="checkbox" aria-checked={checked} aria-labelledby={labelledBy} aria-label={labelledBy ? undefined : label} disabled={disabled} className={`row-action completion-toggle ${checked ? 'is-done' : ''}`} onClick={onChange}><span className="completion-box" aria-hidden="true">{checked && <Icon name="check" size={16}/>}</span></button>;
+}
 // The row every dashboard card shares: art, name, one line of status, then two separate targets: open the page, or log in one tap.
 export function Row({mark, title, status, done, onOpen, action, actionLabel, onAction, pulse = '', tone = '', pressed}: {mark: Parameters<typeof Mark>[0]['name']; title: string; status: string; done?: boolean; onOpen: () => void; action?: ReactNode; actionLabel?: string; onAction?: () => void; pulse?: string; tone?: string; pressed?: boolean}) {
  return <div className={`row ${done ? 'is-done' : ''} ${pulse} ${tone}`}>
   <button className="row-open" onClick={onOpen} aria-label={`Open ${title.toLowerCase()}`}><span className="row-art"><Mark name={mark}/><span className="row-check"><Icon name="check" size={12}/></span></span><span className="row-copy"><span className="row-title">{title}</span><span className="row-status">{status}</span></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
-  {action ?? (onAction && <button className={`row-action ${done ? 'is-done' : ''}`} onClick={onAction} aria-label={actionLabel} aria-pressed={pressed}>{done ? <><Icon name="check" size={16}/>Done<small>Undo</small></> : 'Log'}</button>)}
+  {action ?? (onAction && <CompletionToggle label={actionLabel ?? `${title} complete`} checked={!!pressed} onChange={onAction}/>)}
  </div>;
 }

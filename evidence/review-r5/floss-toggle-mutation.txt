@@ -1,0 +1,4 @@
+{"engine":"chromium","variant":"baseline","uncheckedAssertionPasses":true,"legacyVisibleAssertionPasses":true,"stateIsFalse":true}
+{"engine":"webkit","variant":"baseline","uncheckedAssertionPasses":true,"legacyVisibleAssertionPasses":true,"stateIsFalse":true}
+{"engine":"chromium","variant":"stuck-checked","uncheckedAssertionPasses":false,"legacyVisibleAssertionPasses":true,"stateIsFalse":true}
+{"engine":"webkit","variant":"stuck-checked","uncheckedAssertionPasses":false,"legacyVisibleAssertionPasses":true,"stateIsFalse":true}

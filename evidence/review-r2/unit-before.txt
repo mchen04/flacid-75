@@ -1,0 +1,62 @@
+✔ every change the server would refuse is refused by the browser bounds first, with a reason (24.995375ms)
+✔ every change the server accepts passes the browser bounds (0.390833ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.240708ms)
+✔ review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character (1.231125ms)
+✔ review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml (0.4195ms)
+✔ review 171 follow-up: container ids and the default container id are held to the same text rule on both sides (0.388083ms)
+✖ invalid meal text reports text rather than calorie or protein bounds (1.043125ms)
+✔ the USDA table is loaded and plain names match sensible rows (11.300916ms)
+✔ a row whose head food is not in the query is rejected rather than misused (3.325292ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.320417ms)
+✖ model item text is cleaned before grounding and passes saved-meal validation (3.518875ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 473.363666
+
+✖ failing tests:
+
+test at tests/bounds.test.ts:1:7260
+✖ invalid meal text reports text rather than calorie or protein bounds (1.043125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /text/. Input:
+  
+  'A meal must be 0–10,000 kcal and 0–1,000 g protein.'
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/bounds.test.ts:88:169)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'A meal must be 0–10,000 kcal and 0–1,000 g protein.',
+    expected: /text/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/food.test.ts:1:1437
+✖ model item text is cleaned before grounding and passes saved-meal validation (3.518875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'egg, whole, cooked, scrambled\x00\ud83d'
+  - 'egg, whole, cooked, scrambled'
+                                  ^
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/food.test.ts:27:39)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'egg, whole, cooked, scrambled\x00\ud83d',
+    expected: 'egg, whole, cooked, scrambled',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

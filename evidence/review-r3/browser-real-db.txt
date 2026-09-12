@@ -1,0 +1,8 @@
+{"engine":"chromium","field":"grams","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+{"engine":"chromium","field":"calories","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+{"engine":"chromium","field":"protein","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+{"engine":"chromium","manual600EmojiStatus":503,"boundary1000EmojiStatus":503,"over1000Status":400,"over1000Message":"That description is too long. Use 1,000 characters or fewer."}
+{"engine":"webkit","field":"grams","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+{"engine":"webkit","field":"calories","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+{"engine":"webkit","field":"protein","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+{"engine":"webkit","manual600EmojiStatus":503,"boundary1000EmojiStatus":503,"over1000Status":400,"over1000Message":"That description is too long. Use 1,000 characters or fewer."}

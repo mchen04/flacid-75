@@ -1,0 +1,644 @@
+
+Running 189 tests using 1 worker
+
+(node:94607) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (82ms)
+  ✘    2 [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (1.2s)
+(node:94624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    3 [chromium] › tests/e2e/app.spec.ts:35:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (839ms)
+  ✘    4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (5.5s)
+(node:94671) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    5 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (377ms)
+  ✓    6 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (347ms)
+  ✓    7 [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (177ms)
+  ✓    8 [chromium] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (139ms)
+  ✓    9 [chromium] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.2s)
+  ✓   10 [chromium] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (1.0s)
+  ✓   11 [chromium] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (969ms)
+  ✓   12 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (9.1s)
+  ✓   13 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 375x640; vertical scroll only inside the page (9.0s)
+  ✓   14 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 1280x900; vertical scroll only inside the page (13.8s)
+  ✓   15 [chromium] › tests/e2e/review164.spec.ts:11:1 › R164-1: a change acknowledged during another tab's stale view is counted once on the account, on the device and on both screens, including after an undo and a later sync (8.6s)
+  ✓   16 [chromium] › tests/e2e/review164.spec.ts:33:1 › R164-2: an account read that began before another tab's change was acknowledged is not installed; the device keeps the acknowledged state, offline and after a reload (1.5s)
+  ✓   17 [chromium] › tests/e2e/review164.spec.ts:52:1 › R164-2b: a write answer that arrives after a newer answer was saved does not install its older state; the read that follows restores the newest (2.9s)
+  ✘   18 [chromium] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload (6.3s)
+(node:95274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   19 [chromium] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device (3.9s)
+  ✓   20 [chromium] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (282ms)
+  ✓   21 [chromium] › tests/e2e/review164.spec.ts:115:1 › R164-6: the abs caption does not name a direction, and a past week's strip is named by its week rather than "This week" (219ms)
+  ✓   22 [chromium] › tests/e2e/review165.spec.ts:26:1 › R165-1: a read that already contains another tab's applied change, answered before that tab's own acknowledgement, counts the change once on the device and both screens, in both answer orders, for a pour and an undo, and after an offline reload (3.0s)
+  ✓   23 [chromium] › tests/e2e/review165.spec.ts:51:1 › R165-2: lock and clear empties the device before the account is asked, even when that request never answers; the request is retried when the locked app reopens (1.0s)
+  ✓   24 [chromium] › tests/e2e/review165.spec.ts:68:1 › R165-3: a tab that received no storage events reconciles the lock when it is shown again (page shown from cache, made visible, back online) and writes nothing (1.2s)
+  ✓   25 [chromium] › tests/e2e/review165.spec.ts:84:1 › R165-4: when the lock marker cannot be written until the clear frees space, the device is still cleared and fenced, and another tab's in-flight answer writes nothing; unparsable journal keys are cleared too (3.9s)
+  ✓   26 [chromium] › tests/e2e/review165.spec.ts:100:1 › C2: a refused batch sets its first change aside, a read follows at once so the refused effect leaves the screen, and the rest of the queue is retried within a second (808ms)
+  ✓   27 [chromium] › tests/e2e/review165.spec.ts:112:1 › C4: the saved epoch advances on every saved answer even when this tab's memory lags behind the device (2.2s)
+  ✓   28 [chromium] › tests/e2e/review165.spec.ts:125:1 › R165-5: a full receipt that no longer lists an older applied change this tab still holds does not count it twice; the change is presented once more and settled exactly (1.6s)
+  ✓   29 [chromium] › tests/e2e/review165.spec.ts:146:1 › R165-6: a change that has never been sent is always shown, even when a late read arrives with a full receipt, and it survives going offline (1.1s)
+  ✓   30 [chromium] › tests/e2e/review165.spec.ts:165:1 › R165-7: unlocking with a held change the account has already applied counts it once (634ms)
+  ✓   31 [chromium] › tests/e2e/review165.spec.ts:175:1 › R165-8: a write refused at the door (401) leaves no sent mark, so an unlock against a full receipt still shows the pour; it stays through a temporary failure, offline and a reload, and lands once when the account takes it (346ms)
+  ✓   32 [chromium] › tests/e2e/review165.spec.ts:194:1 › R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge its old refusal (or anything else) into the new generation; it adopts the new store (1.3s)
+  ✓   33 [chromium] › tests/e2e/review165.spec.ts:211:1 › R165-10: an account answer that started before a lock-and-clear and a new unlock is dropped when it lands, whether it is an error or a result; the tab adopts the new generation (4.1s)
+  ✓   34 [chromium] › tests/e2e/review165.spec.ts:229:1 › R165-11: an unlock that was in flight when the device was locked and cleared again is dropped and the tab stays on the gate (3.6s)
+  ✓   35 [chromium] › tests/e2e/review165.spec.ts:245:1 › R165-12: a large valid offline backlog drains in byte-bounded batches: every change reaches the account once, no answer is 413, nothing is dropped (437ms)
+  ✓   36 [chromium] › tests/e2e/review165.spec.ts:258:1 › R165-13: an answer whose write waits on the device lock while another tab locks, clears and unlocks is dropped inside the write itself; the tab adopts the new generation (1.5s)
+  ✓   37 [chromium] › tests/e2e/review171.spec.ts:10:1 › R171-1: a plan line of 59 characters and an emoji saves whole and syncs; a line that would cut an emoji is clipped before it, never split; the move is usable in a workout (487ms)
+  ✓   38 [chromium] › tests/e2e/review171.spec.ts:19:1 › R171-2: a poisoned journal entry (a split emoji written by an older build) is refused by id with a reason and set aside, while a valid change in the same batch syncs; the device recovers and can lock (161ms)
+  ✓   39 [chromium] › tests/e2e/review171.spec.ts:30:1 › R171-3: a temporary account failure shows a notice and keeps the change; it lands once when the account recovers (245ms)
+  ✓   40 [chromium] › tests/e2e/review171.spec.ts:42:1 › R171-4: sixteen quarter-Stanley pours meet a 120 oz target exactly on screen and in completion; one short does not (867ms)
+  ✓   41 [chromium] › tests/e2e/review171.spec.ts:55:1 › R171-5: "3/4 of the Stanley" proposes one three-quarter pour; "1/2 Stanley" proposes half (204ms)
+  ✓   42 [chromium] › tests/e2e/review171.spec.ts:62:1 › R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later (774ms)
+  ✓   43 [chromium] › tests/e2e/review171.spec.ts:74:1 › R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused (924ms)
+  ✓   44 [chromium] › tests/e2e/review171.spec.ts:97:1 › R171-7: a targets save queued while another device added a treat and a plan does not hide or delete them once this device catches up (396ms)
+  ✓   45 [chromium] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention (111ms)
+  ✓   46 [chromium] › tests/e2e/review171.spec.ts:123:1 › W172: typed symbol shares and mixed numbers propose the right pour on screen (406ms)
+  ✓   47 [chromium] › tests/e2e/v3.spec.ts:7:1 › water goes down by one tap with no dialog, and never below zero (210ms)
+  ✓   48 [chromium] › tests/e2e/v3.spec.ts:15:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (3.4s)
+  ✓   49 [chromium] › tests/e2e/v3.spec.ts:30:1 › the served manifest, icons and splash carry the My Wellness name and the brand art (116ms)
+  ✓   50 [chromium] › tests/e2e/wellness.spec.ts:11:1 › every page is one tap from the dashboard, has an obvious Home, and the browser back button works (1.4s)
+  ✘   51 [chromium] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes (19.5s)
+(node:96319) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   52 [chromium] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves (5.2s)
+(node:96345) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   53 [chromium] › tests/e2e/wellness.spec.ts:49:1 › the guided ab routine walks through timed intervals with instructions and logs itself at the end (4.5s)
+  ✓   54 [chromium] › tests/e2e/wellness.spec.ts:63:1 › meditation and focus are optional: they log minutes and never change the streak (669ms)
+  ✓   55 [chromium] › tests/e2e/wellness.spec.ts:76:1 › treats are user-chosen, cost points, refuse when short, redeem once per tap, and undo (11.5s)
+  ✓   56 [chromium] › tests/e2e/wellness.spec.ts:88:1 › units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry (357ms)
+  ✓   57 [chromium] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began (8.7s)
+  ✓   58 [chromium] › tests/e2e/wellness.spec.ts:113:1 › a rest day yesterday keeps the streak across midnight where a miss would have broken it (808ms)
+  ✓   59 [chromium] › tests/e2e/wellness.spec.ts:118:1 › backfilling a past day from Progress opens the activity pages in backfill mode (310ms)
+  ✓   60 [chromium] › tests/e2e/wellness.spec.ts:125:1 › milestones show reached streaks and the next one (132ms)
+  ✓   61 [chromium] › tests/e2e/wellness.spec.ts:131:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (124ms)
+  ✓   62 [chromium] › tests/e2e/wellness.spec.ts:142:1 › text contrast meets WCAG AA on every page (3.0s)
+  ✓   63 [chromium] › tests/e2e/wellness.spec.ts:171:1 › a running timer is visible from the dashboard and a duplicate finish cannot log twice (1.8s)
+  ✓   64 [chromium] › tests/e2e/wellness.spec.ts:178:1 › logging from the dashboard while a timer runs finishes that session with its time and ticks; unchecking preserves the session (21.7s)
+  ✓   65 [chromium] › tests/e2e/wellness.spec.ts:193:1 › a timer left from another day is offered for that day or discarded, never silently backfilled (11.8s)
+  ✓   66 [chromium] › tests/e2e/wellness.spec.ts:203:1 › finished timers settle from any page: a meditation ends while the dashboard is open, a focus session caps itself (386ms)
+  ✓   67 [chromium] › tests/e2e/wellness.spec.ts:213:1 › re-saving your details without touching height or weight keeps the exact stored measurements (239ms)
+  ✘   68 [chromium] › tests/e2e/wellness.spec.ts:221:1 › in backfill mode the workout checklist is read-only and no timer starts (5.8s)
+(node:97051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   69 [chromium] › tests/e2e/wellness.spec.ts:227:1 › the hero opens whatever comes next, and water and meals undo from the dashboard in one tap (681ms)
+  ✓   70 [chromium] › tests/e2e/wellness.spec.ts:240:1 › half a Stanley is exactly 15 oz, twice; the fill and the daily total match; refills, ambiguity and the model fallback behave (3.0s)
+  ✓   71 [chromium] › tests/e2e/wellness.spec.ts:276:1 › containers are hers to name and size, in her unit, and the default drives the one-tap (442ms)
+  ✓   72 [chromium] › tests/e2e/wellness.spec.ts:287:1 › B1: a malformed change never strands the queue: the account refuses it by id, the valid change lands, the user sees it and can discard it after a reload (461ms)
+  ✘   73 [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (751ms)
+(node:97137) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   74 [chromium] › tests/e2e/wellness.spec.ts:323:1 › B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed (501ms)
+  ✓   75 [chromium] › tests/e2e/wellness.spec.ts:336:1 › B3: the sound switch and the sheet dialogs have accessible names (238ms)
+  ✓   76 [chromium] › tests/e2e/wellness.spec.ts:343:1 › two tabs settling the same meditation credit it once (2.8s)
+  ✓   77 [chromium] › tests/e2e/wellness.spec.ts:358:1 › optional timers cannot be started for a past day (253ms)
+  ✓   78 [chromium] › tests/e2e/wellness.spec.ts:364:1 › H1: hero and stage copy, chips and pills never overlap, at phone and short-phone sizes (5.7s)
+  ✓   79 [chromium] › tests/e2e/wellness.spec.ts:374:1 › Floss has one completion toggle that checks and unchecks (262ms)
+  ✓   80 [chromium] › tests/e2e/wellness.spec.ts:383:1 › R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay (703ms)
+  ✘   81 [chromium] › tests/e2e/wellness.spec.ts:396:1 › R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted (5.4s)
+(node:97367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   82 [chromium] › tests/e2e/wellness.spec.ts:405:1 › R3: a slow sync in one tab cannot erase a change another tab queued meanwhile (3.4s)
+
+
+  1) [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel('Calories · kcal') resolved to 2 elements:
+        1) <input min="0" max="10000" type="number" inputmode="decimal"/> aka getByRole('listitem').filter({ hasText: 'Item namePortion · g USDA · Egg, whole, cooked, scrambledCalories · kcalProtein' }).getByLabel('Calories · kcal')
+        2) <input min="0" max="10000" type="number" inputmode="decimal"/> aka getByRole('listitem').filter({ hasText: 'Item namePortion · g USDA · Bread, white, commercially prepared,' }).getByLabel('Calories · kcal')
+
+    Call log:
+      - waiting for getByLabel('Calories · kcal')
+
+
+      30 |  await expect(page.getByRole('heading',{name:'All done.'})).toBeVisible();await expect(page.locator('.hero-copy strong')).toHaveText('Every one.');await expect(page.locator('.hero')).toHaveClass(/is-complete/);await expect(page.locator('.hero .petal').first()).toBeAttached();await expect(page.getByText('+100 points')).toBeVisible();await page.screenshot({path:`evidence/my-wellness/celebration-${test.info().project.name}.png`});
+      31 |  // Correct a meal on the food page, in place.
+    > 32 |  await page.getByRole('button',{name:'Open food'}).click();await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByLabel('Calories · kcal').fill('300');await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.getByText('1,900 kcal')).toBeVisible();
+         |                                                                                                                                                                    ^
+      33 |  await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:/day streak\. Open progress/}).click();await expect(page.getByRole('tab',{name:'Week'})).toHaveAttribute('aria-selected','true');await page.getByRole('tab',{name:'Month'}).click();await page.screenshot({path:`evidence/my-wellness/month-${test.info().project.name}.png`});
+      34 | });
+      35 | test('offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails',async({page,context})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/app.spec.ts:32:164
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/app-onboarding-in-pounds-a-703be-ion-correction-and-calendar-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/app-onboarding-in-pounds-a-703be-ion-correction-and-calendar-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('350 g · estimate')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('350 g · estimate') with timeout 5000ms
+      - waiting for getByText('350 g · estimate')
+
+
+       6 |  await open(page,seed(),{go:false});
+       7 |  await page.route('**/api/estimate',r=>{const request=r.request().postDataJSON();imageBytes=request.image.length;imageMarker=request.image.slice(200,350);return r.fulfill({json:{items:[{name:'chicken bowl',grams:350,calories:420,protein:25,source:'estimate'}],calories:420,protein:25,model:'test'}});});
+    >  8 |  const start=Date.now();await page.goto('/');await page.getByRole('button',{name:'Log a meal'}).click();await page.getByRole('button',{name:'Photo',exact:true}).click();await page.getByRole('button',{name:'Take meal photo'}).click();await expect(page.getByText('350 g · estimate')).toBeVisible();await page.screenshot({path:'evidence/my-wellness/camera-estimate.png'});await page.getByRole('button',{name:'Add to today'}).click();await expect(page.getByText('420 kcal · 25/105 g')).toBeVisible();const elapsedMs=Date.now()-start;expect(imageBytes).toBeGreaterThan(500);expect(await page.locator('input[type=file]').inputValue()).toBe('');const saved=await page.evaluate(()=>localStorage.getItem('flaccid75-v1')!);expect(saved).not.toContain(imageMarker);expect(saved).not.toContain('data:image');expect(elapsedMs).toBeLessThan(8000);await writeFile('evidence/my-wellness/camera-actions.json',JSON.stringify({actions:['Open app','Tap meal','Tap photo','Take photo','Add'],elapsedMs,source:'Chromium simulated camera; mocked model response; not physical-device timing',imageBytesSent:imageBytes,imagePersistedInClient:false},null,2));
+         |                                                                                                                                                                                                                                                                                           ^
+       9 | });
+      10 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/camera.chromium.spec.ts:8:283
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/camera.chromium-camera-cap-85dd5-s-without-storing-the-image-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/camera.chromium-camera-cap-85dd5-s-without-storing-the-image-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/camera.chromium-camera-cap-85dd5-s-without-storing-the-image-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload 
+
+    Error: expect(locator).not.toBeChecked() failed
+
+    Locator: getByRole('checkbox', { name: 'Floss complete', exact: true })
+    Expected: not checked
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "not toBeChecked" getByRole('checkbox', { name: 'Floss complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Floss complete', exact: true })
+
+
+      79 |  await page.reload();await page.locator('.app-shell').waitFor();s=await saved(page);expect(s).toMatchObject({failed:1,journal:0,pending:0});
+      80 |  await page.evaluate(()=>{location.hash='you';});await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();await expect(page.getByText('Refused by the account for this test')).toBeVisible();
+    > 81 |  await expect(page.getByRole('checkbox',{name:'Floss complete',exact:true})).not.toBeChecked();
+         |                                                                                  ^
+      82 | });
+      83 |
+      84 | test('R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device',async({page,context})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review164.spec.ts:81:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review164-R164-3-a-refusal-baacd-ide-durably-across-a-reload-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('group', { name: 'Walk entries' }).getByText(/30:[0-2]\d/)
+    Expected: visible
+    Error: strict mode violation: getByRole('group', { name: 'Walk entries' }).getByText(/30:[0-2]\d/) resolved to 2 elements:
+        1) <strong>30:00 total</strong> aka getByText(':00 total')
+        2) <p>30:00</p> aka getByText('30:00', { exact: true })
+
+    Call log:
+      - Expect "toBeVisible" getByRole('group', { name: 'Walk entries' }).getByText(/30:[0-2]\d/) with timeout 5000ms
+      - waiting for getByRole('group', { name: 'Walk entries' }).getByText(/30:[0-2]\d/)
+
+
+      27 |  // Resume, then the phone sleeps for 20 minutes: no ticks fire, the clock simply moves on, and the count is right on wake.
+      28 |  await page.getByRole('button',{name:'Resume'}).click();await page.clock.fastForward(20*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect(page.locator('.dial-time')).toHaveText(/^30:[0-2]\d$/);
+    > 29 |  await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();await expect(page.getByRole('group',{name:'Walk entries'}).getByText(/30:[0-2]\d/, {exact:true})).toBeVisible();
+         |                                                                                                                                                                                                                                                      ^
+      30 |  expect(box.state.days[today].sessions?.walk?.seconds).toBeGreaterThanOrEqual(1800);expect(box.state.days[today].sessions?.walk?.seconds).toBeLessThan(1830);expect(box.state.days[today].checks.walk).toBe(true);
+      31 |  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Walked · 30 min')).toBeVisible();
+      32 |  await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('checkbox',{name:'Walk complete'}).click();await expect(page.getByRole('button',{name:'Start'})).toBeVisible();expect(box.state.days[today].checks.walk).toBe(false);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:29:246
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/wellness-the-walk-timer-st-c1640-a-logged-session-and-undoes-chromium/error-context.md
+
+  5) [chromium] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('checkbox')
+    Expected: 6
+    Received: 7
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('checkbox') with timeout 5000ms
+      - waiting for getByRole('checkbox')
+        14 × locator resolved to 7 elements
+           - unexpected value "7"
+
+
+      36 |  slowClock();
+      37 |  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
+    > 38 |  await expect(page.getByRole('group',{name:'Workout checklist'})).toBeVisible();await expect(page.getByRole('checkbox')).toHaveCount(6);
+         |                                                                                                                          ^
+      39 |  await page.getByRole('button',{name:'Edit plan'}).click();await page.getByLabel('One move per line').fill('Squats\nRows\nPlank');await page.getByRole('button',{name:'Save plan'}).click();await expect(page.getByRole('checkbox')).toHaveCount(3);expect(box.state.profile?.plan).toEqual(['Squats','Rows','Plank']);
+      40 |  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await expect(page.getByText('2 of 3 checked')).toBeVisible();await page.clock.runFor(12*60*1000);
+      41 |  await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('checkbox',{name:'Squats'})).toBeChecked();
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:38:122
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-the-workout-page--44656-nish-that-records-the-moves-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/wellness-the-workout-page--44656-nish-that-records-the-moves-chromium/error-context.md
+
+  6) [chromium] › tests/e2e/wellness.spec.ts:221:1 › in backfill mode the workout checklist is read-only and no timer starts 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Mark done on this day' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Mark done on this day' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Mark done on this day' })
+
+
+      222 |  const today=todayIn();const past=addDays(today,-2);await open(page,seed(5),{hash:'progress'});
+      223 |  await page.getByLabel('Open any past day').fill(past);await page.getByRole('button',{name:'Backfill this day'}).click();await page.getByRole('button',{name:'Open workout',exact:true}).click();
+    > 224 |  await expect(page.getByRole('checkbox',{name:'Squats'})).toBeDisabled();await expect(page.getByRole('button',{name:'Mark done on this day'})).toBeVisible();
+          |                                                                                                                                                ^
+      225 |  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').workout)).toBeUndefined();
+      226 | });
+      227 | test('the hero opens whatever comes next, and water and meals undo from the dashboard in one tap',async({page})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:224:144
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/wellness-in-backfill-mode--25173-ad-only-and-no-timer-starts-chromium/error-context.md
+
+  7) [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "0"
+    Received: "-40"
+
+      319 |  await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a lot');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
+      320 |  await expect(page.getByText('A meal must be 0–10,000 kcal and 0–1,000 g protein.')).toBeVisible();expect(Object.keys(box.state.days[today]?.meals??{})).toHaveLength(0);
+    > 321 |  await page.locator('.items input').first().fill('-40');expect(await page.locator('.items input').first().inputValue()).toBe('0');
+          |                                                                                                                         ^
+      322 | });
+      323 | test('B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed',async({page})=>{
+      324 |  const box=await open(page,seed(),{hash:'you'});
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:321:121
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/error-context.md
+
+  8) [chromium] › tests/e2e/wellness.spec.ts:396:1 › R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Sessions longer than 24 hours are logged as 24 hours.')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Sessions longer than 24 hours are logged as 24 hours.') with timeout 5000ms
+      - waiting for getByText('Sessions longer than 24 hours are logged as 24 hours.')
+
+
+      397 |  const today=todayIn();const box=await openAt(page,seed(3),at(today,'08:00:00'),'walk');
+      398 |  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(2000);await page.clock.fastForward(26*60*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
+    > 399 |  await expect(page.getByText('Sessions longer than 24 hours are logged as 24 hours.',{exact:false})).toBeVisible();
+          |                                                                                                      ^
+      400 |  // It is now the next day; the session credits the day it started on, capped at 24 hours, and the page returns to ready.
+      401 |  await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('button',{name:'Start',exact:true})).toBeVisible();
+      402 |  await expect.poll(()=>box.state.days[today]?.sessions?.walk?.seconds).toBe(86400);expect(box.state.days[today]?.checks.walk).toBe(true);expect(box.rejected).toEqual([]);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:399:102
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/wellness-R4-a-walk-left-ru-64528-once-the-change-is-accepted-chromium/error-context.md
+
+  9) [chromium] › tests/e2e/wellness.spec.ts:405:1 › R3: a slow sync in one tab cannot erase a change another tab queued meanwhile 
+
+    Test was interrupted.
+
+    Error: page.waitForTimeout: Test ended.
+
+      411 |  await page.getByRole('checkbox',{name:'Walk complete'}).click();await page.waitForTimeout(300);
+      412 |  await other.getByRole('checkbox',{name:'Floss complete'}).click();await expect(other.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');
+    > 413 |  await expect.poll(()=>box.state.days[today]?.checks.walk,{timeout:10000}).toBe(true);await page.waitForTimeout(500);
+          |                                                                                                  ^
+      414 |  // A's slow sync has completed and saved. B's floss must still be in the device queue and on screen in both tabs.
+      415 |  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!));
+      416 |  expect(saved.pending.some((o:{type:string;habit?:string})=>o.type==='check'&&o.habit==='floss')).toBe(true);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:413:98
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R3-a-slow-sync-in-34e3b-nother-tab-queued-meanwhile-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-R3-a-slow-sync-in-34e3b-nother-tab-queued-meanwhile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8 failed
+    [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar 
+    [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image 
+    [chromium] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload 
+    [chromium] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes 
+    [chromium] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves 
+    [chromium] › tests/e2e/wellness.spec.ts:221:1 › in backfill mode the workout checklist is read-only and no timer starts 
+    [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form 
+    [chromium] › tests/e2e/wellness.spec.ts:396:1 › R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted 
+  1 interrupted
+    [chromium] › tests/e2e/wellness.spec.ts:405:1 › R3: a slow sync in one tab cannot erase a change another tab queued meanwhile 
+  107 did not run
+  73 passed (3.8m)

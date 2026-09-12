@@ -1,0 +1,69 @@
+✖ separate walk sessions retain their entries and total across serialization (9.261ms)
+✖ meal text and item details pass validation and survive numeric edits from an older client (2.184583ms)
+✔ completion reverses without losing sessions, totals or streak meaning (0.511167ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 409.98025
+
+✖ failing tests:
+
+test at tests/daily-logs.test.ts:1:614
+✖ separate walk sessions retain their entries and total across serialization (9.261ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1200 !== 1800
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/daily-logs.test.ts:12:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1200,
+    expected: 1800,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/daily-logs.test.ts:1:935
+✖ meal text and item details pass validation and survive numeric edits from an older client (2.184583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      calories: 200,
+  -   description: 'Eggs with pepper',
+  -   items: [
+  -     {
+  -       calories: 150,
+  -       fdcId: 123,
+  -       grams: 100,
+  -       match: 'Egg, whole',
+  -       name: 'Eggs',
+  -       protein: 12,
+  -       source: 'usda'
+  -     }
+  -   ],
+      protein: 15
+    }
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/daily-logs.test.ts:20:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { calories: 200, protein: 15 },
+    expected: { calories: 200, protein: 15, description: 'Eggs with pepper', items: [ [Object] ] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

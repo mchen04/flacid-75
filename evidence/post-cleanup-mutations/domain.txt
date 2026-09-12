@@ -1,0 +1,5 @@
+[
+  { mutation: 'partial day incorrectly counts', caught: true },
+  { mutation: 'unlimited rest days', caught: true },
+  { mutation: 'travel remaps current day', caught: true }
+]

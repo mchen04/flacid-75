@@ -1,0 +1,27 @@
+
+Running 18 tests using 1 worker
+
+(node:13721) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (339ms)
+  ✓   2 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (252ms)
+  ✓   3 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (256ms)
+  ✓   4 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (338ms)
+  ✓   5 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (341ms)
+  ✓   6 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (337ms)
+  ✓   7 [chromium] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (332ms)
+  ✓   8 [chromium] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (326ms)
+  ✓   9 [chromium] › tests/e2e/review-r3.spec.ts:46:1 › R3 estimate rejects an overlong description with a length error and keeps input guards (23ms)
+(node:13828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (481ms)
+  ✓  11 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (345ms)
+  ✓  12 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (320ms)
+  ✓  13 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (397ms)
+  ✓  14 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (388ms)
+  ✓  15 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (354ms)
+  ✓  16 [webkit] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (402ms)
+  ✓  17 [webkit] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (288ms)
+  ✓  18 [webkit] › tests/e2e/review-r3.spec.ts:46:1 › R3 estimate rejects an overlong description with a length error and keeps input guards (18ms)
+
+  18 passed (6.3s)

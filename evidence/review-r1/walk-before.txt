@@ -1,0 +1,60 @@
+✔ separate walk sessions retain their entries and total across serialization (9.159292ms)
+✔ meal text and item details pass validation and survive numeric edits from an older client (2.495125ms)
+✔ completion reverses without losing sessions, totals or streak meaning (0.540625ms)
+✔ a legacy walk is imported once and repeated stable finish ids cannot add time twice (0.218291ms)
+✔ new text and item bounds agree on the device and server, including malformed text (1.006916ms)
+✔ walks and meals keep insertion order through JSONB-style key reordering and individual edits (0.856833ms)
+✖ removing walks recomputes totals and preserves independent completion and streaks (1.407125ms)
+✖ legacy walks can be removed without erasing independent completion or other sessions (0.253666ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 411.591709
+
+✖ failing tests:
+
+test at tests/daily-logs.test.ts:1:4699
+✖ removing walks recomputes totals and preserves independent completion and streaks (1.407125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  19800 !== 1800
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/daily-logs.test.ts:70:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 19800,
+    expected: 1800,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/daily-logs.test.ts:1:5802
+✖ legacy walks can be removed without erasing independent completion or other sessions (0.253666ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/daily-logs.test.ts:78:101)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

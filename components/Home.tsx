@@ -7,20 +7,17 @@ import {inContainers} from '@/lib/water';
 import {clock, getTimer, elapsedSeconds, isRunning} from '@/lib/timer';
 import {finishTimer} from '@/lib/sessions';
 import {routines, routineSeconds} from '@/lib/abs';
-import {useApp, Row, Meter, names, format} from './shared';
+import {useApp, Row, CompletionToggle, Meter, names, format} from './shared';
 export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
- const {state, today, dayKey, selected, day, done, pulse, lastMeal, units, change, navigate, open, bump} = useApp();
+ const {state, today, dayKey, selected, day, done, pulse, units, change, navigate, open, bump} = useApp();
  const main = containersOf(state.profile).default; const lastPour = day.waterLog?.at(-1);
  const count = Object.values(done).filter(Boolean).length; const complete = count === habits.length; const food = totals(day);
  const phase: Phase = hour < 11 ? 'morning' : hour < 17 ? 'day' : hour < 21 ? 'evening' : 'night';
  const rests = restsLeft(state, dayKey); const points = pointsBalance(state, today); const streak = streaks(state, today);
  const nextMilestone = milestoneDays.find(m => m > streak.current);
- // Dashboard log and undo. A running timer for that habit is finished with its elapsed time and ticks (never left counting unseen);
- // undoing a timed session removes the session, so a later plain log does not inherit its minutes.
  function toggle(h: Habit) {
   const before = done[h]; const timed = h === 'walk' || h === 'workout' || h === 'abs'; const t = timed ? getTimer(h) : null;
-  if (!before && timed && t && t.day === dayKey) {const items = (t.meta?.items as string | undefined)?.split('\n').filter(Boolean); const routine = h === 'abs' ? (routines.find(r => r.id === t.meta?.routine) ?? routines[1]) : null; if (finishTimer(h, seconds => change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: routine ? Math.min(seconds, routineSeconds(routine)) : seconds, done: true, ...(items?.length ? {items} : {}), ...(routine ? {routine: routine.name} : {})}, dayKey))) bump(h, h === 'walk' ? 2000 : 1400); return;}
-  if (before && timed && day.sessions?.[h as 'walk' | 'workout' | 'abs']) {change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: 0, done: false}, dayKey); return;}
+  if (!before && timed && t && t.day === dayKey) {const items = (t.meta?.items as string | undefined)?.split('\n').filter(Boolean); const routine = h === 'abs' ? (routines.find(r => r.id === t.meta?.routine) ?? routines[1]) : null; if (finishTimer(h, (seconds, creditDay, id) => change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: routine ? Math.min(seconds, routineSeconds(routine)) : seconds, done: true, ...(h === 'walk' ? {walkId: id} : {}), ...(items?.length ? {items} : {}), ...(routine ? {routine: routine.name} : {})}, creditDay, id))) bump(h, h === 'walk' ? 2000 : 1400); return;}
   if (change({type: 'check', habit: h, value: !before}, dayKey)) bump(h, h === 'walk' ? 2000 : 1400);
  }
  // One tap logs a whole default container, in her name for it.
@@ -28,14 +25,13 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
  function restTap() {if (day.rest) {change({type: 'rest', value: false}, dayKey); return;} if (!rests) {navigate('rest'); return;} if (change({type: 'rest', value: true}, dayKey)) bump('rest', 1600);}
  const session = (h: 'walk' | 'workout' | 'abs') => day.sessions?.[h];
  const live = (key: string) => {const t = getTimer(key); return t && t.day === dayKey ? `${isRunning(t) ? 'Running' : 'Paused'} · ${clock(elapsedSeconds(t))}` : null;};
- const walkStatus = done.walk ? `Walked${session('walk') ? ` · ${Math.round(session('walk')!.seconds / 60)} min` : ''}` : live('walk') ?? `${day.targets.walkMinutes ?? 30} min ${selected ? 'that day' : 'today'}`;
+ const walkStatus = live('walk') ?? (session('walk') ? `${done.walk ? 'Walked · ' : ''}${Math.round(session('walk')!.seconds / 60)} min${done.walk ? '' : ' logged'}` : done.walk ? 'Walked' : `${day.targets.walkMinutes ?? 30} min ${selected ? 'that day' : 'today'}`);
  const workoutStatus = done.workout ? `Done${session('workout')?.items?.length ? ` · ${session('workout')!.items!.length} moves` : ''}` : live('workout') ?? 'Plan and checklist';
  const absStatus = done.abs ? `Done${session('abs')?.routine ? ` · ${session('abs')!.routine}` : ''}` : live('abs') ?? 'Guided routines';
  const next = !complete ? habits.find(h => !done[h]) : null;
  // The hero leads to whatever comes next: the page for the next habit, rest planning on a rest day, progress when the day is complete.
  const heroPage = day.rest ? 'rest' : complete ? 'progress' : next === 'protein' || next === 'calories' ? 'food' : next ?? 'walk';
  const heroName = day.rest ? 'rest days' : complete ? 'progress' : heroPage === 'food' ? 'food' : names[next ?? 'walk'].toLowerCase();
- const undoMeal = !!pulse.meal && !!lastMeal && lastMeal.day === dayKey && !!day.meals[lastMeal.id];
  const dayWord = selected ? 'that day' : 'today';
  return <section className="home-view">
   <button className={`hero ${done.walk ? 'is-done' : ''} ${pulse.walk ? 'moving' : ''} ${complete ? 'is-complete' : ''}`} aria-label={`Open ${heroName}. ${count} of ${habits.length} habits done today`} onClick={() => navigate(heroPage)}>
@@ -47,19 +43,19 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
   </button>
   <p className="row-head">{selected ? 'That day' : 'Today'}</p>
   <div className="rows">
-   <Row mark="walk" title="Walk" status={walkStatus} done={done.walk} onOpen={() => navigate('walk')} actionLabel={done.walk ? 'Undo walk' : 'Log walk'} onAction={() => toggle('walk')} pressed={done.walk} pulse={pulse.walk ? 'moving' : ''}/>
-   <Row mark="workout" title="Workout" status={workoutStatus} done={done.workout} onOpen={() => navigate('workout')} actionLabel={done.workout ? 'Undo workout' : 'Log workout'} onAction={() => toggle('workout')} pressed={done.workout} pulse={pulse.workout ? 'lifting' : ''}/>
-   <Row mark="abs" title="Abs" status={absStatus} done={done.abs} onOpen={() => navigate('abs')} actionLabel={done.abs ? 'Undo abs' : 'Log abs'} onAction={() => toggle('abs')} pressed={done.abs} pulse={pulse.abs ? 'crunching' : ''}/>
-   <Row mark="floss" title="Floss" status={done.floss ? 'Flossed' : `Once ${dayWord}`} done={done.floss} onOpen={() => navigate('floss')} actionLabel={done.floss ? 'Undo floss' : 'Log floss'} onAction={() => toggle('floss')} pressed={done.floss} pulse={pulse.floss ? 'shining' : ''}/>
+   <Row mark="walk" title="Walk" status={walkStatus} done={done.walk} onOpen={() => navigate('walk')} actionLabel="Walk complete" onAction={() => toggle('walk')} pressed={done.walk} pulse={pulse.walk ? 'moving' : ''}/>
+   <Row mark="workout" title="Workout" status={workoutStatus} done={done.workout} onOpen={() => navigate('workout')} actionLabel="Workout complete" onAction={() => toggle('workout')} pressed={done.workout} pulse={pulse.workout ? 'lifting' : ''}/>
+   <Row mark="abs" title="Abs" status={absStatus} done={done.abs} onOpen={() => navigate('abs')} actionLabel="Abs complete" onAction={() => toggle('abs')} pressed={done.abs} pulse={pulse.abs ? 'crunching' : ''}/>
+   <Row mark="floss" title="Floss" status={done.floss ? 'Flossed' : `Once ${dayWord}`} done={done.floss} onOpen={() => navigate('floss')} actionLabel="Floss complete" onAction={() => toggle('floss')} pressed={done.floss} pulse={pulse.floss ? 'shining' : ''}/>
    <div className={`row water ${done.water ? 'is-done' : ''} ${pulse.water ? 'pouring' : ''}`}>
     <button className="row-open" onClick={() => navigate('water')} aria-label="Open water"><span className="row-art glass-art"><Glass level={day.water / day.targets.water} pouring={!!pulse.water}/></span><span className="row-copy"><span className="row-title">Water</span><span className="row-status">{inContainers(day.water, day.targets.water, main, false)} · {formatVolume(day.water, units)}</span><Meter label="" value={day.water} max={day.targets.water} unit="" done={done.water} display=""/></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
-    <span className="row-actions"><button className="row-action is-minus" aria-label="Undo last pour" disabled={!lastPour} onClick={() => lastPour && change({type: 'water', amount: -lastPour.ml}, dayKey)}><Icon name="minus" size={16}/></button><button className="row-action is-add is-icon" aria-label={`Add a ${main.name}`} onClick={pour}><Icon name="plus" size={18}/></button></span>
+    <span className="row-actions"><button className="row-action is-minus" aria-label="Remove last pour" disabled={!lastPour} onClick={() => lastPour && change({type: 'water', amount: -lastPour.ml}, dayKey)}><Icon name="minus" size={16}/></button><button className="row-action is-add is-icon" aria-label={`Add a ${main.name}`} onClick={pour}><Icon name="plus" size={18}/></button></span>
    </div>
    <div className={`row food ${done.calories && done.protein ? 'is-done' : ''} ${pulse.meal ? 'eating' : ''}`}>
     <button className="row-open" onClick={() => navigate('food')} aria-label="Open food"><span className="row-art bowl-art"><Bowl full={food.calories > 0} eating={!!pulse.meal} level={food.calories / Math.max(1, day.targets.calorieMax)}/></span><span className="row-copy"><span className="row-title">Food</span><span className="row-status">{format(food.calories)} kcal · {format(food.protein)}/{format(day.targets.protein)} g</span><Meter label="" value={food.calories} min={day.targets.calorieMin} max={day.targets.calorieMax} unit="" done={done.calories} display=""/></span><span className="row-chevron"><Icon name="arrow" size={18}/></span></button>
-    {undoMeal ? <button className="row-action" aria-label="Undo last meal" onClick={() => change({type: 'deleteMeal', mealId: lastMeal!.id}, lastMeal!.day)}><Icon name="undo" size={16}/>Undo</button> : <button className="row-action is-add" aria-label="Log a meal" onClick={() => open('meal')}><Icon name="plus" size={16}/>Meal</button>}
+    <button className="row-action is-add" aria-label="Log a meal" onClick={() => open('meal')}><Icon name="plus" size={16}/>Meal</button>
    </div>
-   <Row mark="rest" title="Rest" status={day.rest ? 'Resting today · the streak stays' : `${rests} of 2 left this week`} done={day.rest} onOpen={() => navigate('rest')} tone="rest" action={<button className="row-action" aria-label={day.rest ? 'Undo rest' : 'Rest today'} aria-pressed={day.rest} onClick={restTap}>{day.rest ? <><Icon name="check" size={16}/>Undo</> : 'Rest'}</button>} pulse={pulse.rest ? 'dozing' : ''}/>
+   <Row mark="rest" title="Rest" status={day.rest ? 'Resting today · the streak stays' : `${rests} of 2 left this week`} done={day.rest} onOpen={() => navigate('rest')} tone="rest" action={<CompletionToggle label="Rest day" checked={day.rest} onChange={restTap}/>} pulse={pulse.rest ? 'dozing' : ''}/>
   </div>
   <p className="row-head">Optional · never counted</p>
   <div className="rows">

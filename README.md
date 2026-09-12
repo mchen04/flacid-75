@@ -6,7 +6,7 @@ The passphrase stays in the owner's private installation note, outside this repo
 
 ## Version 4 · My Wellness
 
-- One dashboard. Every activity is a row with its art, one line of status, a chevron that opens its page and a separate one-tap action (Log/Undo, +Glass, +Meal, Rest). No bottom navigation: Home, the streak badge (Progress) and Settings sit in the top bar on every page, and the browser's back button works because pages are hash routes (`#walk`, `#workout`, `#abs`, `#floss`, `#water`, `#food`, `#rest`, `#meditate`, `#focus`, `#rewards`, `#progress`, `#you`, `#rules`).
+- One dashboard. Every activity is a row with its art, one line of status, a chevron that opens its page and a separate one-tap action (completion checkbox, +Glass, +Meal, Rest). No bottom navigation: Home, the streak badge (Progress) and Settings sit in the top bar on every page, and the browser's back button works because pages are hash routes (`#walk`, `#workout`, `#abs`, `#floss`, `#water`, `#food`, `#rest`, `#meditate`, `#focus`, `#rewards`, `#progress`, `#you`, `#rules`).
 - Dedicated activity pages: a walk timer with start, pause and finish; a workout checklist with an editable plan and a session clock; a guided ab library with instructions, timed work and rest intervals, visual cues and optional sound; a floss scene; a water page; a food page with in-place edit and remove.
 - Timers count from the clock, not from ticks (`lib/timer.ts`), so a locked phone, a backgrounded tab or a reopened app shows the right time. Interval phases are derived from elapsed time, so a routine or a focus block that ends while the app is away is credited on return.
 - Two planned rest days per Monday–Sunday week, plannable ahead. Rest keeps the streak and is shown as rest, never as a miss. Earlier weeks keep what they had.
@@ -184,7 +184,7 @@ Existing past-day targets stay fixed; a newly backfilled day starts with the cur
 
 Food estimates use free OpenRouter models only (`lib/estimate.ts`): every model id must carry `:free` (or be `openrouter/free`), the request refuses any other id before it is built, and every request sets a zero `max_price` so no provider can charge. There is no paid fallback. When no free model answers, the app shows a message and the numbers path still logs the meal, so tracking never depends on the model.
 
-Photo bytes travel through memory to the model and the app drops its image reference after estimation or cancellation. Only calorie and protein numbers, with their meal id and day, enter meal state. Water phrases send the note and the container names; the model may only name the container and the share, and the app multiplies. The application has no photo storage path or object-store integration. These implementation choices do not prove zero retention by the provider.
+Photo bytes travel through memory to the model and the app drops its image reference after estimation or cancellation. Meal descriptions, food items, portions, sources, and calorie and protein numbers enter meal state. Photo bytes never enter meal state. Water phrases send the note and the container names; the model may only name the container and the share, and the app multiplies. The application has no photo storage path or object-store integration. These implementation choices do not prove zero retention by the provider.
 
 The earlier Claude Agent SDK integration and its encrypted credential table are gone (version 2). `OPENROUTER_API_KEY` is the only model credential.
 

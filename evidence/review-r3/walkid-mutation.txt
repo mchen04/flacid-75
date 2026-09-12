@@ -1,0 +1,57 @@
+Mutation: baseline; runtime test exit: 0
+✔ every change the server would refuse is refused by the browser bounds first, with a reason (15.860333ms)
+✔ every change the server accepts passes the browser bounds (0.412833ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.248333ms)
+✔ review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character (1.155958ms)
+✔ review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml (0.391833ms)
+✔ review 171 follow-up: container ids and the default container id are held to the same text rule on both sides (0.380292ms)
+✔ invalid meal text reports text rather than calorie or protein bounds (0.368458ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 443.684833
+
+
+Mutation: missing-walk-id-check; runtime test exit: 1
+✖ every change the server would refuse is refused by the browser bounds first, with a reason (13.373125ms)
+✔ every change the server accepts passes the browser bounds (1.2955ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.24225ms)
+✔ review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character (1.090458ms)
+✔ review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml (0.35775ms)
+✔ review 171 follow-up: container ids and the default container id are held to the same text rule on both sides (0.368166ms)
+✔ invalid meal text reports text rather than calorie or protein bounds (0.344125ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 240.240459
+
+✖ failing tests:
+
+test at bounds.test.ts:1:2505
+✖ every change the server would refuse is refused by the browser bounds first, with a reason (13.373125ms)
+  AssertionError [ERR_ASSERTION]: bounds accept invalid walk id
+  
+  'object' !== 'string'
+  
+      at TestContext.<anonymous> (/private/var/folders/0c/jjtf9ntd6y15p0bv_143pm040000gn/T/flacid-walkid-mutation-ZhKiHs/bounds.test.ts:40:122)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'object',
+    expected: 'string',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+

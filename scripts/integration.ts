@@ -10,8 +10,9 @@ const schema='flaccid75_test_'+randomUUID().replaceAll('-','');
 await admin.connect();await admin.query(`CREATE SCHEMA ${schema}`);
 const uri=new URL(process.env.DATABASE_URL!);uri.hostname=uri.hostname.replace('-pooler','');uri.searchParams.set('options','-c search_path='+schema);process.env.DATABASE_URL=uri.toString();
 const {db,sync,readState,receiptSize}=await import('../lib/db');
-const {weekStart,addDays,restsLeft,pointsBalance}=await import('../lib/domain');
-const {validateBatch}=await import('../lib/validation');
+const {weekStart,addDays,restsLeft,pointsBalance,entriesInOrder}=await import('../lib/domain');
+const {validateBatch,estimateSchema}=await import('../lib/validation');
+const {ground}=await import('../lib/estimate');
 try{
  await db.query(await readFile('migrations/001_initial.sql','utf8'));
  // A fixed week keeps the rest-day arithmetic deterministic: Monday 2026-09-07 to Sunday 2026-09-13, "now" is Wednesday evening.
@@ -94,6 +95,40 @@ try{
  // A literal backslash sequence in text is ordinary text and persists; only an actual NUL or lone surrogate half is refused.
  const literal={...base,id:randomUUID(),type:'water' as const,amount:50,label:'C:\\u0000 path'};assert.equal(validateBatch([literal])!.invalid.length,0);const lit=await sync([literal]);assert.deepEqual(lit.accepted,[literal.id]);assert.deepEqual(lit.rejected,[]);
  assert.equal((await readState()).days[day].waterLog!.at(-1)!.label,'C:\\u0000 path');
+ // Daily entries: races retain distinct walks, stable walk ids survive a repeated finish with a new operation id.
+ const dailyDay='2026-09-08';const dailyBase={...base,day:dailyDay};
+ const walkA={...dailyBase,id:randomUUID(),type:'session' as const,habit:'walk' as const,seconds:600,done:true,walkId:'cccccccc-cccc-4ccc-8ccc-cccccccccccc'};
+ const walkB={...walkA,id:randomUUID(),walkId:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',seconds:1200};
+ await sync([walkA]);await Promise.all([sync([walkA]),sync([walkA]),sync([walkB])]);
+ await sync([{...walkA,id:randomUUID(),seconds:1800}]);
+ const walks=(await readState()).days[dailyDay];assert.deepEqual(entriesInOrder(walks.walkLog!,walks.walkOrder).map(([,entry])=>entry.seconds),[600,1200]);assert.equal(Object.keys(walks.walkLog!).length,2);assert.equal(walks.sessions!.walk!.seconds,1800);
+ for(const value of [false,true]) {await sync([{...dailyBase,id:randomUUID(),type:'check',habit:'walk',value}]);const read=(await readState()).days[dailyDay];assert.equal(read.checks.walk,value);assert.equal(read.sessions!.walk!.seconds,1800);assert.equal(Object.keys(read.walkLog!).length,2);}
+ const mealId=randomUUID();const meal={...dailyBase,id:randomUUID(),type:'meal' as const,mealId,calories:150,protein:12,description:'Eggs with pepper 🥚',items:[{name:'Eggs',grams:100,calories:150,protein:12,source:'usda' as const,match:'Egg, whole',fdcId:123}]};
+ const mealBatch=validateBatch([meal])!;assert.deepEqual(mealBatch.invalid,[]);await sync(mealBatch.valid);
+ assert.deepEqual((await readState()).days[dailyDay].meals[mealId],{calories:150,protein:12,description:meal.description,items:meal.items});
+ const anotherMeal={...meal,id:randomUUID(),mealId:randomUUID(),description:'Soup',calories:250,protein:20,items:[]};await sync([anotherMeal]);
+ const editedMeal={...meal,id:randomUUID(),description:'Eggs and toast',calories:300,items:[{...meal.items[0],name:'Eggs and toast',calories:300}]};await sync(validateBatch([editedMeal])!.valid);
+ // An old client sends only the numbers. It cannot erase details it does not understand.
+ await sync([{...dailyBase,id:randomUUID(),type:'meal',mealId,calories:310,protein:13}]);
+ const mealDay=(await readState()).days[dailyDay];assert.deepEqual(entriesInOrder(mealDay.meals,mealDay.mealOrder).map(([id])=>id),[mealId,anotherMeal.mealId]);const meals=mealDay.meals;assert.deepEqual(meals[mealId],{description:editedMeal.description,items:editedMeal.items,calories:310,protein:13});assert.equal(meals[anotherMeal.mealId].description,'Soup');
+ assert.equal(Object.values(meals).reduce((n,m)=>n+m.calories,0),560);
+ // Review followup: deleting entries changes totals, never the independent completion choice.
+ for (const value of [false,true]) {
+  const extra={...walkA,id:randomUUID(),walkId:randomUUID(),seconds:300};await sync([extra,{...dailyBase,id:randomUUID(),type:'check',habit:'walk',value}]);
+  const remove={...dailyBase,id:randomUUID(),type:'deleteWalk' as const,walkId:extra.walkId};const parsed=validateBatch([remove])!;assert.deepEqual(parsed.invalid,[]);
+  await Promise.all([sync(parsed.valid),sync(parsed.valid)]);const read=(await readState()).days[dailyDay];assert.equal(read.checks.walk,value);assert.equal(read.sessions!.walk!.seconds,1800);assert.deepEqual(read.walkOrder,[walkA.walkId,walkB.walkId]);
+ }
+ await sync([{...dailyBase,id:randomUUID(),type:'deleteWalk',walkId:walkA.walkId},{...dailyBase,id:randomUUID(),type:'deleteWalk',walkId:walkB.walkId}]);
+ const emptyWalks=(await readState()).days[dailyDay];assert.equal(emptyWalks.checks.walk,true);assert.equal(emptyWalks.sessions?.walk,undefined);assert.deepEqual(emptyWalks.walkLog,{});assert.deepEqual(emptyWalks.walkOrder,[]);
+ await sync([{...dailyBase,id:randomUUID(),type:'session',habit:'walk',seconds:120,done:true}]);assert.equal((await readState()).days[dailyDay].sessions?.walk?.seconds,120);
+ const scaled={...editedMeal,id:randomUUID(),calories:600,protein:24,items:[{...editedMeal.items[0],grams:200,calories:600,protein:24}]};await sync(validateBatch([scaled])!.valid);assert.deepEqual((await readState()).days[dailyDay].meals[mealId].items,scaled.items);
+ const removedItems={...scaled,id:randomUUID(),calories:0,protein:0,items:[]};await sync(validateBatch([removedItems])!.valid);
+ const removedRead=(await readState()).days[dailyDay];assert.deepEqual(removedRead.meals[mealId],{description:scaled.description,calories:0,protein:0,items:[]});assert.equal(removedRead.meals[anotherMeal.mealId].calories,250);assert.deepEqual(removedRead.mealOrder,[mealId,anotherMeal.mealId]);
+ // Malformed model text is normalized before the saved-meal schema and PostgreSQL see it.
+ const modelItems=ground(estimateSchema.parse({items:[{name:'egg, whole, cooked, scrambled'+NUL+HIGH,grams:100,calories:150,protein:10},{name:'zzqx 🍲'+String.fromCharCode(0xDFFF),grams:150,calories:200,protein:8}]}).items);
+ const groundedMeal={...dailyBase,id:randomUUID(),type:'meal' as const,mealId:randomUUID(),description:'Eggs and stew 🍲',items:modelItems,calories:modelItems.reduce((n,i)=>n+i.calories,0),protein:modelItems.reduce((n,i)=>n+i.protein,0)};
+ const groundedBatch=validateBatch([groundedMeal])!;assert.deepEqual(groundedBatch.invalid,[]);assert.deepEqual((await sync(groundedBatch.valid)).rejected,[]);
+ const groundedRead=(await readState()).days[dailyDay].meals[groundedMeal.mealId];assert.deepEqual(groundedRead,{description:groundedMeal.description,items:modelItems,calories:groundedMeal.calories,protein:groundedMeal.protein});assert.equal(groundedRead.items![0].name,'egg, whole, cooked, scrambled');assert.equal(groundedRead.items![0].match,'Egg, whole, cooked, scrambled');assert.equal(groundedRead.items![1].name,'zzqx 🍲');
  const opCount=(await db.query('SELECT count(*)::int AS n FROM flaccid75_operations')).rows[0].n;
- console.log(JSON.stringify({isolatedSchema:true,malformedTextRejectedById:true,emojiStoredIntact:true,literalBackslashStored:true,receiptSnapshotConsistent:true,oldPendingWindowExact:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
+ console.log(JSON.stringify({malformedModelTextCleanedAndPersisted:true,walkRemovalPreservesIndependentCompletion:true,walkRemovalDeduped:true,lastWalkRemovalPersists:true,mealPortionAndItemRemovalPersist:true,entryOrderSurvivesJSONB:true,multipleWalksRetained:true,walkStableIdDeduped:true,walkTogglePreservesEntries:true,mealDetailsCreatedEditedReloaded:true,legacyMealEditPreservesDetails:true,isolatedSchema:true,malformedTextRejectedById:true,emojiStoredIntact:true,literalBackslashStored:true,receiptSnapshotConsistent:true,oldPendingWindowExact:true,concurrentDuplicateDeliveries:3,waterMl:250,independentChecksRetained:3,twoRestsAllowedThirdRejected:true,restBeyondWeekRejected:true,sessionDuplicateAppliedOnce:true,optionalPersisted:true,unitsAndPlanPersisted:true,redeemOverBalanceRejected:true,redeemDuplicateChargedOnce:true,reversedRangeRejected:true,malformedFirstChangeIsolated:true,operationsRecorded:opCount,productionDataUntouched:true}));
 }finally{await db.end();await admin.query(`DROP SCHEMA ${schema} CASCADE`);await admin.end();}

@@ -1,0 +1,840 @@
+
+Running 26 tests using 1 worker
+
+(node:8040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo (349ms)
+(node:8046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo (218ms)
+(node:8051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo (284ms)
+(node:8058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo (285ms)
+(node:8065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely (5.2s)
+(node:8096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely (5.2s)
+(node:8169) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [chromium] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this (5.3s)
+(node:8197) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [chromium] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload (5.2s)
+(node:8227) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions (5.2s)
+(node:8298) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions (5.1s)
+(node:8323) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions (5.1s)
+(node:8434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions (5.2s)
+(node:8764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 [chromium] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle (5.2s)
+(node:8839) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo (634ms)
+(node:8885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo (418ms)
+(node:8908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo (455ms)
+(node:8924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo (454ms)
+(node:8953) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely (5.4s)
+(node:9102) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely (5.4s)
+(node:9148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  20 [webkit] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this (5.4s)
+(node:9214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  21 [webkit] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload (5.3s)
+(node:9267) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  22 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions (5.3s)
+(node:9294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  23 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions (5.3s)
+(node:9376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  24 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions (5.3s)
+(node:9399) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  25 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions (5.3s)
+(node:9422) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  26 [webkit] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle (5.3s)
+
+
+  1) [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "AxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ"
+    Received: "AQxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-saved-x-descr-69565--preserves-replacement-undo-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-saved-x-descr-69565--preserves-replacement-undo-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "A🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚Z"
+    Received: "AQ🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-saved-🍚-desc-cf7fe--preserves-replacement-undo-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-saved-🍚-desc-cf7fe--preserves-replacement-undo-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "AxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ"
+    Received: "AQxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-manual-x-desc-adb46--preserves-replacement-undo-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-manual-x-desc-adb46--preserves-replacement-undo-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "A🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚Z"
+    Received: "AQ🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-chromium/error-context.md
+
+  5) [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('group', { name: 'Item 1: Soup', exact: true }).getByLabel('Item name')
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('group', { name: 'Item 1: Soup', exact: true }).getByLabel('Item name') with timeout 5000ms
+      - waiting for getByRole('group', { name: 'Item 1: Soup', exact: true }).getByLabel('Item name')
+        14 × locator resolved to <input/>
+           - unexpected value "inactive"
+
+
+      15 | for(const input of ['keyboard','double click'])test(`R5 item removal by ${input} keeps identity and moves focus safely`,async({page})=>{
+      16 |  const {day,id,state}=meal();const box=await open(page,state,{hash:'food'});await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByRole('group',{name:'Item 2: Soup',exact:true}).evaluate(el=>el.setAttribute('data-original-soup','true'));
+    > 17 |  const remove=page.getByRole('button',{name:'Remove item 1: Rice',exact:true});if(input==='keyboard'){await remove.focus();await page.keyboard.press('Enter');await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true}).getByLabel('Item name')).toBeFocused();await page.keyboard.press('Enter');}else await remove.dblclick();
+         |                                                                                                                                                                                                                                                              ^
+      18 |  await expect(page.locator('.items fieldset')).toHaveCount(2);await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true})).toHaveAttribute('data-original-soup','true');
+      19 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].items?.map(i=>i.name)).toEqual(['Soup','Beans']);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      20 |  await page.getByRole('button',{name:'Remove item 2: Beans',exact:true}).click();await expect(page.getByLabel('Item name')).toBeFocused();await page.getByLabel('Item name').fill('');await expect(page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true})).toBeVisible();await page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true}).click();await expect(page.locator('.sum')).toBeFocused();await expect(page.locator('.sum')).toContainText('0 kcal · 0 g protein');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:17:254
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--0f3b9-tity-and-moves-focus-safely-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-item-removal--0f3b9-tity-and-moves-focus-safely-chromium/error-context.md
+
+  6) [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.items fieldset')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.items fieldset') with timeout 5000ms
+      - waiting for locator('.items fieldset')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      16 |  const {day,id,state}=meal();const box=await open(page,state,{hash:'food'});await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByRole('group',{name:'Item 2: Soup',exact:true}).evaluate(el=>el.setAttribute('data-original-soup','true'));
+      17 |  const remove=page.getByRole('button',{name:'Remove item 1: Rice',exact:true});if(input==='keyboard'){await remove.focus();await page.keyboard.press('Enter');await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true}).getByLabel('Item name')).toBeFocused();await page.keyboard.press('Enter');}else await remove.dblclick();
+    > 18 |  await expect(page.locator('.items fieldset')).toHaveCount(2);await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true})).toHaveAttribute('data-original-soup','true');
+         |                                                ^
+      19 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].items?.map(i=>i.name)).toEqual(['Soup','Beans']);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      20 |  await page.getByRole('button',{name:'Remove item 2: Beans',exact:true}).click();await expect(page.getByLabel('Item name')).toBeFocused();await page.getByLabel('Item name').fill('');await expect(page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true})).toBeVisible();await page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true}).click();await expect(page.locator('.sum')).toBeFocused();await expect(page.locator('.sum')).toContainText('0 kcal · 0 g protein');
+      21 | });
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:18:48
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/error-context.md
+
+  7) [chromium] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('alert')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('alert') with timeout 5000ms
+      - waiting for getByRole('alert')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      22 | test('R5 zero portion warning clears on that item correction and Not this',async({page})=>{
+      23 |  await open(page,seed(),{hash:'food'});await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{...items[0],grams:0},items[1]]}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice and soup');await page.getByRole('button',{name:'Look it up'}).click();
+    > 24 |  const rice=page.getByRole('group',{name:'Item 1: Rice',exact:true});await rice.getByLabel('Portion · g').fill('100');await expect(page.getByRole('alert')).toContainText('starting portion was 0 g');await page.getByRole('group',{name:'Item 2: Soup',exact:true}).getByLabel('Calories · kcal').fill('250');await expect(page.getByRole('alert')).toBeVisible();await rice.getByLabel('Calories · kcal').fill('250');await rice.getByLabel('Protein · g').fill('10');await expect(page.getByRole('alert')).toHaveCount(0);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+      25 |  await rice.getByLabel('Portion · g').fill('0');await rice.getByLabel('Item name').focus();await rice.getByLabel('Portion · g').fill('100');await expect(page.getByRole('alert')).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();await expect(page.getByRole('alert')).toHaveCount(0);
+      26 | });
+      27 | test('R5 walk removal retains order, completion and keyboard focus through reload',async({page})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:24:495
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-zero-portion--34255-tem-correction-and-Not-this-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-zero-portion--34255-tem-correction-and-Not-this-chromium/error-context.md
+
+  8) [chromium] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('button', { name: 'Remove walk 2', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('button', { name: 'Remove walk 2', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Remove walk 2', exact: true })
+        14 × locator resolved to <button aria-label="Remove walk 2">…</button>
+           - unexpected value "inactive"
+
+
+      27 | test('R5 walk removal retains order, completion and keyboard focus through reload',async({page})=>{
+      28 |  const day=todayIn(),ids=['cccccccc-cccc-4ccc-8ccc-cccccccccccc','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'];let state=seed();for(let i=0;i<3;i++)state=apply(state,op(day,{type:'session',habit:'walk',walkId:ids[i],seconds:(i+1)*600,done:true}));const box=await open(page,state,{hash:'walk'});
+    > 29 |  await page.getByRole('button',{name:'Remove walk 2',exact:true}).focus();await page.keyboard.press('Enter');await expect(page.getByRole('button',{name:'Remove walk 2',exact:true})).toBeFocused();await expect.poll(()=>entriesInOrder(box.state.days[day].walkLog!,box.state.days[day].walkOrder).map(([id])=>id)).toEqual([ids[0],ids[2]]);await page.reload();await expect(page.getByRole('group',{name:'Walk entries'}).locator('.meal-row p')).toHaveText(['10:00','30:00']);await page.getByRole('button',{name:'Remove walk 2',exact:true}).click();await expect(page.getByRole('button',{name:'Remove walk 1',exact:true})).toBeFocused();await page.keyboard.press('Enter');await expect(page.getByLabel('Walk minutes')).toBeFocused();await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();await page.reload();await expect(page.getByRole('group',{name:'Walk entries'})).toHaveCount(0);await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();
+         |                                                                                                                                                                                       ^
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+      32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:29:183
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-walk-removal--67da3-yboard-focus-through-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-walk-removal--67da3-yboard-focus-through-reload-chromium/error-context.md
+
+  9) [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Walk complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Walk complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Walk complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Walk complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-walk-completi-89812-checkbox-in-both-directions-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-walk-completi-89812-checkbox-in-both-directions-chromium/error-context.md
+
+  10) [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Workout complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Workout complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Workout complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Workout complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-workout-compl-e0264-checkbox-in-both-directions-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-workout-compl-e0264-checkbox-in-both-directions-chromium/error-context.md
+
+  11) [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Abs complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Abs complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Abs complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Abs complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-abs-completio-0b8d6-checkbox-in-both-directions-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-abs-completio-0b8d6-checkbox-in-both-directions-chromium/error-context.md
+
+  12) [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Floss complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Floss complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Floss complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Floss complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-floss-complet-e837f-checkbox-in-both-directions-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-floss-complet-e837f-checkbox-in-both-directions-chromium/error-context.md
+
+  13) [chromium] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.stage-copy>span')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.stage-copy>span') with timeout 5000ms
+      - waiting for locator('.stage-copy>span')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+      33 | });
+    > 34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+         |                                                                                                                                                                                                                                        ^
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:34:232
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-completed-floss-has-no-empty-stage-subtitle-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-completed-floss-has-no-empty-stage-subtitle-chromium/error-context.md
+
+  14) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "AxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ"
+    Received: "AQxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-saved-x-descr-69565--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-saved-x-descr-69565--preserves-replacement-undo-webkit/error-context.md
+
+  15) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "A🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚Z"
+    Received: "AQ🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-saved-🍚-desc-cf7fe--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-saved-🍚-desc-cf7fe--preserves-replacement-undo-webkit/error-context.md
+
+  16) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "AxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ"
+    Received: "AQxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-manual-x-desc-adb46--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-manual-x-desc-adb46--preserves-replacement-undo-webkit/error-context.md
+
+  17) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "A🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚Z"
+    Received: "AQ🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚"
+
+       8 |  if(mode==='saved')await page.getByRole('button',{name:'Correct meal 1'}).click();
+       9 |  else {await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByRole('button',{name:'Enter numbers'}).click();await page.getByLabel('Calories · kcal').fill('600');await page.getByLabel('Protein · g').fill('30');}
+    > 10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+         |                                                                                                                                                                                                                                                               ^
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+      12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:10:255
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-webkit/error-context.md
+
+  18) [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('group', { name: 'Item 1: Soup', exact: true }).getByLabel('Item name')
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('group', { name: 'Item 1: Soup', exact: true }).getByLabel('Item name') with timeout 5000ms
+      - waiting for getByRole('group', { name: 'Item 1: Soup', exact: true }).getByLabel('Item name')
+        14 × locator resolved to <input/>
+           - unexpected value "inactive"
+
+
+      15 | for(const input of ['keyboard','double click'])test(`R5 item removal by ${input} keeps identity and moves focus safely`,async({page})=>{
+      16 |  const {day,id,state}=meal();const box=await open(page,state,{hash:'food'});await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByRole('group',{name:'Item 2: Soup',exact:true}).evaluate(el=>el.setAttribute('data-original-soup','true'));
+    > 17 |  const remove=page.getByRole('button',{name:'Remove item 1: Rice',exact:true});if(input==='keyboard'){await remove.focus();await page.keyboard.press('Enter');await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true}).getByLabel('Item name')).toBeFocused();await page.keyboard.press('Enter');}else await remove.dblclick();
+         |                                                                                                                                                                                                                                                              ^
+      18 |  await expect(page.locator('.items fieldset')).toHaveCount(2);await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true})).toHaveAttribute('data-original-soup','true');
+      19 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].items?.map(i=>i.name)).toEqual(['Soup','Beans']);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      20 |  await page.getByRole('button',{name:'Remove item 2: Beans',exact:true}).click();await expect(page.getByLabel('Item name')).toBeFocused();await page.getByLabel('Item name').fill('');await expect(page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true})).toBeVisible();await page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true}).click();await expect(page.locator('.sum')).toBeFocused();await expect(page.locator('.sum')).toContainText('0 kcal · 0 g protein');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:17:254
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--0f3b9-tity-and-moves-focus-safely-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-item-removal--0f3b9-tity-and-moves-focus-safely-webkit/error-context.md
+
+  19) [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.items fieldset')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.items fieldset') with timeout 5000ms
+      - waiting for locator('.items fieldset')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      16 |  const {day,id,state}=meal();const box=await open(page,state,{hash:'food'});await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByRole('group',{name:'Item 2: Soup',exact:true}).evaluate(el=>el.setAttribute('data-original-soup','true'));
+      17 |  const remove=page.getByRole('button',{name:'Remove item 1: Rice',exact:true});if(input==='keyboard'){await remove.focus();await page.keyboard.press('Enter');await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true}).getByLabel('Item name')).toBeFocused();await page.keyboard.press('Enter');}else await remove.dblclick();
+    > 18 |  await expect(page.locator('.items fieldset')).toHaveCount(2);await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true})).toHaveAttribute('data-original-soup','true');
+         |                                                ^
+      19 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].items?.map(i=>i.name)).toEqual(['Soup','Beans']);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      20 |  await page.getByRole('button',{name:'Remove item 2: Beans',exact:true}).click();await expect(page.getByLabel('Item name')).toBeFocused();await page.getByLabel('Item name').fill('');await expect(page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true})).toBeVisible();await page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true}).click();await expect(page.locator('.sum')).toBeFocused();await expect(page.locator('.sum')).toContainText('0 kcal · 0 g protein');
+      21 | });
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:18:48
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-webkit/error-context.md
+
+  20) [webkit] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('alert')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('alert') with timeout 5000ms
+      - waiting for getByRole('alert')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      22 | test('R5 zero portion warning clears on that item correction and Not this',async({page})=>{
+      23 |  await open(page,seed(),{hash:'food'});await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{...items[0],grams:0},items[1]]}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice and soup');await page.getByRole('button',{name:'Look it up'}).click();
+    > 24 |  const rice=page.getByRole('group',{name:'Item 1: Rice',exact:true});await rice.getByLabel('Portion · g').fill('100');await expect(page.getByRole('alert')).toContainText('starting portion was 0 g');await page.getByRole('group',{name:'Item 2: Soup',exact:true}).getByLabel('Calories · kcal').fill('250');await expect(page.getByRole('alert')).toBeVisible();await rice.getByLabel('Calories · kcal').fill('250');await rice.getByLabel('Protein · g').fill('10');await expect(page.getByRole('alert')).toHaveCount(0);
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ^
+      25 |  await rice.getByLabel('Portion · g').fill('0');await rice.getByLabel('Item name').focus();await rice.getByLabel('Portion · g').fill('100');await expect(page.getByRole('alert')).toBeVisible();await page.getByRole('button',{name:'Not this'}).click();await expect(page.getByRole('alert')).toHaveCount(0);
+      26 | });
+      27 | test('R5 walk removal retains order, completion and keyboard focus through reload',async({page})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:24:495
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-zero-portion--34255-tem-correction-and-Not-this-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-zero-portion--34255-tem-correction-and-Not-this-webkit/error-context.md
+
+  21) [webkit] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('button', { name: 'Remove walk 2', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('button', { name: 'Remove walk 2', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Remove walk 2', exact: true })
+        14 × locator resolved to <button aria-label="Remove walk 2">…</button>
+           - unexpected value "inactive"
+
+
+      27 | test('R5 walk removal retains order, completion and keyboard focus through reload',async({page})=>{
+      28 |  const day=todayIn(),ids=['cccccccc-cccc-4ccc-8ccc-cccccccccccc','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'];let state=seed();for(let i=0;i<3;i++)state=apply(state,op(day,{type:'session',habit:'walk',walkId:ids[i],seconds:(i+1)*600,done:true}));const box=await open(page,state,{hash:'walk'});
+    > 29 |  await page.getByRole('button',{name:'Remove walk 2',exact:true}).focus();await page.keyboard.press('Enter');await expect(page.getByRole('button',{name:'Remove walk 2',exact:true})).toBeFocused();await expect.poll(()=>entriesInOrder(box.state.days[day].walkLog!,box.state.days[day].walkOrder).map(([id])=>id)).toEqual([ids[0],ids[2]]);await page.reload();await expect(page.getByRole('group',{name:'Walk entries'}).locator('.meal-row p')).toHaveText(['10:00','30:00']);await page.getByRole('button',{name:'Remove walk 2',exact:true}).click();await expect(page.getByRole('button',{name:'Remove walk 1',exact:true})).toBeFocused();await page.keyboard.press('Enter');await expect(page.getByLabel('Walk minutes')).toBeFocused();await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();await page.reload();await expect(page.getByRole('group',{name:'Walk entries'})).toHaveCount(0);await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();
+         |                                                                                                                                                                                       ^
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+      32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:29:183
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-walk-removal--67da3-yboard-focus-through-reload-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-walk-removal--67da3-yboard-focus-through-reload-webkit/error-context.md
+
+  22) [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Walk complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Walk complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Walk complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Walk complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-walk-completi-89812-checkbox-in-both-directions-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-walk-completi-89812-checkbox-in-both-directions-webkit/error-context.md
+
+  23) [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Workout complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Workout complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Workout complete', exact: true })
+        13 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Workout complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-workout-compl-e0264-checkbox-in-both-directions-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-workout-compl-e0264-checkbox-in-both-directions-webkit/error-context.md
+
+  24) [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Abs complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Abs complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Abs complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Abs complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-abs-completio-0b8d6-checkbox-in-both-directions-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-abs-completio-0b8d6-checkbox-in-both-directions-webkit/error-context.md
+
+  25) [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('checkbox', { name: 'Floss complete', exact: true })
+    Expected pattern: /\S+/
+    Received string:  ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('checkbox', { name: 'Floss complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Floss complete', exact: true })
+        14 × locator resolved to <button type="button" role="checkbox" aria-checked="false" aria-label="Floss complete" class="row-action completion-toggle ">…</button>
+           - unexpected value "null"
+
+
+      30 | });
+      31 | for(const habit of ['walk','workout','abs','floss'])test(`R5 ${habit} completion text activates one named checkbox in both directions`,async({page})=>{
+    > 32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                                                                                                                                                                                                                                               ^
+      33 | });
+      34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:32:239
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-floss-complet-e837f-checkbox-in-both-directions-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-floss-complet-e837f-checkbox-in-both-directions-webkit/error-context.md
+
+  26) [webkit] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle ─
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.stage-copy>span')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.stage-copy>span') with timeout 5000ms
+      - waiting for locator('.stage-copy>span')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      32 |  const day=todayIn();const box=await open(page,seed(),{hash:habit});const name=habit[0].toUpperCase()+habit.slice(1)+' complete',row=page.locator('.completion-row'),toggle=page.getByRole('checkbox',{name,exact:true});await expect(toggle).toHaveAttribute('aria-labelledby',/\S+/);await row.getByText(name,{exact:true}).click();await expect(toggle).toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(true);await page.reload();await expect(toggle).toBeChecked();await row.getByText(name,{exact:true}).click();await expect(toggle).not.toBeChecked();await toggle.focus();await page.keyboard.press('Space');await expect(toggle).toBeChecked();await page.keyboard.press('Enter');await expect(toggle).not.toBeChecked();await expect.poll(()=>box.state.days[day]?.checks[habit as 'walk']).toBe(false);await page.reload();await expect(toggle).not.toBeChecked();await page.setViewportSize({width:320,height:740});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+      33 | });
+    > 34 | test('R5 completed floss has no empty stage subtitle',async({page})=>{const day=todayIn();await open(page,apply(seed(),op(day,{type:'check',habit:'floss',value:true})),{hash:'floss'});await expect(page.locator('.stage-copy>span')).toHaveCount(0);});
+         |                                                                                                                                                                                                                                        ^
+      35 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:34:232
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-completed-floss-has-no-empty-stage-subtitle-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-completed-floss-has-no-empty-stage-subtitle-webkit/error-context.md
+
+  26 failed
+    [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo 
+    [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo 
+    [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo 
+    [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo 
+    [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely 
+    [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+    [chromium] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this 
+    [chromium] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload 
+    [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions 
+    [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions 
+    [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions 
+    [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions 
+    [chromium] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle ─
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely 
+    [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+    [webkit] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this 
+    [webkit] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload 
+    [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions 
+    [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions 
+    [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions 
+    [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions 
+    [webkit] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle ───

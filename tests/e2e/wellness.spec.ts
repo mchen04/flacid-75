@@ -26,17 +26,17 @@ test('the walk timer starts, pauses, survives a reload and a long sleep, finishe
  await page.reload();await page.locator('.app-shell').waitFor();await expect(page.locator('.dial-time')).toHaveText(paused);await expect(page.getByRole('button',{name:'Resume'})).toBeVisible();
  // Resume, then the phone sleeps for 20 minutes: no ticks fire, the clock simply moves on, and the count is right on wake.
  await page.getByRole('button',{name:'Resume'}).click();await page.clock.fastForward(20*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await expect(page.locator('.dial-time')).toHaveText(/^30:[0-2]\d$/);
- await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByText('Walk logged')).toBeVisible();await expect(page.getByText(/30:[0-2]\d on the path\./)).toBeVisible();
+ await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();await expect(page.getByRole('group',{name:'Walk entries'}).getByText(/^30:[0-2]\d$/)).toBeVisible();
  expect(box.state.days[today].sessions?.walk?.seconds).toBeGreaterThanOrEqual(1800);expect(box.state.days[today].sessions?.walk?.seconds).toBeLessThan(1830);expect(box.state.days[today].checks.walk).toBe(true);
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('Walked · 30 min')).toBeVisible();
- await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('button',{name:'Undo',exact:true}).click();await expect(page.getByRole('button',{name:'Start'})).toBeVisible();expect(box.state.days[today].checks.walk).toBe(false);
+ await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('checkbox',{name:'Walk complete'}).click();await expect(page.getByRole('button',{name:'Start'})).toBeVisible();expect(box.state.days[today].checks.walk).toBe(false);
  await writeFile(`evidence/my-wellness/timer-walk-${test.info().project.name}.json`,JSON.stringify({ran:'10:00',pausedFor:'1:00 (no change)',reloadKept:'10:00',sleptFor:'20:00 with no ticks',onWake:'30:00',logged:1800,note:'Chromium with a virtual clock; a physical lock/reopen is not measured here'},null,2));
 });
 test('the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves',async({page})=>{
  slowClock();
  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
- await expect(page.getByRole('group',{name:'Workout checklist'})).toBeVisible();await expect(page.getByRole('checkbox')).toHaveCount(6);
- await page.getByRole('button',{name:'Edit plan'}).click();await page.getByLabel('One move per line').fill('Squats\nRows\nPlank');await page.getByRole('button',{name:'Save plan'}).click();await expect(page.getByRole('checkbox')).toHaveCount(3);expect(box.state.profile?.plan).toEqual(['Squats','Rows','Plank']);
+ await expect(page.getByRole('group',{name:'Workout checklist'})).toBeVisible();await expect(page.getByRole('group',{name:'Workout checklist'}).getByRole('checkbox')).toHaveCount(6);
+ await page.getByRole('button',{name:'Edit plan'}).click();await page.getByLabel('One move per line').fill('Squats\nRows\nPlank');await page.getByRole('button',{name:'Save plan'}).click();await expect(page.getByRole('group',{name:'Workout checklist'}).getByRole('checkbox')).toHaveCount(3);expect(box.state.profile?.plan).toEqual(['Squats','Rows','Plank']);
  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await expect(page.getByText('2 of 3 checked')).toBeVisible();await page.clock.runFor(12*60*1000);
  await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('checkbox',{name:'Squats'})).toBeChecked();
  // The recorded session is the clock's own reading: the interval from the first tick (the stored start) to the finish, bracketed by clock readings taken just before and just after the tap. The virtual clock also runs with wall time, so the interval is at least the 12 minutes advanced.
@@ -80,10 +80,10 @@ test('treats are user-chosen, cost points, refuse when short, redeem once per ta
  await expect(page.getByRole('button',{name:'Redeem Weekend away'})).toBeDisabled();await expect(page.getByRole('button',{name:'Redeem Weekend away'})).toHaveText('700 more');
  await page.getByRole('button',{name:'Redeem Film night'}).dblclick();await expect(page.getByText('170 points',{exact:true})).toBeVisible();expect(Object.keys(box.state.days[today].redeemed??{})).toHaveLength(1);
  await page.waitForTimeout(1500);await page.getByRole('button',{name:'Redeem Film night'}).click();await expect(page.getByText('140 points',{exact:true})).toBeVisible();expect(Object.keys(box.state.days[today].redeemed??{})).toHaveLength(2);
- await page.getByRole('button',{name:'Undo Film night'}).first().click();
- await page.getByRole('button',{name:'Undo Film night'}).click();await expect(page.getByText('200 points',{exact:true})).toBeVisible();expect(Object.keys(box.state.days[today].redeemed??{})).toHaveLength(0);
+ await page.getByRole('button',{name:'Remove redemption for Film night'}).first().click();
+ await page.getByRole('button',{name:'Remove redemption for Film night'}).click();await expect(page.getByText('200 points',{exact:true})).toBeVisible();expect(Object.keys(box.state.days[today].redeemed??{})).toHaveLength(0);
  // Undoing a habit after spending never shows a negative balance; the card explains it instead.
- await page.waitForTimeout(1500);for(let i=0;i<5;i++){await page.getByRole('button',{name:'Redeem Film night'}).click();await page.waitForTimeout(1500);}await expect(page.getByText('50 points',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:/day streak\. Open progress/}).click();for(const d of [1,2]){await page.getByLabel('Open any past day').fill(addDays(today,-d));await page.getByRole('button',{name:'Backfill this day'}).click();for(const h of ['walk','workout','abs','floss'])await page.getByRole('button',{name:`Undo ${h}`}).click();await page.getByRole('button',{name:'Back to today'}).click();await page.evaluate(()=>{location.hash='progress';});}await page.evaluate(()=>{location.hash='rewards';});await expect(page.getByText('0 points',{exact:true})).toBeVisible();await expect(page.getByText(/ahead of the earned total after an undo; nothing is owed/)).toBeVisible();
+ await page.waitForTimeout(1500);for(let i=0;i<5;i++){await page.getByRole('button',{name:'Redeem Film night'}).click();await page.waitForTimeout(1500);}await expect(page.getByText('50 points',{exact:true})).toBeVisible();await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:/day streak\. Open progress/}).click();for(const d of [1,2]){await page.getByLabel('Open any past day').fill(addDays(today,-d));await page.getByRole('button',{name:'Backfill this day'}).click();for(const h of ['walk','workout','abs','floss'])await page.getByRole('checkbox',{name:`${h[0].toUpperCase()}${h.slice(1)} complete`}).click();await page.getByRole('button',{name:'Back to today'}).click();await page.evaluate(()=>{location.hash='progress';});}await page.evaluate(()=>{location.hash='rewards';});await expect(page.getByText('0 points',{exact:true})).toBeVisible();await expect(page.getByText(/ahead of the earned total after completion changes; nothing is owed/)).toBeVisible();
 });
 test('units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry',async({page})=>{
  const box=await open(page,seed(),{hash:'you'});
@@ -118,7 +118,7 @@ test('a rest day yesterday keeps the streak across midnight where a miss would h
 test('backfilling a past day from Progress opens the activity pages in backfill mode',async({page})=>{
  const today=todayIn();const past=addDays(today,-2);const box=await open(page,seed(5),{hash:'progress'});
  await page.getByLabel('Open any past day').fill(past);await page.getByRole('button',{name:'Backfill this day'}).click();
- await expect(page.getByText('Editing')).toBeVisible();await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('button',{name:'Mark walked on this day'}).click();await expect(page.getByText('Walk logged')).toBeVisible();
+ await expect(page.getByText('Editing')).toBeVisible();await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('checkbox',{name:'Walk complete'}).click();await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();
  expect(box.state.days[past].checks.walk).toBe(true);expect(box.state.days[past].backfilled).toBe(true);
  await page.getByRole('button',{name:'Back to today'}).click();await expect(page.getByText('Editing')).toHaveCount(0);
 });
@@ -134,9 +134,9 @@ test('keyboard: tabbing reaches every control in order with a visible focus ring
  const tab=browserName==='webkit'?'Alt+Tab':'Tab';
  const order:string[]=[];
  for(let i=0;i<8;i++){await page.keyboard.press(tab);order.push(await page.evaluate(()=>{const el=document.activeElement as HTMLElement;const s=getComputedStyle(el);return `${el.getAttribute('aria-label')??el.textContent?.trim().slice(0,20)}|${s.outlineStyle}|${parseFloat(s.outlineWidth)}`;}));}
- expect(order.map(o=>o.split('|')[0])).toEqual(['6 day streak. Open progress'.replace('6','0'),'Settings','Open workout. 0 of 7 habits done today','Open walk','Log walk','Open workout','Log workout','Open abs']);
+ expect(order.map(o=>o.split('|')[0])).toEqual(['6 day streak. Open progress'.replace('6','0'),'Settings','Open workout. 0 of 7 habits done today','Open walk','Walk complete','Open workout','Workout complete','Open abs']);
  for(const o of order){const [,style,width]=o.split('|');expect(style,o).not.toBe('none');expect(Number(width),o).toBeGreaterThan(0);}
- for(let i=0;i<3;i++)await page.keyboard.press('Shift+'+tab);await page.keyboard.press('Enter');await expect(page.getByRole('button',{name:'Undo walk'})).toHaveAttribute('aria-pressed','true');
+ for(let i=0;i<3;i++)await page.keyboard.press('Shift+'+tab);await page.keyboard.press('Enter');await expect(page.getByRole('checkbox',{name:'Walk complete'})).toHaveAttribute('aria-checked','true');
  await page.getByRole('button',{name:'Log a meal'}).focus();await page.keyboard.press('Enter');await expect(page.getByLabel('What did you eat?')).toBeFocused();await page.keyboard.press('Escape');await expect(page.locator('dialog[open]')).toHaveCount(0);
 });
 test('text contrast meets WCAG AA on every page',async({page})=>{
@@ -175,20 +175,20 @@ test('a running timer is visible from the dashboard and a duplicate finish canno
  expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);expect(box.state.days[today].meditate).toBeGreaterThanOrEqual(60);expect(box.state.days[today].meditate).toBeLessThan(90);
 });
 // Review round 1 regressions.
-test('logging from the dashboard while a timer runs finishes that session with its time and ticks; undo removes the session',async({page})=>{
+test('logging from the dashboard while a timer runs finishes that session with its time and ticks; unchecking preserves the session',async({page})=>{
  slowClock();
  const today=todayIn();const box=await openAt(page,seed(),at(today,'18:00:00'),'workout');
  await page.getByRole('checkbox',{name:'Squats'}).check();await page.getByRole('checkbox',{name:'Plank'}).check();await page.clock.runFor(9*60*1000);
  await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText(/Running · 9:0\d/)).toBeVisible();
- await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByText('Done · 2 moves')).toBeVisible();
+ await page.getByRole('checkbox',{name:'Workout complete'}).click();await expect(page.getByText('Done · 2 moves')).toBeVisible();
  expect(box.state.days[today].sessions?.workout?.items).toEqual(['Squats','Plank']);expect(box.state.days[today].sessions?.workout?.seconds).toBeGreaterThanOrEqual(540);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').workout)).toBeUndefined();
- // Undo from the dashboard removes the timed session; a later plain log carries no minutes.
- await page.getByRole('button',{name:'Undo workout'}).click();expect(box.state.days[today].sessions?.workout).toBeUndefined();expect(box.state.days[today].checks.workout).toBe(false);
- await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByText('Done',{exact:true})).toBeVisible();expect(box.state.days[today].sessions?.workout).toBeUndefined();
+ // Completion changes preserve the recorded time and moves.
+ await page.getByRole('checkbox',{name:'Workout complete'}).click();expect(box.state.days[today].sessions?.workout?.items).toEqual(['Squats','Plank']);expect(box.state.days[today].checks.workout).toBe(false);
+ await page.getByRole('checkbox',{name:'Workout complete'}).click();await expect(page.getByText('Done · 2 moves',{exact:true})).toBeVisible();expect(box.state.days[today].sessions?.workout?.items).toEqual(['Squats','Plank']);
  // The same for a running walk: the dashboard log finishes it rather than leaving it counting unseen.
  await page.getByRole('button',{name:'Open walk',exact:true}).click();await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(4*60*1000);await page.getByRole('button',{name:'Home'}).click();
- await page.getByRole('button',{name:'Log walk'}).click();await expect(page.getByText('Walked · 4 min')).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeUndefined();
+ await page.getByRole('checkbox',{name:'Walk complete'}).click();await expect(page.getByText('Walked · 4 min')).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeUndefined();
 });
 test('a timer left from another day is offered for that day or discarded, never silently backfilled',async({page})=>{
  slowClock();
@@ -221,18 +221,18 @@ test('re-saving your details without touching height or weight keeps the exact s
 test('in backfill mode the workout checklist is read-only and no timer starts',async({page})=>{
  const today=todayIn();const past=addDays(today,-2);await open(page,seed(5),{hash:'progress'});
  await page.getByLabel('Open any past day').fill(past);await page.getByRole('button',{name:'Backfill this day'}).click();await page.getByRole('button',{name:'Open workout',exact:true}).click();
- await expect(page.getByRole('checkbox',{name:'Squats'})).toBeDisabled();await expect(page.getByRole('button',{name:'Mark done on this day'})).toBeVisible();
+ await expect(page.getByRole('checkbox',{name:'Squats'})).toBeDisabled();await expect(page.getByRole('checkbox',{name:'Workout complete'})).toBeVisible();
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').workout)).toBeUndefined();
 });
-test('the hero opens whatever comes next, and water and meals undo from the dashboard in one tap',async({page})=>{
+test('the hero opens whatever comes next, water can be removed and meals can be edited from Food',async({page})=>{
  const today=todayIn();const box=await open(page,seed());
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'banana, raw',grams:120,calories:107,protein:1.3,source:'usda',match:'Bananas, raw',fdcId:173944}],calories:107,protein:1.3,model:'test'}}));
  await expect(page.getByRole('button',{name:/^Open workout\. 0 of 7/})).toBeVisible();await page.getByRole('button',{name:/^Open workout\. 0 of 7/}).click();await expect(page.getByRole('heading',{name:'Workout'})).toBeVisible();await page.getByRole('button',{name:'Home'}).click();
- await page.getByRole('button',{name:'Log workout'}).click();await expect(page.getByRole('button',{name:/^Open abs\. 1 of 7/})).toBeVisible();
+ await page.getByRole('checkbox',{name:'Workout complete'}).click();await expect(page.getByRole('button',{name:/^Open abs\. 1 of 7/})).toBeVisible();
  await page.getByRole('button',{name:'Add a Stanley'}).click();await page.getByRole('button',{name:'Add a Stanley'}).click();await expect(page.getByText('2 of 2¼ Stanleys · 60 oz')).toBeVisible();
- await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
+ await page.getByRole('button',{name:'Remove last pour'}).click();await expect(page.getByText('1 of 2¼ Stanleys · 30 oz')).toBeVisible();await expect.poll(()=>Math.round(box.state.days[today].water*100)/100).toBe(Math.round(30*29.5735295625*100)/100);
  await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a banana');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
- await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();await page.getByRole('button',{name:'Undo last meal'}).click();await expect(page.getByText('0 kcal · 0/105 g')).toBeVisible();expect(Object.keys(box.state.days[today].meals)).toHaveLength(0);
+ await expect(page.getByText('107 kcal · 1/105 g')).toBeVisible();await page.getByRole('button',{name:'Open food',exact:true}).click();await page.getByRole('button',{name:'Remove meal 1'}).click();await page.getByRole('button',{name:'Home'}).click();await expect(page.getByText('0 kcal · 0/105 g')).toBeVisible();expect(Object.keys(box.state.days[today].meals)).toHaveLength(0);
  await expect(page.getByRole('button',{name:'Log a meal'})).toBeVisible();
 });
 
@@ -270,7 +270,7 @@ test('half a Stanley is exactly 15 oz, twice; the fill and the daily total match
  await page.route('**/api/water',r=>r.fulfill({status:503,json:{error:'That could not be read right now.'}}));
  await page.getByLabel('Or say it').fill('polished off the tumbler after yoga');await page.getByRole('button',{name:'Read it'}).click();await expect(page.getByRole('group',{name:'How much of the Stanley?'})).toBeVisible();
  // Undo the last pour from the page.
- await page.getByRole('button',{name:'Undo last pour'}).click();await expect(page.locator('.water-copy .big')).toHaveText('30 oz');
+ await page.getByRole('button',{name:'Remove last pour'}).click();await expect(page.locator('.water-copy .big')).toHaveText('30 oz');
  await page.screenshot({path:`evidence/my-wellness/water-stanley-${test.info().project.name}.png`});
 });
 test('containers are hers to name and size, in her unit, and the default drives the one-tap',async({page})=>{
@@ -296,7 +296,7 @@ test('B1: a malformed change never strands the queue: the account refuses it by 
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);
  expect(box.ops.map(o=>o.id)).toEqual([valid.id]);
  // A further change still syncs.
- await page.getByRole('button',{name:'Log walk'}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+ await page.getByRole('checkbox',{name:'Walk complete'}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
  // The refusal is visible with its reason, survives a reload, and can be discarded.
  await page.reload();await page.locator('.app-shell').waitFor();await page.getByLabel('Settings').click();
  await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();await expect(page.getByText(/A change was refused: rewards\.0\.cost/).first()).toBeVisible();
@@ -304,7 +304,7 @@ test('B1: a malformed change never strands the queue: the account refuses it by 
  await page.reload();await page.locator('.app-shell').waitFor();await page.getByLabel('Settings').click();await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
  // A batch the server cannot read at all is not retried forever: the head is set aside and the queue moves on.
  await page.route('**/api/sync',r=>r.fulfill({status:400,json:{error:'A batch must be 1 to 100 changes.'}}),{times:1});
- await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log abs'}).click();
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('checkbox',{name:'Abs complete'}).click();
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length===0);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length)).toBe(1);
 });
@@ -318,7 +318,7 @@ test('B1: ordinary input cannot queue a refused change: treats, plan lines and e
  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'lard',grams:5000,calories:9000,protein:0,source:'estimate'},{name:'more lard',grams:5000,calories:9000,protein:0,source:'estimate'}],calories:18000,protein:0,model:'test'}}));
  await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a lot');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
  await expect(page.getByText('A meal must be 0–10,000 kcal and 0–1,000 g protein.')).toBeVisible();expect(Object.keys(box.state.days[today]?.meals??{})).toHaveLength(0);
- await page.locator('.items input').first().fill('-40');expect(await page.locator('.items input').first().inputValue()).toBe('0');
+ await page.getByLabel('Calories · kcal').first().fill('-40');expect(await page.getByLabel('Calories · kcal').first().inputValue()).toBe('0');
 });
 test('B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed',async({page})=>{
  const box=await open(page,seed(),{hash:'you'});
@@ -371,10 +371,10 @@ test('H1: hero and stage copy, chips and pills never overlap, at phone and short
    // The hero's own words all sit inside the hero, fully visible.
    expect(await page.evaluate(()=>{const hero=document.querySelector('.hero')?.getBoundingClientRect();if(!hero)return 0;return [...document.querySelectorAll<HTMLElement>('.hero-copy,.hero-tag,.hero-progress')].map(e=>e.getBoundingClientRect()).filter(r=>r.left<hero.left-1||r.right>hero.right+1||r.top<hero.top-1||r.bottom>hero.bottom+1).length;}),`${w}x${h} ${hash||'home'} inside`).toBe(0);}}
 });
-test('Floss has the same shape as the other activities: a primary Mark flossed, then a logged card with Undo',async({page})=>{
+test('Floss has one completion toggle that checks and unchecks',async({page})=>{
  const today=todayIn();const box=await open(page,seed(),{hash:'floss'});
- await page.getByRole('button',{name:'Mark flossed'}).click();await expect(page.getByText('Floss logged')).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
- await page.getByRole('button',{name:'Undo'}).click();await expect(page.getByRole('button',{name:'Mark flossed'})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(false);
+ await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect(page.getByRole('checkbox',{name:'Floss complete',checked:true})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
+ await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect(page.getByRole('checkbox',{name:'Floss complete',checked:false})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(false);
  // Past days say so, on the dashboard and on the page.
  await page.evaluate(()=>{location.hash='progress';});await page.getByLabel('Open any past day').fill(addDays(today,-1));await page.getByRole('button',{name:'Backfill this day'}).click();
  await expect(page.getByText('Once that day')).toBeVisible();await expect(page.getByText('0 of 7 that day')).toBeVisible();await page.getByRole('button',{name:'Open walk',exact:true}).click();await expect(page.getByText('A walk that day.')).toBeVisible();
@@ -396,7 +396,7 @@ test('R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a rel
 test('R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted',async({page})=>{
  const today=todayIn();const box=await openAt(page,seed(3),at(today,'08:00:00'),'walk');
  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(2000);await page.clock.fastForward(26*60*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
- await expect(page.getByText('Sessions longer than 24 hours are logged as 24 hours.',{exact:false})).toBeVisible();
+ await expect(page.getByText('Sessions over 24 hours log as 24 hours.',{exact:false})).toBeVisible();
  // It is now the next day; the session credits the day it started on, capped at 24 hours, and the page returns to ready.
  await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('button',{name:'Start',exact:true})).toBeVisible();
  await expect.poll(()=>box.state.days[today]?.sessions?.walk?.seconds).toBe(86400);expect(box.state.days[today]?.checks.walk).toBe(true);expect(box.rejected).toEqual([]);
@@ -408,15 +408,15 @@ test('R3: a slow sync in one tab cannot erase a change another tab queued meanwh
  await page.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));const raw=r.request().postDataJSON();const {validateBatch}=await import('../../lib/validation');const {apply}=await import('../../lib/domain');const batch=validateBatch(raw)!;for(const o of batch.valid){if(box.seen.has(o.id))continue;box.state=apply(box.state,o);box.ops.push(o);box.seen.add(o.id);}return r.fulfill({json:{state:box.state,accepted:batch.valid.map(o=>o.id),rejected:batch.invalid}});});
  // Tab B is cut off from the account entirely.
  const other=await context.newPage();await other.route('**/api/sync',r=>r.abort());await other.route('**/api/state',r=>r.fulfill({json:box.state}));await other.goto('/');await other.locator('.home-view').waitFor();
- await page.getByRole('button',{name:'Log walk'}).click();await page.waitForTimeout(300);
- await other.getByRole('button',{name:'Log floss'}).click();await expect(other.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ await page.getByRole('checkbox',{name:'Walk complete'}).click();await page.waitForTimeout(300);
+ await other.getByRole('checkbox',{name:'Floss complete'}).click();await expect(other.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');
  await expect.poll(()=>box.state.days[today]?.checks.walk,{timeout:10000}).toBe(true);await page.waitForTimeout(500);
  // A's slow sync has completed and saved. B's floss must still be in the device queue and on screen in both tabs.
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!));
  expect(saved.pending.some((o:{type:string;habit?:string})=>o.type==='check'&&o.habit==='floss')).toBe(true);
- await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');await expect(other.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');await expect(other.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');
  // B closes without ever syncing; A reloads: floss is still there, and A's next sync delivers it.
- await other.close();await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ await other.close();await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');
  await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:15000}).toBe(true);
 });
 test('R2: a pour from a long-named container logs with a trimmed label, and a refusal shows at the action',async({page})=>{
@@ -471,22 +471,22 @@ test('R163-1: when device storage refuses the write, an automatically finishing 
  // A manual finish under refusal keeps the walk timer; it finishes once storage is back.
  await page.evaluate(()=>{location.hash='walk';});await page.getByRole('button',{name:'Start',exact:true}).click();await page.clock.runFor(60*1000);
  await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=true;});await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('button',{name:'Finish'})).toBeVisible();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('my-wellness-timers')??'{}').walk)).toBeTruthy();
- await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByText('Walk logged')).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+ await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.getByRole('button',{name:'Finish'}).click();await expect(page.getByRole('checkbox',{name:'Walk complete',checked:true})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
 });
 test('R163-2: a refused batch during a slow sync cannot overwrite a change another tab queued and then closed on',async({page,context})=>{
  const today=todayIn();const box=await open(page,seed());
  // Tab A: the account answers every sync after three seconds with a 400.
  await page.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));await r.fulfill({status:400,json:{error:'A batch must be 1 to 100 changes.'}});});
  const other=await context.newPage();await other.route('**/api/sync',r=>r.abort());await other.route('**/api/state',r=>r.fulfill({json:box.state}));await other.goto('/');await other.locator('.home-view').waitFor();
- await page.getByRole('button',{name:'Log walk'}).click();await page.waitForTimeout(300);
- await other.getByRole('button',{name:'Log floss'}).click();await expect(other.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');await other.waitForTimeout(300);await other.close();
+ await page.getByRole('checkbox',{name:'Walk complete'}).click();await page.waitForTimeout(300);
+ await other.getByRole('checkbox',{name:'Floss complete'}).click();await expect(other.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');await other.waitForTimeout(300);await other.close();
  // A's 400 lands: walk is set aside, floss stays queued in storage and on screen.
  await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.length),{timeout:10000}).toBe(1);
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!));expect(saved.pending.some((o:{type:string;habit?:string})=>o.type==='check'&&o.habit==='floss')).toBe(true);
- await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');
  // The account recovers; the queued floss reaches it after a reload.
  await page.unroute('**/api/sync');const {mock}=await import('./helpers');await mock(page,box);await page.reload();await page.locator('.app-shell').waitFor();
- await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:15000}).toBe(true);
+ await expect(page.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:15000}).toBe(true);
 });
 test('R163-3: an in-form unit toggle keeps untouched measurements exact',async({page})=>{
  const box=await open(page,seed(),{hash:'you'});
@@ -503,13 +503,13 @@ test('R163-4: a change written by another tab exactly between this tab\'s read a
  // The other tab's change lands in storage precisely when this tab writes its snapshot after a sync.
  const floss={id:crypto.randomUUID(),at:new Date().toISOString(),day:today,zone:'America/Los_Angeles',type:'check',habit:'floss',value:true};
  await page.evaluate(op=>{const orig=Storage.prototype.setItem;const w=window as unknown as {__armed:boolean};w.__armed=true;Storage.prototype.setItem=function(this:Storage,k:string,v:string){if(this===localStorage&&w.__armed&&k==='flaccid75-v1'&&JSON.parse(v).pending.length===0){w.__armed=false;orig.call(this,'my-wellness-op:'+op.id,JSON.stringify(op));}orig.call(this,k,v);};},floss);
- await page.getByRole('button',{name:'Log walk'}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+ await page.getByRole('checkbox',{name:'Walk complete'}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
  // The hook fired: the snapshot this tab saved lists no floss, but floss has its own key. The tab's next queue read unions the journal, so floss reaches the account with no other tab open and no reload.
  await expect.poll(()=>page.evaluate(()=>(window as unknown as {__armed:boolean}).__armed)).toBe(false);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.some((p:{habit?:string})=>p.habit==='floss'))).toBe(false);
  await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:10000}).toBe(true);expect(box.ops.filter(o=>o.type==='check'&&o.habit==='floss')).toHaveLength(1);
  await page.reload();await page.locator('.app-shell').waitFor();
- await expect(page.getByRole('button',{name:'Undo floss'})).toHaveAttribute('aria-pressed','true');expect(box.ops.filter(o=>o.type==='check'&&o.habit==='floss')).toHaveLength(1);
+ await expect(page.getByRole('checkbox',{name:'Floss complete'})).toHaveAttribute('aria-checked','true');expect(box.ops.filter(o=>o.type==='check'&&o.habit==='floss')).toHaveLength(1);
  expect(await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-op:')).length)).toBe(0);
 });
 
@@ -605,8 +605,8 @@ test('R163-6: when the journal key itself is refused, the change is not applied,
  await page.getByRole('button',{name:'3 min'}).click();await page.getByRole('button',{name:'Start 3 minutes'}).click();await page.clock.runFor(1000);
  await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=true;});
  // A manual change on the home page: nothing applied, the notice is on the page.
- await page.evaluate(()=>{location.hash='';});await page.getByRole('button',{name:'Log floss'}).click();
- await expect(page.getByRole('status').filter({hasText:'Device storage is full'})).toBeVisible();await expect(page.getByRole('button',{name:'Log floss'})).toBeVisible();
+ await page.evaluate(()=>{location.hash='';});await page.getByRole('checkbox',{name:'Floss complete'}).click();
+ await expect(page.getByRole('status').filter({hasText:'Device storage is full'})).toBeVisible();await expect(page.getByRole('checkbox',{name:'Floss complete'})).toBeVisible();
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);expect(box.state.days[today]?.checks.floss).toBeUndefined();
  // The meditation finishes while refused: its timer stays and nothing is queued.
  await page.clock.fastForward(4*60*1000);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await page.clock.runFor(2500);
@@ -614,17 +614,17 @@ test('R163-6: when the journal key itself is refused, the change is not applied,
  // Storage back: the next settle lands the meditation once and the notice clears with the next accepted change.
  await page.evaluate(()=>{(window as unknown as {__refuse:boolean}).__refuse=false;});await page.clock.runFor(2500);
  await expect.poll(()=>box.state.days[today]?.meditate).toBe(180);expect(box.ops.filter(o=>o.type==='meditate')).toHaveLength(1);
- await page.getByRole('button',{name:'Log floss'}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);await expect(page.getByRole('status').filter({hasText:'Device storage is full'})).toHaveCount(0);
+ await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);await expect(page.getByRole('status').filter({hasText:'Device storage is full'})).toHaveCount(0);
 });
 
 test('R163-7: a change the account refuses in tab A is kept by id when tab B\'s slow sync saves afterwards, survives a reload, and an explicit discard stays discarded in both tabs',async({page,context})=>{
  const today=todayIn();const box=await open(page,seed());
  // Tab B: its sync takes three seconds to succeed, so it defers storage events while A works.
  const other=await context.newPage();await mock(other,box);await other.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));await r.fallback();});await other.goto('/');await other.locator('.home-view').waitFor();
- await other.getByRole('button',{name:'Log walk'}).click();await other.waitForTimeout(200);
+ await other.getByRole('checkbox',{name:'Walk complete'}).click();await other.waitForTimeout(200);
  // Tab A: the account refuses floss.
  await page.route('**/api/sync',async r=>{const ops=r.request().postDataJSON() as {id:string;habit?:string}[];const bad=ops.find(o=>o.habit==='floss');if(!bad)return r.fallback();await r.fulfill({json:{state:box.state,accepted:ops.filter(o=>o!==bad).map(o=>o.id),rejected:[{id:bad.id,reason:'The account refused this change.'}]}});});
- await page.getByRole('button',{name:'Log floss'}).click();
+ await page.getByRole('checkbox',{name:'Floss complete'}).click();
  const inFailed=(p:Page)=>p.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.map((f:{op:{habit?:string}})=>f.op.habit));
  await expect.poll(()=>inFailed(page)).toEqual(['floss']);
  // B's sync lands and B saves; its deferred merge runs; A takes B's event. Floss is still in the refused list everywhere.
@@ -635,7 +635,7 @@ test('R163-7: a change the account refuses in tab A is kept by id when tab B\'s 
  await page.reload();await page.locator('.app-shell').waitFor();await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();expect(await inFailed(page)).toEqual(['floss']);
  // An explicit discard in A empties the list in A, in the snapshot and in B, and B's own merge does not bring it back.
  await page.getByRole('button',{name:/^Discard/}).click();await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
- await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0,{timeout:5000});await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log workout'}).click();
+ await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0,{timeout:5000});await other.getByRole('button',{name:'Home'}).click();await other.getByRole('checkbox',{name:'Workout complete'}).click();
  await expect.poll(()=>box.state.days[today]?.checks.workout,{timeout:10000}).toBe(true);await other.waitForTimeout(500);
  expect(await inFailed(page)).toEqual([]);expect(await inFailed(other)).toEqual([]);await expect(page.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
  await other.close();
@@ -646,18 +646,18 @@ test('R163-8: tab A\'s refusal survives A closing and tab B saving a new change 
  const inFailed=(p:Page)=>p.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).failed.map((f:{op:{habit?:string}})=>f.op.habit));
  // Tab B: syncs answer after three seconds. B queues a walk, so a sync is in flight while A works.
  const other=await context.newPage();await mock(other,box);await other.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,3000));await r.fallback();});await other.goto('/');await other.locator('.home-view').waitFor();
- await other.getByRole('button',{name:'Log walk'}).click();await other.waitForTimeout(200);
+ await other.getByRole('checkbox',{name:'Walk complete'}).click();await other.waitForTimeout(200);
  // Tab A: floss is refused, saved as refused, and A closes at once.
  await page.route('**/api/sync',async r=>{const ops=r.request().postDataJSON() as {id:string;habit?:string}[];const bad=ops.find(o=>o.habit==='floss');if(!bad)return r.fallback();await r.fulfill({json:{state:box.state,accepted:ops.filter(o=>o!==bad).map(o=>o.id),rejected:[{id:bad.id,reason:'The account refused this change.'}]}});});
- await page.getByRole('button',{name:'Log floss'}).click();await expect.poll(()=>inFailed(page)).toEqual(['floss']);await page.close();
+ await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect.poll(()=>inFailed(page)).toEqual(['floss']);await page.close();
  // B logs a workout while its walk sync is still pending: B's own save must not overwrite A's refusal.
- await other.getByRole('button',{name:'Log workout'}).click();expect(await inFailed(other)).toEqual(['floss']);
+ await other.getByRole('checkbox',{name:'Workout complete'}).click();expect(await inFailed(other)).toEqual(['floss']);
  await expect.poll(()=>box.state.days[today]?.checks.workout,{timeout:15000}).toBe(true);await other.waitForTimeout(500);expect(await inFailed(other)).toEqual(['floss']);
  await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
  await other.reload();await other.locator('.app-shell').waitFor();await expect(other.getByRole('group',{name:'Changes the account refused'})).toBeVisible();
  // B discards. Its later saves and a reload keep the list empty.
  await other.getByRole('button',{name:/^Discard/}).click();await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
- await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log abs'}).click();await expect.poll(()=>box.state.days[today]?.checks.abs,{timeout:15000}).toBe(true);await other.waitForTimeout(500);
+ await other.getByRole('button',{name:'Home'}).click();await other.getByRole('checkbox',{name:'Abs complete'}).click();await expect.poll(()=>box.state.days[today]?.checks.abs,{timeout:15000}).toBe(true);await other.waitForTimeout(500);
  expect(await inFailed(other)).toEqual([]);await other.reload();await other.locator('.app-shell').waitFor();expect(await inFailed(other)).toEqual([]);
  await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
  await other.close();

@@ -1,0 +1,566 @@
+
+Running 16 tests using 1 worker
+
+(node:10523) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (5.4s)
+(node:10705) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (5.2s)
+(node:10726) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (5.2s)
+(node:10805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (5.3s)
+(node:10820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (5.3s)
+(node:10848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (5.3s)
+(node:10920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [chromium] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (5.2s)
+(node:10936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [chromium] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (5.2s)
+(node:10955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (5.5s)
+(node:11039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (5.3s)
+(node:11072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (5.3s)
+(node:11194) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (5.4s)
+(node:11228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (5.4s)
+(node:11251) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (5.4s)
+(node:11345) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 [webkit] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (5.3s)
+(node:11386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [webkit] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (5.3s)
+
+
+  1) [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Portion · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Portion · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Portion · g', { exact: true })
+        14 × locator resolved to <input min="0" max="5000" step="0.1" type="number"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-saved-meal-gr-21566-and-persists-the-exact-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-saved-meal-gr-21566-and-persists-the-exact-item-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal', { exact: true })
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-saved-meal-ca-cf869-and-persists-the-exact-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-saved-meal-ca-cf869-and-persists-the-exact-item-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Protein · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Protein · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Protein · g', { exact: true })
+        14 × locator resolved to <input min="0" max="1000" step="0.1" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-saved-meal-pr-83c23-and-persists-the-exact-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-saved-meal-pr-83c23-and-persists-the-exact-item-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Portion · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Portion · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Portion · g', { exact: true })
+        14 × locator resolved to <input min="0" max="5000" step="0.1" type="number"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-new-meal-gram-dea1a-and-persists-the-exact-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-new-meal-gram-dea1a-and-persists-the-exact-item-chromium/error-context.md
+
+  5) [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal', { exact: true })
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-new-meal-calo-6e044-and-persists-the-exact-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-new-meal-calo-6e044-and-persists-the-exact-item-chromium/error-context.md
+
+  6) [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Protein · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Protein · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Protein · g', { exact: true })
+        14 × locator resolved to <input min="0" max="1000" step="0.1" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-new-meal-prot-433c8-and-persists-the-exact-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-new-meal-prot-433c8-and-persists-the-exact-item-chromium/error-context.md
+
+  7) [chromium] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Portion · g').first()
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Portion · g').first() with timeout 5000ms
+      - waiting for getByLabel('Portion · g').first()
+        14 × locator resolved to <input min="0" max="5000" step="0.1" type="number"/>
+           - unexpected value "512"
+
+
+      26 |  const day=todayIn(),id=crypto.randomUUID();const soup={...rice,name:'Soup'};const box=await open(page,apply(seed(),op(day,{type:'meal',mealId:id,description:'Two bowls',calories:500,protein:20,items:[rice,soup]})),{hash:'food'});
+      27 |  await page.getByRole('button',{name:'Correct meal 1'}).click();const portion=page.getByLabel('Portion · g').first();
+    > 28 |  await portion.focus();await portion.press('ControlOrMeta+A');await portion.press('Backspace');await portion.pressSequentially('12.');await portion.pressSequentially('5');await expect(portion).toHaveValue('12.5');
+         |                                                                                                                                                                                                  ^
+      29 |  await portion.press('Backspace');await portion.pressSequentially('8');await expect(portion).toHaveValue('12.8');
+      30 |  await portion.press('ControlOrMeta+A');await portion.press('Backspace');await page.getByLabel('Description',{exact:true}).click();await expect(portion).toHaveValue('12.8');
+      31 |  await page.getByRole('button',{name:'Remove item 1: Rice',exact:true}).click();await portion.focus();await portion.press('ControlOrMeta+A');await portion.press('Backspace');await portion.pressSequentially('0.5');await expect(portion).toHaveValue('0.5');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:28:194
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-numeric-draft-06e0d-blank-blur-and-item-removal-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-numeric-draft-06e0d-blank-blur-and-item-removal-chromium/error-context.md
+
+  8) [chromium] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.optional-card').locator('.fine-print')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.optional-card').locator('.fine-print') with timeout 5000ms
+      - waiting for locator('.optional-card').locator('.fine-print')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      36 |
+      37 | test('R3 meditation omits empty fine print but retains optional semantics and logged minutes',async({page})=>{
+    > 38 |  const box=await open(page,seed(),{hash:'meditate'});const card=page.locator('.optional-card');await expect(card.locator('.fine-print')).toHaveCount(0);await expect(card.getByText('Optional; does not affect the streak.')).toBeAttached();
+         |                                                                                                                                          ^
+      39 |  await page.getByRole('button',{name:'Start 5 minutes',exact:true}).click();await expect(card.locator('.fine-print')).toHaveCount(0);await page.getByRole('button',{name:'Finish early',exact:true}).click();
+      40 |  await expect.poll(()=>box.ops.some(o=>o.type==='meditate')).toBe(true);
+      41 |  const logged=apply(box.state,op(todayIn(),{type:'meditate',seconds:180}));box.state=logged;await page.reload();await expect(card.locator('.fine-print')).toContainText('3 min logged today.');expect(box.state.days[todayIn()].checks.walk).not.toBe(true);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:38:138
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-meditation-om-b49b2-emantics-and-logged-minutes-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-meditation-om-b49b2-emantics-and-logged-minutes-chromium/error-context.md
+
+  9) [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Portion · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Portion · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Portion · g', { exact: true })
+        14 × locator resolved to <input min="0" max="5000" step="0.1" type="number"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-saved-meal-gr-21566-and-persists-the-exact-item-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-saved-meal-gr-21566-and-persists-the-exact-item-webkit/error-context.md
+
+  10) [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal', { exact: true })
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-saved-meal-ca-cf869-and-persists-the-exact-item-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-saved-meal-ca-cf869-and-persists-the-exact-item-webkit/error-context.md
+
+  11) [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Protein · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Protein · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Protein · g', { exact: true })
+        14 × locator resolved to <input min="0" max="1000" step="0.1" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-saved-meal-pr-83c23-and-persists-the-exact-item-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-saved-meal-pr-83c23-and-persists-the-exact-item-webkit/error-context.md
+
+  12) [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Portion · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Portion · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Portion · g', { exact: true })
+        14 × locator resolved to <input min="0" max="5000" step="0.1" type="number"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-new-meal-gram-dea1a-and-persists-the-exact-item-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-new-meal-gram-dea1a-and-persists-the-exact-item-webkit/error-context.md
+
+  13) [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal', { exact: true })
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-new-meal-calo-6e044-and-persists-the-exact-item-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-new-meal-calo-6e044-and-persists-the-exact-item-webkit/error-context.md
+
+  14) [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Protein · g', { exact: true })
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Protein · g', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Protein · g', { exact: true })
+        14 × locator resolved to <input min="0" max="1000" step="0.1" type="number" inputmode="decimal"/>
+           - unexpected value "512"
+
+
+      11 |   else {await page.route('**/api/estimate',r=>r.fulfill({json:{items:[rice],calories:250,protein:10,model:'fixture'}}));await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();}
+      12 |   const input=page.getByLabel(label,{exact:true});await input.focus();await input.press('ControlOrMeta+A');await input.press('Backspace');await input.pressSequentially('12.5');
+    > 13 |   await expect(input).toHaveValue('12.5');await page.getByLabel('Description',{exact:true}).click();await expect(input).toHaveValue('12.5');
+         |                       ^
+      14 |   if(field==='grams'){await expect(input).toHaveAttribute('inputmode','decimal');await expect(page.getByLabel('Calories · kcal')).toHaveValue('31.3');await expect(page.getByLabel('Protein · g')).toHaveValue('1.3');}
+      15 |   await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();
+      16 |   const expected=field==='grams'?{...rice,grams:value,calories:31.3,protein:1.3}:{...rice,[field]:value};
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-new-meal-prot-433c8-and-persists-the-exact-item-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-new-meal-prot-433c8-and-persists-the-exact-item-webkit/error-context.md
+
+  15) [webkit] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Portion · g').first()
+    Expected: "12.5"
+    Received: "512"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Portion · g').first() with timeout 5000ms
+      - waiting for getByLabel('Portion · g').first()
+        14 × locator resolved to <input min="0" max="5000" step="0.1" type="number"/>
+           - unexpected value "512"
+
+
+      26 |  const day=todayIn(),id=crypto.randomUUID();const soup={...rice,name:'Soup'};const box=await open(page,apply(seed(),op(day,{type:'meal',mealId:id,description:'Two bowls',calories:500,protein:20,items:[rice,soup]})),{hash:'food'});
+      27 |  await page.getByRole('button',{name:'Correct meal 1'}).click();const portion=page.getByLabel('Portion · g').first();
+    > 28 |  await portion.focus();await portion.press('ControlOrMeta+A');await portion.press('Backspace');await portion.pressSequentially('12.');await portion.pressSequentially('5');await expect(portion).toHaveValue('12.5');
+         |                                                                                                                                                                                                  ^
+      29 |  await portion.press('Backspace');await portion.pressSequentially('8');await expect(portion).toHaveValue('12.8');
+      30 |  await portion.press('ControlOrMeta+A');await portion.press('Backspace');await page.getByLabel('Description',{exact:true}).click();await expect(portion).toHaveValue('12.8');
+      31 |  await page.getByRole('button',{name:'Remove item 1: Rice',exact:true}).click();await portion.focus();await portion.press('ControlOrMeta+A');await portion.press('Backspace');await portion.pressSequentially('0.5');await expect(portion).toHaveValue('0.5');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:28:194
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-numeric-draft-06e0d-blank-blur-and-item-removal-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-numeric-draft-06e0d-blank-blur-and-item-removal-webkit/error-context.md
+
+  16) [webkit] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.optional-card').locator('.fine-print')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.optional-card').locator('.fine-print') with timeout 5000ms
+      - waiting for locator('.optional-card').locator('.fine-print')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      36 |
+      37 | test('R3 meditation omits empty fine print but retains optional semantics and logged minutes',async({page})=>{
+    > 38 |  const box=await open(page,seed(),{hash:'meditate'});const card=page.locator('.optional-card');await expect(card.locator('.fine-print')).toHaveCount(0);await expect(card.getByText('Optional; does not affect the streak.')).toBeAttached();
+         |                                                                                                                                          ^
+      39 |  await page.getByRole('button',{name:'Start 5 minutes',exact:true}).click();await expect(card.locator('.fine-print')).toHaveCount(0);await page.getByRole('button',{name:'Finish early',exact:true}).click();
+      40 |  await expect.poll(()=>box.ops.some(o=>o.type==='meditate')).toBe(true);
+      41 |  const logged=apply(box.state,op(todayIn(),{type:'meditate',seconds:180}));box.state=logged;await page.reload();await expect(card.locator('.fine-print')).toContainText('3 min logged today.');expect(box.state.days[todayIn()].checks.walk).not.toBe(true);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r3.spec.ts:38:138
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r3-R3-meditation-om-b49b2-emantics-and-logged-minutes-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r3-R3-meditation-om-b49b2-emantics-and-logged-minutes-webkit/error-context.md
+
+  16 failed
+    [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item 
+    [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item 
+    [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item 
+    [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item 
+    [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item 
+    [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item 
+    [chromium] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal 
+    [chromium] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes 
+    [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item 
+    [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item 
+    [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item 
+    [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item 
+    [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item 
+    [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item 
+    [webkit] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal 
+    [webkit] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes 

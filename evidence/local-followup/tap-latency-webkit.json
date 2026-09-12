@@ -1,0 +1,12 @@
+{
+  "latencies": {
+    "Workout complete": 2,
+    "Abs complete": 2,
+    "Walk complete": 1,
+    "Floss complete": 2,
+    "Add a Stanley": 1
+  },
+  "layoutShift": false,
+  "viewport": "390x844",
+  "note": "MutationObserver from click to the first DOM change in the row; desktop engine timing"
+}

@@ -1,0 +1,93 @@
+
+Running 3 tests using 1 worker
+
+(node:89565) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (208ms)
+(node:89579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (99ms)
+(node:89593) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (103ms)
+
+
+  1) [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3096/#walk
+    Call log:
+      - navigating to "http://localhost:3096/#walk", waiting until "load"
+
+
+       at helpers.ts:25
+
+      23 |  // The fixture is written once per page session; a reload then sees exactly what the app persisted, as on a real device.
+      24 |  if(unlocked)await page.addInitScript(s=>{if(sessionStorage.getItem('seeded'))return;sessionStorage.setItem('seeded','1');localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true}));},state);
+    > 25 |  if(go){await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();}
+         |                    ^
+      26 |  return box;
+      27 | }
+      28 |
+        at open (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/helpers.ts:25:20)
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/daily-logs.spec.ts:5:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/daily-logs-multiple-walks--e25f4-oad-and-allow-another-timer-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/daily-logs-multiple-walks--e25f4-oad-and-allow-another-timer-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3096/#food
+    Call log:
+      - navigating to "http://localhost:3096/#food", waiting until "load"
+
+
+       at helpers.ts:25
+
+      23 |  // The fixture is written once per page session; a reload then sees exactly what the app persisted, as on a real device.
+      24 |  if(unlocked)await page.addInitScript(s=>{if(sessionStorage.getItem('seeded'))return;sessionStorage.setItem('seeded','1');localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true}));},state);
+    > 25 |  if(go){await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();}
+         |                    ^
+      26 |  return box;
+      27 | }
+      28 |
+        at open (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/helpers.ts:25:20)
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/daily-logs.spec.ts:23:12
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/daily-logs-meal-descriptio-5310e-dividual-editing-and-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/daily-logs-meal-descriptio-5310e-dividual-editing-and-reload-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3096/
+    Call log:
+      - navigating to "http://localhost:3096/", waiting until "load"
+
+
+       at helpers.ts:25
+
+      23 |  // The fixture is written once per page session; a reload then sees exactly what the app persisted, as on a real device.
+      24 |  if(unlocked)await page.addInitScript(s=>{if(sessionStorage.getItem('seeded'))return;sessionStorage.setItem('seeded','1');localStorage.setItem('flaccid75-v1',JSON.stringify({state:s,pending:[],unlocked:true}));},state);
+    > 25 |  if(go){await page.goto('/'+(hash?'#'+hash:''));await page.locator('.app-shell').waitFor();}
+         |                    ^
+      26 |  return box;
+      27 | }
+      28 |
+        at open (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/helpers.ts:25:20)
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/daily-logs.spec.ts:44:2
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/daily-logs-completion-has--c01ff-oth-directions-after-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/daily-logs-completion-has--c01ff-oth-directions-after-reload-chromium/error-context.md
+
+  3 failed
+    [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer 
+    [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload 
+    [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload 

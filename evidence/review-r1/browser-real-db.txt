@@ -1,0 +1,2 @@
+{"engine":"chromium","realAPI":true,"realPostgres":true,"walks300Plus30":true,"walkRemovalKeepsCheckedAndUnchecked":true,"portionDoublesNutrition":true,"itemRemovalAndLastRemovalPersist":true,"descriptionRetained":true,"width":320,"noOverflow":true}
+{"engine":"webkit","realAPI":true,"realPostgres":true,"walks300Plus30":true,"walkRemovalKeepsCheckedAndUnchecked":true,"portionDoublesNutrition":true,"itemRemovalAndLastRemovalPersist":true,"descriptionRetained":true,"width":320,"noOverflow":true}
