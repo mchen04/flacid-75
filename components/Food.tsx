@@ -2,7 +2,7 @@
 import {useEffect, useLayoutEffect, useRef, useState, type FormEvent} from 'react';
 import {Bowl} from './Scenes';
 import {Icon} from './Icon';
-import {totals, entriesInOrder, type MealRecord} from '@/lib/domain';
+import {totals, sumNutrition, entriesInOrder, type MealRecord} from '@/lib/domain';
 import {limits, clip, chars, mealTextError} from '@/lib/bounds';
 import {scaleMealPortion} from '@/lib/meal';
 import type {Estimate, EstimateItem} from '@/lib/validation';
@@ -92,8 +92,8 @@ export function Meal({photo, initial, count, day, today, onSave, onPhotoConsumed
   if (e.currentTarget.value !== value) e.currentTarget.value = value;
   setText(value);
  }
- const itemSum = items?.reduce((a, i) => ({calories: a.calories + i.calories, protein: a.protein + i.protein}), {calories: 0, protein: 0});
- const originalSum = initial?.items?.reduce((a, i) => ({calories: a.calories + i.calories, protein: a.protein + i.protein}), {calories: 0, protein: 0});
+ const itemSum = items && sumNutrition(items);
+ const originalSum = initial?.items && sumNutrition(initial.items);
  // Keep older total corrections until item numbers are edited.
  const sum = itemSum && {calories: !itemsChanged && originalSum?.calories === itemSum.calories ? initial!.calories : itemSum.calories, protein: !itemsChanged && originalSum?.protein === itemSum.protein ? initial!.protein : itemSum.protein};
  if (items && sum) return <div className="found"><label>Description<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onBeforeInput={descriptionBeforeInput} onPaste={descriptionPaste} onChange={descriptionChanged}/></label><ul className="items">{items.map((item, i) => {const id = itemIds[i]; return <li key={id}><fieldset><legend>Item {i + 1}: {item.name || 'Unnamed item'}</legend>

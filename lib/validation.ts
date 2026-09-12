@@ -40,8 +40,8 @@ export function validateBatch(raw: unknown): {valid: z.infer<typeof operationSch
 }
 const rawItem = z.object({name: z.string().max(120), grams: n(0, 5000), calories: n(0, 10000).catch(0), protein: n(0, 1000).catch(0)});
 export const estimateSchema = z.object({items: z.array(rawItem).max(12)});
-export type {MealItem as EstimateItem} from './domain';
-import type {MealItem as EstimateItem} from './domain';
+import type {MealItem} from './domain';
+export type EstimateItem = MealItem;
 export type Estimate = {items: EstimateItem[]; calories: number; protein: number; model: string};
 // What the model may return for a water phrase: which container and what share of it. Never a volume.
 export const waterPhraseSchema = z.object({container: z.string().max(40).nullable().catch(null), fraction: n(0, 1).nullable().catch(null), count: n(0, 20).nullable().catch(null)});

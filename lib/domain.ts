@@ -14,8 +14,8 @@ export type Profile = Stats & {targets: Targets; overrides: Partial<Targets>; ba
 export type Day = {
  checks: Partial<Record<Habit, boolean>>; water: number; meals: Record<string, MealRecord>; targets: Targets; rest: boolean; rescued: boolean; backfilled: boolean;
  sessions?: Partial<Record<'walk' | 'workout' | 'abs', Session>>; meditate?: number; focus?: number; redeemed?: Record<string, {name: string; cost: number}>;
- // Every pour, in order, so the last one can be undone and the day can be read back in her own terms.
  walkLog?: Record<string, Session>; walkOrder?: string[]; mealOrder?: string[];
+ // Every pour, in order, so the last one can be undone and the day can be read back in her own terms.
  waterLog?: {ml: number; label?: string}[];
 };
 export type Clock = {zone: string; anchorDay: string; anchorLocal: string};
@@ -68,7 +68,11 @@ export function newDay(targets: Targets): Day {return {checks: {}, water: 0, mea
 export function entriesInOrder<T>(entries: Record<string, T>, order?: string[]) {
  return [...new Set([...(order ?? []), ...Object.keys(entries).sort()])].filter(id => entries[id] !== undefined).map(id => [id, entries[id]] as const);
 }
-export function totals(day: Day) {return Object.values(day.meals).reduce((a, b) => ({calories: a.calories + b.calories, protein: a.protein + b.protein}), {calories: 0, protein: 0});}
+// A day saved before walks were logged separately holds one session; it reads as a single "legacy" entry.
+export function walkLogOf(day: Day): Record<string, Session> {return day.walkLog ?? (day.sessions?.walk ? {legacy: day.sessions.walk} : {});}
+const walkSeconds = (log: Record<string, Session>) => Object.values(log).reduce((sum, entry) => sum + entry.seconds, 0);
+export function sumNutrition(list: {calories: number; protein: number}[]) {return list.reduce((a, b) => ({calories: a.calories + b.calories, protein: a.protein + b.protein}), {calories: 0, protein: 0});}
+export function totals(day: Day) {return sumNutrition(Object.values(day.meals));}
 // Water is summed from pours stored at full precision (an ounce is 29.5735295625 ml), so a target met exactly can fall short by a
 // billionth of a millilitre. A hundredth of a millilitre of tolerance covers that and grants nothing a person could pour.
 export const waterTolerance = 0.01;
@@ -131,11 +135,11 @@ export function apply(state: State, op: Operation): State {
   case 'meal': day.mealOrder ??= Object.keys(day.meals).sort(); if (!day.meals[op.mealId]) day.mealOrder.push(op.mealId); day.meals[op.mealId] = {...day.meals[op.mealId], calories: op.calories, protein: op.protein, ...(op.description !== undefined ? {description: op.description} : {}), ...(op.items !== undefined ? {items: op.items} : {})}; delete day.checks.calories; delete day.checks.protein; break;
   case 'deleteMeal': delete day.meals[op.mealId]; if (day.mealOrder) day.mealOrder = day.mealOrder.filter(id => id !== op.mealId); delete day.checks.calories; delete day.checks.protein; break;
   case 'deleteWalk': {
-   const log = day.walkLog ?? (day.sessions?.walk ? {legacy: day.sessions.walk} : {});
+   const log = walkLogOf(day);
    if (!log[op.walkId]) break;
    delete log[op.walkId]; day.walkLog = log;
    day.walkOrder = entriesInOrder(log, day.walkOrder).map(([id]) => id);
-   if (Object.keys(log).length) (day.sessions ??= {}).walk = {seconds: Object.values(log).reduce((sum, entry) => sum + entry.seconds, 0)};
+   if (Object.keys(log).length) (day.sessions ??= {}).walk = {seconds: walkSeconds(log)};
    else if (day.sessions) delete day.sessions.walk;
    break;
   }
@@ -145,11 +149,12 @@ export function apply(state: State, op: Operation): State {
    day.sessions ??= {};
    if (op.habit === 'walk' && op.done) {
     // Import the single legacy session once. New entries use stable ids, including timer retries.
-    day.walkLog ??= day.sessions.walk ? {legacy: day.sessions.walk} : {};
+    const walkId = op.walkId ?? op.id;
+    day.walkLog = walkLogOf(day);
     day.walkOrder ??= Object.keys(day.walkLog).sort();
-    if (!day.walkLog[op.walkId ?? op.id]) day.walkOrder.push(op.walkId ?? op.id);
-    day.walkLog[op.walkId ?? op.id] ??= {seconds: Math.max(0, Math.round(op.seconds))};
-    day.sessions.walk = {seconds: Object.values(day.walkLog).reduce((sum, entry) => sum + entry.seconds, 0)};
+    if (!day.walkLog[walkId]) day.walkOrder.push(walkId);
+    day.walkLog[walkId] ??= {seconds: Math.max(0, Math.round(op.seconds))};
+    day.sessions.walk = {seconds: walkSeconds(day.walkLog)};
     day.checks.walk = true;
     break;
    }

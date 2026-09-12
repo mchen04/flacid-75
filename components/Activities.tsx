@@ -2,7 +2,7 @@
 import {useEffect, useId, useLayoutEffect, useRef, useState} from 'react';
 import {Hills, Gym, Mat, Tooth, NightRest, Glass} from './Scenes';
 import {Icon} from './Icon';
-import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, entriesInOrder, containersOf, type Habit} from '@/lib/domain';
+import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, entriesInOrder, walkLogOf, containersOf, type Habit} from '@/lib/domain';
 import {routines, phaseAt, routineSeconds, intervalsOf, type Routine} from '@/lib/abs';
 import {useTimer, startTimer, pauseTimer, resumeTimer, clearTimer, updateTimer, useWakeLock, clock, type Timer} from '@/lib/timer';
 import {finishTimer, maxSessionSeconds} from '@/lib/sessions';
@@ -49,8 +49,7 @@ export function Walk() {
  const minuteField = useRef<HTMLInputElement>(null); const removeButtons = useRef(new Map<string, HTMLButtonElement>()); const focusAfterRemove = useRef<string | null | undefined>(undefined);
  const stale = !!timer && timer.day !== dayKey && !running;
  const target = (day.targets.walkMinutes ?? 30) * 60; const share = Math.min(1, elapsed / target);
- const log = day.walkLog ?? (day.sessions?.walk ? {legacy: day.sessions.walk} : {});
- const entries = entriesInOrder(log, day.walkOrder);
+ const entries = entriesInOrder(walkLogOf(day), day.walkOrder);
  const total = entries.reduce((sum, [, entry]) => sum + entry.seconds, 0);
  useLayoutEffect(() => {const id = focusAfterRemove.current; if (id === undefined) return; (id === null ? minuteField.current : removeButtons.current.get(id))?.focus(); focusAfterRemove.current = undefined;}, [day.walkLog, day.sessions?.walk]);
  function removeWalk(id: string, i: number) {if (change({type: 'deleteWalk', walkId: id})) focusAfterRemove.current = entries[i + 1]?.[0] ?? entries[i - 1]?.[0] ?? null;}

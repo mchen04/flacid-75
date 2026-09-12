@@ -18,7 +18,6 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
  function toggle(h: Habit) {
   const before = done[h]; const timed = h === 'walk' || h === 'workout' || h === 'abs'; const t = timed ? getTimer(h) : null;
   if (!before && timed && t && t.day === dayKey) {const items = (t.meta?.items as string | undefined)?.split('\n').filter(Boolean); const routine = h === 'abs' ? (routines.find(r => r.id === t.meta?.routine) ?? routines[1]) : null; if (finishTimer(h, (seconds, creditDay, id) => change({type: 'session', habit: h as 'walk' | 'workout' | 'abs', seconds: routine ? Math.min(seconds, routineSeconds(routine)) : seconds, done: true, ...(h === 'walk' ? {walkId: id} : {}), ...(items?.length ? {items} : {}), ...(routine ? {routine: routine.name} : {})}, creditDay, id))) bump(h, h === 'walk' ? 2000 : 1400); return;}
-
   if (change({type: 'check', habit: h, value: !before}, dayKey)) bump(h, h === 'walk' ? 2000 : 1400);
  }
  // One tap logs a whole default container, in her name for it.
@@ -33,7 +32,6 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
  // The hero leads to whatever comes next: the page for the next habit, rest planning on a rest day, progress when the day is complete.
  const heroPage = day.rest ? 'rest' : complete ? 'progress' : next === 'protein' || next === 'calories' ? 'food' : next ?? 'walk';
  const heroName = day.rest ? 'rest days' : complete ? 'progress' : heroPage === 'food' ? 'food' : names[next ?? 'walk'].toLowerCase();
-
  const dayWord = selected ? 'that day' : 'today';
  return <section className="home-view">
   <button className={`hero ${done.walk ? 'is-done' : ''} ${pulse.walk ? 'moving' : ''} ${complete ? 'is-complete' : ''}`} aria-label={`Open ${heroName}. ${count} of ${habits.length} habits done today`} onClick={() => navigate(heroPage)}>
