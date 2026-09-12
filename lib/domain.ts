@@ -26,6 +26,7 @@ export type Operation = {id: string; at: string; day: string; zone: string} & (
  | {type: 'water'; amount: number; label?: string}
  | ({type: 'meal'; mealId: string} & MealRecord)
  | {type: 'deleteMeal'; mealId: string}
+ | {type: 'deleteWalk'; walkId: string}
  | {type: 'rest' | 'rescue'; value: boolean}
  | {type: 'weight'; weight: number}
  | {type: 'zone'}
@@ -129,6 +130,15 @@ export function apply(state: State, op: Operation): State {
   }
   case 'meal': day.mealOrder ??= Object.keys(day.meals).sort(); if (!day.meals[op.mealId]) day.mealOrder.push(op.mealId); day.meals[op.mealId] = {...day.meals[op.mealId], calories: op.calories, protein: op.protein, ...(op.description !== undefined ? {description: op.description} : {}), ...(op.items !== undefined ? {items: op.items} : {})}; delete day.checks.calories; delete day.checks.protein; break;
   case 'deleteMeal': delete day.meals[op.mealId]; if (day.mealOrder) day.mealOrder = day.mealOrder.filter(id => id !== op.mealId); delete day.checks.calories; delete day.checks.protein; break;
+  case 'deleteWalk': {
+   const log = day.walkLog ?? (day.sessions?.walk ? {legacy: day.sessions.walk} : {});
+   if (!log[op.walkId]) break;
+   delete log[op.walkId]; day.walkLog = log;
+   day.walkOrder = entriesInOrder(log, day.walkOrder).map(([id]) => id);
+   if (Object.keys(log).length) (day.sessions ??= {}).walk = {seconds: Object.values(log).reduce((sum, entry) => sum + entry.seconds, 0)};
+   else if (day.sessions) delete day.sessions.walk;
+   break;
+  }
   case 'rest': if (op.value && !day.rest && restsLeft(next, op.day) === 0) throw new Error(`This week’s ${restDaysPerWeek} rest days are already planned.`); day.rest = op.value; break;
   case 'rescue': day.rescued = op.value; break;
   case 'session':

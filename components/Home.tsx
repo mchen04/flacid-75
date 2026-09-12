@@ -26,7 +26,7 @@ export function Home({hour, stumbled}: {hour: number; stumbled: boolean}) {
  function restTap() {if (day.rest) {change({type: 'rest', value: false}, dayKey); return;} if (!rests) {navigate('rest'); return;} if (change({type: 'rest', value: true}, dayKey)) bump('rest', 1600);}
  const session = (h: 'walk' | 'workout' | 'abs') => day.sessions?.[h];
  const live = (key: string) => {const t = getTimer(key); return t && t.day === dayKey ? `${isRunning(t) ? 'Running' : 'Paused'} · ${clock(elapsedSeconds(t))}` : null;};
- const walkStatus = live('walk') ?? (done.walk ? `Walked${session('walk') ? ` · ${Math.round(session('walk')!.seconds / 60)} min` : ''}` : `${day.targets.walkMinutes ?? 30} min ${selected ? 'that day' : 'today'}`);
+ const walkStatus = live('walk') ?? (session('walk') ? `${done.walk ? 'Walked · ' : ''}${Math.round(session('walk')!.seconds / 60)} min${done.walk ? '' : ' logged'}` : done.walk ? 'Walked' : `${day.targets.walkMinutes ?? 30} min ${selected ? 'that day' : 'today'}`);
  const workoutStatus = done.workout ? `Done${session('workout')?.items?.length ? ` · ${session('workout')!.items!.length} moves` : ''}` : live('workout') ?? 'Plan and checklist';
  const absStatus = done.abs ? `Done${session('abs')?.routine ? ` · ${session('abs')!.routine}` : ''}` : live('abs') ?? 'Guided routines';
  const next = !complete ? habits.find(h => !done[h]) : null;

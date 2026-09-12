@@ -1,0 +1,89 @@
+{
+  "buttons": [
+    {
+      "label": "Remove walk 1",
+      "rect": {
+        "bottom": 789.796875,
+        "height": 44,
+        "left": 719.875,
+        "right": 805,
+        "top": 745.796875,
+        "width": 85.125,
+        "x": 719.875,
+        "y": 745.796875
+      },
+      "text": "Remove"
+    },
+    {
+      "label": "Remove walk 2",
+      "rect": {
+        "bottom": 864.9375,
+        "height": 44,
+        "left": 719.875,
+        "right": 805,
+        "top": 820.9375,
+        "width": 85.125,
+        "x": 719.875,
+        "y": 820.9375
+      },
+      "text": "Remove"
+    }
+  ],
+  "pending": [],
+  "scroll": 0,
+  "state": {
+    "2026-09-11": {
+      "backfilled": false,
+      "checks": {
+        "walk": true
+      },
+      "mealOrder": [
+        "7b62a549-667e-4bbb-b431-b53d8affbf02",
+        "7fdbcebc-a7dc-4b50-9663-feb89f4ef9d9"
+      ],
+      "meals": {
+        "7b62a549-667e-4bbb-b431-b53d8affbf02": {
+          "calories": 0,
+          "description": "Direct chromium chicken and rice",
+          "items": [],
+          "protein": 0
+        },
+        "7fdbcebc-a7dc-4b50-9663-feb89f4ef9d9": {
+          "calories": 0,
+          "description": "Direct webkit chicken and rice",
+          "items": [],
+          "protein": 0
+        }
+      },
+      "rescued": false,
+      "rest": false,
+      "sessions": {
+        "walk": {
+          "seconds": 19800
+        }
+      },
+      "targets": {
+        "calorieMax": 2000,
+        "calorieMin": 1800,
+        "protein": 105,
+        "steps": 7000,
+        "walkMinutes": 30,
+        "water": 2000
+      },
+      "walkLog": {
+        "346277b6-2391-45ac-aa76-e2ebd12c1454": {
+          "seconds": 18000
+        },
+        "4b4f8609-ef99-429e-a48e-90cc562f83df": {
+          "seconds": 1800
+        }
+      },
+      "walkOrder": [
+        "346277b6-2391-45ac-aa76-e2ebd12c1454",
+        "4b4f8609-ef99-429e-a48e-90cc562f83df"
+      ],
+      "water": 0
+    }
+  },
+  "version": "http://localhost:3096/sw.js"
+}

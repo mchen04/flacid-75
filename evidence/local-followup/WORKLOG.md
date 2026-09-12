@@ -13,7 +13,7 @@ Runtime: macOS, Node `v26.7.0`, installed locked dependencies with `npm ci`, Nex
 Only this task's PostgreSQL runs on `127.0.0.1:55496`, data directory `/tmp/flacid-t_6a6739e5-pg`. No credential files are read. Test-only server settings:
 
 ```sh
-APP_PASSPHRASE=local-followup SESSION_SECRET=local-followup-test-secret-not-production DATABASE_URL=postgres://michaelchen@127.0.0.1:55496/flacid_followup_final npm run start -- --port 3096
+APP_PASSPHRASE='<test-only>' SESSION_SECRET='<test-only>' DATABASE_URL=postgres://michaelchen@127.0.0.1:55496/flacid_followup_final npm run start -- --port 3096
 ```
 
 ## Reproductions before fixing
@@ -52,7 +52,7 @@ Infrastructure failures are separate: `baseline-build.txt` captures Turbopack re
 Full browser command, all runs:
 
 ```sh
-APP_PASSPHRASE=local-followup TEST_BASE_URL=http://localhost:3096 npx playwright test --reporter=list
+APP_PASSPHRASE='<test-only>' TEST_BASE_URL=http://localhost:3096 npx playwright test --reporter=list
 ```
 
 - `browser-full-first.txt`: interrupted after 73 passes, 8 failures and 1 interrupted test. Failures are obsolete UI selectors/assertions: one meal total input becomes item inputs, camera portion becomes an input, settings check needs Home navigation, walk total matches two elements, checklist gains its completion control, removed backfill mark label, item input position changes, shortened 24-hour wording. Updated the tests to target the intended field/control and preserve their behavior assertions.
@@ -81,7 +81,7 @@ After every state change, a new `snapshot` supplies the next references. The act
 ```sh
 agent-browser --session t_6a6739e5-db open http://localhost:3096
 agent-browser --session t_6a6739e5-db set viewport 375 700
-# Gate: fill @e3 local-followup; click @e2; snapshot.
+# Gate: fill @e3 <test-only>; click @e2; snapshot.
 # Setup: fill @e5 5; fill @e6 5; fill @e7 143; fill @e8 30; click @e2; snapshot.
 # Home: click @e6 (Open walk); snapshot.
 # Walk: fill @e9 7; click @e8 (Log walk); snapshot.

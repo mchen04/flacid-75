@@ -6,7 +6,7 @@ const store=new Map<string,string>();
 const {startTimer,getTimer}=await import('../lib/timer');
 const {finishTimer,cappedSeconds,maxSessionSeconds}=await import('../lib/sessions');
 const {checkBounds}=await import('../lib/bounds');
-const {settle}=await import('../lib/settle');
+const {settle,stableId}=await import('../lib/settle');
 beforeEach(()=>store.clear());
 test('a session that ran for 26 hours is logged as 24 hours, which the account accepts, and only then is the timer cleared',()=>{
  const t=startTimer('walk','2026-09-08');const seen:number[]=[];
@@ -31,12 +31,13 @@ test('two focus sessions on the same day credit separately; the same session set
  assert.notEqual(legacyA,legacyB);
 });
 
-test('finishing a recovered walk retains one id after refusal or timer-clear failure',()=>{
+test('finishing a recovered walk retains its exact id after refusal or reload',()=>{
  const timer=startTimer('walk','2026-09-11');const ids:string[]=[];
  const finish=(accepted:boolean)=>finishTimer('walk',(_seconds,_day,id)=>{ids.push(id);return accepted;},timer.startedAt!+600000);
  assert.equal(finish(false),false);assert.equal(finish(true),true);
- // A full storage device can leave the old timer behind after the operation is queued.
+ // Replay a recovered copy of the same timer after a successful finish.
  store.set('my-wellness-timers',JSON.stringify({walk:timer}));assert.equal(finish(true),true);
- assert.equal(new Set(ids).size,1);
+ assert.ok(ids[0]);assert.deepEqual(ids,Array(3).fill(stableId('finish|'+timer.run)));assert.equal(new Set(ids).size,1);
  const next=startTimer('walk','2026-09-11');assert.notEqual(next.run,timer.run);
+ assert.equal(finishTimer('walk',(_seconds,_day,id)=>{assert.ok(id);assert.equal(id,stableId('finish|'+next.run));assert.notEqual(id,ids[0]);return true;},next.startedAt!+600000),true);
 });

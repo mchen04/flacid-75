@@ -1,0 +1,24 @@
+✔ separate walk sessions retain their entries and total across serialization (9.635333ms)
+✔ meal text and item details pass validation and survive numeric edits from an older client (2.81325ms)
+✔ completion reverses without losing sessions, totals or streak meaning (0.616083ms)
+✔ a legacy walk is imported once and repeated stable finish ids cannot add time twice (0.270792ms)
+✔ new text and item bounds agree on the device and server, including malformed text (1.396833ms)
+✔ walks and meals keep insertion order through JSONB-style key reordering and individual edits (0.531084ms)
+✔ removing walks recomputes totals and preserves independent completion and streaks (1.105125ms)
+✔ legacy walks can be removed without erasing independent completion or other sessions (0.938208ms)
+✔ evidence redaction detects unredacted credentials without reporting values (0.40775ms)
+✔ followup evidence uses placeholders for test credentials (11.8555ms)
+✔ portion changes scale nutrition for both estimate sources while preserving details (0.615292ms)
+✔ zero starting portions retain explicit nutrition without division by zero (0.06275ms)
+✔ a session that ran for 26 hours is logged as 24 hours, which the account accepts, and only then is the timer cleared (1.0215ms)
+✔ a refused change keeps the timer so the session can be finished again; nothing is lost silently (0.138625ms)
+✔ two focus sessions on the same day credit separately; the same session settled twice (two tabs) shares its ids (0.222584ms)
+✔ finishing a recovered walk retains one id after refusal or timer-clear failure (0.250083ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 298.435291

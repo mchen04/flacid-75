@@ -60,3 +60,23 @@ test('walks and meals keep insertion order through JSONB-style key reordering an
  s=apply(s,op({type:'deleteMeal',mealId:first}));assert.deepEqual(s.days[day].mealOrder,[second]);
  assert.deepEqual(entriesInOrder({old:1,new:2},['old']).map(([id])=>id),['old','new']);
 });
+
+test('removing walks recomputes totals and preserves independent completion and streaks',()=>{
+ for(const value of [true,false]) {
+  let s=setup();const a=op({type:'session',habit:'walk',seconds:18000,done:true}),b=op({type:'session',habit:'walk',seconds:1800,done:true});s=apply(apply(s,a),b);
+  for(const habit of ['workout','abs','floss','water','protein','calories'])s=apply(s,op({type:'check',habit,value:true}));
+  s=apply(s,op({type:'check',habit:'walk',value}));const streak=streaks(s,day);
+  const remove=op({type:'deleteWalk',walkId:a.id});s=apply(JSON.parse(JSON.stringify(s)),remove);
+  assert.equal(s.days[day].sessions?.walk?.seconds,1800);assert.deepEqual(s.days[day].walkOrder,[b.id]);assert.equal(s.days[day].checks.walk,value);assert.deepEqual(streaks(s,day),streak);
+  s=apply(s,remove);assert.equal(s.days[day].sessions?.walk?.seconds,1800);
+  s=apply(s,op({type:'deleteWalk',walkId:b.id}));assert.deepEqual(s.days[day].walkLog,{});assert.deepEqual(s.days[day].walkOrder,[]);assert.equal(s.days[day].sessions?.walk,undefined);assert.equal(s.days[day].checks.walk,value);assert.deepEqual(streaks(s,day),streak);
+ }
+});
+test('legacy walks can be removed without erasing independent completion or other sessions',()=>{
+ let s=setup();s.days[day]={checks:{walk:true,workout:true},targets:s.profile!.targets,water:0,meals:{},rest:false,rescued:false,backfilled:false,sessions:{walk:{seconds:1800},workout:{seconds:900}}};
+ const missing=op({type:'deleteWalk',walkId:crypto.randomUUID()});assert.deepEqual(apply(s,missing),s);
+ const remove=op({type:'deleteWalk',walkId:'legacy'});assert.equal(checkBounds(remove),null);assert.equal(operationSchema.safeParse(remove).success,true);
+ s=apply(s,remove);assert.equal(s.days[day].sessions?.walk,undefined);assert.equal(s.days[day].checks.walk,true);assert.equal(s.days[day].sessions?.workout?.seconds,900);
+ s=apply(JSON.parse(JSON.stringify(s)),op({type:'session',habit:'walk',seconds:300,done:true}));assert.equal(s.days[day].sessions?.walk?.seconds,300);assert.equal(Object.keys(s.days[day].walkLog!).length,1);
+ for(const walkId of [crypto.randomUUID(),'legacy','','__proto__','bad']) {const candidate=op({type:'deleteWalk',walkId});assert.equal(operationSchema.safeParse(candidate).success,walkId==='legacy'||walkId.length===36);assert.equal(checkBounds(candidate)===null,walkId==='legacy'||walkId.length===36);}
+});

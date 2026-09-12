@@ -30,6 +30,7 @@ export function checkBounds(op: Operation): string | null {
   case 'profile': return inRange(op.stats.height, limits.height) && inRange(op.stats.weight, limits.weight) && Number.isInteger(op.stats.age) && inRange(op.stats.age, limits.age) && (Object.keys(op.overrides) as (keyof typeof limits.overrides)[]).every(k => k in limits.overrides && inRange(op.overrides[k], limits.overrides[k])) ? null : 'A target is outside the range the app accepts.';
   case 'weight': return inRange(op.weight, limits.weight) ? null : out;
   case 'deleteMeal': return isUuid(op.mealId) ? null : out;
+  case 'deleteWalk': return op.walkId === 'legacy' || isUuid(op.walkId) ? null : out;
   default: return null;
  }
 }

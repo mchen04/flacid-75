@@ -1,0 +1,140 @@
+
+Running 4 tests using 1 worker
+
+(node:26520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload (5.3s)
+(node:26587) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload (5.2s)
+(node:26709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals (5.2s)
+(node:27006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [chromium] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px (5.2s)
+
+
+  1) [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Remove walk 1', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Remove walk 1', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Remove walk 1', exact: true })
+
+
+      11 |  await expect(page.getByText('330 minutes total',{exact:true})).toBeVisible();
+      12 |  const remove=page.getByRole('button',{name:'Remove walk 1',exact:true});
+    > 13 |  await expect(remove).toBeVisible();await remove.focus();await page.keyboard.press('Enter');
+         |                       ^
+      14 |  await expect(page.getByText('30 minutes total',{exact:true})).toBeVisible();
+      15 |  await expect.poll(()=>box.state.days[day].sessions?.walk?.seconds).toBe(1800);
+      16 |  await page.reload();await expect(page.getByRole('checkbox',{name:'Walk complete',exact:true})).toBeChecked({checked});
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r1.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-remove-walks--c0841-tion-true-totals-and-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r1-R1-remove-walks--c0841-tion-true-totals-and-reload-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Remove walk 1', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Remove walk 1', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Remove walk 1', exact: true })
+
+
+      11 |  await expect(page.getByText('330 minutes total',{exact:true})).toBeVisible();
+      12 |  const remove=page.getByRole('button',{name:'Remove walk 1',exact:true});
+    > 13 |  await expect(remove).toBeVisible();await remove.focus();await page.keyboard.press('Enter');
+         |                       ^
+      14 |  await expect(page.getByText('30 minutes total',{exact:true})).toBeVisible();
+      15 |  await expect.poll(()=>box.state.days[day].sessions?.walk?.seconds).toBe(1800);
+      16 |  await page.reload();await expect(page.getByRole('checkbox',{name:'Walk complete',exact:true})).toBeChecked({checked});
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r1.spec.ts:13:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-remove-walks--9f18f-ion-false-totals-and-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r1-R1-remove-walks--9f18f-ion-false-totals-and-reload-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal').first()
+    Expected: "330"
+    Received: "165"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal').first() with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal').first()
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "165"
+
+
+      33 |  await page.getByRole('button',{name:'Correct meal 1'}).click();
+      34 |  await page.getByLabel('Portion · g').nth(0).fill('200');
+    > 35 |  await expect(page.getByLabel('Calories · kcal').nth(0)).toHaveValue('330');
+         |                                                          ^
+      36 |  await expect(page.getByLabel('Protein · g').nth(0)).toHaveValue('62');
+      37 |  await page.getByLabel('Portion · g').nth(1).fill('50');
+      38 |  await expect(page.getByLabel('Calories · kcal').nth(1)).toHaveValue('65');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r1.spec.ts:35:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-positive-port-a78b8-ithout-changing-other-meals-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r1-R1-positive-port-a78b8-ithout-changing-other-meals-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Remove item 1: Chicken', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Remove item 1: Chicken', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Remove item 1: Chicken', exact: true })
+
+
+      50 |  await page.setViewportSize({width:320,height:740});
+      51 |  await page.getByRole('button',{name:'Correct meal 1'}).click();
+    > 52 |  const remove=page.getByRole('button',{name:'Remove item 1: Chicken',exact:true});await expect(remove).toBeVisible();await remove.focus();await page.keyboard.press('Space');
+         |                                                                                                        ^
+      53 |  await expect(page.getByLabel('Item name')).toHaveValue('Rice');
+      54 |  await expect(page.locator('.sum')).toContainText('130 kcal · 3 g protein');
+      55 |  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r1.spec.ts:52:104
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-removing-indi-9aba9-als-across-reload-at-320-px-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r1-R1-removing-indi-9aba9-als-across-reload-at-320-px-chromium/error-context.md
+
+  4 failed
+    [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload 
+    [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload 
+    [chromium] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals 
+    [chromium] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px 

@@ -1,0 +1,84 @@
+- main
+  - sectionheader
+    - heading "Good evening." [level=1, ref=e2]
+    - paragraph
+      - StaticText "Friday, September 11"
+    - button "0 day streak. Open progress" [ref=e3]
+      - strong
+        - StaticText "0"
+      - StaticText "day"
+      - StaticText "s"
+    - button "Settings" [ref=e4]
+  - generic
+    - button "Open workout. 0 of 7 habits done today" [ref=e5]
+      - strong
+        - StaticText "Next: workout."
+      - StaticText "0 of 7 today"
+      - StaticText "Open "
+      - StaticText "workout"
+    - paragraph
+      - StaticText "TODAY"
+    - button "Open walk" [ref=e6]
+      - StaticText "Walk"
+      - StaticText "30 min today"
+    - checkbox "Walk complete" [checked=false, ref=e7]
+    - button "Open workout" [ref=e8]
+      - StaticText "Workout"
+      - StaticText "Plan and checklist"
+    - checkbox "Workout complete" [checked=false, ref=e9]
+    - button "Open abs" [ref=e10]
+      - StaticText "Abs"
+      - StaticText "Guided routines"
+    - checkbox "Abs complete" [checked=false, ref=e11]
+    - button "Open floss" [ref=e12]
+      - StaticText "Floss"
+      - StaticText "Once today"
+    - checkbox "Floss complete" [checked=false, ref=e13]
+    - button "Open water" [ref=e14]
+      - StaticText "Water"
+      - StaticText "0 of 2¼ Stanleys"
+      - StaticText " · "
+      - StaticText "0 ml"
+    - button "Remove last pour" [disabled, ref=e15]
+    - button "Add a Stanley" [ref=e16]
+    - button "Open food" [ref=e17]
+      - StaticText "Food"
+      - StaticText "0"
+      - StaticText " kcal · "
+      - StaticText "0"
+      - StaticText "/"
+      - StaticText "105"
+      - StaticText " g"
+    - button "Log a meal" [ref=e18]
+      - StaticText "Meal"
+    - button "Open rest" [ref=e19]
+      - StaticText "Rest"
+      - StaticText "2 of 2 left this week"
+    - checkbox "Rest day" [checked=false, ref=e20]
+    - paragraph
+      - StaticText "OPTIONAL · NEVER COUNTED"
+    - button "Open meditate" [ref=e21]
+      - StaticText "Meditate"
+      - StaticText "A few quiet minutes"
+    - button "Open meditate timer" [ref=e22]
+      - StaticText "Start"
+    - button "Open focus" [ref=e23]
+      - StaticText "Focus"
+      - StaticText "Work and break blocks"
+    - button "Open focus timer" [ref=e24]
+      - StaticText "Start"
+    - paragraph
+      - StaticText "MORE"
+    - button "Open treats" [ref=e25]
+      - StaticText "Treats"
+      - StaticText "0 points to spend"
+    - button "Spend points" [ref=e26]
+      - StaticText "Spend"
+    - button "Open progress" [ref=e27]
+      - StaticText "Progress"
+      - StaticText "0 day streak · longest 0"
+    - button "View progress" [ref=e28]
+      - StaticText "View"
+    - button "Settings" [ref=e29]
+    - button "How it works" [ref=e30]
+  - button "Photograph a meal" [ref=e1]: No file chosen

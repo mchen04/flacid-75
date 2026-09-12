@@ -18,6 +18,7 @@ export const operationSchema = z.discriminatedUnion('type', [
  z.object({...common, type: z.literal('water'), amount: n(-6000, 6000).refine(v => v !== 0), label: str(60).optional()}),
  z.object({...common, type: z.literal('meal'), mealId: z.uuid(), calories: n(0, 10000), protein: n(0, 1000), description: strOptional(1000).optional(), items: z.array(mealItem).max(12).optional()}),
  z.object({...common, type: z.literal('deleteMeal'), mealId: z.uuid()}),
+ z.object({...common, type: z.literal('deleteWalk'), walkId: z.union([z.uuid(), z.literal('legacy')])}),
  z.object({...common, type: z.enum(['rest', 'rescue']), value: z.boolean()}),
  z.object({...common, type: z.literal('weight'), weight: n(35, 300)}),
  z.object({...common, type: z.literal('zone')}),

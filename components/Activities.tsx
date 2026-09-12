@@ -62,7 +62,7 @@ export function Walk() {
   <form className="card list" onSubmit={e => {e.preventDefault(); const now = Date.now(); if (now - lastLog.current < 600 || minutes === '') return; if (change({type: 'session', habit: 'walk', seconds: Number(minutes) * 60, done: true})) {lastLog.current = now; setMinutes(''); bump('walk');}}}>
    <label>Walk minutes<input type="number" min="0" max="1440" step="0.1" required value={minutes} onChange={e => setMinutes(e.target.value)}/></label><button className="primary">Log walk</button>
   </form>
-  {entries.length > 0 && <div className="card list" role="group" aria-label="Walk entries"><div className="card-head"><h2>Walks</h2><strong>{clock(total)} total</strong></div>{entries.map(([id, entry], i) => <div className="meal-row" key={id}><div><strong>Walk {i + 1}</strong><p>{clock(entry.seconds)}</p></div></div>)}</div>}
+  {entries.length > 0 && <div className="card list" role="group" aria-label="Walk entries"><div className="card-head"><h2>Walks</h2><strong>{clock(total)} total</strong></div>{entries.map(([id, entry], i) => <div className="meal-row" key={id}><div><strong>Walk {i + 1}</strong><p>{clock(entry.seconds)}</p></div><button aria-label={`Remove walk ${i + 1}`} onClick={() => change({type: 'deleteWalk', walkId: id})}><Icon name="close" size={16}/>Remove</button></div>)}</div>}
   <WeekStrip habit="walk" label="Walks"/>
  </section>;
 }
