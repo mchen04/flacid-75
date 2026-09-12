@@ -1,0 +1,239 @@
+
+Running 44 tests using 1 worker
+
+(node:83217) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (370ms)
+  ✓   2 [chromium] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (444ms)
+  ✓   3 [chromium] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (877ms)
+  ✓   4 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (389ms)
+  ✓   5 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (355ms)
+  ✓   6 [chromium] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (79ms)
+  ✓   7 [chromium] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (240ms)
+  ✓   8 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (371ms)
+  ✓   9 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (399ms)
+  ✓  10 [chromium] › tests/e2e/daily-logs.spec.ts:46:1 › completion has a stable checked control in both directions after reload (174ms)
+  ✓  11 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload (247ms)
+  ✓  12 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload (266ms)
+  ✓  13 [chromium] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals (215ms)
+  ✓  14 [chromium] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px (400ms)
+  ✘  15 [chromium] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected (5.6s)
+(node:83285) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [chromium] › tests/e2e/review-r1.spec.ts:86:1 › R1 removal of a zero-valued last item clears legacy total overrides (245ms)
+  ✓  17 [chromium] › tests/e2e/review-r1.spec.ts:94:1 › R1 legacy walk removal keeps completion checked and a new entry does not resurrect it (231ms)
+  ✓  18 [chromium] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload (328ms)
+  ✓  19 [chromium] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item (128ms)
+(node:83353) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  20 [chromium] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair (392ms)
+  ✓  21 [chromium] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition (290ms)
+  ✓  22 [chromium] › tests/e2e/review-r2.spec.ts:51:1 › R2 a new estimate preserves blank portions and removal keeps the remaining item editable (477ms)
+(node:83381) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  23 [webkit] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (431ms)
+  ✓  24 [webkit] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (512ms)
+  ✓  25 [webkit] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (974ms)
+  ✓  26 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (451ms)
+  ✓  27 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (435ms)
+  ✓  28 [webkit] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (156ms)
+  ✓  29 [webkit] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (336ms)
+  ✓  30 [webkit] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (385ms)
+  ✓  31 [webkit] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (478ms)
+  ✓  32 [webkit] › tests/e2e/daily-logs.spec.ts:46:1 › completion has a stable checked control in both directions after reload (259ms)
+  ✓  33 [webkit] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload (376ms)
+  ✓  34 [webkit] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload (383ms)
+  ✓  35 [webkit] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals (329ms)
+  ✓  36 [webkit] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px (460ms)
+  ✘  37 [webkit] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected (5.3s)
+(node:83482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  38 [webkit] › tests/e2e/review-r1.spec.ts:86:1 › R1 removal of a zero-valued last item clears legacy total overrides (386ms)
+  ✓  39 [webkit] › tests/e2e/review-r1.spec.ts:94:1 › R1 legacy walk removal keeps completion checked and a new entry does not resurrect it (324ms)
+  ✓  40 [webkit] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload (404ms)
+  ✓  41 [webkit] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item (215ms)
+(node:83529) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  42 [webkit] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair (497ms)
+  ✓  43 [webkit] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition (365ms)
+  ✓  44 [webkit] › tests/e2e/review-r2.spec.ts:51:1 › R2 a new estimate preserves blank portions and removal keeps the remaining item editable (512ms)
+
+
+  1) [chromium] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal').first()
+    Expected: "330"
+    Received: "8250"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal').first() with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal').first()
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "8250"
+
+
+      71 |  const portion=page.getByLabel('Portion · g').nth(0);
+      72 |  await portion.fill('');await portion.pressSequentially('200');
+    > 73 |  await expect(page.getByLabel('Calories · kcal').nth(0)).toHaveValue('330');
+         |                                                          ^
+      74 |  await portion.fill('0');await expect(page.getByLabel('Calories · kcal').nth(0)).toHaveValue('0');
+      75 |  await expect(page.getByLabel('Protein · g').nth(0)).toHaveValue('0');
+      76 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].calories).toBe(130);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r1.spec.ts:73:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-chromium/error-context.md
+
+  2) [webkit] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal').first()
+    Expected: "330"
+    Received: "8250"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal').first() with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal').first()
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "8250"
+
+
+      71 |  const portion=page.getByLabel('Portion · g').nth(0);
+      72 |  await portion.fill('');await portion.pressSequentially('200');
+    > 73 |  await expect(page.getByLabel('Calories · kcal').nth(0)).toHaveValue('330');
+         |                                                          ^
+      74 |  await portion.fill('0');await expect(page.getByLabel('Calories · kcal').nth(0)).toHaveValue('0');
+      75 |  await expect(page.getByLabel('Protein · g').nth(0)).toHaveValue('0');
+      76 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].calories).toBe(130);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r1.spec.ts:73:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r1-R1-zero-portions-223b6-saved-zero-can-be-corrected-webkit/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected 
+    [webkit] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected 
+  42 passed (28.1s)

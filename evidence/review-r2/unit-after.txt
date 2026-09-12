@@ -1,0 +1,21 @@
+✔ every change the server would refuse is refused by the browser bounds first, with a reason (13.917125ms)
+✔ every change the server accepts passes the browser bounds (0.396ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.248125ms)
+✔ review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character (1.774333ms)
+✔ review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml (0.466125ms)
+✔ review 171 follow-up: container ids and the default container id are held to the same text rule on both sides (0.40275ms)
+✔ invalid meal text reports text rather than calorie or protein bounds (0.393334ms)
+✔ the USDA table is loaded and plain names match sensible rows (10.887333ms)
+✔ a row whose head food is not in the query is rejected rather than misused (3.708833ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.210209ms)
+✔ model item text is cleaned before grounding and passes saved-meal validation (10.119208ms)
+✔ portion changes scale nutrition for both estimate sources while preserving details (0.564833ms)
+✔ zero starting portions retain explicit nutrition without division by zero (0.066917ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 298.81825

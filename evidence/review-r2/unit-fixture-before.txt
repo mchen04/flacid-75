@@ -1,0 +1,40 @@
+✔ every change the server would refuse is refused by the browser bounds first, with a reason (14.423084ms)
+✔ every change the server accepts passes the browser bounds (0.373458ms)
+✔ a batch with an invalid first change still applies the valid ones and names the bad one (0.232959ms)
+✔ review 171: free text must be well-formed without NUL on both sides, measured in characters; valid emoji passes; clip never splits a character (1.175792ms)
+✔ review 171: target overrides are bounded on the device as on the account; the oz field cap keeps the water override inside 6000 ml (0.399792ms)
+✔ review 171 follow-up: container ids and the default container id are held to the same text rule on both sides (0.378833ms)
+✔ invalid meal text reports text rather than calorie or protein bounds (0.376583ms)
+✔ the USDA table is loaded and plain names match sensible rows (11.718458ms)
+✔ a row whose head food is not in the query is rejected rather than misused (4.010417ms)
+✔ grounding marks database rows and keeps model estimates when the row disagrees wildly (2.269667ms)
+✖ model item text is cleaned before grounding and passes saved-meal validation (3.053292ms)
+✔ portion changes scale nutrition for both estimate sources while preserving details (0.607791ms)
+✔ zero starting portions retain explicit nutrition without division by zero (0.068791ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 358.525833
+
+✖ failing tests:
+
+test at tests/food.test.ts:1:1437
+✖ model item text is cleaned before grounding and passes saved-meal validation (3.053292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'usda' !== 'estimate'
+  
+      at TestContext.<anonymous> (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/food.test.ts:27:243)
+      at async Test.run (node:internal/test_runner/test:1404:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'usda',
+    expected: 'estimate',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

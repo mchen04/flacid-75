@@ -1,4 +1,5 @@
 import {findFood} from './foods';
+import {clip} from './bounds';
 import {estimateSchema,waterPhraseSchema,type Estimate,type EstimateItem} from './validation';
 // Free OpenRouter models, tried in order. Chosen 2026-09-09 from the live models endpoint; rechecked 2026-09-10 (evidence/my-wellness/openrouter-models.json):
 // all six are listed at zero price and every one except nvidia/nemotron accepts images, which is what visionModels records.
@@ -23,11 +24,11 @@ async function ask(model:string,content:Content,signal:AbortSignal,instructions=
  throw new Error('unterminated json');
 }
 export function ground(items:{name:string;grams:number;calories:number;protein:number}[]):EstimateItem[]{
- return items.slice(0,12).map(item=>{const food=findFood(item.name);const grams=Math.max(1,Math.round(item.grams));
+ return items.slice(0,12).map(item=>{const name=clip(item.name,120);const food=findFood(name);const grams=Math.max(1,Math.round(item.grams));
   const calories=food?Math.round(food.kcalPer100g*grams/100):0;
   // A database row that disagrees wildly with the model's own figure is a wrong match, not a correction.
-  if(food&&(item.calories<20||calories>=item.calories*0.4&&calories<=item.calories*2.5))return {name:item.name,grams,calories,protein:Math.round(food.proteinPer100g*grams/10)/10,source:'usda' as const,match:food.description,fdcId:food.id};
-  return {name:item.name,grams,calories:Math.round(item.calories),protein:Math.round(item.protein*10)/10,source:'estimate' as const};});
+  if(food&&(item.calories<20||calories>=item.calories*0.4&&calories<=item.calories*2.5))return {name,grams,calories,protein:Math.round(food.proteinPer100g*grams/10)/10,source:'usda' as const,match:clip(food.description,200),fdcId:food.id};
+  return {name,grams,calories:Math.round(item.calories),protein:Math.round(item.protein*10)/10,source:'estimate' as const};});
 }
 export async function estimateMeal(input:{text?:string;image?:string},signal?:AbortSignal):Promise<Estimate>{
  if(!process.env.OPENROUTER_API_KEY)throw new Error('missing key');

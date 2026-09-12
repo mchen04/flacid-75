@@ -1,0 +1,107 @@
+- main
+  - sectionheader
+    - button "Home" [ref=e2]
+    - heading "Food" [level=1, ref=e3]
+    - paragraph
+      - StaticText "Friday, September 11"
+    - button "0 day streak. Open progress" [ref=e4]
+      - strong
+        - StaticText "0"
+      - StaticText "day"
+      - StaticText "s"
+    - button "Settings" [ref=e5]
+  - generic
+    - strong
+      - StaticText "1,992 kcal"
+    - StaticText "Calories"
+    - StaticText "1,800–2,000"
+    - StaticText "Protein"
+    - StaticText "112 / 105 g"
+    - button "Log a meal" [ref=e6]
+    - group "Meals"
+      - LabelText
+        - StaticText "Description"
+        - textbox "Description" [ref=e15]: Direct chromium a38445c1
+          - StaticText "Direct chromium a38445c1"
+      - list
+        - listitem [level=1]
+          - LabelText
+            - StaticText "Item name"
+            - textbox "Item name" [ref=e18]: egg, whole, cooked, scrambled
+              - StaticText "egg, whole, cooked, scrambled"
+          - LabelText
+            - StaticText "Portion · g"
+            - spinbutton "Portion · g" [ref=e19]
+          - StaticText "USDA · Egg, whole, cooked, scrambled"
+          - button "Remove item 1: egg, whole, cooked, scrambled" [ref=e16]
+            - StaticText "Remove item"
+          - LabelText
+            - StaticText "Calories · kcal"
+            - spinbutton "Calories · kcal" [ref=e20]: 298
+              - StaticText "298"
+          - LabelText
+            - StaticText "Protein · g"
+            - spinbutton "Protein · g" [ref=e21]: 20
+              - StaticText "20"
+        - listitem [level=1]
+          - LabelText
+            - StaticText "Item name"
+            - textbox "Item name" [ref=e22]: zzqx 🍲
+              - StaticText "zzqx 🍲"
+          - LabelText
+            - StaticText "Portion · g"
+            - spinbutton "Portion · g" [ref=e23]: 150
+              - StaticText "150"
+          - StaticText "estimate"
+          - button "Remove item 2: zzqx 🍲" [ref=e17]
+            - StaticText "Remove item"
+          - LabelText
+            - StaticText "Calories · kcal"
+            - spinbutton "Calories · kcal" [ref=e24]: 200
+              - StaticText "200"
+          - LabelText
+            - StaticText "Protein · g"
+            - spinbutton "Protein · g" [ref=e25]: 8
+              - StaticText "8"
+      - paragraph
+        - strong
+          - StaticText "498 kcal · 28 g protein"
+        - StaticText " estimate"
+      - button "Save" [ref=e7]
+      - button "Cancel" [ref=e8]
+      - strong
+        - StaticText "Direct webkit 0b09e935"
+      - paragraph
+        - StaticText "498 kcal · 28 g protein · estimate"
+      - paragraph
+        - StaticText "egg, whole, cooked, scrambled · 200 g"
+      - paragraph
+        - StaticText "zzqx 🍲 · 150 g"
+      - button "Correct meal 2" [ref=e9]
+        - StaticText "Edit"
+      - button "Remove meal 2" [ref=e10]
+      - strong
+        - StaticText "Direct chromium 5e9b6ee0"
+      - paragraph
+        - StaticText "498 kcal · 28 g protein · estimate"
+      - paragraph
+        - StaticText "egg, whole, cooked, scrambled · 200 g"
+      - paragraph
+        - StaticText "zzqx 🍲 · 150 g"
+      - button "Correct meal 3" [ref=e11]
+        - StaticText "Edit"
+      - button "Remove meal 3" [ref=e12]
+      - strong
+        - StaticText "Direct webkit 0b4ea48e"
+      - paragraph
+        - StaticText "498 kcal · 28 g protein · estimate"
+      - paragraph
+        - StaticText "egg, whole, cooked, scrambled · 200 g"
+      - paragraph
+        - StaticText "zzqx 🍲 · 150 g"
+      - button "Correct meal 4" [ref=e13]
+        - StaticText "Edit"
+      - button "Remove meal 4" [ref=e14]
+    - paragraph
+      - StaticText "Calories count when the day lands inside the range; protein when it reaches the target. The meal you describe or photograph goes to a free third-party model for the estimate; your logs sync to your private account and nowhere else."
+  - button "Photograph a meal" [ref=e1]: No file chosen

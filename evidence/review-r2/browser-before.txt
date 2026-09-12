@@ -1,0 +1,148 @@
+
+Running 4 tests using 1 worker
+
+(node:80843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload (5.5s)
+(node:81139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item (5.2s)
+(node:81151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:81156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair (5.4s)
+(node:81167) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [chromium] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition (5.3s)
+
+
+  1) [chromium] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Calories · kcal').first()
+    Expected: "375"
+    Received: "0"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Calories · kcal').first() with timeout 5000ms
+      - waiting for getByLabel('Calories · kcal').first()
+        14 × locator resolved to <input min="0" max="10000" type="number" inputmode="decimal"/>
+           - unexpected value "0"
+
+
+      11 |  await page.getByRole('button',{name:'Correct meal 1'}).click();const portion=page.getByLabel('Portion · g').first();
+      12 |  await portion.fill('');await page.getByLabel('Description',{exact:true}).click();
+    > 13 |  await portion.fill('150');await expect(page.getByLabel('Calories · kcal').first()).toHaveValue('375');await expect(page.getByLabel('Protein · g').first()).toHaveValue('15');
+         |                                                                                     ^
+      14 |  await portion.fill('');await page.getByLabel('Item name').last().click();await expect(portion).toHaveValue('150');
+      15 |  await expect(page.getByLabel('Calories · kcal').first()).toHaveValue('375');
+      16 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].calories).toBe(475);
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r2.spec.ts:13:85
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r2-R2-empty-portion-8da27--scales-and-survives-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r2-R2-empty-portion-8da27--scales-and-survives-reload-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByLabel('Description', { exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByLabel('Description', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Description', { exact: true })
+        14 × locator resolved to <textarea></textarea>
+           - unexpected value "inactive"
+
+
+      23 | test('R2 editing a detailed meal focuses its description and keyboard reaches the first item',async({page})=>{
+      24 |  const {state}=mealState();await open(page,state,{hash:'food'});const edit=page.getByRole('button',{name:'Correct meal 1'});await edit.focus();await page.keyboard.press('Enter');
+    > 25 |  await expect(page.getByLabel('Description',{exact:true})).toBeFocused();await page.keyboard.press('Tab');await expect(page.getByLabel('Item name').first()).toBeFocused();
+         |                                                            ^
+      26 |  await page.getByRole('button',{name:'Cancel',exact:true}).click();await edit.focus();await page.keyboard.press('Space');await expect(page.getByLabel('Description',{exact:true})).toBeFocused();
+      27 | });
+      28 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r2.spec.ts:25:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r2-R2-editing-a-det-fdfff-oard-reaches-the-first-item-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r2-R2-editing-a-det-fdfff-oard-reaches-the-first-item-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('group', { name: 'Meals' })
+    Expected substring: "Eggs and stew"
+    Received string:    "Nothing logged yet. Describe a meal, snap a photo, or type the numbers."
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('group', { name: 'Meals' }) with timeout 5000ms
+      - waiting for getByRole('group', { name: 'Meals' })
+        14 × locator resolved to <div role="group" class="card list" aria-label="Meals">…</div>
+           - unexpected value "Nothing logged yet. Describe a meal, snap a photo, or type the numbers."
+
+
+      33 |  await page.route('**/api/estimate',r=>r.fulfill({json:{items,calories:items.reduce((n,i)=>n+i.calories,0),protein:items.reduce((n,i)=>n+i.protein,0),model:'fixture'}}));
+      34 |  await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Eggs and stew');await page.getByRole('button',{name:'Look it up'}).click();
+    > 35 |  await page.getByRole('button',{name:'Add to today',exact:true}).click();await expect(page.getByRole('group',{name:'Meals'})).toContainText('Eggs and stew');
+         |                                                                                                                               ^
+      36 |  await expect.poll(()=>Object.keys(box.state.days[day]?.meals??{}).length).toBe(1);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      37 |  await expect(page.getByLabel('Item name').first()).toHaveValue('egg, whole, cooked, scrambled');await expect(page.getByLabel('Item name').last()).toHaveValue('mystery stew 🍲');
+      38 |  const saved=Object.values(box.state.days[day].meals)[0];expect(saved.items?.[0]).toMatchObject({source:'usda',match:'Egg, whole, cooked, scrambled',fdcId:172187});expect(saved.items?.[1].source).toBe('estimate');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r2.spec.ts:35:127
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r2-R2-malformed-mod-77691-le-meal-without-user-repair-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r2-R2-malformed-mod-77691-le-meal-without-user-repair-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.found').getByRole('alert')
+    Expected substring: "text"
+    Received string:    "This meal could not be saved. Try again."
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.found').getByRole('alert') with timeout 5000ms
+      - waiting for locator('.found').getByRole('alert')
+        14 × locator resolved to <p role="alert" class="form-error">This meal could not be saved. Try again.</p>
+           - unexpected value "This meal could not be saved. Try again."
+
+
+      44 |  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{...rice,name:'Rice\u0000'}],calories:250,protein:10,model:'fixture'}}));
+      45 |  await page.getByRole('button',{name:'Log a meal',exact:true}).click();await page.getByLabel('What did you eat?').fill('Rice');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today',exact:true}).click();
+    > 46 |  await expect(page.locator('.found').getByRole('alert')).toContainText('text');await expect(page.locator('.found').getByRole('alert')).not.toContainText('kcal');
+         |                                                          ^
+      47 |  expect(Object.keys(box.state.days[day]?.meals??{})).toHaveLength(0);await page.getByLabel('Item name').fill('Rice');await page.getByRole('button',{name:'Add to today',exact:true}).click();
+      48 |  await expect.poll(()=>Object.values(box.state.days[day]?.meals??{})[0]?.calories).toBe(250);await page.reload();await expect(page.getByRole('group',{name:'Meals'})).toContainText('250 kcal · 10 g protein');
+      49 | });
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r2.spec.ts:46:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r2-R2-malformed-mea-7b864-ed-without-losing-nutrition-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r2-R2-malformed-mea-7b864-ed-without-losing-nutrition-chromium/error-context.md
+
+  4 failed
+    [chromium] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload 
+    [chromium] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item 
+    [chromium] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair 
+    [chromium] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition 
