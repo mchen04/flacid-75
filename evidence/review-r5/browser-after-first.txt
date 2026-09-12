@@ -1,0 +1,235 @@
+
+Running 26 tests using 1 worker
+
+(node:11381) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo (333ms)
+  ✓   2 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo (243ms)
+  ✓   3 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo (285ms)
+  ✓   4 [chromium] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo (303ms)
+  ✓   5 [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely (304ms)
+  ✘   6 [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely (5.3s)
+(node:11402) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [chromium] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this (279ms)
+  ✓   8 [chromium] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload (227ms)
+  ✓   9 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions (240ms)
+  ✓  10 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions (252ms)
+  ✓  11 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions (247ms)
+  ✓  12 [chromium] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions (241ms)
+  ✓  13 [chromium] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle (66ms)
+(node:11418) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo (5.4s)
+(node:11513) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo (5.4s)
+(node:11534) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual x description refuses middle overflow and preserves replacement undo (514ms)
+  ✘  17 [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo (5.3s)
+(node:11592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by keyboard keeps identity and moves focus safely (476ms)
+  ✘  19 [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely (5.3s)
+(node:11676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  20 [webkit] › tests/e2e/review-r5.spec.ts:22:1 › R5 zero portion warning clears on that item correction and Not this (398ms)
+  ✓  21 [webkit] › tests/e2e/review-r5.spec.ts:27:1 › R5 walk removal retains order, completion and keyboard focus through reload (303ms)
+  ✓  22 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 walk completion text activates one named checkbox in both directions (352ms)
+  ✓  23 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 workout completion text activates one named checkbox in both directions (336ms)
+  ✓  24 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 abs completion text activates one named checkbox in both directions (340ms)
+  ✓  25 [webkit] › tests/e2e/review-r5.spec.ts:31:53 › R5 floss completion text activates one named checkbox in both directions (334ms)
+  ✓  26 [webkit] › tests/e2e/review-r5.spec.ts:34:1 › R5 completed floss has no empty stage subtitle (164ms)
+
+
+  1) [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.items fieldset')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.items fieldset') with timeout 5000ms
+      - waiting for locator('.items fieldset')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      16 |  const {day,id,state}=meal();const box=await open(page,state,{hash:'food'});await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByRole('group',{name:'Item 2: Soup',exact:true}).evaluate(el=>el.setAttribute('data-original-soup','true'));
+      17 |  const remove=page.getByRole('button',{name:'Remove item 1: Rice',exact:true});if(input==='keyboard'){await remove.focus();await page.keyboard.press('Enter');await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true}).getByLabel('Item name')).toBeFocused();await page.keyboard.press('Enter');}else await remove.dblclick();
+    > 18 |  await expect(page.locator('.items fieldset')).toHaveCount(2);await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true})).toHaveAttribute('data-original-soup','true');
+         |                                                ^
+      19 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].items?.map(i=>i.name)).toEqual(['Soup','Beans']);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      20 |  await page.getByRole('button',{name:'Remove item 2: Beans',exact:true}).click();await expect(page.getByLabel('Item name')).toBeFocused();await page.getByLabel('Item name').fill('');await expect(page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true})).toBeVisible();await page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true}).click();await expect(page.locator('.sum')).toBeFocused();await expect(page.locator('.sum')).toContainText('0 kcal · 0 g protein');
+      21 | });
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:18:48
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-chromium/error-context.md
+
+  2) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Description', { exact: true })
+    Expected: "AxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxZ"
+    Received: "Three bowls"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Description', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Description', { exact: true })
+        14 × locator resolved to <textarea></textarea>
+           - unexpected value "Three bowls"
+
+
+      10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+    > 12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+         |                                                                                                                                                                                                                                                                        ^
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+      14 | });
+      15 | for(const input of ['keyboard','double click'])test(`R5 item removal by ${input} keeps identity and moves focus safely`,async({page})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:12:264
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-saved-x-descr-69565--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-saved-x-descr-69565--preserves-replacement-undo-webkit/error-context.md
+
+  3) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Description', { exact: true })
+    Expected: "A🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚Z"
+    Received: "Three bowls"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Description', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Description', { exact: true })
+        14 × locator resolved to <textarea></textarea>
+           - unexpected value "Three bowls"
+
+
+      10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+    > 12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+         |                                                                                                                                                                                                                                                                        ^
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+      14 | });
+      15 | for(const input of ['keyboard','double click'])test(`R5 item removal by ${input} keeps identity and moves focus safely`,async({page})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:12:264
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-saved-🍚-desc-cf7fe--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-saved-🍚-desc-cf7fe--preserves-replacement-undo-webkit/error-context.md
+
+  4) [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('Description', { exact: true })
+    Expected: "A🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚🍚Z"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Description', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Description', { exact: true })
+        14 × locator resolved to <textarea></textarea>
+           - unexpected value ""
+
+
+      10 |  const field=page.getByLabel('Description',{exact:true}),value='A'+char.repeat(998)+'Z';await field.fill(value);await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1));await field.pressSequentially('Q');expect(await field.inputValue()).toBe(value);expect(await field.evaluate((el:HTMLTextAreaElement)=>el.selectionStart)).toBe(1);
+      11 |  const pasteBlocked=await field.evaluate(el=>{const data=new DataTransfer();data.setData('text/plain','PASTE');return !el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});expect(pasteBlocked).toBe(true);await expect(field).toHaveValue(value);
+    > 12 |  await field.evaluate((el:HTMLTextAreaElement)=>el.setSelectionRange(1,1+(el.value.codePointAt(1)!>65535?2:1)));await field.pressSequentially('Q');await expect(field).toHaveValue('AQ'+char.repeat(997)+'Z');await field.press('ControlOrMeta+z');await expect(field).toHaveValue(value);
+         |                                                                                                                                                                                                                                                                        ^
+      13 |  await page.getByRole('button',{name:mode==='saved'?'Save':'Add to today',exact:true}).click();await expect.poll(()=>mode==='saved'?box.state.days[day].meals[id]?.description:Object.values(box.state.days[day]?.meals??{})[0]?.description).toBe(value);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();await expect(field).toHaveValue(value);
+      14 | });
+      15 | for(const input of ['keyboard','double click'])test(`R5 item removal by ${input} keeps identity and moves focus safely`,async({page})=>{
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:12:264
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-webkit/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-manual-🍚-des-5b2a2--preserves-replacement-undo-webkit/error-context.md
+
+  5) [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.items fieldset')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.items fieldset') with timeout 5000ms
+      - waiting for locator('.items fieldset')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      16 |  const {day,id,state}=meal();const box=await open(page,state,{hash:'food'});await page.getByRole('button',{name:'Correct meal 1'}).click();await page.getByRole('group',{name:'Item 2: Soup',exact:true}).evaluate(el=>el.setAttribute('data-original-soup','true'));
+      17 |  const remove=page.getByRole('button',{name:'Remove item 1: Rice',exact:true});if(input==='keyboard'){await remove.focus();await page.keyboard.press('Enter');await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true}).getByLabel('Item name')).toBeFocused();await page.keyboard.press('Enter');}else await remove.dblclick();
+    > 18 |  await expect(page.locator('.items fieldset')).toHaveCount(2);await expect(page.getByRole('group',{name:'Item 1: Soup',exact:true})).toHaveAttribute('data-original-soup','true');
+         |                                                ^
+      19 |  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].items?.map(i=>i.name)).toEqual(['Soup','Beans']);await page.reload();await page.getByRole('button',{name:'Correct meal 1'}).click();
+      20 |  await page.getByRole('button',{name:'Remove item 2: Beans',exact:true}).click();await expect(page.getByLabel('Item name')).toBeFocused();await page.getByLabel('Item name').fill('');await expect(page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true})).toBeVisible();await page.getByRole('button',{name:'Remove item 1: Unnamed item',exact:true}).click();await expect(page.locator('.sum')).toBeFocused();await expect(page.locator('.sum')).toContainText('0 kcal · 0 g protein');
+      21 | });
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review-r5.spec.ts:18:48
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-webkit/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-r5-R5-item-removal--8ee33-tity-and-moves-focus-safely-webkit/error-context.md
+
+  5 failed
+    [chromium] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved x description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 saved 🍚 description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:6:67 › R5 manual 🍚 description refuses middle overflow and preserves replacement undo 
+    [webkit] › tests/e2e/review-r5.spec.ts:15:48 › R5 item removal by double click keeps identity and moves focus safely 
+  21 passed (35.4s)

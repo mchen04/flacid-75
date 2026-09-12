@@ -1,0 +1,4 @@
+{"engine":"chromium","character":"x","restoresFullText":true,"length":1000}
+{"engine":"chromium","character":"🍚","restoresFullText":true,"length":1000}
+{"engine":"webkit","character":"x","restoresFullText":true,"length":1000}
+{"engine":"webkit","character":"🍚","restoresFullText":true,"length":1000}

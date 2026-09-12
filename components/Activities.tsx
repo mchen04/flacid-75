@@ -1,5 +1,5 @@
 'use client';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useId, useLayoutEffect, useRef, useState} from 'react';
 import {Hills, Gym, Mat, Tooth, NightRest, Glass} from './Scenes';
 import {Icon} from './Icon';
 import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, entriesInOrder, containersOf, type Habit} from '@/lib/domain';
@@ -31,9 +31,9 @@ function DoneCard({title, detail}: {title: string; detail: string}) {
  return <div className="card done-card"><span className="done-mark"><Icon name="check" size={22}/></span><div><strong>{title}</strong><p>{detail}</p></div></div>;
 }
 function HabitToggle({habit, finish}: {habit: 'walk' | 'workout' | 'abs' | 'floss'; finish?: () => void}) {
- const {done, change} = useApp();
+ const {done, change} = useApp(); const id = useId(); const labelId = id + '-label';
  const label = `${habit[0].toUpperCase()}${habit.slice(1)} complete`;
- return <div className="completion-row"><span>{label}</span><CompletionToggle label={label} checked={done[habit]} onChange={() => {if (!done[habit] && finish) finish(); else change({type: 'check', habit, value: !done[habit]});}}/></div>;
+ return <div className="completion-row"><label htmlFor={id}><span id={labelId}>{label}</span></label><CompletionToggle id={id} labelledBy={labelId} label={label} checked={done[habit]} onChange={() => {if (!done[habit] && finish) finish(); else change({type: 'check', habit, value: !done[habit]});}}/></div>;
 }
 function WeekStrip({habit, label}: {habit: Habit | 'rest'; label: string}) {
  const {state, dayKey, today, day, done} = useApp();
@@ -46,11 +46,14 @@ export function Walk() {
  const {day, done, selected, dayKey, change, bump} = useApp();
  const {timer, elapsed, running} = useTimer('walk'); useWakeLock(running);
  const [minutes, setMinutes] = useState(''); const lastLog = useRef(0);
+ const minuteField = useRef<HTMLInputElement>(null); const removeButtons = useRef(new Map<string, HTMLButtonElement>()); const focusAfterRemove = useRef<string | null | undefined>(undefined);
  const stale = !!timer && timer.day !== dayKey && !running;
  const target = (day.targets.walkMinutes ?? 30) * 60; const share = Math.min(1, elapsed / target);
  const log = day.walkLog ?? (day.sessions?.walk ? {legacy: day.sessions.walk} : {});
  const entries = entriesInOrder(log, day.walkOrder);
  const total = entries.reduce((sum, [, entry]) => sum + entry.seconds, 0);
+ useLayoutEffect(() => {const id = focusAfterRemove.current; if (id === undefined) return; (id === null ? minuteField.current : removeButtons.current.get(id))?.focus(); focusAfterRemove.current = undefined;}, [day.walkLog, day.sessions?.walk]);
+ function removeWalk(id: string, i: number) {if (change({type: 'deleteWalk', walkId: id})) focusAfterRemove.current = entries[i + 1]?.[0] ?? entries[i - 1]?.[0] ?? null;}
  function finish() {if (finishTimer('walk', (seconds, creditDay, id) => change({type: 'session', habit: 'walk', seconds, done: true, walkId: id}, creditDay, id))) {bump('walk', 2000); beep('done'); buzz(80);}}
  return <section className={`activity ${timer ? 'is-live' : ''}`}>
   <div className={`stage walk ${done.walk ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Hills phase="day" walked={done.walk} progress={done.walk ? 1 : share}/><span className="stage-copy"><strong>{running ? 'Walking.' : timer ? 'Paused.' : done.walk ? 'Walked.' : selected ? 'A walk that day.' : 'A walk today.'}</strong><span>{entries.length ? `${Math.round(total / 60)} minutes total` : `Target: ${Math.round(target / 60)} minutes`}</span></span></div>
@@ -60,9 +63,9 @@ export function Walk() {
    <Controls timerKey="walk" running={running} hasTimer={!!timer} onFinish={finish}/>
   </>)}
   <form className="card list" onSubmit={e => {e.preventDefault(); const now = Date.now(); if (now - lastLog.current < 600 || minutes === '') return; if (change({type: 'session', habit: 'walk', seconds: Number(minutes) * 60, done: true})) {lastLog.current = now; setMinutes(''); bump('walk');}}}>
-   <label>Walk minutes<input type="number" min="0" max="1440" step="0.1" required value={minutes} onChange={e => setMinutes(e.target.value)}/></label><button className="primary">Log walk</button>
+   <label>Walk minutes<input ref={minuteField} type="number" min="0" max="1440" step="0.1" required value={minutes} onChange={e => setMinutes(e.target.value)}/></label><button className="primary">Log walk</button>
   </form>
-  {entries.length > 0 && <div className="card list" role="group" aria-label="Walk entries"><div className="card-head"><h2>Walks</h2><strong>{clock(total)} total</strong></div>{entries.map(([id, entry], i) => <div className="meal-row" key={id}><div><strong>Walk {i + 1}</strong><p>{clock(entry.seconds)}</p></div><button aria-label={`Remove walk ${i + 1}`} onClick={() => change({type: 'deleteWalk', walkId: id})}><Icon name="close" size={16}/>Remove</button></div>)}</div>}
+  {entries.length > 0 && <div className="card list" role="group" aria-label="Walk entries"><div className="card-head"><h2>Walks</h2><strong>{clock(total)} total</strong></div>{entries.map(([id, entry], i) => <div className="meal-row" key={id}><div><strong>Walk {i + 1}</strong><p>{clock(entry.seconds)}</p></div><button ref={el => {if (el) removeButtons.current.set(id, el); else removeButtons.current.delete(id);}} aria-label={`Remove walk ${i + 1}`} onClick={() => removeWalk(id, i)}><Icon name="close" size={16}/>Remove</button></div>)}</div>}
   <WeekStrip habit="walk" label="Walks"/>
  </section>;
 }
@@ -126,7 +129,7 @@ export function Abs() {
 export function Floss() {
  const {done, pulse, selected} = useApp();
  return <section className="activity">
-  <div className={`stage floss ${done.floss ? 'is-done' : ''} ${pulse.floss ? 'is-active' : ''}`}><Tooth done={done.floss} active={!!pulse.floss}/><span className="stage-copy"><strong>{done.floss ? 'Flossed.' : `Floss ${selected ? 'that day' : 'today'}.`}</strong><span>{done.floss ? '' : 'Once a day'}</span></span><span className="stage-tag">{done.floss ? <><Icon name="check" size={14}/>Done</> : 'Once'}</span></div>
+  <div className={`stage floss ${done.floss ? 'is-done' : ''} ${pulse.floss ? 'is-active' : ''}`}><Tooth done={done.floss} active={!!pulse.floss}/><span className="stage-copy"><strong>{done.floss ? 'Flossed.' : `Floss ${selected ? 'that day' : 'today'}.`}</strong>{!done.floss && <span>Once a day</span>}</span><span className="stage-tag">{done.floss ? <><Icon name="check" size={14}/>Done</> : 'Once'}</span></div>
   <HabitToggle habit="floss"/>
   <WeekStrip habit="floss" label="Floss"/>
  </section>;

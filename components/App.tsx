@@ -23,7 +23,6 @@ export default function App() {
  const [sheet, setSheet] = useState<string | null>(null); const [editMeal, setEditMeal] = useState<string | null>(null); const [sheetDay, setSheetDay] = useState<string | null>(null);
  const file = useRef<HTMLInputElement>(null); const [photo, setPhoto] = useState<File | null>(null);
  const [pulse, setPulse] = useState<Pulse>({}); const timers = useRef<Partial<Record<keyof Pulse, ReturnType<typeof setTimeout>>>>({});
- const [lastMeal, setLastMeal] = useState<{id: string; day: string} | null>(null);
 
  const today = dayAt(state.clock, now, todayZone()); const dayKey = selected ?? today;
  const profile = state.profile; const day = state.days[dayKey] ?? newDay(profile?.targets ?? computeTargets({height: 165, weight: 65, age: 30, activity: 1, goal: 'maintain'}));
@@ -47,7 +46,7 @@ export default function App() {
  const complete = count === habits.length;
  const headline = selected ? 'Past day' : day.rest ? 'Rest day.' : complete ? 'Every one.' : count >= 5 ? 'Nearly there.' : count > 0 ? 'Good going.' : stumbled ? 'A new day.' : morning ? 'Good morning.' : hour < 17 ? 'Good afternoon.' : 'Good evening.';
  const title = page ? titles[page] ?? 'My Wellness' : headline === 'Every one.' ? 'All done.' : headline;
- const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, lastMeal, notice: store.notice, change, navigate, open, select: setSelected, bump};
+ const ctx = {state, today, dayKey, selected, day, done, units: unitsOf(state), pulse, notice: store.notice, change, navigate, open, select: setSelected, bump};
  const showWeight = morning && !state.weights[today] && !selected && !page;
  const activity = ['walk', 'workout', 'abs', 'floss', 'water', 'rest', 'meditate', 'focus'] as const; type Activity = typeof activity[number];
  const body = (activity as readonly string[]).includes(page) ? <ActivitiesChunk kind={page as Activity}/> : page === 'food' ? <FoodChunk kind="page"/> : page === 'rewards' ? <RewardsChunk kind="page"/> : page === 'progress' ? <ProgressChunk/> : page === 'you' ? <SettingsChunk kind="you" notice={store.notice} failed={store.failed}/> : page === 'rules' ? <SettingsChunk kind="rules"/> : <Home hour={hour} stumbled={stumbled}/>;
@@ -66,7 +65,7 @@ export default function App() {
   <input className="sr-only" ref={file} aria-label="Photograph a meal" type="file" accept="image/*" capture="environment" onChange={e => {const f = e.target.files?.[0]; if (f) {setPhoto(f); setEditMeal(null); open('meal');} e.target.value = '';}}/>
   {sheet && <Sheet title={sheet === 'camera' ? 'Photo' : sheet === 'meal' ? (editMeal ? 'Correct this meal' : 'Log a meal') : sheet === 'rescue' ? 'Rescue this day' : sheet === 'weight' ? 'Weigh in' : sheet === 'targets' ? 'Daily targets' : sheet === 'setup' ? 'Your details' : sheet === 'zone' ? 'Timezone' : sheet === 'lock' ? 'Lock this device?' : sheet === 'treats' ? 'Your treats' : sheet === 'plan' ? 'Workout plan' : sheet === 'containers' ? 'Water containers' : 'How targets are set'} onClose={() => open(null)}><Suspense fallback={<p className="fine-print">Loading…</p>}>
    {sheet === 'camera' ? <Camera onCapture={p => {setPhoto(p); setEditMeal(null); open('meal');}} onChoose={() => file.current?.click()} onText={() => {setPhoto(null); setEditMeal(null); open('meal');}}/>
-   : sheet === 'meal' ? <FoodChunk kind="meal" photo={photo} initial={editMeal ? foodDay.meals[editMeal] : undefined} count={Object.keys(foodDay.meals).length} day={foodDayKey} today={today} onPhotoConsumed={() => setPhoto(null)} onCamera={() => open('camera')} onList={() => {open(null); navigate('food');}} onSave={meal => {const mealId = editMeal ?? crypto.randomUUID(); if (change({type: 'meal', mealId, ...meal}, foodDayKey)) {open(null); if (!editMeal) setLastMeal({id: mealId, day: foodDayKey}); bump('meal', 6000); return true;} return false;}}/>
+   : sheet === 'meal' ? <FoodChunk kind="meal" photo={photo} initial={editMeal ? foodDay.meals[editMeal] : undefined} count={Object.keys(foodDay.meals).length} day={foodDayKey} today={today} onPhotoConsumed={() => setPhoto(null)} onCamera={() => open('camera')} onList={() => {open(null); navigate('food');}} onSave={meal => {const mealId = editMeal ?? crypto.randomUUID(); if (change({type: 'meal', mealId, ...meal}, foodDayKey)) {open(null); bump('meal', 6000); return true;} return false;}}/>
    : sheet === 'rescue' ? <><span className="sheet-mark"><Mark name="rescue"/></span><p>{longDate(dayKey)} rejoins the streak, marked as rescued. Whatever was checked that day stays as it is.</p><button className="primary" onClick={() => {if (change({type: 'rescue', value: true})) open(null);}}>Rescue this day</button></>
    : sheet === 'weight' ? <SettingsChunk kind="weight" onWeight={weight => {if (change({type: 'weight', weight}, today)) open(null);}}/>
    : sheet === 'setup' ? <SettingsChunk kind="setup" initial={profile} onSetup={(stats, overrides, units) => {if (change({type: 'profile', stats, overrides}, today) && change({type: 'units', units}, today)) open(null);}}/>

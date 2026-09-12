@@ -1,0 +1,39 @@
+- main
+  - sectionheader
+    - button "Home" [ref=e2]
+    - heading "Floss" [level=1, ref=e3]
+    - paragraph
+      - StaticText "Friday, September 11"
+    - button "0 day streak. Open progress" [ref=e4]
+      - strong
+        - StaticText "0"
+      - StaticText "day"
+      - StaticText "s"
+    - button "Settings" [ref=e5]
+  - generic
+    - generic
+      - strong
+        - StaticText "Flossed."
+      - StaticText "Done"
+    - LabelText [ref=e6] clickable [cursor:pointer]
+      - StaticText "Floss complete"
+    - checkbox "Floss complete" [checked=true, ref=e7]
+    - group "Floss this week"
+      - StaticText "This week"
+      - generic
+        - StaticText "1 of 7"
+      - generic "Mon, Sep 7 not done"
+        - StaticText "Mo"
+      - generic "Tue, Sep 8 not done"
+        - StaticText "Tu"
+      - generic "Wed, Sep 9 not done"
+        - StaticText "We"
+      - generic "Thu, Sep 10 not done"
+        - StaticText "Th"
+      - generic "Fri, Sep 11 done"
+        - StaticText "Fr"
+      - generic "Sat, Sep 12 ahead"
+        - StaticText "Sa"
+      - generic "Sun, Sep 13 ahead"
+        - StaticText "Su"
+  - button "Photograph a meal" [ref=e1]: No file chosen

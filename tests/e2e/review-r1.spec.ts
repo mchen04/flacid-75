@@ -78,7 +78,7 @@ test('R1 zero portions remain finite, clear-and-type keeps the density, and save
  await page.getByLabel('Portion · g').nth(0).fill('100');
  await expect(page.getByLabel('Calories · kcal').nth(0)).toHaveValue('0');
  await expect(page.getByRole('alert')).toContainText('starting portion was 0 g');
- await page.getByLabel('Calories · kcal').nth(0).fill('165');await page.getByLabel('Protein · g').nth(0).fill('31');
+ await page.getByLabel('Calories · kcal').nth(0).fill('165');await page.getByLabel('Protein · g').nth(0).fill('31');await expect(page.getByRole('alert')).toHaveCount(0);
  await page.getByRole('button',{name:'Save',exact:true}).click();await expect.poll(()=>box.state.days[day].meals[id].calories).toBe(295);
  await page.reload();await expect(page.getByRole('group',{name:'Meals'})).toContainText('295 kcal · 34 g protein');
 });

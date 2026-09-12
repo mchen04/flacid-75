@@ -374,7 +374,7 @@ test('H1: hero and stage copy, chips and pills never overlap, at phone and short
 test('Floss has one completion toggle that checks and unchecks',async({page})=>{
  const today=todayIn();const box=await open(page,seed(),{hash:'floss'});
  await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect(page.getByRole('checkbox',{name:'Floss complete',checked:true})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
- await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect(page.getByRole('checkbox',{name:'Floss complete'})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(false);
+ await page.getByRole('checkbox',{name:'Floss complete'}).click();await expect(page.getByRole('checkbox',{name:'Floss complete',checked:false})).toBeVisible();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(false);
  // Past days say so, on the dashboard and on the page.
  await page.evaluate(()=>{location.hash='progress';});await page.getByLabel('Open any past day').fill(addDays(today,-1));await page.getByRole('button',{name:'Backfill this day'}).click();
  await expect(page.getByText('Once that day')).toBeVisible();await expect(page.getByText('0 of 7 that day')).toBeVisible();await page.getByRole('button',{name:'Open walk',exact:true}).click();await expect(page.getByText('A walk that day.')).toBeVisible();

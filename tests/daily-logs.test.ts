@@ -81,3 +81,10 @@ test('legacy walks can be removed without erasing independent completion or othe
  s=apply(JSON.parse(JSON.stringify(s)),op({type:'session',habit:'walk',seconds:300,done:true}));assert.equal(s.days[day].sessions?.walk?.seconds,300);assert.equal(Object.keys(s.days[day].walkLog!).length,1);
  for(const walkId of [crypto.randomUUID(),'legacy','','__proto__','bad']) {const candidate=op({type:'deleteWalk',walkId});assert.equal(operationSchema.safeParse(candidate).success,walkId==='legacy'||walkId.length===36);assert.equal(checkBounds(candidate)===null,walkId==='legacy'||walkId.length===36);}
 });
+
+test('removing the middle walk keeps retained walks in entry order',()=>{
+ const ids=['cccccccc-cccc-4ccc-8ccc-cccccccccccc','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'];let s=setup();
+ for(let i=0;i<ids.length;i++)s=apply(s,op({type:'session',habit:'walk',walkId:ids[i],seconds:(i+1)*600,done:true}));
+ s=apply(JSON.parse(JSON.stringify(s)),op({type:'deleteWalk',walkId:ids[1]}));
+ assert.deepEqual(s.days[day].walkOrder,[ids[0],ids[2]]);assert.deepEqual(entriesInOrder(s.days[day].walkLog!,s.days[day].walkOrder).map(([,walk])=>walk.seconds),[600,1800]);assert.equal(s.days[day].sessions?.walk?.seconds,2400);assert.equal(s.days[day].checks.walk,true);
+});

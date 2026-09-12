@@ -97,8 +97,8 @@ try{
  assert.equal((await readState()).days[day].waterLog!.at(-1)!.label,'C:\\u0000 path');
  // Daily entries: races retain distinct walks, stable walk ids survive a repeated finish with a new operation id.
  const dailyDay='2026-09-08';const dailyBase={...base,day:dailyDay};
- const walkA={...dailyBase,id:randomUUID(),type:'session' as const,habit:'walk' as const,seconds:600,done:true,walkId:randomUUID()};
- const walkB={...walkA,id:randomUUID(),walkId:randomUUID(),seconds:1200};
+ const walkA={...dailyBase,id:randomUUID(),type:'session' as const,habit:'walk' as const,seconds:600,done:true,walkId:'cccccccc-cccc-4ccc-8ccc-cccccccccccc'};
+ const walkB={...walkA,id:randomUUID(),walkId:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',seconds:1200};
  await sync([walkA]);await Promise.all([sync([walkA]),sync([walkA]),sync([walkB])]);
  await sync([{...walkA,id:randomUUID(),seconds:1800}]);
  const walks=(await readState()).days[dailyDay];assert.deepEqual(entriesInOrder(walks.walkLog!,walks.walkOrder).map(([,entry])=>entry.seconds),[600,1200]);assert.equal(Object.keys(walks.walkLog!).length,2);assert.equal(walks.sessions!.walk!.seconds,1800);
