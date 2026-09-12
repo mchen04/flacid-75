@@ -19,6 +19,8 @@ const cases:[string,Operation][]=[
  ['oversized pour',{...base(),type:'water',amount:7000}],
  ['container too big',{...base(),type:'containers',containers:[{id:'a',name:'Vat',ml:9000}]}],
  ['session too long',{...base(),type:'session',habit:'walk',seconds:90000,done:true}],
+ ['invalid walk id',{...base(),type:'session',habit:'walk',seconds:60,done:true,walkId:'bad'}],
+ ['empty walk id',{...base(),type:'session',habit:'walk',seconds:60,done:true,walkId:''}],
  ['profile out of range',{...base(),type:'profile',stats:{...stats,weight:20},overrides:{}}],
  ['bad id',{...base(),id:'not-a-uuid',type:'check',habit:'walk',value:true}],
 ];
@@ -30,6 +32,7 @@ const good:Operation[]=[
  {...base(),type:'water',amount:-443.6},
  {...base(),type:'containers',containers:[{id:'stanley',name:'Stanley',ml:887.205886875}],defaultContainer:'stanley'},
  {...base(),type:'session',habit:'abs',seconds:115,done:true,routine:'Two-minute burst'},
+ {...base(),type:'session',habit:'walk',seconds:60,done:true,walkId:randomUUID()},
  {...base(),type:'check',habit:'floss',value:true},
  {...base(),type:'profile',stats,overrides:{walkMinutes:45}},
 ];

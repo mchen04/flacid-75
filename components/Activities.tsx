@@ -203,7 +203,7 @@ export function Meditate() {
    <span className="sr-only">Optional; does not affect the streak.</span>
    <Dial share={timer ? 1 - remaining / target : 0} tone="is-calm"><strong className="dial-time" aria-label={timer ? `${clock(remaining)} left` : 'Ready'}>{timer ? clock(remaining) : clock(choice * 60)}</strong><span>{running ? 'breathing' : timer ? 'paused' : 'ready'}</span></Dial>
    {!timer && <div className="chips" role="group" aria-label="Minutes">{meditateMinutes.map(m => <button key={m} className={`chip ${choice === m ? 'active' : ''}`} aria-pressed={choice === m} onClick={() => setChoice(m)}>{m} min</button>)}</div>}
-   <p className="fine-print">{timer && timer.day !== dayKey ? `Started ${shortDate(timer.day)}; it will log to that day. ` : ''}{day.meditate ? `${Math.round(day.meditate / 60)} min logged today.` : ''}</p>
+   {(!!day.meditate || (timer && timer.day !== dayKey)) && <p className="fine-print">{timer && timer.day !== dayKey ? `Started ${shortDate(timer.day)}; it will log to that day. ` : ''}{day.meditate ? `${Math.round(day.meditate / 60)} min logged today.` : ''}</p>}
   </div>
   {selected ? <p className="fine-print">Timers run for today only. Past days show what was logged; nothing here can be backfilled.</p>
   : !timer ? <button className="primary" onClick={() => {void prime(); startTimer('meditate', dayKey, {minutes: choice}); buzz();}}><Icon name="play" size={18}/>Start {choice} minutes</button>

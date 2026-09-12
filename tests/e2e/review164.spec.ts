@@ -108,6 +108,7 @@ test('R164-5: the water meter fills exactly at the goal, proportionally below it
  expect(results.below).toBeCloseTo(50,0);expect(results.at).toBe(100);expect(results.above).toBe(100);
  // Calories: a range band, so the bar keeps headroom past the upper edge and the band is visible.
  const meal=apply(base,op(today,{type:'meal',mealId:crypto.randomUUID(),calories:base.profile!.targets.calorieMax,protein:10}));const page=await context.newPage();await open(page,meal,{hash:'food'});
+ await expect(page.locator('.meter-range')).toBeVisible();
  const band=await page.evaluate(()=>{const range=document.querySelector<HTMLElement>('.meter-range')!;const fill=range.parentElement!.querySelector<HTMLElement>('.meter-fill')!;const bar=range.parentElement!;return {fill:Math.round(fill.getBoundingClientRect().width/bar.getBoundingClientRect().width*100),rangeVisible:range.getBoundingClientRect().width>0};});
  expect(band.fill).toBeLessThan(100);expect(band.fill).toBeGreaterThan(80);expect(band.rangeVisible).toBe(true);
 });

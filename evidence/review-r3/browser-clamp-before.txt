@@ -1,0 +1,992 @@
+
+Running 245 tests using 1 worker
+
+(node:14065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (22ms)
+  ✓    2 [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (1.3s)
+  ✓    3 [chromium] › tests/e2e/app.spec.ts:35:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (806ms)
+  ✓    4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (629ms)
+  ✓    5 [chromium] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (247ms)
+  ✓    6 [chromium] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (422ms)
+  ✓    7 [chromium] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (878ms)
+  ✓    8 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (366ms)
+  ✓    9 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (366ms)
+  ✓   10 [chromium] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (75ms)
+  ✓   11 [chromium] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (241ms)
+  ✓   12 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (336ms)
+  ✓   13 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (397ms)
+  ✓   14 [chromium] › tests/e2e/daily-logs.spec.ts:46:1 › completion has a stable checked control in both directions after reload (186ms)
+  ✓   15 [chromium] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (120ms)
+  ✓   16 [chromium] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.2s)
+  ✓   17 [chromium] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (1.0s)
+  ✓   18 [chromium] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (948ms)
+  ✓   19 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (9.1s)
+  ✓   20 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 375x640; vertical scroll only inside the page (9.1s)
+  ✓   21 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 1280x900; vertical scroll only inside the page (13.8s)
+  ✓   22 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload (284ms)
+  ✓   23 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload (290ms)
+  ✓   24 [chromium] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals (216ms)
+  ✓   25 [chromium] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px (386ms)
+  ✓   26 [chromium] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected (298ms)
+  ✓   27 [chromium] › tests/e2e/review-r1.spec.ts:86:1 › R1 removal of a zero-valued last item clears legacy total overrides (219ms)
+  ✓   28 [chromium] › tests/e2e/review-r1.spec.ts:94:1 › R1 legacy walk removal keeps completion checked and a new entry does not resurrect it (227ms)
+  ✓   29 [chromium] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload (337ms)
+  ✓   30 [chromium] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item (105ms)
+(node:14511) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   31 [chromium] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair (386ms)
+  ✓   32 [chromium] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition (304ms)
+  ✓   33 [chromium] › tests/e2e/review-r2.spec.ts:51:1 › R2 a new estimate preserves blank portions and removal keeps the remaining item editable (385ms)
+  ✓   34 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (304ms)
+  ✓   35 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (256ms)
+  ✓   36 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (251ms)
+  ✓   37 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (335ms)
+  ✓   38 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (336ms)
+  ✓   39 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (336ms)
+  ✓   40 [chromium] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (320ms)
+  ✓   41 [chromium] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (267ms)
+  ✓   42 [chromium] › tests/e2e/review-r3.spec.ts:46:1 › R3 estimate rejects an overlong description with a length error and keeps input guards (25ms)
+  ✓   43 [chromium] › tests/e2e/review164.spec.ts:11:1 › R164-1: a change acknowledged during another tab's stale view is counted once on the account, on the device and on both screens, including after an undo and a later sync (8.6s)
+  ✓   44 [chromium] › tests/e2e/review164.spec.ts:33:1 › R164-2: an account read that began before another tab's change was acknowledged is not installed; the device keeps the acknowledged state, offline and after a reload (1.6s)
+  ✓   45 [chromium] › tests/e2e/review164.spec.ts:52:1 › R164-2b: a write answer that arrives after a newer answer was saved does not install its older state; the read that follows restores the newest (2.9s)
+  ✓   46 [chromium] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload (808ms)
+  ✓   47 [chromium] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device (3.9s)
+  ✓   48 [chromium] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (292ms)
+  ✓   49 [chromium] › tests/e2e/review164.spec.ts:115:1 › R164-6: the abs caption does not name a direction, and a past week's strip is named by its week rather than "This week" (224ms)
+  ✓   50 [chromium] › tests/e2e/review165.spec.ts:26:1 › R165-1: a read that already contains another tab's applied change, answered before that tab's own acknowledgement, counts the change once on the device and both screens, in both answer orders, for a pour and an undo, and after an offline reload (3.1s)
+  ✓   51 [chromium] › tests/e2e/review165.spec.ts:51:1 › R165-2: lock and clear empties the device before the account is asked, even when that request never answers; the request is retried when the locked app reopens (1.1s)
+  ✓   52 [chromium] › tests/e2e/review165.spec.ts:68:1 › R165-3: a tab that received no storage events reconciles the lock when it is shown again (page shown from cache, made visible, back online) and writes nothing (1.1s)
+  ✓   53 [chromium] › tests/e2e/review165.spec.ts:84:1 › R165-4: when the lock marker cannot be written until the clear frees space, the device is still cleared and fenced, and another tab's in-flight answer writes nothing; unparsable journal keys are cleared too (3.9s)
+  ✓   54 [chromium] › tests/e2e/review165.spec.ts:100:1 › C2: a refused batch sets its first change aside, a read follows at once so the refused effect leaves the screen, and the rest of the queue is retried within a second (809ms)
+  ✓   55 [chromium] › tests/e2e/review165.spec.ts:112:1 › C4: the saved epoch advances on every saved answer even when this tab's memory lags behind the device (2.2s)
+  ✓   56 [chromium] › tests/e2e/review165.spec.ts:125:1 › R165-5: a full receipt that no longer lists an older applied change this tab still holds does not count it twice; the change is presented once more and settled exactly (1.6s)
+  ✓   57 [chromium] › tests/e2e/review165.spec.ts:146:1 › R165-6: a change that has never been sent is always shown, even when a late read arrives with a full receipt, and it survives going offline (1.1s)
+  ✓   58 [chromium] › tests/e2e/review165.spec.ts:165:1 › R165-7: unlocking with a held change the account has already applied counts it once (641ms)
+  ✓   59 [chromium] › tests/e2e/review165.spec.ts:175:1 › R165-8: a write refused at the door (401) leaves no sent mark, so an unlock against a full receipt still shows the pour; it stays through a temporary failure, offline and a reload, and lands once when the account takes it (350ms)
+  ✓   60 [chromium] › tests/e2e/review165.spec.ts:194:1 › R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge its old refusal (or anything else) into the new generation; it adopts the new store (1.3s)
+  ✓   61 [chromium] › tests/e2e/review165.spec.ts:211:1 › R165-10: an account answer that started before a lock-and-clear and a new unlock is dropped when it lands, whether it is an error or a result; the tab adopts the new generation (4.0s)
+  ✓   62 [chromium] › tests/e2e/review165.spec.ts:229:1 › R165-11: an unlock that was in flight when the device was locked and cleared again is dropped and the tab stays on the gate (3.7s)
+  ✓   63 [chromium] › tests/e2e/review165.spec.ts:245:1 › R165-12: a large valid offline backlog drains in byte-bounded batches: every change reaches the account once, no answer is 413, nothing is dropped (447ms)
+  ✓   64 [chromium] › tests/e2e/review165.spec.ts:258:1 › R165-13: an answer whose write waits on the device lock while another tab locks, clears and unlocks is dropped inside the write itself; the tab adopts the new generation (1.5s)
+  ✓   65 [chromium] › tests/e2e/review171.spec.ts:10:1 › R171-1: a plan line of 59 characters and an emoji saves whole and syncs; a line that would cut an emoji is clipped before it, never split; the move is usable in a workout (418ms)
+  ✓   66 [chromium] › tests/e2e/review171.spec.ts:19:1 › R171-2: a poisoned journal entry (a split emoji written by an older build) is refused by id with a reason and set aside, while a valid change in the same batch syncs; the device recovers and can lock (170ms)
+  ✓   67 [chromium] › tests/e2e/review171.spec.ts:30:1 › R171-3: a temporary account failure shows a notice and keeps the change; it lands once when the account recovers (253ms)
+  ✓   68 [chromium] › tests/e2e/review171.spec.ts:42:1 › R171-4: sixteen quarter-Stanley pours meet a 120 oz target exactly on screen and in completion; one short does not (887ms)
+  ✓   69 [chromium] › tests/e2e/review171.spec.ts:55:1 › R171-5: "3/4 of the Stanley" proposes one three-quarter pour; "1/2 Stanley" proposes half (212ms)
+  ✓   70 [chromium] › tests/e2e/review171.spec.ts:62:1 › R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later (778ms)
+  ✓   71 [chromium] › tests/e2e/review171.spec.ts:74:1 › R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused (943ms)
+  ✓   72 [chromium] › tests/e2e/review171.spec.ts:97:1 › R171-7: a targets save queued while another device added a treat and a plan does not hide or delete them once this device catches up (434ms)
+  ✓   73 [chromium] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention (114ms)
+  ✓   74 [chromium] › tests/e2e/review171.spec.ts:123:1 › W172: typed symbol shares and mixed numbers propose the right pour on screen (414ms)
+  ✓   75 [chromium] › tests/e2e/v3.spec.ts:7:1 › water goes down by one tap with no dialog, and never below zero (220ms)
+  ✓   76 [chromium] › tests/e2e/v3.spec.ts:15:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (3.4s)
+  ✓   77 [chromium] › tests/e2e/v3.spec.ts:30:1 › the served manifest, icons and splash carry the My Wellness name and the brand art (123ms)
+  ✓   78 [chromium] › tests/e2e/wellness.spec.ts:11:1 › every page is one tap from the dashboard, has an obvious Home, and the browser back button works (1.4s)
+  ✓   79 [chromium] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes (18.2s)
+  ✓   80 [chromium] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves (19.2s)
+  ✓   81 [chromium] › tests/e2e/wellness.spec.ts:49:1 › the guided ab routine walks through timed intervals with instructions and logs itself at the end (4.5s)
+  ✓   82 [chromium] › tests/e2e/wellness.spec.ts:63:1 › meditation and focus are optional: they log minutes and never change the streak (698ms)
+  ✓   83 [chromium] › tests/e2e/wellness.spec.ts:76:1 › treats are user-chosen, cost points, refuse when short, redeem once per tap, and undo (11.5s)
+  ✓   84 [chromium] › tests/e2e/wellness.spec.ts:88:1 › units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry (349ms)
+  ✓   85 [chromium] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began (8.5s)
+  ✓   86 [chromium] › tests/e2e/wellness.spec.ts:113:1 › a rest day yesterday keeps the streak across midnight where a miss would have broken it (813ms)
+  ✓   87 [chromium] › tests/e2e/wellness.spec.ts:118:1 › backfilling a past day from Progress opens the activity pages in backfill mode (316ms)
+  ✓   88 [chromium] › tests/e2e/wellness.spec.ts:125:1 › milestones show reached streaks and the next one (142ms)
+  ✓   89 [chromium] › tests/e2e/wellness.spec.ts:131:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (153ms)
+  ✓   90 [chromium] › tests/e2e/wellness.spec.ts:142:1 › text contrast meets WCAG AA on every page (3.0s)
+  ✓   91 [chromium] › tests/e2e/wellness.spec.ts:171:1 › a running timer is visible from the dashboard and a duplicate finish cannot log twice (1.8s)
+  ✓   92 [chromium] › tests/e2e/wellness.spec.ts:178:1 › logging from the dashboard while a timer runs finishes that session with its time and ticks; unchecking preserves the session (21.2s)
+  ✓   93 [chromium] › tests/e2e/wellness.spec.ts:193:1 › a timer left from another day is offered for that day or discarded, never silently backfilled (11.4s)
+  ✓   94 [chromium] › tests/e2e/wellness.spec.ts:203:1 › finished timers settle from any page: a meditation ends while the dashboard is open, a focus session caps itself (420ms)
+  ✓   95 [chromium] › tests/e2e/wellness.spec.ts:213:1 › re-saving your details without touching height or weight keeps the exact stored measurements (264ms)
+  ✓   96 [chromium] › tests/e2e/wellness.spec.ts:221:1 › in backfill mode the workout checklist is read-only and no timer starts (221ms)
+  ✓   97 [chromium] › tests/e2e/wellness.spec.ts:227:1 › the hero opens whatever comes next, water can be removed and meals can be edited from Food (669ms)
+  ✓   98 [chromium] › tests/e2e/wellness.spec.ts:240:1 › half a Stanley is exactly 15 oz, twice; the fill and the daily total match; refills, ambiguity and the model fallback behave (3.0s)
+  ✓   99 [chromium] › tests/e2e/wellness.spec.ts:276:1 › containers are hers to name and size, in her unit, and the default drives the one-tap (508ms)
+  ✓  100 [chromium] › tests/e2e/wellness.spec.ts:287:1 › B1: a malformed change never strands the queue: the account refuses it by id, the valid change lands, the user sees it and can discard it after a reload (525ms)
+  ✘  101 [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (5.1s)
+(node:16519) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  102 [chromium] › tests/e2e/wellness.spec.ts:323:1 › B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed (547ms)
+  ✓  103 [chromium] › tests/e2e/wellness.spec.ts:336:1 › B3: the sound switch and the sheet dialogs have accessible names (257ms)
+  ✓  104 [chromium] › tests/e2e/wellness.spec.ts:343:1 › two tabs settling the same meditation credit it once (2.8s)
+  ✓  105 [chromium] › tests/e2e/wellness.spec.ts:358:1 › optional timers cannot be started for a past day (269ms)
+  ✓  106 [chromium] › tests/e2e/wellness.spec.ts:364:1 › H1: hero and stage copy, chips and pills never overlap, at phone and short-phone sizes (5.7s)
+  ✓  107 [chromium] › tests/e2e/wellness.spec.ts:374:1 › Floss has one completion toggle that checks and unchecks (258ms)
+  ✓  108 [chromium] › tests/e2e/wellness.spec.ts:383:1 › R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay (736ms)
+  ✓  109 [chromium] › tests/e2e/wellness.spec.ts:396:1 › R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted (210ms)
+  ✓  110 [chromium] › tests/e2e/wellness.spec.ts:405:1 › R3: a slow sync in one tab cannot erase a change another tab queued meanwhile (6.8s)
+  ✓  111 [chromium] › tests/e2e/wellness.spec.ts:422:1 › R2: a pour from a long-named container logs with a trimmed label, and a refusal shows at the action (419ms)
+  ✓  112 [chromium] › tests/e2e/wellness.spec.ts:434:1 › R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock (429ms)
+  ✓  113 [chromium] › tests/e2e/wellness.spec.ts:454:1 › R163-1: when device storage refuses the write, an automatically finishing timer and a manual finish both keep their timer and retry once storage is back (2.5s)
+  ✓  114 [chromium] › tests/e2e/wellness.spec.ts:476:1 › R163-2: a refused batch during a slow sync cannot overwrite a change another tab queued and then closed on (3.7s)
+  ✓  115 [chromium] › tests/e2e/wellness.spec.ts:491:1 › R163-3: an in-form unit toggle keeps untouched measurements exact (421ms)
+  ✓  116 [chromium] › tests/e2e/wellness.spec.ts:501:1 › R163-4: a change written by another tab exactly between this tab's read and its save survives, because every change has its own durable key (358ms)
+  ✓  117 [chromium] › tests/e2e/wellness.spec.ts:516:1 › non-text contrast: unchecked workout rings, the off and on switch, unit segments and unreached milestone labels meet 3:1 with inherited opacity applied (970ms)
+  ✓  118 [chromium] › tests/e2e/wellness.spec.ts:545:1 › a live session keeps its controls in the first viewport at phone, small and desktop sizes (1.0s)
+  ✓  119 [chromium] › tests/e2e/wellness.spec.ts:567:1 › the water target is shown and edited in her volume unit and an untouched field keeps the exact millilitres (415ms)
+  ✓  120 [chromium] › tests/e2e/wellness.spec.ts:584:1 › R163-5: an offline start replays a change that only the journal holds, shows it once, and the account receives it once (126ms)
+  ✓  121 [chromium] › tests/e2e/wellness.spec.ts:601:1 › R163-6: when the journal key itself is refused, the change is not applied, a notice is shown on the page, and a finishing timer is kept (273ms)
+  ✓  122 [chromium] › tests/e2e/wellness.spec.ts:620:1 › R163-7: a change the account refuses in tab A is kept by id when tab B's slow sync saves afterwards, survives a reload, and an explicit discard stays discarded in both tabs (9.5s)
+  ✓  123 [chromium] › tests/e2e/wellness.spec.ts:644:1 › R163-8: tab A's refusal survives A closing and tab B saving a new change before B's slow sync answers; B's explicit discard then holds through its own later saves and a reload (11.6s)
+(node:17401) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  124 [webkit] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (23ms)
+  ✓  125 [webkit] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (1.4s)
+  ✓  126 [webkit] › tests/e2e/app.spec.ts:35:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (852ms)
+  ✓  127 [webkit] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (360ms)
+  ✓  128 [webkit] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (527ms)
+  ✓  129 [webkit] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (978ms)
+  ✓  130 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (455ms)
+  ✓  131 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (403ms)
+  ✓  132 [webkit] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (154ms)
+  ✓  133 [webkit] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (353ms)
+  ✓  134 [webkit] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (391ms)
+  ✓  135 [webkit] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (473ms)
+  ✓  136 [webkit] › tests/e2e/daily-logs.spec.ts:46:1 › completion has a stable checked control in both directions after reload (272ms)
+  ✓  137 [webkit] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (231ms)
+  ✓  138 [webkit] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.2s)
+  ✓  139 [webkit] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (1.1s)
+  ✓  140 [webkit] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (942ms)
+  ✓  141 [webkit] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (7.9s)
+  ✓  142 [webkit] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 375x640; vertical scroll only inside the page (7.7s)
+  ✓  143 [webkit] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 1280x900; vertical scroll only inside the page (8.0s)
+  ✓  144 [webkit] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload (400ms)
+  ✓  145 [webkit] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload (401ms)
+  ✓  146 [webkit] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals (338ms)
+  ✓  147 [webkit] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px (486ms)
+  ✓  148 [webkit] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected (431ms)
+  ✓  149 [webkit] › tests/e2e/review-r1.spec.ts:86:1 › R1 removal of a zero-valued last item clears legacy total overrides (313ms)
+  ✓  150 [webkit] › tests/e2e/review-r1.spec.ts:94:1 › R1 legacy walk removal keeps completion checked and a new entry does not resurrect it (367ms)
+  ✓  151 [webkit] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload (452ms)
+  ✓  152 [webkit] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item (214ms)
+(node:17756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  153 [webkit] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair (548ms)
+  ✓  154 [webkit] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition (376ms)
+  ✓  155 [webkit] › tests/e2e/review-r2.spec.ts:51:1 › R2 a new estimate preserves blank portions and removal keeps the remaining item editable (487ms)
+  ✓  156 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (419ms)
+  ✓  157 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (375ms)
+  ✓  158 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (365ms)
+  ✓  159 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (438ms)
+  ✓  160 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (435ms)
+  ✓  161 [webkit] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (429ms)
+  ✓  162 [webkit] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (452ms)
+  ✓  163 [webkit] › tests/e2e/review-r3.spec.ts:37:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (349ms)
+  ✓  164 [webkit] › tests/e2e/review-r3.spec.ts:46:1 › R3 estimate rejects an overlong description with a length error and keeps input guards (29ms)
+  ✓  165 [webkit] › tests/e2e/review164.spec.ts:11:1 › R164-1: a change acknowledged during another tab's stale view is counted once on the account, on the device and on both screens, including after an undo and a later sync (8.8s)
+  ✓  166 [webkit] › tests/e2e/review164.spec.ts:33:1 › R164-2: an account read that began before another tab's change was acknowledged is not installed; the device keeps the acknowledged state, offline and after a reload (1.7s)
+  ✓  167 [webkit] › tests/e2e/review164.spec.ts:52:1 › R164-2b: a write answer that arrives after a newer answer was saved does not install its older state; the read that follows restores the newest (3.1s)
+  ✓  168 [webkit] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload (916ms)
+  ✓  169 [webkit] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device (4.1s)
+  ✘  170 [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (918ms)
+(node:17975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  171 [webkit] › tests/e2e/review164.spec.ts:115:1 › R164-6: the abs caption does not name a direction, and a past week's strip is named by its week rather than "This week" (400ms)
+  ✓  172 [webkit] › tests/e2e/review165.spec.ts:26:1 › R165-1: a read that already contains another tab's applied change, answered before that tab's own acknowledgement, counts the change once on the device and both screens, in both answer orders, for a pour and an undo, and after an offline reload (3.3s)
+  ✓  173 [webkit] › tests/e2e/review165.spec.ts:51:1 › R165-2: lock and clear empties the device before the account is asked, even when that request never answers; the request is retried when the locked app reopens (1.2s)
+  ✓  174 [webkit] › tests/e2e/review165.spec.ts:68:1 › R165-3: a tab that received no storage events reconciles the lock when it is shown again (page shown from cache, made visible, back online) and writes nothing (1.4s)
+  ✓  175 [webkit] › tests/e2e/review165.spec.ts:84:1 › R165-4: when the lock marker cannot be written until the clear frees space, the device is still cleared and fenced, and another tab's in-flight answer writes nothing; unparsable journal keys are cleared too (4.1s)
+  ✓  176 [webkit] › tests/e2e/review165.spec.ts:100:1 › C2: a refused batch sets its first change aside, a read follows at once so the refused effect leaves the screen, and the rest of the queue is retried within a second (919ms)
+  ✓  177 [webkit] › tests/e2e/review165.spec.ts:112:1 › C4: the saved epoch advances on every saved answer even when this tab's memory lags behind the device (2.4s)
+  ✓  178 [webkit] › tests/e2e/review165.spec.ts:125:1 › R165-5: a full receipt that no longer lists an older applied change this tab still holds does not count it twice; the change is presented once more and settled exactly (1.8s)
+  ✓  179 [webkit] › tests/e2e/review165.spec.ts:146:1 › R165-6: a change that has never been sent is always shown, even when a late read arrives with a full receipt, and it survives going offline (1.2s)
+  ✓  180 [webkit] › tests/e2e/review165.spec.ts:165:1 › R165-7: unlocking with a held change the account has already applied counts it once (704ms)
+  ✓  181 [webkit] › tests/e2e/review165.spec.ts:175:1 › R165-8: a write refused at the door (401) leaves no sent mark, so an unlock against a full receipt still shows the pour; it stays through a temporary failure, offline and a reload, and lands once when the account takes it (388ms)
+  ✓  182 [webkit] › tests/e2e/review165.spec.ts:194:1 › R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge its old refusal (or anything else) into the new generation; it adopts the new store (1.5s)
+  ✓  183 [webkit] › tests/e2e/review165.spec.ts:211:1 › R165-10: an account answer that started before a lock-and-clear and a new unlock is dropped when it lands, whether it is an error or a result; the tab adopts the new generation (4.1s)
+  ✓  184 [webkit] › tests/e2e/review165.spec.ts:229:1 › R165-11: an unlock that was in flight when the device was locked and cleared again is dropped and the tab stays on the gate (3.8s)
+  ✓  185 [webkit] › tests/e2e/review165.spec.ts:245:1 › R165-12: a large valid offline backlog drains in byte-bounded batches: every change reaches the account once, no answer is 413, nothing is dropped (538ms)
+  ✓  186 [webkit] › tests/e2e/review165.spec.ts:258:1 › R165-13: an answer whose write waits on the device lock while another tab locks, clears and unlocks is dropped inside the write itself; the tab adopts the new generation (1.7s)
+  ✓  187 [webkit] › tests/e2e/review171.spec.ts:10:1 › R171-1: a plan line of 59 characters and an emoji saves whole and syncs; a line that would cut an emoji is clipped before it, never split; the move is usable in a workout (467ms)
+  ✓  188 [webkit] › tests/e2e/review171.spec.ts:19:1 › R171-2: a poisoned journal entry (a split emoji written by an older build) is refused by id with a reason and set aside, while a valid change in the same batch syncs; the device recovers and can lock (253ms)
+  ✓  189 [webkit] › tests/e2e/review171.spec.ts:30:1 › R171-3: a temporary account failure shows a notice and keeps the change; it lands once when the account recovers (304ms)
+  ✓  190 [webkit] › tests/e2e/review171.spec.ts:42:1 › R171-4: sixteen quarter-Stanley pours meet a 120 oz target exactly on screen and in completion; one short does not (962ms)
+  ✓  191 [webkit] › tests/e2e/review171.spec.ts:55:1 › R171-5: "3/4 of the Stanley" proposes one three-quarter pour; "1/2 Stanley" proposes half (314ms)
+  ✓  192 [webkit] › tests/e2e/review171.spec.ts:62:1 › R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later (889ms)
+  ✓  193 [webkit] › tests/e2e/review171.spec.ts:74:1 › R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused (1.1s)
+  ✓  194 [webkit] › tests/e2e/review171.spec.ts:97:1 › R171-7: a targets save queued while another device added a treat and a plan does not hide or delete them once this device catches up (329ms)
+  ✓  195 [webkit] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention (214ms)
+  ✓  196 [webkit] › tests/e2e/review171.spec.ts:123:1 › W172: typed symbol shares and mixed numbers propose the right pour on screen (510ms)
+  ✓  197 [webkit] › tests/e2e/v3.spec.ts:7:1 › water goes down by one tap with no dialog, and never below zero (305ms)
+  ✓  198 [webkit] › tests/e2e/v3.spec.ts:15:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (3.5s)
+  ✓  199 [webkit] › tests/e2e/v3.spec.ts:30:1 › the served manifest, icons and splash carry the My Wellness name and the brand art (215ms)
+  ✓  200 [webkit] › tests/e2e/wellness.spec.ts:11:1 › every page is one tap from the dashboard, has an obvious Home, and the browser back button works (1.1s)
+  ✓  201 [webkit] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes (28.3s)
+  ✓  202 [webkit] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves (30.6s)
+  ✓  203 [webkit] › tests/e2e/wellness.spec.ts:49:1 › the guided ab routine walks through timed intervals with instructions and logs itself at the end (6.8s)
+  ✓  204 [webkit] › tests/e2e/wellness.spec.ts:63:1 › meditation and focus are optional: they log minutes and never change the streak (687ms)
+  ✓  205 [webkit] › tests/e2e/wellness.spec.ts:76:1 › treats are user-chosen, cost points, refuse when short, redeem once per tap, and undo (11.6s)
+  ✓  206 [webkit] › tests/e2e/wellness.spec.ts:88:1 › units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry (512ms)
+  ✘  207 [webkit] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began (3.2s)
+
+
+  1) [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "0"
+    Received: "-40"
+
+      319 |  await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log a meal'}).click();await page.getByLabel('What did you eat?').fill('a lot');await page.getByRole('button',{name:'Look it up'}).click();await page.getByRole('button',{name:'Add to today'}).click();
+      320 |  await expect(page.getByText('A meal must be 0–10,000 kcal and 0–1,000 g protein.')).toBeVisible();expect(Object.keys(box.state.days[today]?.meals??{})).toHaveLength(0);
+    > 321 |  await page.getByLabel('Calories · kcal').first().fill('-40');expect(await page.getByLabel('Calories · kcal').first().inputValue()).toBe('0');
+          |                                                                                                                                     ^
+      322 | });
+      323 | test('B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed',async({page})=>{
+      324 |  const box=await open(page,seed(),{hash:'you'});
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:321:133
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-48.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-41.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-89.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-60.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-59.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-43.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-84.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-51.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-58.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-40.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-47.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-42.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-50.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #34: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-74.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #35: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-77.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #36: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-37.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #37: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-49.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #38: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-44.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #39: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-55.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #40: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-85.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #41: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-52.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #42: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-78.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #43: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-95.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #44: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-81.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #45: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-46.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #46: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-83.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #47: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-76.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #48: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-54.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #49: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-90.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #50: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-88.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #51: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-71.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #52: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-82.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #53: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-72.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #54: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-64.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #55: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #56: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-97.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #57: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-86.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #58: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-96.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #59: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-34.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #60: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-57.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #61: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #62: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #63: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-73.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #64: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-33.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #65: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #66: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #67: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-38.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #68: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #69: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-36.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #70: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-35.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #71: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #72: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #73: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-92.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #74: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-65.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #75: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-67.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #76: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-53.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #77: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #78: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-63.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #79: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-80.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #80: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-94.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #81: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-79.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #82: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-87.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #83: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-45.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #84: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-93.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #85: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-75.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #86: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #87: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-56.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #88: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-61.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #89: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-39.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #90: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #91: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-68.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #92: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-62.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #93: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #94: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-70.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #95: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-69.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #96: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-66.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #97: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/test-failed-91.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/wellness-B1-ordinary-input-4acc5-als-are-bounded-in-the-form-chromium/error-context.md
+
+  2) [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom 
+
+    Error: page.evaluate: TypeError: null is not an object (evaluating 'range.parentElement')
+
+      109 |  // Calories: a range band, so the bar keeps headroom past the upper edge and the band is visible.
+      110 |  const meal=apply(base,op(today,{type:'meal',mealId:crypto.randomUUID(),calories:base.profile!.targets.calorieMax,protein:10}));const page=await context.newPage();await open(page,meal,{hash:'food'});
+    > 111 |  const band=await page.evaluate(()=>{const range=document.querySelector<HTMLElement>('.meter-range')!;const fill=range.parentElement!.querySelector<HTMLElement>('.meter-fill')!;const bar=range.parentElement!;return {fill:Math.round(fill.getBoundingClientRect().width/bar.getBoundingClientRect().width*100),rangeVisible:range.getBoundingClientRect().width>0};});
+          |                        ^
+      112 |  expect(band.fill).toBeLessThan(100);expect(band.fill).toBeGreaterThan(80);expect(band.rangeVisible).toBe(true);
+      113 | });
+      114 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review164.spec.ts:111:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-38.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-40.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-41.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-42.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-35.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-44.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-36.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #34: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #35: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-37.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #36: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #37: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-33.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #38: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-34.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #39: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #40: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-43.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #41: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-39.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #42: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #43: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #44: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review164-R164-5-the-water-80dbb-rie-band-keeps-its-headroom-webkit/error-context.md
+
+  3) [webkit] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began 
+
+    Test was interrupted.
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: locator('.dial-time')
+    Expected pattern: /^5:[0-2]\d$/
+    Received string:  ""
+
+
+      103 |  await page.getByRole('button',{name:'Start'}).click();await page.clock.runFor(5*60*1000);
+      104 |  // It is now 00:02 the next day. The date in the top bar has moved on; the timer is still counting.
+    > 105 |  await expect(page.locator('.dial-time')).toHaveText(/^5:[0-2]\d$/);await page.getByRole('button',{name:'Finish'}).click();
+          |                                           ^
+      106 |  expect(box.state.days[today].sessions?.walk?.seconds).toBeGreaterThanOrEqual(300);expect(box.state.days[tomorrow]).toBeUndefined();
+      107 |  await page.getByRole('button',{name:'Home'}).click();
+      108 |  await expect(page.locator('.topbar .date')).toHaveText(new Intl.DateTimeFormat('en',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}).format(new Date(tomorrow+'T12:00:00Z')));
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/wellness.spec.ts:105:43
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-34.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-35.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-36.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #34: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-33.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #35: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #36: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/wellness-local-midnight-ro-86772-ht-credits-the-day-it-began-webkit/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form 
+    [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom 
+  1 interrupted
+    [webkit] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began 
+  38 did not run
+  204 passed (7.6m)

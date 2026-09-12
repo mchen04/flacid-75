@@ -1,0 +1,29 @@
+
+Running 12 tests using 1 worker
+
+(node:22927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (388ms)
+  ✓   2 [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (590ms)
+(node:22961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (310ms)
+  ✓   4 [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (560ms)
+(node:22980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [chromium] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (312ms)
+  ✓   6 [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (592ms)
+(node:23000) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (731ms)
+  ✓   8 [webkit] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (631ms)
+(node:23031) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (807ms)
+  ✓  10 [webkit] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (603ms)
+(node:23074) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (722ms)
+  ✓  12 [webkit] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (604ms)
+
+  12 passed (8.8s)

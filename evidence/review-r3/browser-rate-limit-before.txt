@@ -1,0 +1,310 @@
+
+Running 247 tests using 1 worker
+
+(node:23283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘    1 [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (19ms)
+(node:23285) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘    2 [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (5.2s)
+(node:23342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    3 [chromium] › tests/e2e/app.spec.ts:35:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (838ms)
+  ✓    4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (648ms)
+  ✓    5 [chromium] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (280ms)
+  ✓    6 [chromium] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (425ms)
+  ✓    7 [chromium] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (895ms)
+  ✓    8 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (368ms)
+  ✓    9 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (350ms)
+  ✓   10 [chromium] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (74ms)
+  ✓   11 [chromium] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (238ms)
+  ✓   12 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (359ms)
+  ✓   13 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (398ms)
+  ✓   14 [chromium] › tests/e2e/daily-logs.spec.ts:46:1 › completion has a stable checked control in both directions after reload (163ms)
+  ✓   15 [chromium] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (123ms)
+  ✓   16 [chromium] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.2s)
+  ✓   17 [chromium] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (1.0s)
+  ✓   18 [chromium] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (964ms)
+  ✓   19 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (9.1s)
+  ✓   20 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 375x640; vertical scroll only inside the page (9.3s)
+  ✓   21 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 1280x900; vertical scroll only inside the page (14.0s)
+  ✓   22 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion true, totals and reload (294ms)
+  ✓   23 [chromium] › tests/e2e/review-r1.spec.ts:5:38 › R1 remove walks preserves independent completion false, totals and reload (249ms)
+  ✓   24 [chromium] › tests/e2e/review-r1.spec.ts:31:1 › R1 positive portion changes scale nutrition and persist details without changing other meals (220ms)
+  ✓   25 [chromium] › tests/e2e/review-r1.spec.ts:48:1 › R1 removing individual and last meal items clears details and totals across reload at 320 px (365ms)
+  ✓   26 [chromium] › tests/e2e/review-r1.spec.ts:68:1 › R1 zero portions remain finite, clear-and-type keeps the density, and saved zero can be corrected (311ms)
+  ✓   27 [chromium] › tests/e2e/review-r1.spec.ts:86:1 › R1 removal of a zero-valued last item clears legacy total overrides (221ms)
+  ✓   28 [chromium] › tests/e2e/review-r1.spec.ts:94:1 › R1 legacy walk removal keeps completion checked and a new entry does not resurrect it (229ms)
+  ✓   29 [chromium] › tests/e2e/review-r2.spec.ts:9:1 › R2 empty portion and blur preserve nutrition, then a new amount scales and survives reload (342ms)
+  ✓   30 [chromium] › tests/e2e/review-r2.spec.ts:23:1 › R2 editing a detailed meal focuses its description and keyboard reaches the first item (106ms)
+(node:23645) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   31 [chromium] › tests/e2e/review-r2.spec.ts:29:1 › R2 malformed model item text is grounded into a saveable meal without user repair (391ms)
+  ✓   32 [chromium] › tests/e2e/review-r2.spec.ts:42:1 › R2 malformed meal text reports a text error and can be corrected without losing nutrition (307ms)
+  ✓   33 [chromium] › tests/e2e/review-r2.spec.ts:51:1 › R2 a new estimate preserves blank portions and removal keeps the remaining item editable (402ms)
+  ✓   34 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal grams accepts decimal keystrokes and persists the exact item (307ms)
+  ✓   35 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal calories accepts decimal keystrokes and persists the exact item (251ms)
+  ✓   36 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 saved meal protein accepts decimal keystrokes and persists the exact item (252ms)
+  ✓   37 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal grams accepts decimal keystrokes and persists the exact item (352ms)
+  ✓   38 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal calories accepts decimal keystrokes and persists the exact item (337ms)
+  ✓   39 [chromium] › tests/e2e/review-r3.spec.ts:7:2 › R3 new meal protein accepts decimal keystrokes and persists the exact item (351ms)
+  ✓   40 [chromium] › tests/e2e/review-r3.spec.ts:25:1 › R3 numeric drafts survive decimal corrections, blank blur, and item removal (317ms)
+  ✓   41 [chromium] › tests/e2e/review-r3.spec.ts:37:1 › R3 numeric drafts retain immediate bounds in every item field (241ms)
+  ✓   42 [chromium] › tests/e2e/review-r3.spec.ts:45:1 › R3 meditation omits empty fine print but retains optional semantics and logged minutes (236ms)
+  ✓   43 [chromium] › tests/e2e/review-r3.spec.ts:54:1 › R3 estimate rejects an overlong description with a length error and keeps input guards (27ms)
+  ✓   44 [chromium] › tests/e2e/review164.spec.ts:11:1 › R164-1: a change acknowledged during another tab's stale view is counted once on the account, on the device and on both screens, including after an undo and a later sync (8.6s)
+  ✓   45 [chromium] › tests/e2e/review164.spec.ts:33:1 › R164-2: an account read that began before another tab's change was acknowledged is not installed; the device keeps the acknowledged state, offline and after a reload (1.5s)
+  ✓   46 [chromium] › tests/e2e/review164.spec.ts:52:1 › R164-2b: a write answer that arrives after a newer answer was saved does not install its older state; the read that follows restores the newest (2.9s)
+  ✓   47 [chromium] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload (822ms)
+  ✘   48 [chromium] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device (3.4s)
+
+
+  1) [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 429
+
+       7 | // No credential is ever written to evidence.
+       8 | const secret=process.env.APP_PASSPHRASE||(existsSync('.env.local')?readFileSync('.env.local','utf8').split('\n').find(l=>l.startsWith('APP_PASSPHRASE='))?.split('=').slice(1).join('=')??'':'');
+    >  9 | test('gate rejects wrong passphrase and protects every write path',async({request,baseURL})=>{test.skip(virtual,'needs a real server; run outside the sandbox with npm run start -- --port 3075');const wrong=await request.post('/api/auth',{headers:{origin:baseURL!},data:{passphrase:'deliberately-wrong'}});expect(wrong.status()).toBe(401);for(const path of ['/api/sync','/api/estimate'])expect((await request.post(path,{headers:{origin:baseURL!},data:[]})).status()).toBe(401);expect((await request.get('/api/state')).status()).toBe(401);expect((await request.post('/api/auth',{headers:{origin:'https://untrusted.example'},data:{passphrase:secret}})).status()).toBe(403);});
+         |                                                                                                                                                                                                                                                                                                                                         ^
+      10 | test('onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar',async({page})=>{
+      11 |  const box=await open(page,emptyState(),{go:false,unlocked:false});
+      12 |  if(virtual)await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/app.spec.ts:9:329
+
+    Error Context: test-results/app-gate-rejects-wrong-pas-25499-d-protects-every-write-path-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Welcome to My Wellness.' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Welcome to My Wellness.' }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Welcome to My Wellness.' })
+
+
+      13 |  await page.route('**/api/estimate',r=>r.fulfill({json:{items:[{name:'egg, whole, cooked, scrambled',grams:100,calories:149,protein:10,source:'usda',match:'Egg, whole, cooked, scrambled',fdcId:172187},{name:'bread, white, toasted',grams:50,calories:145,protein:4.5,source:'usda',match:'Bread, white, commercially prepared, toasted',fdcId:174925}],calories:294,protein:14.5,model:'test'}}));
+      14 |  await page.goto('/');await expect(page.getByRole('heading',{name:'My Wellness'})).toBeVisible();await page.getByLabel('Passphrase').fill(virtual?'test-only':secret);await page.getByRole('button',{name:'Open'}).click();
+    > 15 |  await expect(page.getByRole('heading',{name:'Welcome to My Wellness.'})).toBeVisible();
+         |                                                                           ^
+      16 |  // Defaults are lb and ft-in; the stored profile is metric.
+      17 |  await expect(page.getByRole('button',{name:'lb · ft in'})).toHaveAttribute('aria-pressed','true');
+      18 |  await page.getByLabel('Height · ft').fill('5');await page.getByLabel('in',{exact:true}).fill('5');await page.getByLabel('Weight · lb').fill('143.3');await page.getByLabel('Age',{exact:true}).fill('30');await page.getByRole('button',{name:'Start'}).click();
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/app.spec.ts:15:75
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/app-onboarding-in-pounds-a-703be-ion-correction-and-calendar-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/app-onboarding-in-pounds-a-703be-ion-correction-and-calendar-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device 
+
+    Test was interrupted.
+
+    Error: page.waitForTimeout: Test ended.
+
+      93 |  for(const p of [page,other])expect(await absent(p)).toEqual({snapshot:null,timers:null,journal:0,marker:true});
+      94 |  // B's late answer arrives: nothing is written, both tabs stay on the gate.
+    > 95 |  await other.waitForTimeout(3500);
+         |              ^
+      96 |  for(const p of [page,other]){expect(await absent(p)).toEqual({snapshot:null,timers:null,journal:0,marker:true});await expect(p.getByLabel('Passphrase')).toBeVisible();expect(await p.locator('.app-shell').count()).toBe(0);}
+      97 |  await other.close();
+      98 | });
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review164.spec.ts:95:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-40.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-44.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-41.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-45.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-37.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-36.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-42.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-34.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-43.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #34: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-35.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #35: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #36: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #37: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #38: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-33.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #39: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #40: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #41: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-39.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #42: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-38.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #43: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #44: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #45: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review164-R164-4-lock-and--3c07c--restore-the-cleared-device-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path 
+    [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar 
+  1 interrupted
+    [chromium] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device 
+  199 did not run
+  45 passed (1.2m)

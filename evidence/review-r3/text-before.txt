@@ -1,0 +1,19 @@
+{"engine":"chromium","manual600EmojiStatus":400,"boundary1000EmojiStatus":400,"over1000Status":400,"over1000Message":"Describe the meal or add a clear photo."}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+400 !== 503
+
+    at file:///Users/michaelchen/Projects/flacid-75-t_6a6739e5/scripts/review-r3-browser.mjs:40:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 400,
+  expected: 503,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v26.7.0

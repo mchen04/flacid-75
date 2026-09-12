@@ -30,10 +30,11 @@ export function Food() {
 }
 async function imageForRequest(file: File) {if (file.size > 25000000) throw new Error('That photo is too large.'); const bitmap = await createImageBitmap(file); const scale = Math.min(1, 1200 / Math.max(bitmap.width, bitmap.height)); const canvas = document.createElement('canvas'); canvas.width = Math.round(bitmap.width * scale); canvas.height = Math.round(bitmap.height * scale); canvas.getContext('2d')!.drawImage(bitmap, 0, 0, canvas.width, canvas.height); bitmap.close(); return canvas.toDataURL('image/jpeg', .75).split(',')[1];}
 const clamp = (v: number, [lo, hi]: readonly [number, number]) => Math.min(hi, Math.max(lo, Number.isFinite(v) ? v : 0));
+type ItemNumber = 'grams' | 'calories' | 'protein';
 export function Meal({photo, initial, count, day, today, onSave, onPhotoConsumed, onCamera, onList}: {photo: File | null; initial?: MealRecord; count: number; day: string; today: string; onPhotoConsumed: () => void; onCamera: () => void; onList: () => void; onSave: (meal: MealRecord) => boolean}) {
  const [text, setText] = useState(initial?.description ?? ''); const [busy, setBusy] = useState(false); const [error, setError] = useState(''); const [items, setItems] = useState<EstimateItem[] | null>(initial?.items?.length ? initial.items : null); const [manual, setManual] = useState(!!initial);
  const [calories, setCalories] = useState(initial ? String(initial.calories) : ''); const [protein, setProtein] = useState(initial ? String(initial.protein) : '');
- const [emptyPortion, setEmptyPortion] = useState<number | null>(null); const hasItems = items !== null;
+ const [draft, setDraft] = useState<{i: number; field: ItemNumber; text: string} | null>(null); const hasItems = items !== null;
  const portionBase = useRef<EstimateItem | null>(null); const [itemsChanged, setItemsChanged] = useState(false);
  const requestRef = useRef<AbortController | null>(null); const started = useRef(false); const saved = useRef(false); const first = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
  // The sheet's first field takes focus once this lazily loaded form is on screen; the autofocus attribute does not fire for content inserted later.
@@ -45,11 +46,29 @@ export function Meal({photo, initial, count, day, today, onSave, onPhotoConsumed
  const addLabel = initial ? 'Save' : day === today ? 'Add to today' : `Add to ${shortDate(day)}`;
  // One save per sheet: a double tap on "Add" cannot log the same meal twice. Totals are bounded to what the account accepts.
  function save(c: number, p: number) {if (saved.current) return; const textError = mealTextError({description: text, items: items ?? undefined}); if (textError) {setError(textError); return;} if (c < limits.calories[0] || c > limits.calories[1] || p < limits.protein[0] || p > limits.protein[1]) {setError(`A meal must be 0–${limits.calories[1].toLocaleString()} kcal and 0–${limits.protein[1].toLocaleString()} g protein.`); return;} saved.current = true; if (!onSave({calories: c, protein: p, description: text, ...(items ? {items} : {})})) {saved.current = false; setError('This meal could not be saved. Try again.');}}
+ function numberField(item: EstimateItem, i: number, field: ItemNumber) {
+  return {value: draft?.i === i && draft.field === field ? draft.text : String(item[field]),
+   onFocus: () => {if (field === 'grams') portionBase.current = item;}, onBlur: () => setDraft(null),
+   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value; setDraft({i, field, text}); if (!text.trim() || !Number.isFinite(Number(text))) return;
+    const value = clamp(Number(text), field === 'grams' ? [0, 5000] : limits[field]);
+    if (value !== Number(text)) setDraft({i, field, text: String(value)});
+    const base = portionBase.current ?? item;
+    setItems(items!.map((it, j) => j === i ? field === 'grams' ? scaleMealPortion(base, value) : {...it, [field]: value} : it));
+    if (field === 'grams') {setItemsChanged(true); setError(base.grams === 0 && value > 0 ? 'The starting portion was 0 g. Enter the calories and protein for this portion.' : '');}
+   }};
+ }
  const itemSum = items?.reduce((a, i) => ({calories: a.calories + i.calories, protein: a.protein + i.protein}), {calories: 0, protein: 0});
  const originalSum = initial?.items?.reduce((a, i) => ({calories: a.calories + i.calories, protein: a.protein + i.protein}), {calories: 0, protein: 0});
  // Keep numeric corrections made by older clients until the corresponding item numbers change.
  const sum = itemSum && {calories: !itemsChanged && originalSum?.calories === itemSum.calories ? initial!.calories : itemSum.calories, protein: !itemsChanged && originalSum?.protein === itemSum.protein ? initial!.protein : itemSum.protein};
- if (items && sum) return <div className="found"><label>Description<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onChange={e => setText(clip(e.target.value, limits.mealDescription))}/></label><ul className="items">{items.map((item, i) => <li key={i}><div><label>Item name<input value={item.name} onChange={e => setItems(items.map((it, j) => j === i ? {...it, name: clip(e.target.value, 120)} : it))}/></label><label>Portion · g<input type="number" min="0" max="5000" step="0.1" value={emptyPortion === i ? '' : item.grams} onBlur={() => setEmptyPortion(null)} onFocus={() => {portionBase.current = item;}} onChange={e => {if (e.target.value === '') {setEmptyPortion(i); return;} setEmptyPortion(null); const grams = clamp(Number(e.target.value), [0, 5000]); const base = portionBase.current ?? item; setItems(items.map((it, j) => j === i ? scaleMealPortion(base, grams) : it)); setItemsChanged(true); setError(base.grams === 0 && grams > 0 ? 'The starting portion was 0 g. Enter the calories and protein for this portion.' : '');}}/></label><small> {item.source === 'usda' ? 'USDA · ' + item.match : 'estimate'}</small><button type="button" className="text-button" aria-label={`Remove item ${i + 1}: ${item.name}`} onClick={() => {setItems(items.filter((_, j) => j !== i)); setItemsChanged(true); setEmptyPortion(null); portionBase.current = null;}}>Remove item</button></div><label>Calories · kcal<input type="number" inputMode="decimal" min="0" max="10000" value={item.calories} onChange={e => setItems(items.map((it, j) => j === i ? {...it, calories: clamp(Number(e.target.value), limits.calories)} : it))}/></label><label>Protein · g<input type="number" inputMode="decimal" min="0" max="1000" step="0.1" value={item.protein} onChange={e => setItems(items.map((it, j) => j === i ? {...it, protein: clamp(Number(e.target.value), limits.protein)} : it))}/></label></li>)}</ul>
+ if (items && sum) return <div className="found"><label>Description<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onChange={e => setText(clip(e.target.value, limits.mealDescription))}/></label><ul className="items">{items.map((item, i) => <li key={i}>
+  <div><label>Item name<input value={item.name} onChange={e => setItems(items.map((it, j) => j === i ? {...it, name: clip(e.target.value, 120)} : it))}/></label>
+   <label>Portion · g<input type="number" inputMode="decimal" min="0" max="5000" step="0.1" {...numberField(item, i, 'grams')}/></label>
+   <small> {item.source === 'usda' ? 'USDA · ' + item.match : 'estimate'}</small><button type="button" className="text-button" aria-label={`Remove item ${i + 1}: ${item.name}`} onClick={() => {setItems(items.filter((_, j) => j !== i)); setItemsChanged(true); setDraft(null); portionBase.current = null;}}>Remove item</button></div>
+  <label>Calories · kcal<input type="number" inputMode="decimal" min="0" max="10000" {...numberField(item, i, 'calories')}/></label>
+  <label>Protein · g<input type="number" inputMode="decimal" min="0" max="1000" step="0.1" {...numberField(item, i, 'protein')}/></label>
+ </li>)}</ul>
   <p className="sum"><strong>{format(sum.calories)} kcal · {Math.round(sum.protein * 10) / 10} g protein</strong> estimate</p>
   {error && <p className="form-error" role="alert">{error}</p>}
   <button className="primary" onClick={() => save(Math.round(sum.calories), Math.round(sum.protein * 10) / 10)}>{addLabel}</button>{!initial && <button className="secondary" onClick={() => {setItems(null);}}>Not this</button>}</div>;

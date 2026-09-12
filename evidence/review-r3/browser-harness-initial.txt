@@ -1,0 +1,18 @@
+{"engine":"chromium","field":"grams","keystrokes":"12.5","realAPI":true,"realPostgres":true,"exactItemAndTotals":true,"reload":true,"noOverflow":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.meal-row').filter({ hasText: 'Decimal calories ab792afe' }).getByRole('button', { name: /Correct meal/ })[22m
+
+    at edit (/Users/michaelchen/Projects/flacid-75-t_6a6739e5/scripts/review-r3-browser.mjs:24:160)
+    at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/scripts/review-r3-browser.mjs:24:176 {
+  log: [
+    "  - waiting for locator('.meal-row').filter({ hasText: 'Decimal calories ab792afe' }).getByRole('button', { name: /Correct meal/ })"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v26.7.0
