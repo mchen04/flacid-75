@@ -1,43 +1,45 @@
 # CLEANUP
 
 ## Passes
-3. Pass 3 was a no-op, so the loop stopped. The branch diff against `refs/remotes/origin/main` is documentation only: `README.md`, `evidence/README.md` and `evidence/my-wellness/ACCEPTANCE.md`. No application or test source changed.
+3. Pass 3 was a no-op, so the loop stopped. The diff base is `origin/main` (48330f8), the merged line this branch grows from.
 
 ## Rebase
-Not needed. HEAD at start was 0c2bdc0. After `git fetch`, `origin/main` (f96cc4b) is an ancestor of HEAD, so the branch is 0 behind.
+Not needed. HEAD at start was 2be8faa. `origin/main` is an ancestor (0 behind). `feat/flaccid75` has no common history with this branch. Its tree is identical to branch commit f74dc68, so all of its content is already here. A rebase would only rewrite merged history.
 
 ## Removed
-- `README.md`, Version 4 release state row: a word-for-word copy of the merge sentence in the provenance paragraph above it. It is now one short line with the pull request link.
-- `evidence/my-wellness/ACCEPTANCE.md`, Publication row and the "Deployed" limitation: two word-for-word copies of the status line's merge sentence. Each now points to the status line.
-- No code removed. No source files are in the diff, so there was nothing to deslop or simplify in code.
+- `lib/domain.ts`: the legacy walk-log lookup, repeated three times, is now `walkLogOf`. The walk-seconds sum, repeated twice, is now `walkSeconds`. `op.walkId ?? op.id`, repeated three times, is now one local.
+- `lib/domain.ts`: `totals` and the Food editor used two copies of one nutrition reducer. Both now use `sumNutrition`.
+- `lib/domain.ts`: the water-log comment had moved above the new walk fields. It is back above `waterLog`.
+- `components/Activities.tsx`: the inline legacy lookup now uses `walkLogOf`.
+- `components/Food.tsx`: two inline reducers now use `sumNutrition`.
+- `components/Home.tsx`: two stray blank lines left by deleted code.
+- `lib/validation.ts`: a double `export type`/`import type` of `EstimateItem` is now one import and one alias.
+- `next-env.d.ts`: restored after `next dev` rewrote it to dev-only type paths.
 
 ## Tests deleted
-- None. No tests are in the branch diff. All 56 unit tests pin behaviour.
+- None. Every changed unit test pins behavior: walk ids, legacy import, ordering, meal bounds, portion scaling, redaction.
 
 ## Docs updated
-- `README.md` (one table cell).
-- `evidence/my-wellness/ACCEPTANCE.md` (one table row, one limitation bullet).
+- None needed. The README already says "completion checkbox". No other doc names the removed Undo or Log controls.
 
 ## Verified
-Each changed claim was checked against its real source:
-- Merge: `gh pr view 1` shows MERGED at 2026-09-11T05:12:13Z by mchen04, merge commit f96cc4b. Matches the docs.
-- Tree identity: `git diff origin/main 5198e39` is empty. Matches "tree identical to the reviewed 5198e39".
-- Deployment: `gh api .../deployments/6386909969` shows environment Production, sha f96cc4b, status success at 05:12:43Z. Matches.
-- Live link: `curl` on https://flaccid75-preview.vercel.app returns 200.
-- Lock sentence: `lib/client-store.ts` `lock()` writes the marker, clears the snapshot, timers and journal, then calls `sendLogout()`. That function retries on start and resume until the request answers. `components/App.tsx` disables "Lock and clear" while changes are pending or the device is offline. Matches.
-- Workout sentence: README Version 4 lists the workout checklist with an editable plan and the guided ab library. Matches.
-- PR links still present after the trims (2 in each changed file).
-- No UI, command, API or library code changed, so no browser walk was needed.
+- Library, called directly with tsx: `walkLogOf` returns `{}` for an empty day and `{legacy}` for an old day. `sumNutrition([])` returns zeros, and two items sum correctly. A legacy 300 s walk plus a 600 s walk totals 900 s. A repeated walk id adds nothing. Removing entries recomputes the total and clears the walk when none remain.
+- UI, in a real browser on a local dev server with a throwaway Postgres database:
+  - Walk page: logging 20 then 10 minutes shows "30 minutes total". Removing walk 1 shows 10 minutes. "Walk complete" stays checked. Focus moves to the next Remove button.
+  - Food page: a seeded two-item meal lists 295 kcal and 34 g. The editor sum matches. Removing Rice drops it to 165 kcal and 31 g.
+  - Home: shows "Walked · 10 min" with the checkbox checked.
+- Found, not changed: a pointer click from the browser tool does not remove a meal item, but a DOM click does. The committed code fails the same way, so this pass did not cause it. It comes from the double-click guard in `removeItem`.
+- Cleanup: the browser session is closed, the server is stopped, the database is dropped, and `AGENTS.md`/`CLAUDE.md` (written by `next dev`) are deleted.
 
 ## Checks
 - `npm run lint`: pass (baseline and final).
 - `npm run typecheck`: pass (baseline and final).
-- `npm test`: 56 passed, 0 failed (baseline and final).
-- Not run: `npm run build`, `npm run scan` and `npm run test:e2e`. The diff contains no code, and these are not test, lint or typecheck commands.
+- `npm test`: 73 passed, 0 failed (baseline and final).
+- Not run: `build`, `scan`, `test:e2e` and `test:integration`. They are not test, lint or typecheck commands, and the integration run needs private credentials.
 
 ## Commits
-- 3d48779 cleanup: pass 1 (deslop, simplify, prune-tests, docs)
-- 84ebef3 cleanup: pass 2 (deslop, simplify, prune-tests, docs)
+- dd96ee2 cleanup: pass 1 (deslop, simplify, prune-tests, docs). It also includes the `public/sw.js` shell version, which the client build regenerated for the changed components.
+- 3b45dde cleanup: pass 2 (deslop, simplify, prune-tests, docs)
 - This file is committed separately after these.
 
 ## Reverted
