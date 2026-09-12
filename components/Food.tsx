@@ -55,26 +55,32 @@ export function Meal({photo, initial, count, day, today, onSave, onPhotoConsumed
     if (value !== Number(text)) setDraft({i, field, text: String(value)});
     const base = portionBase.current ?? item;
     setItems(items!.map((it, j) => j === i ? field === 'grams' ? scaleMealPortion(base, value) : {...it, [field]: value} : it));
-    if (field === 'grams') {setItemsChanged(true); setError(base.grams === 0 && value > 0 ? 'The starting portion was 0 g. Enter the calories and protein for this portion.' : '');}
+    setItemsChanged(true);
+    if (field === 'grams') {setError(base.grams === 0 && value > 0 ? 'The starting portion was 0 g. Enter the calories and protein for this portion.' : '');}
    }};
+ }
+ function descriptionChanged(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  const value = clip(e.currentTarget.value, limits.mealDescription);
+  if (e.currentTarget.value !== value) e.currentTarget.value = value;
+  setText(value);
  }
  const itemSum = items?.reduce((a, i) => ({calories: a.calories + i.calories, protein: a.protein + i.protein}), {calories: 0, protein: 0});
  const originalSum = initial?.items?.reduce((a, i) => ({calories: a.calories + i.calories, protein: a.protein + i.protein}), {calories: 0, protein: 0});
- // Keep numeric corrections made by older clients until the corresponding item numbers change.
+ // Keep older total corrections until item numbers are edited.
  const sum = itemSum && {calories: !itemsChanged && originalSum?.calories === itemSum.calories ? initial!.calories : itemSum.calories, protein: !itemsChanged && originalSum?.protein === itemSum.protein ? initial!.protein : itemSum.protein};
- if (items && sum) return <div className="found"><label>Description<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onChange={e => setText(clip(e.target.value, limits.mealDescription))}/></label><ul className="items">{items.map((item, i) => <li key={i}>
+ if (items && sum) return <div className="found"><label>Description<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onChange={descriptionChanged}/></label><ul className="items">{items.map((item, i) => <li key={i}><fieldset><legend>Item {i + 1}: {item.name || 'Unnamed item'}</legend>
   <div><label>Item name<input value={item.name} onChange={e => setItems(items.map((it, j) => j === i ? {...it, name: clip(e.target.value, 120)} : it))}/></label>
    <label>Portion · g<input type="number" inputMode="decimal" min="0" max="5000" step="0.1" {...numberField(item, i, 'grams')}/></label>
    <small> {item.source === 'usda' ? 'USDA · ' + item.match : 'estimate'}</small><button type="button" className="text-button" aria-label={`Remove item ${i + 1}: ${item.name}`} onClick={() => {setItems(items.filter((_, j) => j !== i)); setItemsChanged(true); setDraft(null); portionBase.current = null;}}>Remove item</button></div>
   <label>Calories · kcal<input type="number" inputMode="decimal" min="0" max="10000" {...numberField(item, i, 'calories')}/></label>
   <label>Protein · g<input type="number" inputMode="decimal" min="0" max="1000" step="0.1" {...numberField(item, i, 'protein')}/></label>
- </li>)}</ul>
+ </fieldset></li>)}</ul>
   <p className="sum"><strong>{format(sum.calories)} kcal · {Math.round(sum.protein * 10) / 10} g protein</strong> estimate</p>
   {error && <p className="form-error" role="alert">{error}</p>}
   <button className="primary" onClick={() => save(Math.round(sum.calories), Math.round(sum.protein * 10) / 10)}>{addLabel}</button>{!initial && <button className="secondary" onClick={() => {setItems(null);}}>Not this</button>}</div>;
  return <form onSubmit={(e: FormEvent<HTMLFormElement>) => {e.preventDefault(); if (manual) save(Number(calories), Number(protein)); else void estimate();}}>
  <span className="sheet-art"><Bowl full eating={busy}/></span>
- {manual ? <><label>Description<textarea value={text} onChange={e => setText(clip(e.target.value, limits.mealDescription))}/></label><div className="form-grid"><label>Calories · kcal<input ref={first as React.RefObject<HTMLInputElement>} name="calories" value={calories} onChange={e => setCalories(e.target.value)} type="number" inputMode="decimal" min="0" max="10000" step="1" required/></label><label>Protein · g<input name="protein" value={protein} onChange={e => setProtein(e.target.value)} type="number" inputMode="decimal" min="0" max="1000" step="0.1" required/></label></div></> : <label>What did you eat?<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onChange={e => setText(clip(e.target.value, limits.mealDescription))} maxLength={1000} placeholder="two eggs and toast"/></label>}
+ {manual ? <><label>Description<textarea value={text} onChange={descriptionChanged}/></label><div className="form-grid"><label>Calories · kcal<input ref={first as React.RefObject<HTMLInputElement>} name="calories" value={calories} onChange={e => setCalories(e.target.value)} type="number" inputMode="decimal" min="0" max="10000" step="1" required/></label><label>Protein · g<input name="protein" value={protein} onChange={e => setProtein(e.target.value)} type="number" inputMode="decimal" min="0" max="1000" step="0.1" required/></label></div></> : <label>What did you eat?<textarea ref={first as React.RefObject<HTMLTextAreaElement>} value={text} onChange={descriptionChanged} maxLength={1000} placeholder="two eggs and toast"/></label>}
  {error && <p className="form-error" role="alert">{error}</p>}
  {manual ? <button className="primary" disabled={calories === '' || protein === ''}>{initial ? 'Save' : addLabel}</button> : <button className="primary" disabled={busy || (!text.trim() && !photo)}>{busy ? 'Looking…' : 'Look it up'}</button>}
  {busy && <button type="button" className="text-button" onClick={() => {requestRef.current?.abort(); setBusy(false); onPhotoConsumed();}}>Stop</button>}

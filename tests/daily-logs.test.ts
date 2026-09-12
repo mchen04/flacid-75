@@ -31,7 +31,8 @@ test('completion reverses without losing sessions, totals or streak meaning',()=
 test('a legacy walk is imported once and repeated stable finish ids cannot add time twice',()=>{
  let s=setup();s=apply(s,op({type:'session',habit:'walk',seconds:300,done:true}));delete s.days[day].walkLog;
  const walkId=crypto.randomUUID();const finish={type:'session',habit:'walk',seconds:600,done:true,walkId};
- s=apply(s,op(finish));s=apply(JSON.parse(JSON.stringify(s)),op(finish));
+ s=apply(s,op(finish));s=apply(JSON.parse(JSON.stringify(s)),op({...finish,seconds:1200}));
+ assert.equal(s.days[day].walkLog![walkId].seconds,600);
  assert.equal(s.days[day].sessions?.walk?.seconds,900);assert.equal(Object.keys(s.days[day].walkLog!).length,2);
 });
 test('new text and item bounds agree on the device and server, including malformed text',()=>{

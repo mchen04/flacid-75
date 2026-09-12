@@ -100,7 +100,7 @@ try{
  const walkA={...dailyBase,id:randomUUID(),type:'session' as const,habit:'walk' as const,seconds:600,done:true,walkId:randomUUID()};
  const walkB={...walkA,id:randomUUID(),walkId:randomUUID(),seconds:1200};
  await sync([walkA]);await Promise.all([sync([walkA]),sync([walkA]),sync([walkB])]);
- await sync([{...walkA,id:randomUUID()}]);
+ await sync([{...walkA,id:randomUUID(),seconds:1800}]);
  const walks=(await readState()).days[dailyDay];assert.deepEqual(entriesInOrder(walks.walkLog!,walks.walkOrder).map(([,entry])=>entry.seconds),[600,1200]);assert.equal(Object.keys(walks.walkLog!).length,2);assert.equal(walks.sessions!.walk!.seconds,1800);
  for(const value of [false,true]) {await sync([{...dailyBase,id:randomUUID(),type:'check',habit:'walk',value}]);const read=(await readState()).days[dailyDay];assert.equal(read.checks.walk,value);assert.equal(read.sessions!.walk!.seconds,1800);assert.equal(Object.keys(read.walkLog!).length,2);}
  const mealId=randomUUID();const meal={...dailyBase,id:randomUUID(),type:'meal' as const,mealId,calories:150,protein:12,description:'Eggs with pepper 🥚',items:[{name:'Eggs',grams:100,calories:150,protein:12,source:'usda' as const,match:'Egg, whole',fdcId:123}]};

@@ -22,7 +22,7 @@ test('evidence redaction detects unredacted credentials without reporting values
 test('followup evidence uses placeholders for test credentials',()=>{
  const failures:string[]=[];
  function scan(dir:string) {for(const entry of readdirSync(dir,{withFileTypes:true})){const path=join(dir,entry.name);if(entry.isDirectory())scan(path);else if(/\.(md|txt|json|log|ts|mjs)$/.test(entry.name)&&exposed(readFileSync(path,'utf8')))failures.push(path);}}
- scan('evidence/local-followup');scan('evidence/review-r1');scan('evidence/review-r2');scan('evidence/review-r3');
+ scan('evidence/local-followup');scan('evidence/review-r1');scan('evidence/review-r2');scan('evidence/review-r3');scan('evidence/review-r4');
  assert.deepEqual(failures,[],'redact credential assignments in the listed files');
 });
 

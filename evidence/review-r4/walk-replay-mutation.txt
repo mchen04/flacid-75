@@ -1,0 +1,45 @@
+Mutation: baseline; runtime test exit: 0
+✔ a legacy walk is imported once and repeated stable finish ids cannot add time twice (9.251333ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 447.769375
+
+
+Mutation: overwrite-first-walk; runtime test exit: 1
+✖ a legacy walk is imported once and repeated stable finish ids cannot add time twice (10.171125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 257.080875
+
+✖ failing tests:
+
+test at daily-logs.test.ts:1:2292
+✖ a legacy walk is imported once and repeated stable finish ids cannot add time twice (10.171125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1200 !== 600
+  
+      at TestContext.<anonymous> (/private/var/folders/0c/jjtf9ntd6y15p0bv_143pm040000gn/T/flacid-walk-replay-mutation-2bUoeE/daily-logs.test.ts:35:9)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.start (node:internal/test_runner/test:1257:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1200,
+    expected: 600,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+

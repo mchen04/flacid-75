@@ -1,0 +1,11 @@
+✔ evidence redaction detects unredacted credentials without reporting values (0.502417ms)
+✔ followup evidence uses placeholders for test credentials (32.102542ms)
+✔ test output redacts raw values in browser failure snapshots and secret assignments (0.082625ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107.361542

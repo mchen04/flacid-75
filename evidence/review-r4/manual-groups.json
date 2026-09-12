@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "fields": [
+        "Item name",
+        "Portion · g",
+        "Calories · kcal",
+        "Protein · g"
+      ],
+      "legend": "Item 1: Rice",
+      "scrollWidth": 225,
+      "width": 225
+    },
+    {
+      "fields": [
+        "Item name",
+        "Portion · g",
+        "Calories · kcal",
+        "Protein · g"
+      ],
+      "legend": "Item 2: Soup",
+      "scrollWidth": 225,
+      "width": 225
+    }
+  ],
+  "scrollWidth": 320,
+  "width": 320
+}

@@ -1,0 +1,6 @@
+{"engine":"chromium","field":"calories","realAPI":true,"realPostgres":true,"descriptionLimitMatchesSavedText":true,"legacyCorrectionPreservedBeforeNumberEdits":true,"changedItemTotalsPersist":true,"namedFieldsets":true,"walkReplayFirstValueWins":true,"noOverflow":true}
+{"engine":"chromium","field":"protein","realAPI":true,"realPostgres":true,"descriptionLimitMatchesSavedText":true,"legacyCorrectionPreservedBeforeNumberEdits":true,"changedItemTotalsPersist":true,"namedFieldsets":true,"walkReplayFirstValueWins":true,"noOverflow":true}
+{"engine":"chromium","manualDescriptionLimitPersisted":true}
+{"engine":"webkit","field":"calories","realAPI":true,"realPostgres":true,"descriptionLimitMatchesSavedText":true,"legacyCorrectionPreservedBeforeNumberEdits":true,"changedItemTotalsPersist":true,"namedFieldsets":true,"walkReplayFirstValueWins":true,"noOverflow":true}
+{"engine":"webkit","field":"protein","realAPI":true,"realPostgres":true,"descriptionLimitMatchesSavedText":true,"legacyCorrectionPreservedBeforeNumberEdits":true,"changedItemTotalsPersist":true,"namedFieldsets":true,"walkReplayFirstValueWins":true,"noOverflow":true}
+{"engine":"webkit","manualDescriptionLimitPersisted":true}
