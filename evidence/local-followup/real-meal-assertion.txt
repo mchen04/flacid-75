@@ -1,0 +1,8 @@
+{
+  "documentWidth": 375,
+  "meals": [
+    "Soup and bread"
+  ],
+  "total": "400 kcal",
+  "viewport": 375
+}

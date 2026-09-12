@@ -2,7 +2,7 @@
 // `checkBounds` runs before a change is queued, so ordinary input cannot produce a change the server would refuse.
 // tests/bounds.test.ts holds this file to the server schema on the same good and bad operations.
 import type {Operation} from './domain';
-export const limits = {rewardCost: [1, 10000], rewards: 30, rewardName: 60, planLine: 60, planLines: 40, waterLabel: 60, calories: [0, 10000], protein: [0, 1000], water: [-6000, 6000], seconds: [0, 86400], containerName: 30, containerMl: [30, 6000], containers: 12, weight: [35, 300], height: [120, 230], age: [18, 100], overrides: {calorieMin: [1200, 6000], calorieMax: [1200, 6500], protein: [20, 400], water: [500, 6000], steps: [500, 40000], walkMinutes: [5, 300]}} as const;
+export const limits = {rewardCost: [1, 10000], rewards: 30, rewardName: 60, planLine: 60, planLines: 40, waterLabel: 60, mealDescription: 1000, mealItems: 12, calories: [0, 10000], protein: [0, 1000], water: [-6000, 6000], seconds: [0, 86400], containerName: 30, containerMl: [30, 6000], containers: 12, weight: [35, 300], height: [120, 230], age: [18, 100], overrides: {calorieMin: [1200, 6000], calorieMax: [1200, 6500], protein: [20, 400], water: [500, 6000], steps: [500, 40000], walkMinutes: [5, 300]}} as const;
 const out = 'Outside the range the app accepts.';
 const inRange = (v: unknown, [lo, hi]: readonly [number, number]) => typeof v === 'number' && Number.isFinite(v) && v >= lo && v <= hi;
 // Free text is measured in characters (code points, so an emoji is one), must be well-formed (no lone surrogate half) and may not hold NUL:
@@ -19,8 +19,8 @@ export function checkBounds(op: Operation): string | null {
  if (!isUuid(op.id)) return out;
  switch (op.type) {
   case 'water': return inRange(op.amount, limits.water) && op.amount !== 0 && (op.label === undefined || text(op.label, limits.waterLabel)) ? null : out;
-  case 'meal': return isUuid(op.mealId) && inRange(op.calories, limits.calories) && inRange(op.protein, limits.protein) ? null : 'A meal must be 0–10,000 kcal and 0–1,000 g protein.';
-  case 'session': return inRange(op.seconds, limits.seconds) && (op.items === undefined || (op.items.length <= limits.planLines && op.items.every(i => textOptional(i, limits.planLine)))) && (op.routine === undefined || textOptional(op.routine, 60)) ? null : out;
+  case 'meal': return isUuid(op.mealId) && inRange(op.calories, limits.calories) && inRange(op.protein, limits.protein) && (op.description === undefined || textOptional(op.description, limits.mealDescription)) && (op.items === undefined || (op.items.length <= limits.mealItems && op.items.every(i => textOptional(i.name, 120) && inRange(i.grams, [0, 5000]) && inRange(i.calories, limits.calories) && inRange(i.protein, limits.protein) && ['usda', 'estimate'].includes(i.source) && (i.match === undefined || textOptional(i.match, 200)) && (i.fdcId === undefined || (Number.isSafeInteger(i.fdcId) && i.fdcId >= 0))))) ? null : 'A meal must be 0–10,000 kcal and 0–1,000 g protein.';
+  case 'session': return inRange(op.seconds, limits.seconds) && (op.walkId === undefined || isUuid(op.walkId)) && (op.items === undefined || (op.items.length <= limits.planLines && op.items.every(i => textOptional(i, limits.planLine)))) && (op.routine === undefined || textOptional(op.routine, 60)) ? null : out;
   case 'meditate': case 'focus': return inRange(op.seconds, limits.seconds) ? null : out;
   case 'rewards': return op.rewards.length <= limits.rewards && op.rewards.every(r => isUuid(r.id) && text(r.name, limits.rewardName) && Number.isInteger(r.cost) && inRange(r.cost, limits.rewardCost)) ? null : `Treats need a name and a whole number of points from 1 to ${limits.rewardCost[1].toLocaleString()}, up to ${limits.rewards} treats.`;
   case 'redeem': return isUuid(op.rewardId) && text(op.name, limits.rewardName) && Number.isInteger(op.cost) && inRange(op.cost, limits.rewardCost) ? null : out;

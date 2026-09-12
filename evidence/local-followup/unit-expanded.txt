@@ -1,0 +1,17 @@
+✔ separate walk sessions retain their entries and total across serialization (10.164542ms)
+✔ meal text and item details pass validation and survive numeric edits from an older client (2.508541ms)
+✔ completion reverses without losing sessions, totals or streak meaning (0.581333ms)
+✔ a legacy walk is imported once and repeated stable finish ids cannot add time twice (0.332875ms)
+✔ new text and item bounds agree on the device and server, including malformed text (1.186166ms)
+✔ a session that ran for 26 hours is logged as 24 hours, which the account accepts, and only then is the timer cleared (1.137916ms)
+✔ a refused change keeps the timer so the session can be finished again; nothing is lost silently (0.154458ms)
+✔ two focus sessions on the same day credit separately; the same session settled twice (two tabs) shares its ids (0.233375ms)
+✔ finishing a recovered walk retains one id after refusal or timer-clear failure (0.103417ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 272.556125

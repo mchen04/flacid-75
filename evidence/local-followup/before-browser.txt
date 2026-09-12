@@ -1,0 +1,107 @@
+
+Running 3 tests using 1 worker
+
+(node:90748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (5.4s)
+(node:90835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (5.3s)
+(node:90895) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (5.2s)
+
+
+  1) [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Start', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Start', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Start', exact: true })
+
+
+       7 |  await page.evaluate(() => {const all=JSON.parse(localStorage.getItem('my-wellness-timers')!);all.walk.startedAt=Date.now()-600000;localStorage.setItem('my-wellness-timers',JSON.stringify(all));});
+       8 |  await page.getByRole('button', {name:'Finish', exact:true}).click();
+    >  9 |  await expect(page.getByRole('button', {name:'Start', exact:true})).toBeVisible();
+         |                                                                     ^
+      10 |  await page.getByRole('button', {name:'Start', exact:true}).click();
+      11 |  await page.evaluate(() => {const all=JSON.parse(localStorage.getItem('my-wellness-timers')!);all.walk.startedAt=Date.now()-1200000;localStorage.setItem('my-wellness-timers',JSON.stringify(all));});
+      12 |  await page.reload();
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/daily-logs.spec.ts:9:69
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/daily-logs-multiple-walks--e25f4-oad-and-allow-another-timer-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/daily-logs-multiple-walks--e25f4-oad-and-allow-another-timer-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('group', { name: 'Meals' })
+    Expected substring: "Eggs with pepper"
+    Received string:    "Meal 1150 kcal · 12 g protein · estimateEdit"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('group', { name: 'Meals' }) with timeout 5000ms
+      - waiting for getByRole('group', { name: 'Meals' })
+        14 × locator resolved to <div role="group" class="card list" aria-label="Meals">…</div>
+           - unexpected value "Meal 1150 kcal · 12 g protein · estimateEdit"
+
+
+      27 |  await page.getByRole('button',{name:'Look it up'}).click();
+      28 |  await page.getByRole('button',{name:'Add to today'}).click();
+    > 29 |  await expect(page.getByRole('group',{name:'Meals'})).toContainText('Eggs with pepper');
+         |                                                       ^
+      30 |  await page.reload();
+      31 |  await page.getByRole('button',{name:'Correct meal 1'}).click();
+      32 |  await expect(page.getByLabel('Description',{exact:true})).toHaveValue('Eggs with pepper');
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/daily-logs.spec.ts:29:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/daily-logs-meal-descriptio-5310e-dividual-editing-and-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/daily-logs-meal-descriptio-5310e-dividual-editing-and-reload-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload 
+
+    Error: expect(locator).not.toBeChecked() failed
+
+    Locator: getByRole('checkbox', { name: 'Floss complete', exact: true })
+    Expected: not checked
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "not toBeChecked" getByRole('checkbox', { name: 'Floss complete', exact: true }) with timeout 5000ms
+      - waiting for getByRole('checkbox', { name: 'Floss complete', exact: true })
+
+
+      44 |  await open(page,seed());
+      45 |  const toggle=page.getByRole('checkbox',{name:'Floss complete',exact:true});
+    > 46 |  await expect(toggle).not.toBeChecked();
+         |                           ^
+      47 |  await toggle.focus();await page.keyboard.press('Space');
+      48 |  await expect(toggle).toBeChecked();await page.reload();await expect(toggle).toBeChecked();
+      49 |  await toggle.focus();await page.keyboard.press('Space');await expect(toggle).not.toBeChecked();
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/daily-logs.spec.ts:46:27
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/daily-logs-completion-has--c01ff-oth-directions-after-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/daily-logs-completion-has--c01ff-oth-directions-after-reload-chromium/error-context.md
+
+  3 failed
+    [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer 
+    [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload 
+    [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload 

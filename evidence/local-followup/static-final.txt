@@ -1,0 +1,8 @@
+
+> my-wellness@4.0.0 lint
+> eslint .
+
+
+> my-wellness@4.0.0 typecheck
+> tsc --noEmit
+

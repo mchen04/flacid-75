@@ -1,0 +1,62 @@
+- main
+  - sectionheader
+    - button "Home" [ref=e2]
+    - heading "Walk" [level=1, ref=e3]
+    - paragraph
+      - StaticText "Friday, September 11"
+    - button "0 day streak. Open progress" [ref=e4]
+      - strong
+        - StaticText "0"
+      - StaticText "day"
+      - StaticText "s"
+    - button "Settings" [ref=e5]
+  - generic
+    - strong
+      - StaticText "Paused."
+    - StaticText "20 minutes total"
+    - StaticText "Walk complete"
+    - checkbox "Walk complete" [checked=true, ref=e6]
+    - generic
+      - strong "Walk time 0:26"
+        - StaticText "0:26"
+      - StaticText "PAUSED"
+    - paragraph
+      - StaticText "Counts for today. Keeps counting while locked. No chime or buzz plays while locked."
+    - button "Resume" [ref=e7]
+    - button "Finish" [ref=e8]
+    - generic
+      - LabelText
+        - StaticText "Walk minutes"
+        - spinbutton "Walk minutes" [required, ref=e11]
+      - button "Log walk" [ref=e9]
+    - group "Walk entries"
+      - heading "Walks" [level=2, ref=e10]
+      - strong
+        - StaticText "20:00 total"
+      - strong
+        - StaticText "Walk 1"
+      - paragraph
+        - StaticText "7:00"
+      - strong
+        - StaticText "Walk 2"
+      - paragraph
+        - StaticText "13:00"
+    - group "Walks this week"
+      - StaticText "This week"
+      - generic
+        - StaticText "1 of 7"
+      - generic "Mon, Sep 7 not done"
+        - StaticText "Mo"
+      - generic "Tue, Sep 8 not done"
+        - StaticText "Tu"
+      - generic "Wed, Sep 9 not done"
+        - StaticText "We"
+      - generic "Thu, Sep 10 not done"
+        - StaticText "Th"
+      - generic "Fri, Sep 11 done"
+        - StaticText "Fr"
+      - generic "Sat, Sep 12 ahead"
+        - StaticText "Sa"
+      - generic "Sun, Sep 13 ahead"
+        - StaticText "Su"
+  - button "Photograph a meal" [ref=e1]: No file chosen

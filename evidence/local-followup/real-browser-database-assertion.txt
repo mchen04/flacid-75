@@ -1,0 +1,1 @@
+{"source":"real browser -> API -> isolated PostgreSQL, then independent SQL read","walks":[420,780,27],"walkSeconds":1227,"walkChecked":true,"meals":[{"protein":20,"calories":400,"description":"Soup and bread"}],"pass":true}

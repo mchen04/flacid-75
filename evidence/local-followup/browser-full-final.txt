@@ -1,0 +1,658 @@
+
+Running 203 tests using 1 worker
+
+(node:917) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [chromium] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (75ms)
+  ✓    2 [chromium] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (1.3s)
+  ✓    3 [chromium] › tests/e2e/app.spec.ts:35:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (844ms)
+  ✓    4 [chromium] › tests/e2e/camera.chromium.spec.ts:4:1 › camera capture reaches a correctable estimate in four actions without storing the image (610ms)
+  ✓    5 [chromium] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (252ms)
+  ✓    6 [chromium] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (434ms)
+  ✓    7 [chromium] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (864ms)
+  ✓    8 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (345ms)
+  ✓    9 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (352ms)
+  ✓   10 [chromium] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (74ms)
+  ✓   11 [chromium] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (238ms)
+  ✓   12 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (337ms)
+  ✓   13 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (366ms)
+  ✓   14 [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (177ms)
+  ✓   15 [chromium] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (120ms)
+  ✓   16 [chromium] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.2s)
+  ✓   17 [chromium] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (998ms)
+  ✓   18 [chromium] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (986ms)
+  ✓   19 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (9.2s)
+  ✓   20 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 375x640; vertical scroll only inside the page (9.2s)
+  ✓   21 [chromium] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 1280x900; vertical scroll only inside the page (14.0s)
+  ✓   22 [chromium] › tests/e2e/review164.spec.ts:11:1 › R164-1: a change acknowledged during another tab's stale view is counted once on the account, on the device and on both screens, including after an undo and a later sync (8.6s)
+  ✓   23 [chromium] › tests/e2e/review164.spec.ts:33:1 › R164-2: an account read that began before another tab's change was acknowledged is not installed; the device keeps the acknowledged state, offline and after a reload (1.5s)
+  ✓   24 [chromium] › tests/e2e/review164.spec.ts:52:1 › R164-2b: a write answer that arrives after a newer answer was saved does not install its older state; the read that follows restores the newest (2.9s)
+  ✓   25 [chromium] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload (829ms)
+  ✓   26 [chromium] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device (3.9s)
+  ✓   27 [chromium] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (290ms)
+  ✓   28 [chromium] › tests/e2e/review164.spec.ts:115:1 › R164-6: the abs caption does not name a direction, and a past week's strip is named by its week rather than "This week" (222ms)
+  ✓   29 [chromium] › tests/e2e/review165.spec.ts:26:1 › R165-1: a read that already contains another tab's applied change, answered before that tab's own acknowledgement, counts the change once on the device and both screens, in both answer orders, for a pour and an undo, and after an offline reload (3.1s)
+  ✓   30 [chromium] › tests/e2e/review165.spec.ts:51:1 › R165-2: lock and clear empties the device before the account is asked, even when that request never answers; the request is retried when the locked app reopens (1.1s)
+  ✓   31 [chromium] › tests/e2e/review165.spec.ts:68:1 › R165-3: a tab that received no storage events reconciles the lock when it is shown again (page shown from cache, made visible, back online) and writes nothing (1.1s)
+  ✓   32 [chromium] › tests/e2e/review165.spec.ts:84:1 › R165-4: when the lock marker cannot be written until the clear frees space, the device is still cleared and fenced, and another tab's in-flight answer writes nothing; unparsable journal keys are cleared too (3.9s)
+  ✓   33 [chromium] › tests/e2e/review165.spec.ts:100:1 › C2: a refused batch sets its first change aside, a read follows at once so the refused effect leaves the screen, and the rest of the queue is retried within a second (817ms)
+  ✓   34 [chromium] › tests/e2e/review165.spec.ts:112:1 › C4: the saved epoch advances on every saved answer even when this tab's memory lags behind the device (2.2s)
+  ✓   35 [chromium] › tests/e2e/review165.spec.ts:125:1 › R165-5: a full receipt that no longer lists an older applied change this tab still holds does not count it twice; the change is presented once more and settled exactly (1.6s)
+  ✓   36 [chromium] › tests/e2e/review165.spec.ts:146:1 › R165-6: a change that has never been sent is always shown, even when a late read arrives with a full receipt, and it survives going offline (1.1s)
+  ✓   37 [chromium] › tests/e2e/review165.spec.ts:165:1 › R165-7: unlocking with a held change the account has already applied counts it once (637ms)
+  ✓   38 [chromium] › tests/e2e/review165.spec.ts:175:1 › R165-8: a write refused at the door (401) leaves no sent mark, so an unlock against a full receipt still shows the pour; it stays through a temporary failure, offline and a reload, and lands once when the account takes it (348ms)
+  ✓   39 [chromium] › tests/e2e/review165.spec.ts:194:1 › R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge its old refusal (or anything else) into the new generation; it adopts the new store (1.3s)
+  ✓   40 [chromium] › tests/e2e/review165.spec.ts:211:1 › R165-10: an account answer that started before a lock-and-clear and a new unlock is dropped when it lands, whether it is an error or a result; the tab adopts the new generation (4.0s)
+  ✓   41 [chromium] › tests/e2e/review165.spec.ts:229:1 › R165-11: an unlock that was in flight when the device was locked and cleared again is dropped and the tab stays on the gate (3.7s)
+  ✓   42 [chromium] › tests/e2e/review165.spec.ts:245:1 › R165-12: a large valid offline backlog drains in byte-bounded batches: every change reaches the account once, no answer is 413, nothing is dropped (442ms)
+  ✓   43 [chromium] › tests/e2e/review165.spec.ts:258:1 › R165-13: an answer whose write waits on the device lock while another tab locks, clears and unlocks is dropped inside the write itself; the tab adopts the new generation (1.5s)
+  ✓   44 [chromium] › tests/e2e/review171.spec.ts:10:1 › R171-1: a plan line of 59 characters and an emoji saves whole and syncs; a line that would cut an emoji is clipped before it, never split; the move is usable in a workout (413ms)
+  ✓   45 [chromium] › tests/e2e/review171.spec.ts:19:1 › R171-2: a poisoned journal entry (a split emoji written by an older build) is refused by id with a reason and set aside, while a valid change in the same batch syncs; the device recovers and can lock (167ms)
+  ✓   46 [chromium] › tests/e2e/review171.spec.ts:30:1 › R171-3: a temporary account failure shows a notice and keeps the change; it lands once when the account recovers (245ms)
+  ✓   47 [chromium] › tests/e2e/review171.spec.ts:42:1 › R171-4: sixteen quarter-Stanley pours meet a 120 oz target exactly on screen and in completion; one short does not (866ms)
+  ✓   48 [chromium] › tests/e2e/review171.spec.ts:55:1 › R171-5: "3/4 of the Stanley" proposes one three-quarter pour; "1/2 Stanley" proposes half (207ms)
+  ✓   49 [chromium] › tests/e2e/review171.spec.ts:62:1 › R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later (775ms)
+  ✓   50 [chromium] › tests/e2e/review171.spec.ts:74:1 › R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused (927ms)
+  ✓   51 [chromium] › tests/e2e/review171.spec.ts:97:1 › R171-7: a targets save queued while another device added a treat and a plan does not hide or delete them once this device catches up (412ms)
+  ✘   52 [chromium] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention (6.9s)
+(node:2090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   53 [chromium] › tests/e2e/review171.spec.ts:123:1 › W172: typed symbol shares and mixed numbers propose the right pour on screen (441ms)
+  ✓   54 [chromium] › tests/e2e/v3.spec.ts:7:1 › water goes down by one tap with no dialog, and never below zero (209ms)
+  ✓   55 [chromium] › tests/e2e/v3.spec.ts:15:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (3.4s)
+  ✓   56 [chromium] › tests/e2e/v3.spec.ts:30:1 › the served manifest, icons and splash carry the My Wellness name and the brand art (102ms)
+  ✓   57 [chromium] › tests/e2e/wellness.spec.ts:11:1 › every page is one tap from the dashboard, has an obvious Home, and the browser back button works (1.4s)
+  ✓   58 [chromium] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes (20.6s)
+  ✓   59 [chromium] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves (22.2s)
+  ✓   60 [chromium] › tests/e2e/wellness.spec.ts:49:1 › the guided ab routine walks through timed intervals with instructions and logs itself at the end (5.1s)
+  ✓   61 [chromium] › tests/e2e/wellness.spec.ts:63:1 › meditation and focus are optional: they log minutes and never change the streak (686ms)
+  ✓   62 [chromium] › tests/e2e/wellness.spec.ts:76:1 › treats are user-chosen, cost points, refuse when short, redeem once per tap, and undo (11.5s)
+  ✓   63 [chromium] › tests/e2e/wellness.spec.ts:88:1 › units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry (341ms)
+  ✓   64 [chromium] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began (9.5s)
+  ✓   65 [chromium] › tests/e2e/wellness.spec.ts:113:1 › a rest day yesterday keeps the streak across midnight where a miss would have broken it (890ms)
+  ✓   66 [chromium] › tests/e2e/wellness.spec.ts:118:1 › backfilling a past day from Progress opens the activity pages in backfill mode (306ms)
+  ✓   67 [chromium] › tests/e2e/wellness.spec.ts:125:1 › milestones show reached streaks and the next one (134ms)
+  ✓   68 [chromium] › tests/e2e/wellness.spec.ts:131:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (125ms)
+  ✓   69 [chromium] › tests/e2e/wellness.spec.ts:142:1 › text contrast meets WCAG AA on every page (3.1s)
+  ✓   70 [chromium] › tests/e2e/wellness.spec.ts:171:1 › a running timer is visible from the dashboard and a duplicate finish cannot log twice (2.0s)
+  ✓   71 [chromium] › tests/e2e/wellness.spec.ts:178:1 › logging from the dashboard while a timer runs finishes that session with its time and ticks; unchecking preserves the session (23.5s)
+  ✓   72 [chromium] › tests/e2e/wellness.spec.ts:193:1 › a timer left from another day is offered for that day or discarded, never silently backfilled (12.9s)
+  ✓   73 [chromium] › tests/e2e/wellness.spec.ts:203:1 › finished timers settle from any page: a meditation ends while the dashboard is open, a focus session caps itself (402ms)
+  ✓   74 [chromium] › tests/e2e/wellness.spec.ts:213:1 › re-saving your details without touching height or weight keeps the exact stored measurements (240ms)
+  ✓   75 [chromium] › tests/e2e/wellness.spec.ts:221:1 › in backfill mode the workout checklist is read-only and no timer starts (185ms)
+  ✓   76 [chromium] › tests/e2e/wellness.spec.ts:227:1 › the hero opens whatever comes next, water can be removed and meals can be edited from Food (651ms)
+  ✓   77 [chromium] › tests/e2e/wellness.spec.ts:240:1 › half a Stanley is exactly 15 oz, twice; the fill and the daily total match; refills, ambiguity and the model fallback behave (3.0s)
+  ✓   78 [chromium] › tests/e2e/wellness.spec.ts:276:1 › containers are hers to name and size, in her unit, and the default drives the one-tap (448ms)
+  ✓   79 [chromium] › tests/e2e/wellness.spec.ts:287:1 › B1: a malformed change never strands the queue: the account refuses it by id, the valid change lands, the user sees it and can discard it after a reload (497ms)
+  ✓   80 [chromium] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (593ms)
+  ✓   81 [chromium] › tests/e2e/wellness.spec.ts:323:1 › B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed (473ms)
+  ✓   82 [chromium] › tests/e2e/wellness.spec.ts:336:1 › B3: the sound switch and the sheet dialogs have accessible names (260ms)
+  ✓   83 [chromium] › tests/e2e/wellness.spec.ts:343:1 › two tabs settling the same meditation credit it once (2.8s)
+  ✓   84 [chromium] › tests/e2e/wellness.spec.ts:358:1 › optional timers cannot be started for a past day (262ms)
+  ✓   85 [chromium] › tests/e2e/wellness.spec.ts:364:1 › H1: hero and stage copy, chips and pills never overlap, at phone and short-phone sizes (5.7s)
+  ✓   86 [chromium] › tests/e2e/wellness.spec.ts:374:1 › Floss has one completion toggle that checks and unchecks (315ms)
+  ✓   87 [chromium] › tests/e2e/wellness.spec.ts:383:1 › R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay (761ms)
+  ✓   88 [chromium] › tests/e2e/wellness.spec.ts:396:1 › R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted (231ms)
+  ✓   89 [chromium] › tests/e2e/wellness.spec.ts:405:1 › R3: a slow sync in one tab cannot erase a change another tab queued meanwhile (6.8s)
+  ✓   90 [chromium] › tests/e2e/wellness.spec.ts:422:1 › R2: a pour from a long-named container logs with a trimmed label, and a refusal shows at the action (429ms)
+  ✓   91 [chromium] › tests/e2e/wellness.spec.ts:434:1 › R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock (456ms)
+  ✓   92 [chromium] › tests/e2e/wellness.spec.ts:454:1 › R163-1: when device storage refuses the write, an automatically finishing timer and a manual finish both keep their timer and retry once storage is back (2.8s)
+  ✓   93 [chromium] › tests/e2e/wellness.spec.ts:476:1 › R163-2: a refused batch during a slow sync cannot overwrite a change another tab queued and then closed on (3.8s)
+  ✓   94 [chromium] › tests/e2e/wellness.spec.ts:491:1 › R163-3: an in-form unit toggle keeps untouched measurements exact (434ms)
+  ✓   95 [chromium] › tests/e2e/wellness.spec.ts:501:1 › R163-4: a change written by another tab exactly between this tab's read and its save survives, because every change has its own durable key (357ms)
+  ✓   96 [chromium] › tests/e2e/wellness.spec.ts:516:1 › non-text contrast: unchecked workout rings, the off and on switch, unit segments and unreached milestone labels meet 3:1 with inherited opacity applied (974ms)
+  ✓   97 [chromium] › tests/e2e/wellness.spec.ts:545:1 › a live session keeps its controls in the first viewport at phone, small and desktop sizes (1.1s)
+  ✓   98 [chromium] › tests/e2e/wellness.spec.ts:567:1 › the water target is shown and edited in her volume unit and an untouched field keeps the exact millilitres (434ms)
+  ✓   99 [chromium] › tests/e2e/wellness.spec.ts:584:1 › R163-5: an offline start replays a change that only the journal holds, shows it once, and the account receives it once (232ms)
+  ✓  100 [chromium] › tests/e2e/wellness.spec.ts:601:1 › R163-6: when the journal key itself is refused, the change is not applied, a notice is shown on the page, and a finishing timer is kept (299ms)
+  ✓  101 [chromium] › tests/e2e/wellness.spec.ts:620:1 › R163-7: a change the account refuses in tab A is kept by id when tab B's slow sync saves afterwards, survives a reload, and an explicit discard stays discarded in both tabs (9.5s)
+  ✓  102 [chromium] › tests/e2e/wellness.spec.ts:644:1 › R163-8: tab A's refusal survives A closing and tab B saving a new change before B's slow sync answers; B's explicit discard then holds through its own later saves and a reload (11.6s)
+(node:4939) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  103 [webkit] › tests/e2e/app.spec.ts:9:1 › gate rejects wrong passphrase and protects every write path (25ms)
+  ✓  104 [webkit] › tests/e2e/app.spec.ts:10:1 › onboarding in pounds and feet-inches, all seven one-tap habits from the dashboard, celebration, correction and calendar (1.5s)
+  ✓  105 [webkit] › tests/e2e/app.spec.ts:35:1 › offline optimistic writes, reconnect deduplication and manual fallback when the estimate fails (854ms)
+  ✓  106 [webkit] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (343ms)
+  ✓  107 [webkit] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (560ms)
+  ✓  108 [webkit] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (980ms)
+  ✓  109 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (405ms)
+  ✓  110 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (402ms)
+  ✓  111 [webkit] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (175ms)
+  ✓  112 [webkit] › tests/e2e/daily-logs-extra.spec.ts:74:1 › account key reordering cannot swap walks or meal edit targets after reload (338ms)
+  ✓  113 [webkit] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (379ms)
+  ✓  114 [webkit] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (459ms)
+  ✓  115 [webkit] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (255ms)
+  ✓  116 [webkit] › tests/e2e/gamify.spec.ts:7:1 › a tap changes state in under 100 ms and shifts no layout, with every habit animated distinctly (233ms)
+  ✓  117 [webkit] › tests/e2e/gamify.spec.ts:22:1 › walking moves the marker along the hero path and eating animates the bowl (2.3s)
+  ✓  118 [webkit] › tests/e2e/gamify.spec.ts:29:1 › reduced motion disables every animation and transition on every page (1.2s)
+  ✓  119 [webkit] › tests/e2e/history.spec.ts:4:1 › rest in one tap with undo, two per week, planned ahead; backfill, rescue, targets and trends (954ms)
+  ✓  120 [webkit] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 390x844; vertical scroll only inside the page (7.7s)
+  ✓  121 [webkit] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 375x640; vertical scroll only inside the page (7.8s)
+  ✓  122 [webkit] › tests/e2e/horizontal.spec.ts:15:53 › no horizontal scroll, drag or overflow on any page at 1280x900; vertical scroll only inside the page (8.0s)
+  ✓  123 [webkit] › tests/e2e/review164.spec.ts:11:1 › R164-1: a change acknowledged during another tab's stale view is counted once on the account, on the device and on both screens, including after an undo and a later sync (8.8s)
+  ✓  124 [webkit] › tests/e2e/review164.spec.ts:33:1 › R164-2: an account read that began before another tab's change was acknowledged is not installed; the device keeps the acknowledged state, offline and after a reload (1.6s)
+  ✓  125 [webkit] › tests/e2e/review164.spec.ts:52:1 › R164-2b: a write answer that arrives after a newer answer was saved does not install its older state; the read that follows restores the newest (3.1s)
+  ✓  126 [webkit] › tests/e2e/review164.spec.ts:65:1 › R164-3: a refusal answered while the snapshot cannot be saved is kept (journaled and shown) until the save succeeds, then set aside durably across a reload (923ms)
+  ✓  127 [webkit] › tests/e2e/review164.spec.ts:84:1 › R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device (4.1s)
+  ✓  128 [webkit] › tests/e2e/review164.spec.ts:100:1 › R164-5: the water meter fills exactly at the goal, proportionally below it and no further above it; the calorie band keeps its headroom (694ms)
+  ✓  129 [webkit] › tests/e2e/review164.spec.ts:115:1 › R164-6: the abs caption does not name a direction, and a past week's strip is named by its week rather than "This week" (318ms)
+  ✓  130 [webkit] › tests/e2e/review165.spec.ts:26:1 › R165-1: a read that already contains another tab's applied change, answered before that tab's own acknowledgement, counts the change once on the device and both screens, in both answer orders, for a pour and an undo, and after an offline reload (3.3s)
+  ✓  131 [webkit] › tests/e2e/review165.spec.ts:51:1 › R165-2: lock and clear empties the device before the account is asked, even when that request never answers; the request is retried when the locked app reopens (1.3s)
+  ✓  132 [webkit] › tests/e2e/review165.spec.ts:68:1 › R165-3: a tab that received no storage events reconciles the lock when it is shown again (page shown from cache, made visible, back online) and writes nothing (1.4s)
+  ✓  133 [webkit] › tests/e2e/review165.spec.ts:84:1 › R165-4: when the lock marker cannot be written until the clear frees space, the device is still cleared and fenced, and another tab's in-flight answer writes nothing; unparsable journal keys are cleared too (4.1s)
+  ✓  134 [webkit] › tests/e2e/review165.spec.ts:100:1 › C2: a refused batch sets its first change aside, a read follows at once so the refused effect leaves the screen, and the rest of the queue is retried within a second (909ms)
+  ✓  135 [webkit] › tests/e2e/review165.spec.ts:112:1 › C4: the saved epoch advances on every saved answer even when this tab's memory lags behind the device (2.4s)
+  ✓  136 [webkit] › tests/e2e/review165.spec.ts:125:1 › R165-5: a full receipt that no longer lists an older applied change this tab still holds does not count it twice; the change is presented once more and settled exactly (1.8s)
+  ✓  137 [webkit] › tests/e2e/review165.spec.ts:146:1 › R165-6: a change that has never been sent is always shown, even when a late read arrives with a full receipt, and it survives going offline (1.2s)
+  ✓  138 [webkit] › tests/e2e/review165.spec.ts:165:1 › R165-7: unlocking with a held change the account has already applied counts it once (717ms)
+  ✓  139 [webkit] › tests/e2e/review165.spec.ts:175:1 › R165-8: a write refused at the door (401) leaves no sent mark, so an unlock against a full receipt still shows the pour; it stays through a temporary failure, offline and a reload, and lands once when the account takes it (446ms)
+  ✓  140 [webkit] › tests/e2e/review165.spec.ts:194:1 › R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge its old refusal (or anything else) into the new generation; it adopts the new store (1.5s)
+  ✓  141 [webkit] › tests/e2e/review165.spec.ts:211:1 › R165-10: an account answer that started before a lock-and-clear and a new unlock is dropped when it lands, whether it is an error or a result; the tab adopts the new generation (4.2s)
+  ✓  142 [webkit] › tests/e2e/review165.spec.ts:229:1 › R165-11: an unlock that was in flight when the device was locked and cleared again is dropped and the tab stays on the gate (3.9s)
+  ✓  143 [webkit] › tests/e2e/review165.spec.ts:245:1 › R165-12: a large valid offline backlog drains in byte-bounded batches: every change reaches the account once, no answer is 413, nothing is dropped (539ms)
+  ✓  144 [webkit] › tests/e2e/review165.spec.ts:258:1 › R165-13: an answer whose write waits on the device lock while another tab locks, clears and unlocks is dropped inside the write itself; the tab adopts the new generation (1.8s)
+  ✓  145 [webkit] › tests/e2e/review171.spec.ts:10:1 › R171-1: a plan line of 59 characters and an emoji saves whole and syncs; a line that would cut an emoji is clipped before it, never split; the move is usable in a workout (523ms)
+  ✓  146 [webkit] › tests/e2e/review171.spec.ts:19:1 › R171-2: a poisoned journal entry (a split emoji written by an older build) is refused by id with a reason and set aside, while a valid change in the same batch syncs; the device recovers and can lock (264ms)
+  ✓  147 [webkit] › tests/e2e/review171.spec.ts:30:1 › R171-3: a temporary account failure shows a notice and keeps the change; it lands once when the account recovers (322ms)
+  ✓  148 [webkit] › tests/e2e/review171.spec.ts:42:1 › R171-4: sixteen quarter-Stanley pours meet a 120 oz target exactly on screen and in completion; one short does not (1.0s)
+  ✓  149 [webkit] › tests/e2e/review171.spec.ts:55:1 › R171-5: "3/4 of the Stanley" proposes one three-quarter pour; "1/2 Stanley" proposes half (326ms)
+  ✓  150 [webkit] › tests/e2e/review171.spec.ts:62:1 › R171-6: an edited water target is checked against the canonical millilitre limits in her unit, with a reason on the sheet; the largest allowed value saves; nothing is set aside later (947ms)
+  ✓  151 [webkit] › tests/e2e/review171.spec.ts:74:1 › R173-1: a stored boundary water target (6000 ml or 500 ml) stays exact across unit toggles and unrelated edits; only a genuinely edited out-of-range value is refused (1.2s)
+  ✓  152 [webkit] › tests/e2e/review171.spec.ts:97:1 › R171-7: a targets save queued while another device added a treat and a plan does not hide or delete them once this device catches up (508ms)
+  ✘  153 [webkit] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention (5.6s)
+(node:6264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  154 [webkit] › tests/e2e/review171.spec.ts:123:1 › W172: typed symbol shares and mixed numbers propose the right pour on screen (611ms)
+  ✓  155 [webkit] › tests/e2e/v3.spec.ts:7:1 › water goes down by one tap with no dialog, and never below zero (286ms)
+  ✓  156 [webkit] › tests/e2e/v3.spec.ts:15:1 › nothing transient appears and nothing shifts on a habit tap, a pour, a meal or a removal (3.5s)
+  ✓  157 [webkit] › tests/e2e/v3.spec.ts:30:1 › the served manifest, icons and splash carry the My Wellness name and the brand art (201ms)
+  ✓  158 [webkit] › tests/e2e/wellness.spec.ts:11:1 › every page is one tap from the dashboard, has an obvious Home, and the browser back button works (1.0s)
+  ✓  159 [webkit] › tests/e2e/wellness.spec.ts:20:1 › the walk timer starts, pauses, survives a reload and a long sleep, finishes into a logged session, and undoes (28.4s)
+  ✓  160 [webkit] › tests/e2e/wellness.spec.ts:35:1 › the workout page is a checklist with a session clock, an editable plan, and a finish that records the moves (30.6s)
+  ✓  161 [webkit] › tests/e2e/wellness.spec.ts:49:1 › the guided ab routine walks through timed intervals with instructions and logs itself at the end (6.8s)
+  ✓  162 [webkit] › tests/e2e/wellness.spec.ts:63:1 › meditation and focus are optional: they log minutes and never change the streak (669ms)
+  ✓  163 [webkit] › tests/e2e/wellness.spec.ts:76:1 › treats are user-chosen, cost points, refuse when short, redeem once per tap, and undo (11.6s)
+  ✓  164 [webkit] › tests/e2e/wellness.spec.ts:88:1 › units switch between lb/ft-in and kg/cm without changing the stored measurement; weigh-ins convert on entry (468ms)
+  ✓  165 [webkit] › tests/e2e/wellness.spec.ts:99:1 › local midnight rolls the day over; a timer started before midnight credits the day it began (13.1s)
+  ✓  166 [webkit] › tests/e2e/wellness.spec.ts:113:1 › a rest day yesterday keeps the streak across midnight where a miss would have broken it (1.3s)
+  ✓  167 [webkit] › tests/e2e/wellness.spec.ts:118:1 › backfilling a past day from Progress opens the activity pages in backfill mode (325ms)
+  ✓  168 [webkit] › tests/e2e/wellness.spec.ts:125:1 › milestones show reached streaks and the next one (199ms)
+  ✓  169 [webkit] › tests/e2e/wellness.spec.ts:131:1 › keyboard: tabbing reaches every control in order with a visible focus ring, and Enter logs (242ms)
+  ✓  170 [webkit] › tests/e2e/wellness.spec.ts:142:1 › text contrast meets WCAG AA on every page (3.2s)
+  ✓  171 [webkit] › tests/e2e/wellness.spec.ts:171:1 › a running timer is visible from the dashboard and a duplicate finish cannot log twice (2.8s)
+  ✓  172 [webkit] › tests/e2e/wellness.spec.ts:178:1 › logging from the dashboard while a timer runs finishes that session with its time and ticks; unchecking preserves the session (33.1s)
+  ✓  173 [webkit] › tests/e2e/wellness.spec.ts:193:1 › a timer left from another day is offered for that day or discarded, never silently backfilled (17.9s)
+  ✓  174 [webkit] › tests/e2e/wellness.spec.ts:203:1 › finished timers settle from any page: a meditation ends while the dashboard is open, a focus session caps itself (520ms)
+  ✓  175 [webkit] › tests/e2e/wellness.spec.ts:213:1 › re-saving your details without touching height or weight keeps the exact stored measurements (348ms)
+  ✓  176 [webkit] › tests/e2e/wellness.spec.ts:221:1 › in backfill mode the workout checklist is read-only and no timer starts (262ms)
+  ✓  177 [webkit] › tests/e2e/wellness.spec.ts:227:1 › the hero opens whatever comes next, water can be removed and meals can be edited from Food (605ms)
+  ✓  178 [webkit] › tests/e2e/wellness.spec.ts:240:1 › half a Stanley is exactly 15 oz, twice; the fill and the daily total match; refills, ambiguity and the model fallback behave (3.0s)
+  ✓  179 [webkit] › tests/e2e/wellness.spec.ts:276:1 › containers are hers to name and size, in her unit, and the default drives the one-tap (544ms)
+  ✓  180 [webkit] › tests/e2e/wellness.spec.ts:287:1 › B1: a malformed change never strands the queue: the account refuses it by id, the valid change lands, the user sees it and can discard it after a reload (476ms)
+  ✓  181 [webkit] › tests/e2e/wellness.spec.ts:311:1 › B1: ordinary input cannot queue a refused change: treats, plan lines and estimate totals are bounded in the form (640ms)
+  ✓  182 [webkit] › tests/e2e/wellness.spec.ts:323:1 › B2: a re-save keeps exact stored measurements only for untouched fields; a one-centimetre or a tenth-of-a-pound edit is taken as typed (662ms)
+  ✓  183 [webkit] › tests/e2e/wellness.spec.ts:336:1 › B3: the sound switch and the sheet dialogs have accessible names (354ms)
+  ✓  184 [webkit] › tests/e2e/wellness.spec.ts:343:1 › two tabs settling the same meditation credit it once (3.0s)
+  ✓  185 [webkit] › tests/e2e/wellness.spec.ts:358:1 › optional timers cannot be started for a past day (363ms)
+  ✓  186 [webkit] › tests/e2e/wellness.spec.ts:364:1 › H1: hero and stage copy, chips and pills never overlap, at phone and short-phone sizes (5.8s)
+  ✓  187 [webkit] › tests/e2e/wellness.spec.ts:374:1 › Floss has one completion toggle that checks and unchecks (391ms)
+  ✓  188 [webkit] › tests/e2e/wellness.spec.ts:383:1 › R1: two focus sessions on one day credit 25 + 25 = 50 minutes, after a reload and after an offline replay (959ms)
+  ✓  189 [webkit] › tests/e2e/wellness.spec.ts:396:1 › R4: a walk left running for 26 hours finishes as a 24-hour session; the timer clears only once the change is accepted (277ms)
+  ✓  190 [webkit] › tests/e2e/wellness.spec.ts:405:1 › R3: a slow sync in one tab cannot erase a change another tab queued meanwhile (7.0s)
+  ✓  191 [webkit] › tests/e2e/wellness.spec.ts:422:1 › R2: a pour from a long-named container logs with a trimmed label, and a refusal shows at the action (567ms)
+  ✓  192 [webkit] › tests/e2e/wellness.spec.ts:434:1 › R-extra: switching the weight unit after typing does not reinterpret the number; a refused queued change does not block unlock (707ms)
+  ✓  193 [webkit] › tests/e2e/wellness.spec.ts:454:1 › R163-1: when device storage refuses the write, an automatically finishing timer and a manual finish both keep their timer and retry once storage is back (3.6s)
+  ✓  194 [webkit] › tests/e2e/wellness.spec.ts:476:1 › R163-2: a refused batch during a slow sync cannot overwrite a change another tab queued and then closed on (4.0s)
+  ✓  195 [webkit] › tests/e2e/wellness.spec.ts:491:1 › R163-3: an in-form unit toggle keeps untouched measurements exact (569ms)
+  ✓  196 [webkit] › tests/e2e/wellness.spec.ts:501:1 › R163-4: a change written by another tab exactly between this tab's read and its save survives, because every change has its own durable key (363ms)
+  ✓  197 [webkit] › tests/e2e/wellness.spec.ts:516:1 › non-text contrast: unchecked workout rings, the off and on switch, unit segments and unreached milestone labels meet 3:1 with inherited opacity applied (1.1s)
+  ✓  198 [webkit] › tests/e2e/wellness.spec.ts:545:1 › a live session keeps its controls in the first viewport at phone, small and desktop sizes (1.1s)
+  ✓  199 [webkit] › tests/e2e/wellness.spec.ts:567:1 › the water target is shown and edited in her volume unit and an untouched field keeps the exact millilitres (564ms)
+  ✓  200 [webkit] › tests/e2e/wellness.spec.ts:584:1 › R163-5: an offline start replays a change that only the journal holds, shows it once, and the account receives it once (259ms)
+  ✓  201 [webkit] › tests/e2e/wellness.spec.ts:601:1 › R163-6: when the journal key itself is refused, the change is not applied, a notice is shown on the page, and a finishing timer is kept (438ms)
+  ✓  202 [webkit] › tests/e2e/wellness.spec.ts:620:1 › R163-7: a change the account refuses in tab A is kept by id when tab B's slow sync saves afterwards, survives a reload, and an explicit discard stays discarded in both tabs (9.6s)
+  ✓  203 [webkit] › tests/e2e/wellness.spec.ts:644:1 › R163-8: tab A's refusal survives A closing and tab B saving a new change before B's slow sync answers; B's explicit discard then holds through its own later saves and a reload (11.7s)
+
+
+  1) [chromium] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('A note it cannot read is sent, with your container names, to a free third-party model')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('A note it cannot read is sent, with your container names, to a free third-party model') with timeout 5000ms
+      - waiting for getByText('A note it cannot read is sent, with your container names, to a free third-party model')
+
+
+      117 |  const rules=await page.locator('.rules').innerText();
+      118 |  expect(rules).toContain('sync to your private account');expect(rules).toContain('typed water note');expect(rules).toContain('free models');expect(rules).toContain('No other log is sent to a third party');expect(rules).not.toContain('leaves the device');expect(rules).not.toContain('Only the meal you describe or photograph is sent');
+    > 119 |  await page.evaluate(()=>{location.hash='water';});await expect(page.getByText('A note it cannot read is sent, with your container names, to a free third-party model')).toBeVisible();
+          |                                                                                                                                                                          ^
+      120 |  await page.evaluate(()=>{location.hash='food';});await expect(page.getByText('goes to a free third-party model for the estimate')).toBeVisible();
+      121 | });
+      122 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review171.spec.ts:119:170
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-44.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-35.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-36.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-43.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-34.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-37.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-38.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-33.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #34: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #35: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-39.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #36: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #37: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #38: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #39: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-46.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #40: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-41.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #41: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-40.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #42: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #43: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-48.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #44: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #45: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-49.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #46: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-42.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #47: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-45.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #48: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-47.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #49: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-chromium/error-context.md
+
+  2) [webkit] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('A note it cannot read is sent, with your container names, to a free third-party model')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('A note it cannot read is sent, with your container names, to a free third-party model') with timeout 5000ms
+      - waiting for getByText('A note it cannot read is sent, with your container names, to a free third-party model')
+
+
+      117 |  const rules=await page.locator('.rules').innerText();
+      118 |  expect(rules).toContain('sync to your private account');expect(rules).toContain('typed water note');expect(rules).toContain('free models');expect(rules).toContain('No other log is sent to a third party');expect(rules).not.toContain('leaves the device');expect(rules).not.toContain('Only the meal you describe or photograph is sent');
+    > 119 |  await page.evaluate(()=>{location.hash='water';});await expect(page.getByText('A note it cannot read is sent, with your container names, to a free third-party model')).toBeVisible();
+          |                                                                                                                                                                          ^
+      120 |  await page.evaluate(()=>{location.hash='food';});await expect(page.getByText('goes to a free third-party model for the estimate')).toBeVisible();
+      121 | });
+      122 |
+        at /Users/michaelchen/Projects/flacid-75-t_6a6739e5/tests/e2e/review171.spec.ts:119:170
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-11.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-28.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-24.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-47.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-48.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #11: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-35.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #12: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-19.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #13: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-37.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #14: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-45.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #15: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #16: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-25.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #17: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-46.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #18: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-26.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #19: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-23.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #20: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-13.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #21: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-29.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #22: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-44.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #23: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #24: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #25: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-21.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #26: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-16.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #27: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-34.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #28: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #29: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-20.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #30: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-41.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #31: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #32: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-27.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #33: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-38.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #34: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-22.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #35: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-15.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #36: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-40.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #37: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-17.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #38: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-12.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #39: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-43.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #40: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-39.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #41: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-30.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #42: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-42.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #43: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-14.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #44: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-33.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #45: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #46: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-18.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #47: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-31.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #48: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/test-failed-36.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review171-R171-8-the-in-ap-e5e14-about-third-party-retention-webkit/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention 
+    [webkit] › tests/e2e/review171.spec.ts:115:1 › R171-8: the in-app privacy copy names both sends (meals and unread water notes) and promises nothing about third-party retention 
+  201 passed (9.8m)

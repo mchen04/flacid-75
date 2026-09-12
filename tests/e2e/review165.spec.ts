@@ -38,7 +38,7 @@ test('R165-1: a read that already contains another tab\'s applied change, answer
  expect(box.ops.filter(o=>o.type==='water')).toHaveLength(2);expect(box.state.days[today].water).toBeCloseTo(2*stanley,6);
  for(const d of [second.a,second.b]){expect(d.water).toBeCloseTo(2*stanley,6);expect(d.pending).toBe(0);}expect(second.aText).toContain('2 of 2¼ Stanleys · 60 oz');expect(second.bText).toContain('2 of 2¼ Stanleys · 60 oz');
  // Undo through the held read: the account and both tabs end at one Stanley, not zero.
- const third=await heldOrder(page,other,box,()=>other.getByRole('button',{name:'Undo last pour',exact:true}).click(),'read-first');
+ const third=await heldOrder(page,other,box,()=>other.getByRole('button',{name:'Remove last pour',exact:true}).click(),'read-first');
  expect(box.ops.filter(o=>o.type==='water')).toHaveLength(3);expect(box.state.days[today].water).toBeCloseTo(stanley,6);
  expect(third.a.water).toBeCloseTo(stanley,6);expect(third.a.pending).toBe(0);expect(third.aText).toContain('1 of 2¼ Stanleys · 30 oz');
  await expect.poll(()=>device(other).then(d=>d.pending)).toBe(0);expect((await device(other)).water).toBeCloseTo(stanley,6);
@@ -101,10 +101,10 @@ test('C2: a refused batch sets its first change aside, a read follows at once so
  const today=todayIn();const box=await open(page,seed());
  // The account refuses the first batch outright; later batches are accepted.
  let refusals=0;await page.route('**/api/sync',async r=>{if(refusals===0){refusals++;return r.fulfill({status:400,json:{error:'The account refused this batch.'}});}await r.fallback();});
- await page.route('**/api/**',r=>r.abort('internetdisconnected'));await page.getByRole('button',{name:'Log floss',exact:true}).click();await page.getByRole('button',{name:'Log walk',exact:true}).click();
+ await page.route('**/api/**',r=>r.abort('internetdisconnected'));await page.getByRole('checkbox',{name:'Floss complete',exact:true}).click();await page.getByRole('checkbox',{name:'Walk complete',exact:true}).click();
  await page.waitForTimeout(300);await page.unroute('**/api/**');await page.evaluate(()=>window.dispatchEvent(new Event('online')));
  await expect.poll(()=>box.state.days[today]?.checks.walk,{timeout:2000}).toBe(true);
- await expect(page.getByRole('button',{name:'Log floss',exact:true})).toBeVisible({timeout:2000});await expect(page.getByRole('button',{name:'Undo walk',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByRole('checkbox',{name:'Floss complete',exact:true})).toBeVisible({timeout:2000});await expect(page.getByRole('checkbox',{name:'Walk complete',exact:true})).toHaveAttribute('aria-checked','true');
  const s=await page.evaluate(day=>{const x=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {floss:x.state.days[day]?.checks.floss??false,failed:x.failed.map((f:{op:{habit?:string}})=>f.op.habit),pending:x.pending.length};},today);
  expect(s).toEqual({floss:false,failed:['floss'],pending:0});expect(box.state.days[today].checks.floss).toBeUndefined();
 });
@@ -116,7 +116,7 @@ test('C4: the saved epoch advances on every saved answer even when this tab\'s m
  const e0=await epoch();
  // B saves several answers while A's sync is held; A's memory lags. When A's answer lands, the saved epoch still rises.
  await page.route('**/api/state',async r=>{await new Promise(res=>setTimeout(res,1500));await r.fallback();});await page.evaluate(()=>window.dispatchEvent(new Event('online')));
- await other.getByRole('button',{name:'Log floss',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);await other.getByRole('button',{name:'Log walk',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
+ await other.getByRole('checkbox',{name:'Floss complete',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);await other.getByRole('checkbox',{name:'Walk complete',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);
  const eB=await epoch();expect(eB).toBeGreaterThan(e0);await page.waitForTimeout(2000);
  expect(await epoch()).toBeGreaterThan(eB);
  await other.close();
@@ -204,7 +204,7 @@ test('R165-9: a tab frozen across a lock-and-clear and a new unlock cannot merge
  expect(await failed(page)).toBe(0);expect(await failed(other)).toBe(0);
  // B is in the new generation now: unlocked with the fresh store, no old refusal on its settings page, and a new change from B saves normally.
  await expect(other.locator('.app-shell')).toBeVisible();await other.evaluate(()=>{location.hash='you';});await expect(other.getByRole('group',{name:'Changes the account refused'})).toHaveCount(0);
- await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log walk',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);expect(await failed(page)).toBe(0);
+ await other.getByRole('button',{name:'Home'}).click();await other.getByRole('checkbox',{name:'Walk complete',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);expect(await failed(page)).toBe(0);
  await other.close();
 });
 
@@ -217,7 +217,7 @@ test('R165-10: an account answer that started before a lock-and-clear and a new 
  await page.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await page.evaluate(()=>{location.hash='you';});await page.getByRole('button',{name:'Lock this device',exact:true}).click();await page.getByRole('button',{name:'Lock and clear',exact:true}).click();await page.getByLabel('Passphrase').waitFor();
  await expect(other.getByLabel('Passphrase')).toBeVisible({timeout:3000});
  await page.getByLabel('Passphrase').fill('local-fixture');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('.app-shell').waitFor();
- await page.getByRole('button',{name:'Home'}).click();await page.getByRole('button',{name:'Log floss',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
+ await page.getByRole('button',{name:'Home'}).click();await page.getByRole('checkbox',{name:'Floss complete',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
  // The late 401 lands in B: B does not force the device locked; it adopts the unlocked new generation.
  await other.waitForTimeout(3500);
  const snap=(p:Page)=>p.evaluate(day=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {unlocked:s.unlocked,floss:s.state.days[day]?.checks.floss??false,pending:s.pending.length};},today);
@@ -263,7 +263,7 @@ test('R165-13: an answer whose write waits on the device lock while another tab 
  let answered=0;page.on('response',r=>{if(r.url().includes('/api/state'))answered++;});await page.evaluate(()=>window.dispatchEvent(new Event('online')));await expect.poll(()=>answered).toBe(1);await page.waitForTimeout(200);
  // While A's write waits: B locks and clears, unlocks, and logs floss.
  await other.route('**/api/auth',r=>r.fulfill({json:{ok:true}}));await other.evaluate(()=>{location.hash='you';});await other.getByRole('button',{name:'Lock this device',exact:true}).click();await other.getByRole('button',{name:'Lock and clear',exact:true}).click();await other.getByLabel('Passphrase').waitFor();
- await other.getByLabel('Passphrase').fill('local-fixture');await other.getByRole('button',{name:'Open',exact:true}).click();await other.locator('.app-shell').waitFor();await other.getByRole('button',{name:'Home'}).click();await other.getByRole('button',{name:'Log floss',exact:true}).click();
+ await other.getByLabel('Passphrase').fill('local-fixture');await other.getByRole('button',{name:'Open',exact:true}).click();await other.locator('.app-shell').waitFor();await other.getByRole('button',{name:'Home'}).click();await other.getByRole('checkbox',{name:'Floss complete',exact:true}).click();
  const snap=(p:Page)=>p.evaluate(day=>{const s=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {unlocked:s.unlocked,floss:s.state.days[day]?.checks.floss??false,generation:localStorage.getItem('my-wellness-generation')};},today);
  // The device lock is shared by every tab, so B's own sync answer also waits; B's floss is saved as pending meanwhile.
  await expect.poll(()=>snap(other)).toEqual({unlocked:true,floss:true,generation:'1'});
@@ -271,6 +271,6 @@ test('R165-13: an answer whose write waits on the device lock while another tab 
  await page.evaluate(()=>(window as unknown as {__release:()=>void}).__release());
  for(let i=0;i<8;i++){await page.waitForTimeout(100);expect(await snap(page)).toEqual({unlocked:true,floss:true,generation:'1'});}
  await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:5000}).toBe(true);await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);
- await expect(page.locator('.app-shell')).toBeVisible();await expect(page.getByRole('button',{name:'Undo floss',exact:true})).toHaveAttribute('aria-pressed','true');expect(await snap(page)).toEqual({unlocked:true,floss:true,generation:'1'});
+ await expect(page.locator('.app-shell')).toBeVisible();await expect(page.getByRole('checkbox',{name:'Floss complete',exact:true})).toHaveAttribute('aria-checked','true');expect(await snap(page)).toEqual({unlocked:true,floss:true,generation:'1'});
  await other.close();
 });

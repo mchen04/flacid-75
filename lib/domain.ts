@@ -7,12 +7,15 @@ export type Units = {weight: 'lb' | 'kg'; height: 'ftin' | 'cm'; volume?: 'oz' |
 // A named drinking container. Size is canonical millilitres; the name is whatever she calls it.
 export type Container = {id: string; name: string; ml: number};
 export type Reward = {id: string; name: string; cost: number};
+export type MealItem = {name: string; grams: number; calories: number; protein: number; source: 'usda' | 'estimate'; match?: string; fdcId?: number};
+export type MealRecord = {calories: number; protein: number; description?: string; items?: MealItem[]};
 export type Session = {seconds: number; items?: string[]; routine?: string};
 export type Profile = Stats & {targets: Targets; overrides: Partial<Targets>; baselineWeight: number; startDay: string; units?: Units; rewards?: Reward[]; plan?: string[]; containers?: Container[]; defaultContainer?: string};
 export type Day = {
- checks: Partial<Record<Habit, boolean>>; water: number; meals: Record<string, {calories: number; protein: number}>; targets: Targets; rest: boolean; rescued: boolean; backfilled: boolean;
+ checks: Partial<Record<Habit, boolean>>; water: number; meals: Record<string, MealRecord>; targets: Targets; rest: boolean; rescued: boolean; backfilled: boolean;
  sessions?: Partial<Record<'walk' | 'workout' | 'abs', Session>>; meditate?: number; focus?: number; redeemed?: Record<string, {name: string; cost: number}>;
  // Every pour, in order, so the last one can be undone and the day can be read back in her own terms.
+ walkLog?: Record<string, Session>; walkOrder?: string[]; mealOrder?: string[];
  waterLog?: {ml: number; label?: string}[];
 };
 export type Clock = {zone: string; anchorDay: string; anchorLocal: string};
@@ -21,12 +24,12 @@ export type Operation = {id: string; at: string; day: string; zone: string} & (
  | {type: 'profile'; stats: Stats; overrides: Partial<Targets>}
  | {type: 'check'; habit: Habit; value: boolean}
  | {type: 'water'; amount: number; label?: string}
- | {type: 'meal'; mealId: string; calories: number; protein: number}
+ | ({type: 'meal'; mealId: string} & MealRecord)
  | {type: 'deleteMeal'; mealId: string}
  | {type: 'rest' | 'rescue'; value: boolean}
  | {type: 'weight'; weight: number}
  | {type: 'zone'}
- | {type: 'session'; habit: 'walk' | 'workout' | 'abs'; seconds: number; done: boolean; items?: string[]; routine?: string}
+ | {type: 'session'; habit: 'walk' | 'workout' | 'abs'; seconds: number; done: boolean; items?: string[]; routine?: string; walkId?: string}
  | {type: 'meditate' | 'focus'; seconds: number}
  | {type: 'rewards'; rewards: Reward[]}
  | {type: 'redeem'; rewardId: string; name: string; cost: number}
@@ -61,6 +64,9 @@ export function computeTargets(s: Stats): Targets {
 }
 export function weightTrend(weights: Record<string, number>) {let smooth = 0, last = ''; return Object.entries(weights).sort(([a], [b]) => a.localeCompare(b)).map(([day, value]) => {const alpha = last ? 1 - Math.exp(-Math.max(1, dayDiff(last, day)) / 7) : 1; smooth = last ? smooth + alpha * (value - smooth) : value; last = day; return {day, value: Math.round(smooth * 10) / 10};});}
 export function newDay(targets: Targets): Day {return {checks: {}, water: 0, meals: {}, targets: {...targets}, rest: false, rescued: false, backfilled: false};}
+export function entriesInOrder<T>(entries: Record<string, T>, order?: string[]) {
+ return [...new Set([...(order ?? []), ...Object.keys(entries).sort()])].filter(id => entries[id] !== undefined).map(id => [id, entries[id]] as const);
+}
 export function totals(day: Day) {return Object.values(day.meals).reduce((a, b) => ({calories: a.calories + b.calories, protein: a.protein + b.protein}), {calories: 0, protein: 0});}
 // Water is summed from pours stored at full precision (an ounce is 29.5735295625 ml), so a target met exactly can fall short by a
 // billionth of a millilitre. A hundredth of a millilitre of tolerance covers that and grants nothing a person could pour.
@@ -121,11 +127,24 @@ export function apply(state: State, op: Operation): State {
    else {const i = day.waterLog.map(e => e.ml).lastIndexOf(-op.amount); if (i >= 0) day.waterLog.splice(i, 1);}
    day.water = Math.max(0, day.water + op.amount); delete day.checks.water; break;
   }
-  case 'meal': day.meals[op.mealId] = {calories: op.calories, protein: op.protein}; delete day.checks.calories; delete day.checks.protein; break;
-  case 'deleteMeal': delete day.meals[op.mealId]; delete day.checks.calories; delete day.checks.protein; break;
+  case 'meal': day.mealOrder ??= Object.keys(day.meals).sort(); if (!day.meals[op.mealId]) day.mealOrder.push(op.mealId); day.meals[op.mealId] = {...day.meals[op.mealId], calories: op.calories, protein: op.protein, ...(op.description !== undefined ? {description: op.description} : {}), ...(op.items !== undefined ? {items: op.items} : {})}; delete day.checks.calories; delete day.checks.protein; break;
+  case 'deleteMeal': delete day.meals[op.mealId]; if (day.mealOrder) day.mealOrder = day.mealOrder.filter(id => id !== op.mealId); delete day.checks.calories; delete day.checks.protein; break;
   case 'rest': if (op.value && !day.rest && restsLeft(next, op.day) === 0) throw new Error(`This week’s ${restDaysPerWeek} rest days are already planned.`); day.rest = op.value; break;
   case 'rescue': day.rescued = op.value; break;
-  case 'session': day.sessions ??= {}; if (op.done) day.sessions[op.habit] = {seconds: Math.max(0, Math.round(op.seconds)), ...(op.items ? {items: op.items} : {}), ...(op.routine ? {routine: op.routine} : {})}; else delete day.sessions[op.habit]; day.checks[op.habit] = op.done; break;
+  case 'session':
+   day.sessions ??= {};
+   if (op.habit === 'walk' && op.done) {
+    // Import the single legacy session once. New entries use stable ids, including timer retries.
+    day.walkLog ??= day.sessions.walk ? {legacy: day.sessions.walk} : {};
+    day.walkOrder ??= Object.keys(day.walkLog).sort();
+    if (!day.walkLog[op.walkId ?? op.id]) day.walkOrder.push(op.walkId ?? op.id);
+    day.walkLog[op.walkId ?? op.id] ??= {seconds: Math.max(0, Math.round(op.seconds))};
+    day.sessions.walk = {seconds: Object.values(day.walkLog).reduce((sum, entry) => sum + entry.seconds, 0)};
+    day.checks.walk = true;
+    break;
+   }
+   if (op.habit === 'walk' && !op.done) {delete day.walkLog; delete day.walkOrder;}
+   if (op.done) day.sessions[op.habit] = {seconds: Math.max(0, Math.round(op.seconds)), ...(op.items ? {items: op.items} : {}), ...(op.routine ? {routine: op.routine} : {})}; else delete day.sessions[op.habit]; day.checks[op.habit] = op.done; break;
   case 'meditate': day.meditate = (day.meditate ?? 0) + Math.max(0, Math.round(op.seconds)); break;
   case 'focus': day.focus = (day.focus ?? 0) + Math.max(0, Math.round(op.seconds)); break;
   case 'redeem': {day.redeemed ??= {}; if (day.redeemed[op.rewardId]) break; if (pointsBalance(next, today) < op.cost) throw new Error('Not enough points yet.'); day.redeemed[op.rewardId] = {name: op.name, cost: op.cost}; break;}

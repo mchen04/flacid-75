@@ -10,14 +10,13 @@ export function Rewards() {
  const rewards = state.profile?.rewards ?? []; const raw = pointsBalance(state, today); const balance = Math.max(0, raw);
  const redeemed = Object.entries(day.redeemed ?? {});
  return <section className="activity">
-  <div className={`card points-card ${pulse.reward ? 'is-active' : ''}`}><span className="points-art"><Mark name="reward"/></span><div><strong className="big">{format(balance)} points</strong><p>{format(pointsEarned(state, today))} earned · {format(pointsSpent(state))} spent{raw < 0 ? ` · ${format(-raw)} ahead of the earned total after an undo; nothing is owed` : ''}</p></div></div>
+  <div className={`card points-card ${pulse.reward ? 'is-active' : ''}`}><span className="points-art"><Mark name="reward"/></span><div><strong className="big">{format(balance)} points</strong><p>{format(pointsEarned(state, today))} earned · {format(pointsSpent(state))} spent{raw < 0 ? ` · ${format(-raw)} ahead of the earned total after completion changes; nothing is owed` : ''}</p></div></div>
   <div className="card list" role="group" aria-label="Your treats">
    <div className="card-head"><h2>Your treats</h2><button className="text-button" onClick={() => open('treats')}><Icon name="edit" size={16}/>Edit</button></div>
-   {rewards.length === 0 && <p className="empty">Add anything you would enjoy: a film night, a long bath, new socks, an afternoon off. You choose what counts as a treat.</p>}
    {rewards.map(r => <div key={r.id} className="meal-row"><div><strong>{r.name}</strong><p>{r.cost} points</p></div><button className="row-action" disabled={balance < r.cost} aria-label={`Redeem ${r.name}`} onClick={() => {if (pulse.reward) return; if (change({type: 'redeem', rewardId: crypto.randomUUID(), name: r.name, cost: r.cost}, dayKey)) bump('reward');}}>{balance < r.cost ? `${r.cost - balance} more` : 'Redeem'}</button></div>)}
   </div>
-  {redeemed.length > 0 && <div className="card list" role="group" aria-label="Redeemed"><div className="card-head"><h2>Enjoyed {dayKey === today ? 'today' : longDate(dayKey)}</h2></div>{redeemed.map(([id, r]) => <div key={id} className="meal-row"><div><strong>{r.name}</strong><p>{r.cost} points</p></div><button aria-label={`Undo ${r.name}`} onClick={() => change({type: 'unredeem', rewardId: id}, dayKey)}><Icon name="undo" size={16}/>Undo</button></div>)}</div>}
-  <p className="fine-print">Each required habit is worth {pointsPerHabit} points and a whole day adds {pointsPerDay}, so a full day is {habits.length * pointsPerHabit + pointsPerDay}. Points are a small game, not a permission slip: nothing here has to be earned, and food is never a reward or a debt.</p>
+  {redeemed.length > 0 && <div className="card list" role="group" aria-label="Redeemed"><div className="card-head"><h2>Enjoyed {dayKey === today ? 'today' : longDate(dayKey)}</h2></div>{redeemed.map(([id, r]) => <div key={id} className="meal-row"><div><strong>{r.name}</strong><p>{r.cost} points</p></div><button aria-label={`Remove redemption for ${r.name}`} onClick={() => change({type: 'unredeem', rewardId: id}, dayKey)}><Icon name="close" size={16}/>Remove</button></div>)}</div>}
+  <p className="fine-print">Each required habit is worth {pointsPerHabit} points and a whole day adds {pointsPerDay}, so a full day is {habits.length * pointsPerHabit + pointsPerDay}. Food is never a reward or a debt.</p>
  </section>;
 }
 export function RewardsForm({rewards, onSave}: {rewards: Reward[]; onSave: (r: Reward[]) => void}) {

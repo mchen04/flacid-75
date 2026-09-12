@@ -1,0 +1,6 @@
+
+> my-wellness@4.0.0 typecheck
+> tsc --noEmit
+
+components/Activities.tsx(53,158): error TS2554: Expected 1-2 arguments, but got 3.
+components/Home.tsx(20,561): error TS2554: Expected 1-2 arguments, but got 3.

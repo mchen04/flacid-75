@@ -22,7 +22,7 @@ test('R164-1: a change acknowledged during another tab\'s stale view is counted 
  expect(box.ops.filter(o=>o.type==='water')).toHaveLength(1);for(const p of [page,other]){expect((await saved(p)).water).toBeCloseTo(stanley,6);await expect(waterText(p)).resolves.toContain('1 of 2¼ Stanleys · 30 oz');}
  // Undo through the same slow path while B is again cut off: the account, the device and both screens end at zero.
  await other.route('**/api/sync',r=>r.abort('internetdisconnected'));
- await page.getByRole('button',{name:'Undo last pour',exact:true}).click();await expect.poll(()=>box.state.days[today]?.water).toBe(0);await page.waitForTimeout(1500);
+ await page.getByRole('button',{name:'Remove last pour',exact:true}).click();await expect.poll(()=>box.state.days[today]?.water).toBe(0);await page.waitForTimeout(1500);
  expect(box.ops.filter(o=>o.type==='water')).toHaveLength(2);
  for(const p of [page,other]){const s=await saved(p);expect(s.water).toBe(0);expect(s.pending).toBe(0);expect(s.journal).toBe(0);await expect(waterText(p)).resolves.toContain('0 of 2¼ Stanleys · 0 oz');}
  await other.unroute('**/api/sync');await other.evaluate(()=>window.dispatchEvent(new Event('online')));await other.waitForTimeout(800);
@@ -37,15 +37,15 @@ test('R164-2: an account read that began before another tab\'s change was acknow
  const other=await context.newPage();await mock(other,box);const stale=JSON.parse(JSON.stringify(box.state));let release:()=>void=()=>{};const gate=new Promise<void>(res=>{release=res;});let entered=false;
  await other.route('**/api/state',async r=>{entered=true;await gate;await r.fulfill({json:stale});});
  await other.goto('/');await other.locator('.app-shell').waitFor();await expect.poll(()=>entered).toBe(true);
- await page.getByRole('button',{name:'Log floss',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
+ await page.getByRole('checkbox',{name:'Floss complete',exact:true}).click();await expect.poll(()=>box.state.days[today]?.checks.floss).toBe(true);
  await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('flaccid75-v1')!).pending.length)).toBe(0);
  // The old answer arrives now. It must not roll the device back.
  await other.unroute('**/api/state');await mock(other,box);release();await other.waitForTimeout(1200);
- for(const p of [page,other]){const s=await saved(p);expect(s.floss,'device floss').toBe(true);expect(s.pending).toBe(0);await expect(p.getByRole('button',{name:'Undo floss',exact:true})).toHaveAttribute('aria-pressed','true');}
+ for(const p of [page,other]){const s=await saved(p);expect(s.floss,'device floss').toBe(true);expect(s.pending).toBe(0);await expect(p.getByRole('checkbox',{name:'Floss complete',exact:true})).toHaveAttribute('aria-checked','true');}
  expect(box.state.days[today].checks.floss).toBe(true);
  // Offline, and reloaded offline: the acknowledged state stands.
  await other.route('**/api/**',r=>r.abort('internetdisconnected'));await other.reload();await other.locator('.app-shell').waitFor();
- expect((await saved(other)).floss).toBe(true);await expect(other.getByRole('button',{name:'Undo floss',exact:true})).toHaveAttribute('aria-pressed','true');
+ expect((await saved(other)).floss).toBe(true);await expect(other.getByRole('checkbox',{name:'Floss complete',exact:true})).toHaveAttribute('aria-checked','true');
  await other.close();
 });
 
@@ -54,10 +54,10 @@ test('R164-2b: a write answer that arrives after a newer answer was saved does n
  // A's write answers slowly; B's write answers at once. A logs floss first, B logs walk. A's older answer lands last.
  await page.route('**/api/sync',async r=>{await new Promise(res=>setTimeout(res,1500));await r.fallback();});
  const other=await context.newPage();await mock(other,box);await other.goto('/');await other.locator('.home-view').waitFor();
- await page.getByRole('button',{name:'Log floss',exact:true}).click();await other.waitForTimeout(200);await other.getByRole('button',{name:'Log walk',exact:true}).click();
+ await page.getByRole('checkbox',{name:'Floss complete',exact:true}).click();await other.waitForTimeout(200);await other.getByRole('checkbox',{name:'Walk complete',exact:true}).click();
  await expect.poll(()=>box.state.days[today]?.checks.walk).toBe(true);await expect.poll(()=>box.state.days[today]?.checks.floss,{timeout:5000}).toBe(true);await page.waitForTimeout(2500);
  for(const p of [page,other]){const s=await p.evaluate(day=>{const x=JSON.parse(localStorage.getItem('flaccid75-v1')!);return {floss:x.state.days[day]?.checks.floss??false,walk:x.state.days[day]?.checks.walk??false,pending:x.pending.length};},today);expect(s).toEqual({floss:true,walk:true,pending:0});
-  await expect(p.getByRole('button',{name:'Undo walk',exact:true})).toHaveAttribute('aria-pressed','true');await expect(p.getByRole('button',{name:'Undo floss',exact:true})).toHaveAttribute('aria-pressed','true');}
+  await expect(p.getByRole('checkbox',{name:'Walk complete',exact:true})).toHaveAttribute('aria-checked','true');await expect(p.getByRole('checkbox',{name:'Floss complete',exact:true})).toHaveAttribute('aria-checked','true');}
  expect(box.ops).toHaveLength(2);
  await other.close();
 });
@@ -78,7 +78,7 @@ test('R164-3: a refusal answered while the snapshot cannot be saved is kept (jou
  await expect.poll(()=>saved(page).then(x=>x.failed),{timeout:5000}).toBe(1);s=await saved(page);expect(s.journal).toBe(0);expect(s.pending).toBe(0);
  await page.reload();await page.locator('.app-shell').waitFor();s=await saved(page);expect(s).toMatchObject({failed:1,journal:0,pending:0});
  await page.evaluate(()=>{location.hash='you';});await expect(page.getByRole('group',{name:'Changes the account refused'})).toBeVisible();await expect(page.getByText('Refused by the account for this test')).toBeVisible();
- expect(await page.getByRole('button',{name:'Undo floss',exact:true}).count()).toBe(0);
+ await page.getByRole('button',{name:'Home'}).click();await expect(page.getByRole('checkbox',{name:'Floss complete',exact:true})).not.toBeChecked();
 });
 
 test('R164-4: lock and clear reaches every open tab, and neither a stale tab nor its late account answer can restore the cleared device',async({page,context})=>{

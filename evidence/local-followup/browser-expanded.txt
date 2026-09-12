@@ -1,0 +1,27 @@
+
+Running 18 tests using 1 worker
+
+(node:98080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (275ms)
+  ✓   2 [chromium] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (427ms)
+  ✓   3 [chromium] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (875ms)
+  ✓   4 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (367ms)
+  ✓   5 [chromium] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (350ms)
+  ✓   6 [chromium] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (75ms)
+  ✓   7 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (337ms)
+  ✓   8 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (364ms)
+  ✓   9 [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (175ms)
+(node:98122) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [webkit] › tests/e2e/daily-logs-extra.spec.ts:5:1 › logged walks append to legacy time, rapid submissions add once, and completion preserves all entries (575ms)
+  ✓  11 [webkit] › tests/e2e/daily-logs-extra.spec.ts:20:1 › manual and legacy meals keep distinct descriptions, totals and edits after reload (515ms)
+  ✓  12 [webkit] › tests/e2e/daily-logs-extra.spec.ts:34:1 › every activity and rest completion control works with Enter and Space across reloads (1.0s)
+  ✓  13 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 320px mobile viewport (420ms)
+  ✓  14 [webkit] › tests/e2e/daily-logs-extra.spec.ts:48:30 › affected screens and full meal details fit a 375px mobile viewport (431ms)
+  ✓  15 [webkit] › tests/e2e/daily-logs-extra.spec.ts:64:1 › requested filler is absent while optional meditation and focus do not affect streaks (162ms)
+  ✓  16 [webkit] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (385ms)
+  ✓  17 [webkit] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (441ms)
+  ✓  18 [webkit] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (254ms)
+
+  18 passed (8.2s)

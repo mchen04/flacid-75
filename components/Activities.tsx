@@ -2,13 +2,13 @@
 import {useEffect, useRef, useState} from 'react';
 import {Hills, Gym, Mat, Tooth, NightRest, Glass} from './Scenes';
 import {Icon} from './Icon';
-import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, containersOf, type Habit} from '@/lib/domain';
+import {addDays, weekStart, completion, isComplete, isKept, restsLeft, restDaysPerWeek, defaultPlan, dayDiff, entriesInOrder, containersOf, type Habit} from '@/lib/domain';
 import {routines, phaseAt, routineSeconds, intervalsOf, type Routine} from '@/lib/abs';
 import {useTimer, startTimer, pauseTimer, resumeTimer, clearTimer, updateTimer, useWakeLock, clock, type Timer} from '@/lib/timer';
 import {finishTimer, maxSessionSeconds} from '@/lib/sessions';
 import {prime, beep, buzz, soundOn} from '@/lib/sound';
 import {maxFocusBlocks} from '@/lib/settle';
-import {useApp, Dial, Meter, weekInitials, longDate, shortDate} from './shared';
+import {useApp, CompletionToggle, Dial, Meter, weekInitials, longDate, shortDate} from './shared';
 import {formatVolume} from '@/lib/units';
 import {parsePhrase, pourMl, describe, inContainers, type Parsed} from '@/lib/water';
 import {limits, clip} from '@/lib/bounds';
@@ -27,8 +27,13 @@ function Controls({timerKey, running, hasTimer, onFinish, finishLabel = 'Finish'
 function StaleCard({timer, elapsed, label, onFinish}: {timer: Timer; elapsed: number; label: string; onFinish: () => void}) {
  return <div className="card done-card stale-card"><span className="done-mark"><Icon name="timer" size={22}/></span><div><strong>{label} from {shortDate(timer.day)}</strong><p>{clock(elapsed)} on the clock. Log it to that day, or start fresh today.</p></div><div className="stale-actions"><button className="text-button" onClick={onFinish}>Log to {shortDate(timer.day)}</button><button className="text-button" onClick={() => clearTimer(timer.key)}>Start fresh</button></div></div>;
 }
-function DoneCard({title, detail, onUndo}: {title: string; detail: string; onUndo: () => void}) {
- return <div className="card done-card"><span className="done-mark"><Icon name="check" size={22}/></span><div><strong>{title}</strong><p>{detail}</p></div><button className="text-button" onClick={onUndo}><Icon name="undo" size={16}/>Undo</button></div>;
+function DoneCard({title, detail}: {title: string; detail: string}) {
+ return <div className="card done-card"><span className="done-mark"><Icon name="check" size={22}/></span><div><strong>{title}</strong><p>{detail}</p></div></div>;
+}
+function HabitToggle({habit, finish}: {habit: 'walk' | 'workout' | 'abs' | 'floss'; finish?: () => void}) {
+ const {done, change} = useApp();
+ const label = `${habit[0].toUpperCase()}${habit.slice(1)} complete`;
+ return <div className="completion-row"><span>{label}</span><CompletionToggle label={label} checked={done[habit]} onChange={() => {if (!done[habit] && finish) finish(); else change({type: 'check', habit, value: !done[habit]});}}/></div>;
 }
 function WeekStrip({habit, label}: {habit: Habit | 'rest'; label: string}) {
  const {state, dayKey, today, day, done} = useApp();
@@ -40,20 +45,24 @@ function WeekStrip({habit, label}: {habit: Habit | 'rest'; label: string}) {
 export function Walk() {
  const {day, done, selected, dayKey, change, bump} = useApp();
  const {timer, elapsed, running} = useTimer('walk'); useWakeLock(running);
+ const [minutes, setMinutes] = useState(''); const lastLog = useRef(0);
  const stale = !!timer && timer.day !== dayKey && !running;
  const target = (day.targets.walkMinutes ?? 30) * 60; const share = Math.min(1, elapsed / target);
- const session = day.sessions?.walk;
- function finish() {if (finishTimer('walk', (seconds, creditDay) => change({type: 'session', habit: 'walk', seconds, done: true}, creditDay))) {bump('walk', 2000); beep('done'); buzz(80);}}
+ const log = day.walkLog ?? (day.sessions?.walk ? {legacy: day.sessions.walk} : {});
+ const entries = entriesInOrder(log, day.walkOrder);
+ const total = entries.reduce((sum, [, entry]) => sum + entry.seconds, 0);
+ function finish() {if (finishTimer('walk', (seconds, creditDay, id) => change({type: 'session', habit: 'walk', seconds, done: true, walkId: id}, creditDay, id))) {bump('walk', 2000); beep('done'); buzz(80);}}
  return <section className={`activity ${timer ? 'is-live' : ''}`}>
-  <div className={`stage walk ${done.walk ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Hills phase="day" walked={done.walk} progress={done.walk ? 1 : share}/><span className="stage-copy"><strong>{done.walk ? 'Walked.' : running ? 'Walking.' : timer ? 'Paused.' : selected ? 'A walk that day.' : 'A walk today.'}</strong><span>{done.walk ? `${Math.round((session?.seconds ?? 0) / 60)} minutes` : `${Math.round(target / 60)} minutes keeps it simple`}</span></span></div>
-  {done.walk ? <DoneCard title="Walk logged" detail={session ? `${clock(session.seconds)} on the path.` : 'Marked done without a timer.'} onUndo={() => change({type: 'session', habit: 'walk', seconds: 0, done: false})}/>
-  : selected ? <button className="primary" onClick={() => change({type: 'check', habit: 'walk', value: true})}>Mark walked on this day</button>
-  : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Walk" onFinish={finish}/>
-  : <>
-   <div className="card timer-card"><Dial share={share}><strong className="dial-time" aria-live={running ? 'off' : 'polite'} aria-label={`Walk time ${clock(elapsed)}`}>{clock(elapsed)}</strong><span>{running ? 'walking' : timer ? 'paused' : 'ready'}</span></Dial><p className="fine-print">Counts for {dayKey === timer?.day || !timer ? 'today' : shortDate(timer.day)}. Keeps counting while the phone is locked or the app is in the background; the time comes from the clock, not from ticks. No chime or buzz can play while the phone is locked.{elapsed > maxSessionSeconds ? ' Sessions longer than 24 hours are logged as 24 hours.' : ''}</p></div>
+  <div className={`stage walk ${done.walk ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Hills phase="day" walked={done.walk} progress={done.walk ? 1 : share}/><span className="stage-copy"><strong>{running ? 'Walking.' : timer ? 'Paused.' : done.walk ? 'Walked.' : selected ? 'A walk that day.' : 'A walk today.'}</strong><span>{entries.length ? `${Math.round(total / 60)} minutes total` : `Target: ${Math.round(target / 60)} minutes`}</span></span></div>
+  <HabitToggle habit="walk" finish={timer && timer.day === dayKey ? finish : undefined}/>
+  {!selected && (stale ? <StaleCard timer={timer} elapsed={elapsed} label="Walk" onFinish={finish}/> : <>
+   <div className="card timer-card"><Dial share={share}><strong className="dial-time" aria-live={running ? 'off' : 'polite'} aria-label={`Walk time ${clock(elapsed)}`}>{clock(elapsed)}</strong><span>{running ? 'walking' : timer ? 'paused' : 'ready'}</span></Dial><p className="fine-print">Counts for {dayKey === timer?.day || !timer ? 'today' : shortDate(timer.day)}. Keeps counting while locked. No chime or buzz plays while locked.{elapsed > maxSessionSeconds ? ' Sessions over 24 hours log as 24 hours.' : ''}</p></div>
    <Controls timerKey="walk" running={running} hasTimer={!!timer} onFinish={finish}/>
-   {!timer && <button className="text-button" onClick={() => {if (change({type: 'check', habit: 'walk', value: true})) bump('walk', 2000);}}>Already walked · mark done</button>}
-  </>}
+  </>)}
+  <form className="card list" onSubmit={e => {e.preventDefault(); const now = Date.now(); if (now - lastLog.current < 600 || minutes === '') return; if (change({type: 'session', habit: 'walk', seconds: Number(minutes) * 60, done: true})) {lastLog.current = now; setMinutes(''); bump('walk');}}}>
+   <label>Walk minutes<input type="number" min="0" max="1440" step="0.1" required value={minutes} onChange={e => setMinutes(e.target.value)}/></label><button className="primary">Log walk</button>
+  </form>
+  {entries.length > 0 && <div className="card list" role="group" aria-label="Walk entries"><div className="card-head"><h2>Walks</h2><strong>{clock(total)} total</strong></div>{entries.map(([id, entry], i) => <div className="meal-row" key={id}><div><strong>Walk {i + 1}</strong><p>{clock(entry.seconds)}</p></div></div>)}</div>}
   <WeekStrip habit="walk" label="Walks"/>
  </section>;
 }
@@ -69,16 +78,15 @@ export function Workout() {
  function finish() {const items = [...checked]; const ok = timer ? finishTimer('workout', (seconds, creditDay) => change({type: 'session', habit: 'workout', seconds, done: true, items}, creditDay)) : change({type: 'session', habit: 'workout', seconds: 0, done: true, items}, dayKey); if (ok) {bump('workout'); beep('done'); buzz(80);}}
  return <section className={`activity ${timer ? 'is-live' : ''}`}>
   <div className={`stage workout ${done.workout ? 'is-done' : ''} ${running ? 'is-active' : ''}`}><Gym done={done.workout} active={running}/><span className="stage-copy"><strong>{done.workout ? 'Lifted.' : running ? 'In session.' : selected ? 'Lift that day.' : 'Lift today.'}</strong><span>{done.workout ? `${session?.items?.length ?? 0} of ${plan.length} moves` : `${checked.size} of ${plan.length} checked`}</span></span><span className="stage-tag">{timer && !stale ? clock(elapsed) : done.workout ? <><Icon name="check" size={14}/>Done</> : 'Plan'}</span></div>
-  {done.workout ? <DoneCard title="Workout logged" detail={session ? `${session.items?.length ? session.items.join(', ') + '. ' : ''}${session.seconds ? clock(session.seconds) : 'No timer'}.` : 'Marked done.'} onUndo={() => change({type: 'session', habit: 'workout', seconds: 0, done: false})}/>
+  <HabitToggle habit="workout" finish={timer && timer.day === dayKey ? finish : undefined}/>
+  {done.workout ? <DoneCard title="Workout logged" detail={session ? `${session.items?.length ? session.items.join(', ') + '. ' : ''}${session.seconds ? clock(session.seconds) : 'No timer'}.` : 'Marked done.'}/>
   : <>
    <div className="card checklist" role="group" aria-label="Workout checklist">
     <div className="card-head"><h2>{selected ? 'That day’s plan' : 'Today’s plan'}</h2><button className="text-button" onClick={() => open('plan')}><Icon name="edit" size={16}/>Edit plan</button></div>
     {plan.map(item => <label key={item} className={`check-row ${checked.has(item) ? 'is-done' : ''}`}><input type="checkbox" checked={checked.has(item)} disabled={!!selected || stale} onChange={() => toggleItem(item)}/><span className="check-box"><Icon name="check" size={14}/></span><span>{item}</span></label>)}
    </div>
-   {selected ? <button className="primary" onClick={() => change({type: 'check', habit: 'workout', value: true})}>Mark done on this day</button>
-   : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Workout" onFinish={finish}/>
+   {selected ? null : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Workout" onFinish={finish}/>
    : <Controls timerKey="workout" running={running} hasTimer={!!timer} onFinish={finish} finishLabel="Finish"/>}
-   {!timer && !selected && <button className="text-button" onClick={() => {if (change({type: 'check', habit: 'workout', value: true})) bump('workout');}}>Already done · mark it</button>}
   </>}
   <WeekStrip habit="workout" label="Workouts"/>
  </section>;
@@ -97,7 +105,8 @@ export function Abs() {
  const total = routineSeconds(routine); const intervals = intervalsOf(routine);
  return <section className={`activity ${timer ? 'is-live' : ''}`}>
   <div className={`stage abs ${done.abs ? 'is-done' : ''} ${running ? 'is-active' : ''} ${flash}`}><Mat done={done.abs} active={running}/><span className="stage-copy"><strong>{done.abs ? 'Core done.' : timer ? phase.interval.exercise.name : selected ? 'Core that day.' : 'Core today.'}</strong><span>{done.abs ? session?.routine ?? 'Marked done' : timer ? (phase.interval.kind === 'rest' ? `Rest · next ${phase.interval.next?.name ?? 'finish'}` : `Move ${phase.interval.index + 1} of ${routine.exercises.length}`) : 'Pick a routine'}</span></span>{timer && !stale && <span className="stage-tag">{clock(Math.ceil(phase.remaining))}</span>}</div>
-  {done.abs ? <DoneCard title="Abs logged" detail={session ? `${session.routine ?? 'Routine'} · ${clock(session.seconds)}.` : 'Marked done.'} onUndo={() => change({type: 'session', habit: 'abs', seconds: 0, done: false})}/>
+  <HabitToggle habit="abs" finish={timer && timer.day === dayKey ? finish : undefined}/>
+  {done.abs ? <DoneCard title="Abs logged" detail={session ? `${session.routine ?? 'Routine'} · ${clock(session.seconds)}.` : 'Marked done.'}/>
   : stale ? <StaleCard timer={timer} elapsed={elapsed} label="Abs" onFinish={finish}/>
   : timer ? <>
    <div className={`card guide ${phase.interval.kind}`}>
@@ -110,18 +119,15 @@ export function Abs() {
    <button className="text-button" onClick={() => clearTimer('abs')}>Stop without logging</button>
   </> : <>
    <div className="card list library" role="group" aria-label="Ab routines">{routines.map(r => <button key={r.id} className="library-row" onClick={() => {if (selected) return; void prime(); startTimer('abs', dayKey, {routine: r.id}); buzz();}} disabled={!!selected}><span className="row-copy"><span className="row-title">{r.name}</span><span className="row-status">{r.note}</span><span className="row-status">{r.exercises.map(e => e.name).join(' · ')}</span></span><span className="library-time">{clock(routineSeconds(r))}<Icon name="play" size={16}/></span></button>)}</div>
-   {selected ? <button className="primary" onClick={() => change({type: 'check', habit: 'abs', value: true})}>Mark done on this day</button> : <button className="text-button" onClick={() => {if (change({type: 'check', habit: 'abs', value: true})) bump('abs');}}>Already done · mark it</button>}
   </>}
   <WeekStrip habit="abs" label="Abs"/>
  </section>;
 }
 export function Floss() {
- const {done, pulse, selected, change, bump} = useApp();
- const mark = () => {if (change({type: 'check', habit: 'floss', value: true})) bump('floss');};
+ const {done, pulse, selected} = useApp();
  return <section className="activity">
-  <div className={`stage floss ${done.floss ? 'is-done' : ''} ${pulse.floss ? 'is-active' : ''}`}><Tooth done={done.floss} active={!!pulse.floss}/><span className="stage-copy"><strong>{done.floss ? 'Flossed.' : `Floss ${selected ? 'that day' : 'today'}.`}</strong><span>{done.floss ? 'Once is enough.' : 'Once a day keeps the streak.'}</span></span><span className="stage-tag">{done.floss ? <><Icon name="check" size={14}/>Done</> : 'Once'}</span></div>
-  {done.floss ? <DoneCard title="Floss logged" detail={selected ? 'Marked for that day.' : 'Marked for today.'} onUndo={() => change({type: 'check', habit: 'floss', value: false})}/>
-  : <button className="primary" onClick={mark}><Icon name="check" size={18}/>Mark flossed</button>}
+  <div className={`stage floss ${done.floss ? 'is-done' : ''} ${pulse.floss ? 'is-active' : ''}`}><Tooth done={done.floss} active={!!pulse.floss}/><span className="stage-copy"><strong>{done.floss ? 'Flossed.' : `Floss ${selected ? 'that day' : 'today'}.`}</strong><span>{done.floss ? '' : 'Once a day'}</span></span><span className="stage-tag">{done.floss ? <><Icon name="check" size={14}/>Done</> : 'Once'}</span></div>
+  <HabitToggle habit="floss"/>
   <WeekStrip habit="floss" label="Floss"/>
  </section>;
 }
@@ -158,15 +164,15 @@ export function Water() {
    <div className="card-head"><h2>Log a pour</h2><button className="text-button" onClick={() => open('containers')}><Icon name="edit" size={16}/>Containers</button></div>
    <div className="chips left" role="group" aria-label="Container">{list.map(c => <button key={c.id} className={`chip ${c.id === container.id ? 'active' : ''}`} aria-pressed={c.id === container.id} onClick={() => setPick(c.id)}>{c.name} · {formatVolume(c.ml, units)}</button>)}</div>
    <div className="fractions" role="group" aria-label={`Share of the ${container.name}`}>{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'Full']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`Log ${describe(container, f, 1)}`} onClick={() => pour(pourMl(container, f, 1), describe(container, f, 1))}><b>{l}</b><small>{formatVolume(container.ml * f, units)}</small></button>)}</div>
-   <p className="fine-print">The app reads notes like “half my Stanley” itself. A note it cannot read is sent, with your container names, to a free third-party model to name the container and the share; the app does the arithmetic.</p>
+   <p className="fine-print">Unrecognized notes and container names go to a free third-party model. Confirm the amount before adding it.</p>
    <form className="phrase" onSubmit={e => {e.preventDefault(); if (text.trim()) void read();}}><label>Or say it<input value={text} onChange={e => {setText(e.target.value); setPending(null);}} maxLength={200} placeholder="half my Stanley" aria-label="Or say it"/></label><button className="secondary" disabled={busy || !text.trim()}>{busy ? 'Reading…' : 'Read it'}</button></form>
    {pending?.kind === 'ok' && <div className="confirm"><p><strong>{formatVolume(pending.ml, units)}</strong> · {pending.label}. {pending.count > 1 || pending.fraction !== 1 ? `${formatVolume(pending.container.ml, units)} × ${pending.fraction === 1 ? '' : pending.fraction === .5 ? '½' : pending.fraction === .25 ? '¼' : pending.fraction === .75 ? '¾' : Math.round(pending.fraction * 100) + '%'}${pending.count > 1 ? ` × ${pending.count}` : ''}` : ''}</p><div className="controls"><button className="secondary" onClick={() => setPending(null)}>Not this</button><button className="primary" onClick={() => pending.kind === 'ok' && pour(pending.ml, pending.label)}>Add {formatVolume(pending.ml, units)}</button></div></div>}
    {pending?.kind === 'ask' && <div className="confirm" role="group" aria-label={pending.question}><p><strong>{pending.question}</strong> Pick a share; nothing is guessed.</p><div className="fractions">{([[.25, '¼'], [.5, '½'], [.75, '¾'], [1, 'All']] as const).map(([f, l]) => <button key={f} className="fraction" aria-label={`${l} of the ${pending.container!.name}`} onClick={() => pour(pourMl(pending.container!, f, 1), describe(pending.container!, f, 1))}><b>{l}</b><small>{formatVolume(pending.container!.ml * f, units)}</small></button>)}</div></div>}
    {pending?.kind === 'none' && <p className="form-error" role="alert">Name a container and how much of it, like “half my Stanley”.</p>}
    {note && <p className="form-error" role="alert">{note === 'refused' ? (notice || 'That pour could not be logged.') : note}</p>}
   </div>
-  {log.length > 0 && <div className="card list" role="group" aria-label="Today’s pours"><div className="card-head"><h2>Today</h2><button className="text-button" aria-label="Undo last pour" onClick={undoLast}><Icon name="undo" size={16}/>Undo last</button></div>{log.map((e, i) => <div key={i} className="meal-row"><div><strong>{formatVolume(e.ml, units)}</strong><p>{e.label ?? 'Water'}</p></div></div>)}</div>}
-  <p className="fine-print">Sizes are stored once, in millilitres, and shown in your unit. A pour is the container size times the share you drank; the app does that arithmetic, never the model. Water counts on its own once the target is reached.</p>
+  {log.length > 0 && <div className="card list" role="group" aria-label="Today’s pours"><div className="card-head"><h2>Today</h2><button className="text-button" aria-label="Remove last pour" onClick={undoLast}><Icon name="minus" size={16}/>Remove last</button></div>{log.map((e, i) => <div key={i} className="meal-row"><div><strong>{formatVolume(e.ml, units)}</strong><p>{e.label ?? 'Water'}</p></div></div>)}</div>}
+  <p className="fine-print">Water counts when it reaches the target.</p>
   <WeekStrip habit="water" label="Water"/>
  </section>;
 }
@@ -179,7 +185,7 @@ export function Rest() {
   <div className={`stage rest ${state.days[dayKey]?.rest ? 'is-done' : ''}`}><NightRest done={!!state.days[dayKey]?.rest}/><span className="stage-copy"><strong>{left ? `${left} rest day${left === 1 ? '' : 's'} left this week.` : 'Both rest days planned.'}</strong><span>Rest keeps the streak. It is never a miss.</span></span></div>
   <div className="card list" role="group" aria-label="This week">
    {week.map(d => {const s = status(d); const rest = !!state.days[d]?.rest; const canPlan = d <= addDays(weekStart(today), 6); return <div key={d} className={`plan-row ${s.replace(' ', '-')} ${d === today ? 'is-today' : ''}`}><span className="row-copy"><span className="row-title">{longDate(d).split(',')[0]}{d === today ? ' · today' : ''}</span><span className="row-status">{s === 'planned rest' ? 'Planned rest' : s === 'rest' ? 'Rest day' : s === 'complete' ? 'Complete' : s === 'rescued' ? 'Rescued' : s === 'ahead' ? 'Ahead' : s === 'today' ? 'In progress' : s === 'missed' ? 'Missed · rescue from Progress' : 'Before you started'}</span></span>
-    <button className="row-action" aria-pressed={rest} aria-label={`${rest ? 'Undo rest for' : 'Rest on'} ${shortDate(d)}`} disabled={!rest && (!left || !canPlan || s === 'complete')} onClick={() => {if (change({type: 'rest', value: !rest}, d)) bump('rest', 1600);}}>{rest ? <><Icon name="check" size={16}/>Rest</> : 'Rest'}</button></div>;})}
+    <CompletionToggle label={`Rest on ${shortDate(d)}`} checked={rest} disabled={!rest && (!left || !canPlan || s === 'complete')} onChange={() => {if (change({type: 'rest', value: !rest}, d)) bump('rest', 1600);}}/></div>;})}
   </div>
   <p className="fine-print">{restDaysPerWeek} planned rest days each Monday–Sunday week. Plan them ahead or take one on the day. Missed days can still be rescued from Progress; earlier weeks keep whatever they had.</p>
  </section>;
@@ -194,10 +200,10 @@ export function Meditate() {
  // Completion itself is settled app-wide (lib/settle.ts); this page only shows the count.
  return <section className="activity">
   <div className="card timer-card optional-card">
-   <p className="optional-tag">Optional · never counted toward the streak</p>
+   <span className="sr-only">Optional; does not affect the streak.</span>
    <Dial share={timer ? 1 - remaining / target : 0} tone="is-calm"><strong className="dial-time" aria-label={timer ? `${clock(remaining)} left` : 'Ready'}>{timer ? clock(remaining) : clock(choice * 60)}</strong><span>{running ? 'breathing' : timer ? 'paused' : 'ready'}</span></Dial>
    {!timer && <div className="chips" role="group" aria-label="Minutes">{meditateMinutes.map(m => <button key={m} className={`chip ${choice === m ? 'active' : ''}`} aria-pressed={choice === m} onClick={() => setChoice(m)}>{m} min</button>)}</div>}
-   <p className="fine-print">{timer && timer.day !== dayKey ? `Started ${shortDate(timer.day)}; it will log to that day. ` : ''}{day.meditate ? `${Math.round(day.meditate / 60)} min logged today.` : 'Sit, breathe, let the count run. A chime marks the end when sound is on and the screen is awake.'}</p>
+   <p className="fine-print">{timer && timer.day !== dayKey ? `Started ${shortDate(timer.day)}; it will log to that day. ` : ''}{day.meditate ? `${Math.round(day.meditate / 60)} min logged today.` : ''}</p>
   </div>
   {selected ? <p className="fine-print">Timers run for today only. Past days show what was logged; nothing here can be backfilled.</p>
   : !timer ? <button className="primary" onClick={() => {void prime(); startTimer('meditate', dayKey, {minutes: choice}); buzz();}}><Icon name="play" size={18}/>Start {choice} minutes</button>
@@ -217,10 +223,10 @@ export function Focus() {
  useEffect(() => {if (!timer) {lastPhase.current = ''; return;} const phase = working ? 'work' : 'rest'; if (lastPhase.current && lastPhase.current !== phase) {beep(phase === 'work' ? 'go' : 'done'); buzz(60);} lastPhase.current = phase;}, [working, timer]);
  return <section className="activity">
   <div className={`card timer-card optional-card ${timer ? (working ? 'is-work' : 'is-break') : ''}`}>
-   <p className="optional-tag">Optional · never counted toward the streak</p>
+   <span className="sr-only">Optional; does not affect the streak.</span>
    <Dial share={timer ? 1 - remaining / (working ? w : r) : 0} tone={timer && !working ? 'is-rest' : ''}><strong className="dial-time" aria-label={timer ? `${clock(remaining)} left in ${working ? 'work' : 'break'}` : 'Ready'}>{timer ? clock(remaining) : clock(work * 60)}</strong><span>{timer ? (working ? 'work' : 'break') : 'ready'}</span></Dial>
    {!timer && <div className="chips" role="group" aria-label="Work and break minutes"><label className="chip-select">Work<select aria-label="Work minutes" value={work} onChange={e => setWork(Number(e.target.value))}>{[15, 20, 25, 30, 45, 50].map(m => <option key={m} value={m}>{m} min</option>)}</select></label><label className="chip-select">Break<select aria-label="Break minutes" value={rest} onChange={e => setRest(Number(e.target.value))}>{[3, 5, 10, 15].map(m => <option key={m} value={m}>{m} min</option>)}</select></label></div>}
-   <p className="fine-print">{timer ? `Block ${block + 1} of ${maxFocusBlocks} · ${logged} finished this run` : ''}{day.focus ? `${timer ? ' · ' : ''}${Math.round(day.focus / 60)} min focused today.` : timer ? '' : `Work blocks are logged when they end, up to ${maxFocusBlocks} per session. Breaks are yours. This app does not block other apps.`}</p>
+   <p className="fine-print">{timer ? `Block ${block + 1} of ${maxFocusBlocks} · ${logged} finished this run` : ''}{day.focus ? `${timer ? ' · ' : ''}${Math.round(day.focus / 60)} min focused today.` : timer ? '' : `Completed work blocks count, up to ${maxFocusBlocks} per session. This app does not block other apps.`}</p>
   </div>
   {selected ? <p className="fine-print">Timers run for today only. Past days show what was logged; nothing here can be backfilled.</p>
   : !timer ? <button className="primary" onClick={() => {void prime(); startTimer('focus', dayKey, {work, rest, logged: 0, run: crypto.randomUUID()}); buzz();}}><Icon name="play" size={18}/>Start focus</button>

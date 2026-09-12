@@ -30,3 +30,13 @@ test('two focus sessions on the same day credit separately; the same session set
  const legacyB=(()=>{store.set('my-wellness-timers',JSON.stringify({focus:{key:'focus',day:'2026-09-10',startedAt:10000000,banked:0,meta:{work:25,rest:5,logged:0}}}));return settle(10000000+25*60*1000+500)[0].id;})();
  assert.notEqual(legacyA,legacyB);
 });
+
+test('finishing a recovered walk retains one id after refusal or timer-clear failure',()=>{
+ const timer=startTimer('walk','2026-09-11');const ids:string[]=[];
+ const finish=(accepted:boolean)=>finishTimer('walk',(_seconds,_day,id)=>{ids.push(id);return accepted;},timer.startedAt!+600000);
+ assert.equal(finish(false),false);assert.equal(finish(true),true);
+ // A full storage device can leave the old timer behind after the operation is queued.
+ store.set('my-wellness-timers',JSON.stringify({walk:timer}));assert.equal(finish(true),true);
+ assert.equal(new Set(ids).size,1);
+ const next=startTimer('walk','2026-09-11');assert.notEqual(next.run,timer.run);
+});

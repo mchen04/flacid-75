@@ -1,0 +1,69 @@
+{
+  "standard": "WCAG 2.1 AA: 4.5:1 normal text, 3:1 large text; only the progress hero numeral (over a gradient) and disabled controls are excluded; hero and stage copy sit on white cards and are measured",
+  "results": [
+    {
+      "page": "home",
+      "failures": []
+    },
+    {
+      "page": "walk",
+      "failures": []
+    },
+    {
+      "page": "workout",
+      "failures": []
+    },
+    {
+      "page": "abs",
+      "failures": []
+    },
+    {
+      "page": "floss",
+      "failures": []
+    },
+    {
+      "page": "water",
+      "failures": []
+    },
+    {
+      "page": "food",
+      "failures": []
+    },
+    {
+      "page": "rest",
+      "failures": []
+    },
+    {
+      "page": "meditate",
+      "failures": []
+    },
+    {
+      "page": "focus",
+      "failures": []
+    },
+    {
+      "page": "rewards",
+      "failures": []
+    },
+    {
+      "page": "progress",
+      "failures": []
+    },
+    {
+      "page": "you",
+      "failures": []
+    },
+    {
+      "page": "rules",
+      "failures": []
+    },
+    {
+      "page": "abs-guided",
+      "failures": []
+    },
+    {
+      "page": "meal sheet",
+      "failures": []
+    }
+  ]
+}

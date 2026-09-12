@@ -30,7 +30,7 @@ test('R171-2: a poisoned journal entry (a split emoji written by an older build)
 test('R171-3: a temporary account failure shows a notice and keeps the change; it lands once when the account recovers',async({page})=>{
  const today=todayIn();const box=await open(page,seed());let calls=0;
  await page.route('**/api/sync',async r=>{calls++;if(calls<=2)return r.fulfill({status:503,json:{error:'Sync is unavailable. Changes stay on this device.'}});await r.fallback();});
- await page.getByRole('button',{name:'Log floss',exact:true}).click();
+ await page.getByRole('checkbox',{name:'Floss complete',exact:true}).click();
  await expect(page.getByRole('status').filter({hasText:'could not save right now'})).toBeVisible();expect(await local(page)).toMatchObject({pending:1,journal:1});
  // Each retry is requested only after the previous attempt has settled (its sent mark is gone); an 'online' event during an attempt in flight is rightly ignored.
  const settled=()=>expect.poll(()=>page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('my-wellness-sent:')).length)).toBe(0);
@@ -116,7 +116,7 @@ test('R171-8: the in-app privacy copy names both sends (meals and unread water n
  await open(page,seed(),{hash:'rules'});
  const rules=await page.locator('.rules').innerText();
  expect(rules).toContain('sync to your private account');expect(rules).toContain('typed water note');expect(rules).toContain('free models');expect(rules).toContain('No other log is sent to a third party');expect(rules).not.toContain('leaves the device');expect(rules).not.toContain('Only the meal you describe or photograph is sent');
- await page.evaluate(()=>{location.hash='water';});await expect(page.getByText('A note it cannot read is sent, with your container names, to a free third-party model')).toBeVisible();
+ await page.evaluate(()=>{location.hash='water';});await expect(page.getByText('Unrecognized notes and container names go to a free third-party model.')).toBeVisible();
  await page.evaluate(()=>{location.hash='food';});await expect(page.getByText('goes to a free third-party model for the estimate')).toBeVisible();
 });
 

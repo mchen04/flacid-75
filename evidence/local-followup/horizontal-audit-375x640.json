@@ -1,0 +1,138 @@
+[
+  {
+    "screen": "home",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "walk",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "workout",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "abs",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "floss",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "water",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "food",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": false,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "rest",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "meditate",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": false,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "focus",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": false,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "rewards",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": false,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "progress",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "you",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "rules",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "month",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "trends",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  },
+  {
+    "screen": "meal sheet",
+    "documentScrollWidth": 375,
+    "viewport": 375,
+    "offenders": [],
+    "pageScrolls": true,
+    "dragDeltaX": 0
+  }
+]

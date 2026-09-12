@@ -1,0 +1,15 @@
+
+Running 6 tests using 1 worker
+
+(node:93985) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (487ms)
+  ✓  2 [chromium] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (369ms)
+  ✓  3 [chromium] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (166ms)
+(node:93998) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [webkit] › tests/e2e/daily-logs.spec.ts:4:1 › multiple walks keep earlier times after reload and allow another timer (647ms)
+  ✓  5 [webkit] › tests/e2e/daily-logs.spec.ts:22:1 › meal descriptions and item details survive creation, individual editing and reload (464ms)
+  ✓  6 [webkit] › tests/e2e/daily-logs.spec.ts:43:1 › completion has a stable checked control in both directions after reload (251ms)
+
+  6 passed (3.5s)
